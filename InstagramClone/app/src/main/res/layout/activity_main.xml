@@ -35,18 +35,24 @@
 
             </include>
 
+            <RelativeLayout
+                android:id="@+id/relative_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp">
+
+                <include layout="@layout/layout_bottom_navigation_view">
+
+                </include>
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <!-- Bottom_Relative Bar -->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include layout="@layout/layout_bottom_navigation_view">
-
-            </include>
-        </RelativeLayout>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

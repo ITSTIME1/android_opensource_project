@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable-anydpi/ic_alert.xml" value="0.35" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable-anydpi/ic_android.xml" value="0.35" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable-anydpi/ic_circle.xml" value="0.35" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable-anydpi/ic_search.xml" value="0.35" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable/ic_launcher_background.xml" value="0.35" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable/white_grey_border_bottom.xml" value="0.1955" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/drawable/white_grey_border_tabs.xml" value="0.35" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_bottom_navigation_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_bottom_navigation_view.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_center_viewpager.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_center_viewpaper.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_top.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/layout/layout_top.xml" value="0.33" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/InstagramClone/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>
