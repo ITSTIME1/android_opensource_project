@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="#fff"
+    android:id="@+id/touch_listener"
     android:layout_height="match_parent">
     <!-- Top of bar -->
     <RelativeLayout
@@ -44,6 +45,8 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:imeOptions="actionDone"
+            android:id="@+id/edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -148,6 +151,7 @@
         android:layout_height="match_parent">
 
         <Button
+            android:id="@+id/previous_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/purple_200"
