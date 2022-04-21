@@ -91,6 +91,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/seoul_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00ff0000"
@@ -136,6 +137,48 @@
                     android:background="#00ff0000"
                     android:text="UnitedState"
                     android:textColor="@color/white" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
+
+        <HorizontalScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/slide" />
+
+                <ImageView
+                    android:id="@+id/second_view"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/slide" />
+
+                <ImageView
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/slide" />
+
+                <ImageView
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/slide" />
 
             </LinearLayout>
 
