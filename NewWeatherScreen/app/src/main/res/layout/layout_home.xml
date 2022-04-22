@@ -91,7 +91,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/seoul_button"
+                    android:id="@+id/tokyo_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00ff0000"
@@ -99,6 +99,7 @@
                     android:textColor="@color/white" />
 
                 <Button
+                    android:id="@+id/second_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -107,6 +108,7 @@
                     android:textColor="@color/white" />
 
                 <Button
+                    android:id="@+id/bamboo_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -115,6 +117,7 @@
                     android:textColor="@color/white" />
 
                 <Button
+                    android:id="@+id/jeju_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -168,13 +171,15 @@
                     android:src="@drawable/slide2" />
 
                 <ImageView
+                    android:id="@+id/three_view"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/slide" />
+                    android:src="@drawable/slide3" />
 
                 <ImageView
+                    android:id="@+id/last_view"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
