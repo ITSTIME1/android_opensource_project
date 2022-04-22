@@ -153,6 +153,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/first_view"
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,7 +165,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/slide" />
+                    android:src="@drawable/slide2" />
 
                 <ImageView
                     android:layout_marginLeft="30dp"
@@ -178,7 +179,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/slide" />
+                    android:src="@drawable/slide2" />
 
             </LinearLayout>
 
