@@ -59,7 +59,7 @@ public class SecondActivity extends AppCompatActivity {
         bamboo_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                horizontalScrollView.scrollTo(horizontalScrollView.getWidth() - (three_view.getWidth()/2 - last_view.getWidth()), 0);
+                horizontalScrollView.scrollTo(horizontalScrollView.getWidth() - (three_view.getWidth()/2-80 - last_view.getWidth()), 0);
             }
         });
 
