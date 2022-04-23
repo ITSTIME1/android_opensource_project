@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     // Using foreground
     <ImageView
         android:foreground="@drawable/foreground_design"
@@ -36,7 +37,7 @@
     <TextView
         android:textColor="@color/white"
         android:textSize="17sp"
-        android:text="Sign In"
+        android:text="Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,22 +76,23 @@
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintVertical_bias="0.5"/>
 
-    <TextView
-        android:textColor="@color/teal_200"
-        android:text="Forgot Password?"
-        android:layout_width="wrap_content"
+
+
+    // Confirm Password EditText
+    <EditText
+        android:textColorHint="@color/white"
+        android:hint="@string/Confirm"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="45dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.56" />
-
-
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintVertical_bias="0.6"/>
 
     <Button
+        android:id="@+id/Register_complete_button"
         android:backgroundTint="@color/black"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -107,6 +109,30 @@
         app:layout_constraintVertical_bias="0.9"/>
 
 
+    <TextView
+        android:textColor="@color/white"
+        android:text="You want login?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.95"/>
+
+
+    <TextView
+        android:id="@+id/SignIn_page_button"
+        android:textColor="@color/teal_200"
+        android:text="Sign In"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintVertical_bias="0.95"/>
 
 
 
