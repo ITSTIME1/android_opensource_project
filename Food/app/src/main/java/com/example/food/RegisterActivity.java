@@ -28,7 +28,9 @@ public class RegisterActivity extends AppCompatActivity {
         register_complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Main Home Page Section
+                Intent home_page_intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(home_page_intent);
+                finish();
             }
         });
 

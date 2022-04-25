@@ -10,7 +10,7 @@ public class HomeItemModel {
     String name;
 
     // HomeItem Constructor
-    HomeItemModel(int image, String name) {
+    public HomeItemModel(int image, String name) {
         this.image = image;
         this.name = name;
     }

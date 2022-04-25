@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="4dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="4dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -9,15 +14,19 @@
         android:layout_height="match_parent">
         // Item ImageView
         <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
             android:id="@+id/food_view"
             android:src="@drawable/hamburger"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
         // Item description
         <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
             android:id="@+id/text_view"
             android:layout_marginTop="10dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:text="Hambuger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

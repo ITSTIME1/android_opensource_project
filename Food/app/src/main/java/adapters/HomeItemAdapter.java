@@ -34,6 +34,11 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
     Context context;
     List<HomeItemModel> list;
 
+    public HomeItemAdapter(Context context, List<HomeItemModel> list){
+        this.context = context;
+        this.list = list;
+    }
+
     // ViewHolder 는 화면에 표시될 아이템 뷰를 저장하는 객체(공간).
     // 즉 이곳엔 사용할 아이템들을 담아준다.
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +70,6 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull HomeItemAdapter.ViewHolder holder, int position) {
         // 직접적으로 이제 뷰홀더를 데이터에 바인딩 작업을 합니다.
-        // imageView를 리스트의 위치를 가져와서
         holder.imageView.setImageResource(list.get(position).getImage());
         holder.textView.setText(list.get(position).getName());
     }
