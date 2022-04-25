@@ -21,7 +21,7 @@ public class HomeVerticalItemAdapter extends RecyclerView.Adapter<HomeVerticalIt
     Context context;
     List<HomeVerticalItemModel> homeVerticalItemModelList;
 
-    HomeVerticalItemAdapter(Context context, List<HomeVerticalItemModel> homeVerticalItemModelList){
+    public HomeVerticalItemAdapter(Context context, List<HomeVerticalItemModel> homeVerticalItemModelList){
         this.context = context;
         this.homeVerticalItemModelList = homeVerticalItemModelList;
     }

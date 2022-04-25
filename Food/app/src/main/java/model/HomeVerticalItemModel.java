@@ -13,7 +13,7 @@ public class HomeVerticalItemModel {
 
 
     // Vertical_item_constructor
-    HomeVerticalItemModel(int image, String vertical_item_name, String vertical_item_description) {
+    public HomeVerticalItemModel(int image, String vertical_item_name, String vertical_item_description) {
         this.image = image;
         this.vertical_item_name = vertical_item_name;
         this.vertical_item_description = vertical_item_description;
