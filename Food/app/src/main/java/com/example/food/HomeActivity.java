@@ -1,6 +1,5 @@
 package com.example.food;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
@@ -11,25 +10,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.HomeItemAdapter;
+import adapters.HomeHorizontalItemAdapter;
 import adapters.HomeVerticalItemAdapter;
-import model.HomeItemModel;
+import adapters.UpdateVerticalRec;
+import model.HomeHorizontalItemModel;
 import model.HomeVerticalItemModel;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements UpdateVerticalRec{
 
     // ****** Horizontal Recycler *******
 
     // Home horizontal recyclerView
     RecyclerView homeHorizontalRec;
     // Home horizontal itemlist
-    List<HomeItemModel> homeItemModelList;
+    ArrayList<HomeHorizontalItemModel> homeItemModelList;
     // Home horizontalAdapter
-    HomeItemAdapter homeItemAdapter;
+    HomeHorizontalItemAdapter homeItemAdapter;
 
 
     // ****** Vertical Recycler *******
@@ -37,10 +36,9 @@ public class HomeActivity extends AppCompatActivity {
     // Home Vertical recyclerView
     RecyclerView homeVerticalRec;
     // Home Vertical itemlist
-    List<HomeVerticalItemModel> homeVerticalItemModelList;
+    ArrayList<HomeVerticalItemModel> homeVerticalItemModelList;
     // Home Vertical verticalAdapter
     HomeVerticalItemAdapter homeVerticalItemAdapter;
-
 
 
 
@@ -65,22 +63,16 @@ public class HomeActivity extends AppCompatActivity {
         // Home Vertical Recycler HomeVerticalModelList
         homeVerticalItemModelList = new ArrayList<>();
 
-        // Home Vertical Recycler ItemList
-        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "vegetable", "good shot"));
-        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food2, "Food", "Nice shot"));
-        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "Banana", "Very shot"));
-        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food2, "GreenApple", "Hot shot"));
-
 
 
         // Home Horizontal Recycler ItemList
-        homeItemModelList.add(new HomeItemModel(R.drawable.hamburger, "Hambugers"));
-        homeItemModelList.add(new HomeItemModel(R.drawable.apple, "Fruits"));
-        homeItemModelList.add(new HomeItemModel(R.drawable.crisps, "Snacks"));
-        homeItemModelList.add(new HomeItemModel(R.drawable.vegetable, "Vegetables"));
+        homeItemModelList.add(new HomeHorizontalItemModel(R.drawable.hamburger, "Hambugers"));
+        homeItemModelList.add(new HomeHorizontalItemModel(R.drawable.apple, "Fruits"));
+        homeItemModelList.add(new HomeHorizontalItemModel(R.drawable.crisps, "Snacks"));
+        homeItemModelList.add(new HomeHorizontalItemModel(R.drawable.vegetable, "Vegetables"));
 
         // Home Horizontal Recycler Adapter
-        homeItemAdapter = new HomeItemAdapter(this, homeItemModelList);
+        homeItemAdapter = new HomeHorizontalItemAdapter(this, HomeActivity.this, homeItemModelList);
         homeHorizontalRec.setAdapter(homeItemAdapter);
         homeHorizontalRec.setHasFixedSize(true);
         homeHorizontalRec.setNestedScrollingEnabled(false);
@@ -88,14 +80,21 @@ public class HomeActivity extends AppCompatActivity {
         // Home Vertical Recycler Adapter
         homeVerticalItemAdapter = new HomeVerticalItemAdapter(this, homeVerticalItemModelList);
         homeVerticalRec.setAdapter(homeVerticalItemAdapter);
-        homeVerticalRec.setHasFixedSize(true);
-        homeVerticalRec.setNestedScrollingEnabled(false);
+
 
 
         HomeRecyclerViewDecoration homeRecyclerViewDecoration = new HomeRecyclerViewDecoration(20, 50);
         homeHorizontalRec.addItemDecoration(homeRecyclerViewDecoration);
 
 
+
+    }
+
+    @Override
+    public void callBack(int position, ArrayList<HomeVerticalItemModel> homeVerticalItemModelList) {
+        homeVerticalItemAdapter = new HomeVerticalItemAdapter(this, homeVerticalItemModelList);
+        homeVerticalItemAdapter.notifyDataSetChanged();
+        homeVerticalRec.setAdapter(homeVerticalItemAdapter);
 
     }
 

@@ -4,13 +4,13 @@ package model;
 // * HomeItem Model
 
 
-public class HomeItemModel {
+public class HomeHorizontalItemModel {
 
     int image;
     String name;
 
     // HomeItem Constructor
-    public HomeItemModel(int image, String name) {
+    public HomeHorizontalItemModel(int image, String name) {
         this.image = image;
         this.name = name;
     }

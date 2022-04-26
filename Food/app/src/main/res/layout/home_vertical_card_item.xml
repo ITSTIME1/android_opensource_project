@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_margin="9dp"
     android:layout_height="wrap_content"
+    android:id="@+id/vertical_card_view"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
