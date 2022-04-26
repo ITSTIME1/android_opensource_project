@@ -55,6 +55,11 @@ public class HomeHorizontalItemAdapter extends RecyclerView.Adapter<HomeHorizont
     // 데이터가 저장이 안된 이유는 ViewHolder가 아직 특정 데이터에 바인딩 된 상태가 아니기 때문입니다.
     // 즉 onCreateViewHolder 메서드가 생성되고 난 이후에 onBindViewHolder에서 View를 연결해주는 작업을 합니다.
     public HomeHorizontalItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        Context context = new parent.getContext();
+//        // inflate 는 XML에 정의한 레이아웃들을 객체화 시키는 것이다.
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View view = inflater.inflate(R.layout.home_horizontal_card_item, parent, false);
+        // inflate 를 통해서 레이아웃이 객체화 되었으니 그 객체를 ViewHolder에 넘겨주고 ViewHolder 가 View를 가지고 있게끔 한다.
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_horizontal_card_item, parent, false));
     }
 
@@ -68,61 +73,69 @@ public class HomeHorizontalItemAdapter extends RecyclerView.Adapter<HomeHorizont
         holder.imageView.setImageResource(homeItemModelList.get(position).getImage());
         holder.textView.setText(homeItemModelList.get(position).getName());
 
-        if(check) {
-            ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
-            homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing", "testing"));
-            homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing", "testing"));
-            homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing", "testing"));
-            homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing", "testing"));
 
-            updateVerticalRec.callBack(position, homeVerticalItemModelList);
-            check = false;
-        }
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // ViewHolder 가 View를 가지고 있기 때문에 View의 position 값을 가져옵니다.
-                    // holder를 클릭할때마다 notifyDataSetChanged()로 데이터가 변경된걸 RecyclerView에 전달합니다.
-                    select_index = holder.getAdapterPosition();
-                    notifyDataSetChanged();
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // ViewHolder 가 View를 가지고 있기 때문에 View의 position 값을 가져옵니다.
+                // holder를 클릭할때마다 notifyDataSetChanged()로 데이터가 변경된걸 RecyclerView에 전달합니다.
+                select_index = holder.getAdapterPosition();
+                notifyDataSetChanged();
+                if(select_index == 3) {
+                    ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "Salad", "Fresh Salad"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food2, "Salad", "Fresh Salad"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food3, "Salad", "Fresh Salad"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food2, "Salad", "Fresh Salad"));
 
-                    if(select_index == 0) {
-                        ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing 1", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing 2", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing 3", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing 4", "testing"));
-
-                        updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
-
-                    }
-                    else if(select_index == 1) {
-                        ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.vegetable, "testing", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.apple, "testing", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.crisps, "testing", "testing"));
-                        homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.food1, "testing", "testing"));
-
-                        updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
-                    }
-
+                    updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
+                    select=false;
 
                 }
-            });
-            if(select) {
-                if(select_index == 0) {
-                    holder.cardView.setBackgroundResource(R.drawable.changed_bg);
-                    select = false;
+                else if(select_index == 1) {
+                    ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.fruits, "Fruits", "Fresh Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.fruits1, "Fruits", "Fresh Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.fruits2, "Fruits", "Fresh Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.fruits, "Fruits", "Fresh Fruits"));
+
+                    updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
+                    select=false;
                 }
+                else if(select_index == 2) {
+                    ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks, "Snacks", "Crisp Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks1, "Snacks", "Crsip Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks2, "Snacks", "Crsip Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks, "Snacks", "Crsip Fruits"));
+
+                    updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
+                }
+                else if(select_index == 0) {
+                    ArrayList<HomeVerticalItemModel> homeVerticalItemModelList = new ArrayList<>();
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks, "Hambuger", "Delicious Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks1, "Hambuger", "Delicious Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks2, "Hambuger", "Delicious Fruits"));
+                    homeVerticalItemModelList.add(new HomeVerticalItemModel(R.drawable.snacks, "Hambuger", "Delicious Fruits"));
+
+                    updateVerticalRec.callBack(select_index, homeVerticalItemModelList);
+                    select=false;
+                }
+
+
             }
-            else {
-                if(select_index == position) {
-                    holder.cardView.setBackgroundResource(R.drawable.changed_bg);
-                } else {
-                    holder.cardView.setBackgroundResource(R.drawable.default_bg);
-                }
+        });
+        if(select) {
+            holder.cardView.setBackgroundResource(R.drawable.default_bg);
+        }
+        else {
+            if(select_index == position) {
+                holder.cardView.setBackgroundResource(R.drawable.changed_bg);
+            } else {
+                holder.cardView.setBackgroundResource(R.drawable.default_bg);
             }
         }
+    }
 
 
 
