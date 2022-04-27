@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/nav_home">
+
+    // HomeNavigation
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="fragment.HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+
+    // Daily_Meal Navigation
+    <fragment
+        android:id="@+id/nav_daily_meal"
+        android:name="fragment.DailymealFragment"
+        tools:layout="@layout/fragment_daily_meal"/>
+
+
+    // Favourite Navigation
+    <fragment
+        android:id="@+id/nav_favourite"
+        android:name="fragment.FavouriteFragment"
+        tools:layout="@layout/fragment_favourite"/>
+
+
+
+
+
+</navigation>

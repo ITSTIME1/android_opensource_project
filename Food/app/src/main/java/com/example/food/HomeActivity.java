@@ -7,11 +7,18 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import adapters.HomeHorizontalItemAdapter;
 import adapters.HomeVerticalItemAdapter;
@@ -31,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements UpdateVerticalRec
     HomeHorizontalItemAdapter homeItemAdapter;
 
 
-    // ****** Vertical Recycler *******
+    // !-- ****** Vertical Recycler *******
 
     // Home Vertical recyclerView
     RecyclerView homeVerticalRec;
@@ -41,13 +48,30 @@ public class HomeActivity extends AppCompatActivity implements UpdateVerticalRec
     HomeVerticalItemAdapter homeVerticalItemAdapter;
 
 
+    // ****** Drawer Variable *******
 
+    // AppbarConficuration은 drawerButton 행동을 관리한다.
+    private AppBarConfiguration appBarConfiguration;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_view);
+        drawer = findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_favourite, R.id.nav_daily_meal).build();
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        // =======================================================================================================================
+
+
 
         // Home Horizontal Recycler Reference
         homeHorizontalRec = (RecyclerView) findViewById(R.id.home_item_rec);
@@ -97,6 +121,8 @@ public class HomeActivity extends AppCompatActivity implements UpdateVerticalRec
         homeVerticalRec.setAdapter(homeVerticalItemAdapter);
 
     }
+
+
 
     // 아이템 데코레이션 정의
     public class HomeRecyclerViewDecoration extends RecyclerView.ItemDecoration {

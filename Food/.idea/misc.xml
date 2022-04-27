@@ -12,14 +12,28 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3185" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/font/lobster.xml" value="0.3963541666666667" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/app_bar_main.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/dailymeal_fragment.xml" value="0.1875" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fame_host_layout.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragment_daily_meal.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragment_dailymeal.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragment_favourite.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragment_framelayout.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/fragmentfavourite.xml" value="0.1875" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_horizontal_card_item.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_vertical_card_item.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_vertical_card_item_round_bg.xml" value="0.3546195652173913" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_vertical_item.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_vertical_item_round_bg.xml" value="0.3546195652173913" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_view.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/home_view.xml" value="0.22" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/login_view.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/nav_header.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/navigation_header.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/layout/register_view.xml" value="0.3546195652173913" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/menu/drawer_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/menu/home_drawer_item.xml" value="0.30055579307396324" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/menu/navigation_menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Food/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3185" />
       </map>
     </option>
