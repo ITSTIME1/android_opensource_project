@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="fragment.HomeFragment"
+        android:name="com.example.food.HomeActivity"
         tools:layout="@layout/fragment_home"/>
 
     // Daily_Meal Navigation
