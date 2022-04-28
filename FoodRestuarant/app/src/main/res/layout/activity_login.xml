@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Login ImageView -->
+    <ImageView
+        android:foreground="@drawable/foreground_transparent_design"
+        android:scaleType="fitXY"
+        android:src="@drawable/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- Login LogoText -->
+    <TextView
+        android:id="@+id/register_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lobster"
+        android:text="Android Restaurant"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="33sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".2"
+        tools:ignore="MissingConstraints" />
+
+    <!-- Login SubText -->
+    <TextView
+        android:id="@+id/register_subview"
+        android:layout_margin="15dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_textview"/>
+
+
+    <!-- Login Email EditText -->
+    <EditText
+        android:id="@+id/email_edit_text"
+        android:layout_margin="50dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Your Email Address"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_subview"
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="MissingConstraints"/>
+
+    <!-- Login Password EditText -->
+    <EditText
+        android:id="@+id/password_edit_text"
+        android:layout_margin="30dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Your Password"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_edit_text"
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="MissingConstraints"/>
+
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:padding="14dp"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/password_edit_text"
+        app:layout_constraintVertical_bias=".7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
