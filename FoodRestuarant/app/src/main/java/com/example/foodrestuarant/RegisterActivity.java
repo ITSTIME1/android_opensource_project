@@ -14,4 +14,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
     }
+
+    public void mainActivity(View view) {
+        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        finish();
+    }
+
 }
