@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         register_button = (Button) findViewById(R.id.Register_Button);
         signIn_button = (TextView) findViewById(R.id.SignIn_Button);
 
