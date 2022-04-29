@@ -36,8 +36,8 @@ public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHold
     public HomeHorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // ViewGroup parent 의미하는 바는 RecyclerView는 ViewGroup의 포함되어 있는 한 종류.
         // 즉 parent는 RecyclerView를 의미하고 Inflater를 통해서 미리 만들어두었던 item의 layout들을 객체화 시켜서 하나의 ViewHolder를 만들어준다.
-        ViewHolder view = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_horizontal_item, parent, false));
-        return view;
+        ViewHolder verHolView = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_horizontal_item, parent, false));
+        return verHolView;
     }
 
     // onBindViewHolder
@@ -52,8 +52,8 @@ public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHold
 
         // 객체의 성질중 중요한 class의 멤버필드(변수)에 접근할때 getter 와 setter로만 접근을 하는걸 권장한다고 하고 있다.
         // 즉 HomeHorModel의 저장소에 있는 ImageView 값을 가져오기 위해 getter메서드를 사용했다.
-        holder.homeRecImageView.setImageResource(homeHorModelList.get(position).getImage());
-        holder.homeRecTextView.setText(homeHorModelList.get(position).getImgName());
+        holder.homeHolRecImageView.setImageResource(homeHorModelList.get(position).getImage());
+        holder.homeHolRecTextView.setText(homeHorModelList.get(position).getImgName());
 
     }
 
@@ -63,12 +63,12 @@ public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView homeRecImageView;
-        TextView homeRecTextView;
+        ImageView homeHolRecImageView;
+        TextView homeHolRecTextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            homeRecImageView = itemView.findViewById(R.id.home_hor_rec_item_image);
-            homeRecTextView = itemView.findViewById(R.id.home_hor_rec_item_name);
+            homeHolRecImageView = itemView.findViewById(R.id.home_hor_rec_item_image);
+            homeHolRecTextView = itemView.findViewById(R.id.home_hor_rec_item_name);
         }
     }
 }
