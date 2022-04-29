@@ -44,8 +44,10 @@ public class HomeFragment extends Fragment {
         homeHorModelList.add(new HomeHorModel(R.drawable.steak,"Steak"));
         homeHorModelList.add(new HomeHorModel(R.drawable.salad,"Salad"));
 
-        // RecyclerView에 이제 표시하기 위해서 Adapter를 만들자.
+        // 데이터를 Adapter 내에서 가공하기 위해 Adapter를 만들자.
+        // 여기서 getActivity()는 HomeFragment의 context 값이다.
         homeHorAdapter = new HomeHorAdapter(getActivity(), homeHorModelList);
+        // 데이터를 넣어준 변수를 가지고 setAdapter()메서드에 넣어준다.
         homeHorRec.setAdapter(homeHorAdapter);
         homeHorRec.setHasFixedSize(true);
         // 중첩 스크롤 문제로 인해 스크롤이 잘 되지 않는걸 방지하기 위해 false값으로 설정한다.
