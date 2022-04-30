@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView homeHorRec;
     private RecyclerView homeVerRec;
     private List<HomeHorModel> homeHorModelList;
-    private List<HomeVerModel> homeVerModelList;
+    private ArrayList<HomeVerModel> homeVerModelList;
     private HomeHorAdapter homeHorAdapter;
     private HomeVerAdapter homeVerAdapter;
     @Nullable
