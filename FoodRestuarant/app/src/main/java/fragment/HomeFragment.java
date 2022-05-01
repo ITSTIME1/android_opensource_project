@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
 
         // 데이터를 Adapter 내에서 가공하기 위해 Adapter를 만들자.
         // 여기서 getActivity()는 HomeFragment의 context 값이다.
+        // this를 사용하지 않은 이유는 Fragment는 Activity가 아니기 때문이다.
         homeHorAdapter = new HomeHorAdapter(getActivity(), homeHorModelList);
         homeVerAdapter = new HomeVerAdapter(getActivity(), homeVerModelList);
         // 데이터를 넣어준 변수를 가지고 setAdapter()메서드에 넣어준다.

@@ -19,8 +19,9 @@ import java.util.List;
 
 import model.HomeVerModel;
 
-public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHolder> {
-    UpdateVerticalRec updateVerticalRec;
+public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHolder>{
+    // Fragement 에서 context 값을 얻어오기 위해서 getActivity()값을 사용한다.
+    // 만약 이게 Activity가 아니고 Context 값을 인자로 넘겨받는다면 null을 반환 할 수 있다.
     Activity activity;
     // 이전에 List를 사용했을때는
     // 각 요소가 객체이고 해당 위치에 엑세스 되는 순서를 가지는 요소라면
@@ -28,7 +29,6 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
     ArrayList<HomeVerModel> homeVerModelList;
 
     public HomeVerAdapter(Activity activity, ArrayList<HomeVerModel> homeVerModelList) {
-        this.updateVerticalRec = updateVerticalRec;
         this.activity = activity;
         this.homeVerModelList = homeVerModelList;
     }
@@ -42,6 +42,8 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull HomeVerAdapter.ViewHolder holder, int position) {
+
+        // setImageResource 는 int resID를 인자로 받기 때문에 homeVerModelList에 있는 위치의 이미지 값을 가져오고 그 값을 인트형식으로 반환해준다.
         holder.homeVerRecImageView.setImageResource(homeVerModelList.get(position).getVerImage());
         holder.homeVerRecFoodNameView.setText(homeVerModelList.get(position).getVerFoodName());
         holder.homeVerRecFoodDescriptionView.setText(homeVerModelList.get(position).getVerFoodDescription());
@@ -52,6 +54,8 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
     public int getItemCount() {
         return homeVerModelList.size();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView homeVerRecImageView;
