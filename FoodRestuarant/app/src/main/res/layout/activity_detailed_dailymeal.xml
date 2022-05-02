@@ -13,8 +13,10 @@
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
             android:layout_height="match_parent"
-            app:title="Daily Meals">
+            app:title="Daily Meals"
+            app:layout_scrollFlags="scroll|snap|enterAlways">
             <ImageView
+                android:id="@+id/detailed_daily_meal_main_image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/verhambuger"
                 android:layout_width="match_parent"
@@ -33,6 +35,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <androidx.recyclerview.widget.RecyclerView
+            android:nestedScrollingEnabled="true"
+            android:id="@+id/detailed_daily_meal_rec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </androidx.core.widget.NestedScrollView>

@@ -4,6 +4,7 @@ public class DailyMealModel {
     int dailyMealImage;
     String dailyMealName;
     String dailyMealDescription;
+    String type;
 
     public int getDailyMealImage() {
         return dailyMealImage;
@@ -29,9 +30,18 @@ public class DailyMealModel {
         this.dailyMealDescription = dailyMealDescription;
     }
 
-    public DailyMealModel(int dailyMealImage, String dailyMealName, String dailyMealDescription) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public DailyMealModel(int dailyMealImage, String dailyMealName, String dailyMealDescription, String type) {
         this.dailyMealImage = dailyMealImage;
         this.dailyMealName = dailyMealName;
         this.dailyMealDescription = dailyMealDescription;
+        this.type = type;
     }
 }

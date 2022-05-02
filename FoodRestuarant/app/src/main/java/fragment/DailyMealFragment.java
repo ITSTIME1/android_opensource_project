@@ -36,10 +36,10 @@ public class DailyMealFragment extends Fragment {
         dailyRecView = dailyMealRoot.findViewById(R.id.daily_meal_rec);
         dailyRecView.setLayoutManager(new LinearLayoutManager(getContext()));
         dailyMealModelList = new ArrayList<>();
-        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Breakfast", "Description test dinner"));
-        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Launch", "Description test dinner"));
-        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger,"Appetizer", "Description test dinner"));
-        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Dinner", "Description test dinner"));
+        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Breakfast", "Description test dinner", "breakfast"));
+        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Launch", "Description test dinner", "launch"));
+        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger,"Appetizer", "Description test dinner", "appetizer"));
+        dailyMealModelList.add(new DailyMealModel(R.drawable.verhambuger, "Dinner", "Description test dinner", "dinner"));
         dailyMealVerAdapter = new DailyMealVerAdapter(dailyMealModelList, getActivity());
         dailyRecView.setAdapter(dailyMealVerAdapter);
 

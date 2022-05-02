@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodrestuarant.DetailedDailyMealActivity;
 import com.example.foodrestuarant.R;
 
 import java.util.List;
@@ -38,6 +40,16 @@ public class DailyMealVerAdapter extends RecyclerView.Adapter<DailyMealVerAdapte
         holder.dailyImageView.setImageResource(dailyMealModelList.get(position).getDailyMealImage());
         holder.dailyNameView.setText(dailyMealModelList.get(position).getDailyMealName());
         holder.dailyDescriptionView.setText(dailyMealModelList.get(position).getDailyMealDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailedDailyMealActivity.class);
+                intent.putExtra("type", dailyMealModelList.get(holder.getAdapterPosition()).getType());
+                context.startActivity(intent);
+
+            }
+        });
 
     }
 
