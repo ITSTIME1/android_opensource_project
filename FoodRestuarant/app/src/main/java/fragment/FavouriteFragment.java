@@ -41,6 +41,7 @@ public class FavouriteFragment extends Fragment {
 
     // true = attachToRoot 같은 경우 지금 자식 뷰를 부모뷰에 추가하겠느냐
     // false = attachToRoot 나중에 추가하겠느냐
+    // ViewGroup 인플레이트된 레이아웃의 layout을 의미.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View favouriteFragmentView = inflater.inflate(R.layout.fragment_favourite, container, false);
 
@@ -48,6 +49,8 @@ public class FavouriteFragment extends Fragment {
         tabLayout = favouriteFragmentView.findViewById(R.id.favourite_tab_bar);
         viewPager2 = favouriteFragmentView.findViewById(R.id.view_pager2);
 
+
+        // 생성 수정 삭제 등 여러 액션을 취하기 위해서 FragmentManager 객체를 참조시킨다.
         FragmentManager fm = getActivity().getSupportFragmentManager();
         fragmentsAdapter = new FragmentsAdapter(fm, getLifecycle());
 
@@ -80,6 +83,7 @@ public class FavouriteFragment extends Fragment {
 
 
         // ViewPager가 바뀔때 행동들을 핸들링한다.
+        // 선택된 페이지를 감지해주는거
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
