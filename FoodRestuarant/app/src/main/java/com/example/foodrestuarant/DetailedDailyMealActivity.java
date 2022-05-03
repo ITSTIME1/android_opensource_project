@@ -38,13 +38,14 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
         detailedDailyMealAdapter = new DetailedDailyMealAdapter(this, detailedDailyMealModelList);
         recyclerView.setAdapter(detailedDailyMealAdapter);
 
+        // equalsIgnoreCase 대소문자 구분없이 type이란 intent로 넘어온 값의 String 값을 비교해보겠다.
         if(type != null && type.equalsIgnoreCase("breakfast")){
             detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "BreakFast", "very good"));
             detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "NiceFast", "very good" ));
             detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "GoodFast", "very good"));
-            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "GoodFast", "very good"));
-            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "GoodFast", "very good"));
-            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "GoodFast", "very good"));
+            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "ItsFast", "very good"));
+            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "LadyFast", "very good"));
+            detailedDailyMealModelList.add(new DetailedDailyMealModel(R.drawable.breakfast1, "ManFast", "very good"));
 
             detailedDailyMealAdapter.notifyDataSetChanged();
         }

@@ -35,7 +35,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <androidx.recyclerview.widget.RecyclerView
-            android:nestedScrollingEnabled="true"
+            android:nestedScrollingEnabled="false"
             android:id="@+id/detailed_daily_meal_rec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
