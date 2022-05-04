@@ -44,6 +44,8 @@ public class DailyMealVerAdapter extends RecyclerView.Adapter<DailyMealVerAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Context = DailyMealFragment 에 있는 Fragment의 정보값을 넘겨준다.
+                // 즉 Fragment 상태 등.
                 Intent intent = new Intent(context, DetailedDailyMealActivity.class);
                 intent.putExtra("type", dailyMealModelList.get(holder.getAdapterPosition()).getType());
                 context.startActivity(intent);
