@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // MainActivity Move Method
     public void registerButton(){
-        Intent registerIntent = new Intent(RegisterActivity.this, MainActivity.class);
+        Intent registerIntent = new Intent(RegisterActivity.this, HomeActivity.class);
         startActivity(registerIntent);
     }
 

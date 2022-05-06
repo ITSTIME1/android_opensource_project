@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // MainActivity Move Method
     public void mainActivityMove(){
-        Intent mainMovIntent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent mainMovIntent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(mainMovIntent);
     }
 
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // LoginActivity Move Method
     public void loginActivityMove(){
-        Intent loginMovIntent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent loginMovIntent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(loginMovIntent);
     }
 }
