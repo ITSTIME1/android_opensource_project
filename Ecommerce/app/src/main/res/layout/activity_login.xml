@@ -24,9 +24,9 @@
     <!-- Login SubTextView -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/login_subTextView"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:text="로그인을 해주시기 바랍니다."
+        android:text="이용해 주셔서 감사합니다."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +38,11 @@
 
     <!-- Email EditText -->
     <androidx.appcompat.widget.AppCompatEditText
+        android:inputType="textEmailAddress"
         android:id="@+id/login_email_field"
         android:padding="15dp"
         android:layout_margin="35dp"
-        android:hint="Enter email"
+        android:hint="이메일을 입력해주세요"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
@@ -54,10 +55,11 @@
 
     <!-- Password EditText -->
     <androidx.appcompat.widget.AppCompatEditText
+        android:inputType="textPassword"
         android:id="@+id/login_password_field"
         android:padding="15dp"
         android:layout_margin="35dp"
-        android:hint="Enter password"
+        android:hint="비밀번호를 입력해주세요"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
@@ -131,7 +133,7 @@
 
     <!-- LoginButton -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/appCompatButton"
+        android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="35dp"
@@ -163,7 +165,8 @@
 
     <!-- Register Button -->
     <androidx.appcompat.widget.AppCompatButton
-        android:elevation="0dp"
+        android:id="@+id/register_button_move"
+        android:elevation="2dp"
         android:textStyle="bold"
         android:layout_margin="35dp"
         android:textColor="@color/loginButtonColor"
@@ -193,6 +196,7 @@
         tools:ignore="MissingConstraints">
         <!-- Alert Message -->
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/alert_message"
             android:text="인증절차 없이 이용하시겠습니까?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -211,11 +215,11 @@
 
             <!-- MoveTextView -->
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/alert_move_message"
                 android:textColor="@color/loginButtonColor"
                 android:text="이동하기"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

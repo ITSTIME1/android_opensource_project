@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/drawa_search_bg.xml" value="0.28" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/drawable_search_bg.xml" value="0.28" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_register.xml" value="0.35280797101449274" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_splash.xml" value="0.35280797101449274" />
       </map>
     </option>
   </component>

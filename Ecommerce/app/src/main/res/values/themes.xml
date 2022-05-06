@@ -17,6 +17,5 @@
         <!-- 상태바 반투명으로 만드는 속성 -->
         <item name="android:windowTranslucentStatus">true</item>
 
-
     </style>
 </resources>
