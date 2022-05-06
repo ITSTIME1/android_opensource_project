@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!-- Login MainTextView -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/login_logoTextView"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Ecommerce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".1"
+        tools:ignore="MissingConstraints"/>
+
+    <!-- Login SubTextView -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/login_subTextView"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:text="로그인을 해주시기 바랍니다."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".2"
+        tools:ignore="MissingConstraints"/>
+
+    <!-- Email EditText -->
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/login_email_field"
+        android:padding="15dp"
+        android:layout_margin="35dp"
+        android:hint="Enter email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".3"/>
+
+
+    <!-- Password EditText -->
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/login_password_field"
+        android:padding="15dp"
+        android:layout_margin="35dp"
+        android:hint="Enter password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".4"/>
+
+
+    <!-- Login Field layout-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <!-- LoginInner layout -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="35dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.628"
+            tools:ignore="MissingConstraints">
+
+            <!-- LoginCheckBox -->
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/login_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <!-- LoginCheckBox TextView -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/login_checkBox_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자동로그인"/>
+
+            <!-- ForgotText or ForgetPasswordText layout-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <!-- ForgotText or ForgotPasswordText layout -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/login_forgot_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아이디 비밀번호찾기"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <!-- LoginButton -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/appCompatButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="35dp"
+        android:background="@color/loginButtonColor"
+        android:text="로그인"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".6"
+        tools:ignore="MissingConstraints"/>
+
+
+    <!-- LoginButton Divider -->
+    <View
+        android:layout_margin="35dp"
+        android:background="@color/loginButtonDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".67"
+        tools:ignore="MissingConstraints"/>
+
+
+    <!-- Register Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:elevation="0dp"
+        android:textStyle="bold"
+        android:layout_margin="35dp"
+        android:textColor="@color/loginButtonColor"
+        android:background="@color/white"
+        android:text="회원가입"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".8"
+        tools:ignore="MissingConstraints" />
+
+
+    <!-- Don't need authentication Alert Message layout -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_margin="35dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".9"
+        tools:ignore="MissingConstraints">
+        <!-- Alert Message -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:text="인증절차 없이 이용하시겠습니까?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".84"
+            tools:ignore="MissingConstraints" />
+
+        <!-- MoveTextButton -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- MoveTextView -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textColor="@color/loginButtonColor"
+                android:text="이동하기"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
