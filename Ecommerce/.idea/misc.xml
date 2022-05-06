@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/bg_transparent.xml" value="0.28" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/drawa_search_bg.xml" value="0.28" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/drawable_home_title_bg.xml" value="0.1955" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/drawable_search_bg.xml" value="0.28" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/rec_home_advertise_hol_item_bg.xml" value="0.28" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_home.xml" value="0.33" />
@@ -11,9 +13,11 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_register.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_ads_hol_item.xml" value="0.1875" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_advertise.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_advertise_hol_item.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_recommend.xml" value="0.35280797101449274" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_recommend_hol_item.xml" value="0.1875" />
       </map>
     </option>
   </component>

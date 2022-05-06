@@ -11,16 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecommerce.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Models.HomeRecommendModel;
 
 public class HomeHolRecoAdapter extends RecyclerView.Adapter<HomeHolRecoAdapter.ViewHolder> {
 
-    private List<HomeRecommendModel> homeRecommendModelList;
+    private ArrayList<HomeRecommendModel> homeRecommendModelList;
     private Context context;
 
-    public HomeHolRecoAdapter(List<HomeRecommendModel> homeRecommendModelList, Context context) {
+    public HomeHolRecoAdapter(ArrayList<HomeRecommendModel> homeRecommendModelList, Context context) {
         this.homeRecommendModelList = homeRecommendModelList;
         this.context = context;
     }
@@ -28,7 +29,7 @@ public class HomeHolRecoAdapter extends RecyclerView.Adapter<HomeHolRecoAdapter.
     @NonNull
     @Override
     public HomeHolRecoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_home_advertise_hol_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_home_recommend_hol_item, parent, false));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class HomeHolRecoAdapter extends RecyclerView.Adapter<HomeHolRecoAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            homeHolRecommendImageView = itemView.findViewById(R.id.rec_home_advertise_hol_item);
+            homeHolRecommendImageView = itemView.findViewById(R.id.rec_home_recommend_hol_item);
         }
     }
 }
