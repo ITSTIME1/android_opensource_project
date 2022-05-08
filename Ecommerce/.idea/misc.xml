@@ -10,14 +10,21 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/drawable/rec_home_advertise_hol_item_bg.xml" value="0.28" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_register.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/fragment_cart.xml" value="0.3509963768115942" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/fragment_category.xml" value="0.3509963768115942" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/fragment_home.xml" value="0.3509963768115942" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/fragment_profile.xml" value="0.3509963768115942" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/fragment_search.xml" value="0.3509963768115942" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_ads_hol_item.xml" value="0.1875" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_advertise.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_advertise_hol_item.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_recommend.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/layout/rec_home_recommend_hol_item.xml" value="0.1875" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/Ecommerce/app/src/main/res/menu/botton_navigation_menu.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>

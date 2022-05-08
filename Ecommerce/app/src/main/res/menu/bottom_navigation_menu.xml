@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:enabled="true"
+        android:id="@+id/tab_home"
+        android:title="홈"/>
+    <item
+        android:id="@+id/tab_search"
+        android:enabled="true"
+        android:title="검색"/>
+
+    <item
+        android:id="@+id/tab_profile"
+        android:enabled="true"
+        android:title="마이쿠팡"/>
+
+    <item
+        android:id="@+id/tab_order"
+        android:title="장바구니"
+        android:enabled="true"/>
+
+    <item
+        android:enabled="true"
+        android:title="메뉴"
+        android:id="@+id/tab_category"/>
+</menu>
