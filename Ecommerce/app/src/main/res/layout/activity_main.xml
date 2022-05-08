@@ -20,11 +20,14 @@
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+
         android:id="@+id/bottom_navigation"
-        android:background="@color/black"
+        android:background="@color/loginButtonColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navigation_menu"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

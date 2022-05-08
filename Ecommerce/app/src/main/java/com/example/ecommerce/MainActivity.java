@@ -41,18 +41,27 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Object Reference
+
+        // ** Object Reference Method **
+        // This method that refers all objects in "MainActivity"
         init();
 
-        // BottomNavigation listener
+        // ** BottomNavigation listener **
+        // This method is a change method that meaning is when you clicked bottomNavigationItem
+        // change fragment what you want
         bottomNavigationView.setOnItemSelectedListener(this);
+
+        // ** Automatically default set fragment == HomeFragment **
+        if(savedInstanceState == null) {
+            bottomNavigationView.setSelectedItemId(R.id.tab_home);
+        }
 
     }
 
 
 
 
-    // Reference
+    // ** All object reference method **
     private void init(){
         home_ly = findViewById(R.id.home_ly);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
 
 
-    // FragmentManager Change Fragment Method
+    // ** ReplaceFragment Method **
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -70,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
 
-    // OnNavigationItem Listener Method Override
+    // ** OnBottomNavigationItem override listener method **
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -80,15 +89,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             case R.id.tab_category:
                 replaceFragment(categoryFragment);
                 return true;
-
             case R.id.tab_search:
                 replaceFragment(searchFragment);
                 return true;
-
             case R.id.tab_home:
                 replaceFragment(homeFragment);
                 return true;
-
             case R.id.tab_profile:
                 replaceFragment(myProfileFragment);
                 return true;
