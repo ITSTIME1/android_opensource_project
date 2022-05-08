@@ -24,16 +24,22 @@ import Fragments.MyProfileFragment;
 import Fragments.OrderCartFragment;
 import Fragments.SearchFragment;
 
+
+// ** MainActivity **
+// This Activity is connecting activity that meaning is bottomNavigation and fragment or other activity
+// if you want to add reference you have to include in this activity
+
+
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
 
-    FrameLayout home_ly;
-    BottomNavigationView bottomNavigationView;
-    OrderCartFragment orderCartFragment = new OrderCartFragment();
-    CategoryFragment categoryFragment = new CategoryFragment();
-    MyProfileFragment myProfileFragment = new MyProfileFragment();
-    HomeFragment homeFragment = new HomeFragment();
-    SearchFragment searchFragment = new SearchFragment();
+    private FrameLayout home_ly;
+    private BottomNavigationView bottomNavigationView;
+    private OrderCartFragment orderCartFragment = new OrderCartFragment();
+    private CategoryFragment categoryFragment = new CategoryFragment();
+    private MyProfileFragment myProfileFragment = new MyProfileFragment();
+    private HomeFragment homeFragment = new HomeFragment();
+    private SearchFragment searchFragment = new SearchFragment();
 
 
     @Override

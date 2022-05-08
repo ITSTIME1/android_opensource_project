@@ -11,6 +11,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.ecommerce.R;
 
+
+// ** HomeFragment **
+// This fragment have multiple recyclerview and dialogs
+// So if you want to add in HomeFragment you did it.
+
 public class HomeFragment extends Fragment {
     @Nullable
     @Override

@@ -2,14 +2,67 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_fragment_id"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:textSize="30sp"
-        android:text="homeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textColor="@color/black"
+            android:layout_margin="30dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:text="Ecommerce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/home_search_id"
+            android:inputType="text"
+            android:background="@drawable/drawable_search_bg"
+            android:layout_margin="5dp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="검색을 활용해보세요!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <!-- RecyclerView layout -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Home_Hol_Rec -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textSize="24sp"
+                android:fontFamily="@font/deliverfont"
+                android:textColor="@color/black"
+                android:text="추천상품"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <!-- Hom_Ver_Rec -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
