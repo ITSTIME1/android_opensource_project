@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/home_fragment_hol_rec_one_item_object"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Hol Image View -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/home_fragment_hol_rec_image"
+            android:layout_width="240dp"
+            android:layout_height="290dp"
+            android:src="@drawable/homehol1"/>
+
+        <!-- Hol Text Layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_fragment_hol_rec_all_layout"
+            android:background="@drawable/item_home_fragment_hol_rec_bg"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/home_fragment_hol_rec_item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    android:id="@+id/home_fragment_hol_rec_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="돔바 티셔츠"
+                    android:textSize="18dp"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:textColor="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/home_fragment_hole_rec_item_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="CASUAL STYLE"
+                    android:textSize="14dp"
+                    tools:ignore="MissingConstraints" />
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
+                        android:id="@+id/home_fragment_hol_rec_item_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="13,000"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:ignore="MissingConstraints"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/home_fragment_hol_rec_order"
+                        android:textColor="@color/fragmentHomeBlueColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="20dp"
+                        android:text="장바구니 담기"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        tools:ignore="MissingConstraints"/>
+
+
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>
