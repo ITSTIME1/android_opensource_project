@@ -41,11 +41,43 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
     public void onBindViewHolder(@NonNull FragmentHomeHolRecAdapter.ViewHolder holder, int position) {
 
 
+
         holder.fragmentHolRecItemImage.setImageResource(fragmentHomeHolRecItemModelArrayList.get(position).getFrgHomeHolRecImage());
         holder.fragmentHolRecItemTitle.setText(fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecTitle());
         holder.fragmentHolRecItemDescription.setText(fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecDescription());
         holder.fragmentHolRecItemPrice.setText(fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecPrice());
         holder.fragmentHolRecItemOrder.setText(fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecOrderText());
+
+
+        String btm_title = fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecTitle();
+        String btm_description = fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecDescription();
+        int btm_image = fragmentHomeHolRecItemModelArrayList.get(position).getFrgHomeHolRecImage();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog = new BottomSheetDialog(context, com.google.android.material.R.style.Theme_Design_Light_BottomSheetDialog);
+                View bottomSheet = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null);
+
+                TextView bottom_title = bottomSheet.findViewById(R.id.bottom_title);
+                TextView bottom_description = bottomSheet.findViewById(R.id.bottom_description);
+                ImageView bottom_image = bottomSheet.findViewById(R.id.bottom_image);
+
+
+                bottom_title.setText(btm_title);
+                bottom_description.setText(btm_description);
+                bottom_image.setImageResource(btm_image);
+
+
+
+
+
+                bottomSheetDialog.setContentView(bottomSheet);
+                bottomSheetDialog.show();
+
+
+            }
+        });
 
     }
 
@@ -69,21 +101,6 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
             fragmentHolRecItemDescription = itemView.findViewById(R.id.home_fragment_hole_rec_item_description);
             fragmentHolRecItemPrice = itemView.findViewById(R.id.home_fragment_hol_rec_item_price);
             fragmentHolRecItemOrder = itemView.findViewById(R.id.home_fragment_hol_rec_order);
-
-
-            // When item clicked
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Create BottomDialog Instance
-                    bottomSheetDialog = new BottomSheetDialog(context, com.google.android.material.R.style.Theme_Design_Light_BottomSheetDialog);
-                    // Connect bottomSheet
-                    View bottomView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null);
-                    bottomSheetDialog.setContentView(bottomView);
-                    bottomSheetDialog.show();
-                }
-
-            });
 
         }
 
