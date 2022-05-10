@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     private FrameLayout home_ly;
     private BottomNavigationView bottomNavigationView;
-    private OrderCartFragment orderCartFragment = new OrderCartFragment();
-    private CategoryFragment categoryFragment = new CategoryFragment();
-    private MyProfileFragment myProfileFragment = new MyProfileFragment();
-    private HomeFragment homeFragment = new HomeFragment();
-    private SearchFragment searchFragment = new SearchFragment();
+    private OrderCartFragment orderCartFragment;
+    private CategoryFragment categoryFragment;
+    private MyProfileFragment myProfileFragment;
+    private HomeFragment homeFragment;
+    private SearchFragment searchFragment;
 
 
     @Override
@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     // ** All object reference method **
     private void init(){
         home_ly = findViewById(R.id.home_ly);
+        orderCartFragment = new OrderCartFragment();
+        categoryFragment = new CategoryFragment();
+        myProfileFragment = new MyProfileFragment();
+        homeFragment = new HomeFragment();
+        searchFragment = new SearchFragment();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 

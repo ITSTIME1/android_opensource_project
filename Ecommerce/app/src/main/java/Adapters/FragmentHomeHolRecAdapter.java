@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecommerce.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ import Models.FragmentHomeHolRecItemModel;
 
 public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHomeHolRecAdapter.ViewHolder> {
 
+    BottomSheetDialog bottomSheetDialog;
     ArrayList<FragmentHomeHolRecItemModel> fragmentHomeHolRecItemModelArrayList;
     Context context;
 
@@ -35,6 +39,7 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
 
     @Override
     public void onBindViewHolder(@NonNull FragmentHomeHolRecAdapter.ViewHolder holder, int position) {
+
 
         holder.fragmentHolRecItemImage.setImageResource(fragmentHomeHolRecItemModelArrayList.get(position).getFrgHomeHolRecImage());
         holder.fragmentHolRecItemTitle.setText(fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecTitle());
@@ -55,6 +60,8 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
         private TextView fragmentHolRecItemDescription;
         private TextView fragmentHolRecItemPrice;
         private final TextView fragmentHolRecItemOrder;
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             fragmentHolRecItemImage = itemView.findViewById(R.id.home_fragment_hol_rec_image);
@@ -62,6 +69,23 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
             fragmentHolRecItemDescription = itemView.findViewById(R.id.home_fragment_hole_rec_item_description);
             fragmentHolRecItemPrice = itemView.findViewById(R.id.home_fragment_hol_rec_item_price);
             fragmentHolRecItemOrder = itemView.findViewById(R.id.home_fragment_hol_rec_order);
+
+
+            // When item clicked
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Create BottomDialog Instance
+                    bottomSheetDialog = new BottomSheetDialog(context, com.google.android.material.R.style.Theme_Design_Light_BottomSheetDialog);
+                    // Connect bottomSheet
+                    View bottomView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null);
+                    bottomSheetDialog.setContentView(bottomView);
+                    bottomSheetDialog.show();
+                }
+
+            });
+
         }
+
     }
 }

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_bg"
+    android:id="@+id/bottom_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!-- BottomSheet Layout -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints">
+        <!-- BottomSheet Title -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bottom_title"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:text="돔바"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+
+        <!-- BottomSheet Description -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bottom_description"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="CASUAL STYLE"
+            android:textSize="18sp"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bottom_image"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerCrop"
+                android:layout_width="200dp"
+                android:layout_height="240dp"
+                android:src="@drawable/homehol1" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginLeft="10dp"
+                android:gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_title"
+                    android:textColor="@color/white"
+                    android:text="Product Info"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_description1"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="50dp"
+                    android:text="브랜드/품번"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_description2"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:text="성별"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_description3"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:text="누적판매"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_description4"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:text="좋아요"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottom_sub_description5"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:text="구매후기"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- BottomSheet Second Layout -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/bottom_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DOMBA(돔바)는 1991년 미국 서부 캘리포니아 주에서 시작한 부담 없는 클래식한 스타일과 합리적인 가격을 추구하는 브랜드입니다. 멋진 스타일과 실용성을 추구하는 워크부츠 라인, 무난하고 편안함을 추구하는 스니커즈 라인으로 나위어 생산 및 판매되고 있습니다. 돔바의 워크부츠는 천연 가죽 소재와 기본에 충실한 디자인으로 많은 인기를 얻고 있습니다." />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

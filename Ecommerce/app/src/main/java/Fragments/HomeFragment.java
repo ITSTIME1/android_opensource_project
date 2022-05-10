@@ -9,6 +9,7 @@ import android.widget.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,8 @@ import Models.FragmentHomeHolRecItemModel;
 
 public class HomeFragment extends Fragment {
 
+    private LinearLayoutCompat linearLayoutCompat;
+
     private RecyclerView fragmentHolRec;
     private RecyclerView fragmentHolRec2;
 
@@ -45,6 +48,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View homeRoot = inflater.inflate(R.layout.fragment_home, container, false);
 
+        linearLayoutCompat = homeRoot.findViewById(R.id.fragment_home_layout);
+        linearLayoutCompat.setNestedScrollingEnabled(false);
         // ** Reference (etc. recyclerView...decoration.. ) **
         fragmentHolRec = homeRoot.findViewById(R.id.home_fragment_hol_rec);
         fragmentHolRec2 = homeRoot.findViewById(R.id.home_fragment_hol_rec2);
@@ -79,6 +84,8 @@ public class HomeFragment extends Fragment {
 
         fragmentHolRec.setAdapter(fragmentHolRecAdapter);
         fragmentHolRec2.setAdapter(fragmentHomeHolRec2Adapter);
+        fragmentHolRec.setNestedScrollingEnabled(false);
+        fragmentHolRec2.setNestedScrollingEnabled(false);
 
         return homeRoot;
 
