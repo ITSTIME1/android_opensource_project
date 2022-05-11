@@ -53,6 +53,13 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
         String btm_description = fragmentHomeHolRecItemModelArrayList.get(position).getFragHomeHolRecDescription();
         int btm_image = fragmentHomeHolRecItemModelArrayList.get(position).getFrgHomeHolRecImage();
 
+
+
+        // ** when binding data excute this method.
+        // but it's not recommend because it often call when data binding.
+        // So I implementation in viewholder you can see below code.
+
+
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -135,11 +142,9 @@ public class FragmentHomeHolRecAdapter extends RecyclerView.Adapter<FragmentHome
                         bottom_description.setText(btm_description);
                         bottom_image.setImageResource(btm_image);
 
-
-
+                        // show bottomSheetDialog
                         bottomSheetDialog.setContentView(bottomSheet);
                         bottomSheetDialog.show();
-
                     }
 
                 }

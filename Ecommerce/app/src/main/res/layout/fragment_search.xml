@@ -1,16 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/search_fragment_id"
-    android:background="@color/black"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:textSize="30sp"
-        android:text="searchTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints">
+
+        <!-- Appbar Section -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".0">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/white">
+                <!-- Search EditText -->
+                <androidx.appcompat.widget.SearchView
+
+                    android:background="@color/white"
+                    android:layoutDirection="rtl"
+                    android:id="@+id/searchView"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:searchIcon="@drawable/ic_search"
+                    app:defaultQueryHint="hint"
+                    app:queryHint="hint"
+                    app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
+                    app:iconifiedByDefault="true"/>
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="인기 검색어"
+                    android:textColor="@color/fragmentHomeBlueColor" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:text="맥북 2022"
+                    android:textColor="@color/black" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <!-- Body Section -->
+        <androidx.core.widget.NestedScrollView
+            android:fillViewport="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="최근 검색어"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="최근 검색내용이 없습니다." />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="추천 검색어"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <!-- Keyword Section -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:columnCount="4"
+                    android:rowCount="4">
+
+                    <!-- 첫줄 -->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <!-- 둘째줄 -->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/search_button_bg"
+                        android:text="맥북"
+                        android:textSize="12dp" />
+
+                </GridLayout>
+
+                <!-- Ads View -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:foreground="@drawable/bg_transparent"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/recom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="200dp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
