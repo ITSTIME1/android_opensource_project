@@ -24,8 +24,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="@color/white"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,18 +38,15 @@
                 android:background="@color/white">
                 <!-- Search EditText -->
                 <androidx.appcompat.widget.SearchView
-
-                    android:background="@color/white"
                     android:layoutDirection="rtl"
                     android:id="@+id/searchView"
                     android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:searchIcon="@drawable/ic_search"
-                    app:defaultQueryHint="hint"
-                    app:queryHint="hint"
+                    app:queryHint="Search.."
                     app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
-                    app:iconifiedByDefault="true"/>
+                    app:iconifiedByDefault="false"/>
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.appcompat.widget.LinearLayoutCompat

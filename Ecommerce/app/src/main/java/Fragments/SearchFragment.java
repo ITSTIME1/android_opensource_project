@@ -25,6 +25,7 @@ public class SearchFragment extends Fragment {
 
         searchView = searchRoot.findViewById(R.id.searchView);
         searchView.setQuery(searchViewMessage, false);
+        searchView.clearFocus();
 
         return searchRoot;
     }
