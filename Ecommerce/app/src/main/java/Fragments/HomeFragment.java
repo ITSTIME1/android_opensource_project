@@ -1,15 +1,19 @@
 package Fragments;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,10 +47,21 @@ public class HomeFragment extends Fragment {
 
     private RecyclerViewDecoration recyclerViewDecoration;
 
+    private NestedScrollView nestedScrollView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View homeRoot = inflater.inflate(R.layout.fragment_home, container, false);
+
+        nestedScrollView = homeRoot.findViewById(R.id.home_fragment_scrollView);
+        nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
 
         linearLayoutCompat = homeRoot.findViewById(R.id.fragment_home_layout);
         linearLayoutCompat.setNestedScrollingEnabled(false);
@@ -90,7 +105,6 @@ public class HomeFragment extends Fragment {
         return homeRoot;
 
     }
-
     // ** HomeHolRec 아이템 간격 조정 **
     public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
 
@@ -106,6 +120,18 @@ public class HomeFragment extends Fragment {
         {
             super.getItemOffsets(outRect, view, parent, state);
             outRect.right = divWidth;
+        }
+    }
+
+    // ** Keyboard Hide **
+
+    private void hideKeyboard()
+    {
+        if (getActivity() != null && getActivity().getCurrentFocus() != null)
+        {
+            // 프래그먼트기 때문에 getActivity() 사용
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 

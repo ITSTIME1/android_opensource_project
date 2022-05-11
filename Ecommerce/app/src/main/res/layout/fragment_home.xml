@@ -4,104 +4,98 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_fragment_id"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/fragment_home_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-204dp">
+        tools:ignore="MissingConstraints">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/fragment_home_layout"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="Ecommerce"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SearchView
+            android:layoutDirection="rtl"
+            android:id="@+id/homeSearchView"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="30dp"
-                android:text="Ecommerce"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/home_search_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/drawable_search_bg"
-                android:drawableStart="@android:drawable/ic_menu_search"
-                android:hint="검색을 활용해보세요!"
-                android:inputType="text" />
+            app:searchIcon="@drawable/ic_search"
+            app:queryHint="Search.."
+            app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
+            app:queryBackground="@color/white"
+            app:iconifiedByDefault="false"/>
 
 
+        <!-- 선택 layout -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="start"
+            android:orientation="horizontal">
 
-
-
-
-
-            <!-- 선택 layout -->
+            <!-- Linear Layout, Grid Layout Choice -->
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="start"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <!-- Linear Layout, Grid Layout Choice -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginLeft="10dp"
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:text="추천상품"
+                    android:textSize="15sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="추천상품"
-                        android:textSize="15sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-=
-                <!-- 필터, 정렬 layout -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="필터"
-                        android:textSize="15sp" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="추천순"
-                        android:textSize="15sp" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+            =
+            <!-- 필터, 정렬 layout -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="필터"
+                    android:textSize="15sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="추천순"
+                    android:textSize="15sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!-- RecyclerView layout -->
+
+        <!-- RecyclerView layout -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/home_fragment_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
@@ -109,7 +103,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_fragment_hol_rec"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -124,23 +118,17 @@
                         android:textSize="15sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
                 <!-- Hom_Ver_Rec -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_fragment_hol_rec2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+        </androidx.core.widget.NestedScrollView>
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

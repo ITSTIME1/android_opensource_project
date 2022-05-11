@@ -56,9 +56,10 @@ public class SearchFragment extends Fragment{
 
     private void hideKeyboard()
     {
+        // 만약 현재 Activity 값이 없거나 현재 Foucs 되고 있는 Activity의 값이 없다면
+        // 즉 다시 말해 클릭하거나 무언가 Action을 취했을때 context 정보가 없다면 키보드를 감추는 메서드.
         if (getActivity() != null && getActivity().getCurrentFocus() != null)
         {
-            // 프래그먼트기 때문에 getActivity() 사용
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }

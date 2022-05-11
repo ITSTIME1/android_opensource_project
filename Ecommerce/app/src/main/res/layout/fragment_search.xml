@@ -49,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:searchIcon="@drawable/ic_search"
+                    app:queryBackground="@color/white"
                     app:queryHint="Search.."
                     app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
                     app:iconifiedByDefault="false"/>
