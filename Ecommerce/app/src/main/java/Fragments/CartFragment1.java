@@ -11,13 +11,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.ecommerce.R;
 
+public class CartFragment1 extends Fragment {
 
-public class MyProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View profileRoot = inflater.inflate(R.layout.fragment_profile, container, false);
+        View cartFragment1Root = inflater.inflate(R.layout.fragment_cart_1, container, false);
 
-        return profileRoot;
+
+
+
+
+        return cartFragment1Root;
     }
+
 }
