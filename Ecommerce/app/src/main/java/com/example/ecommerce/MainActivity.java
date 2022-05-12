@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.home_ly, fragment);
+        fragmentTransaction.replace(R.id.home_ly, fragment).addToBackStack(null);
         fragmentTransaction.commit();
     }
 

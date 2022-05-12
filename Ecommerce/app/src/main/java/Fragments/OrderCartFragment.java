@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.ecommerce.R;
@@ -42,17 +43,23 @@ public class OrderCartFragment extends Fragment {
 
 
     public void fragmentManager(){
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        cartViewPagerAdapter = new CartViewPagerAdapter(fm, getLifecycle());
+        cartViewPagerAdapter = new CartViewPagerAdapter(getChildFragmentManager(), getLifecycle());
         cartViewPager.setAdapter(cartViewPagerAdapter);
     }
 
     // TabBar가 선택이 되었을때 설정하는 메서드
-    public void tabLayoutSelected(){
+    public void tabLayoutSelected() {
         cartTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                cartViewPager.setCurrentItem(tab.getPosition());
+                int pos = tab.getPosition();
+                if(pos == 0){
+                    cartViewPager.setCurrentItem(pos);
+                } else if(pos == 1){
+                    cartViewPager.setCurrentItem(pos);
+                } else {
+                    cartViewPager.setCurrentItem(pos);
+                }
             }
 
             @Override
@@ -64,7 +71,12 @@ public class OrderCartFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
         });
+        // ** 페이지 이동시에 이벤트를 주는 리스너 **
+        // 1. 위에서 tabLayout 했을때 위치값(position) 값을 cartViewPager로 넘겨주었으며
+        // 2. override 메서드 중 pageSelected 되었을 때 tabLayout의 있는 position 값을 cartTabLayout.selectTab에 넘겨주어
+        // 3. TabLayout 또한 바뀌게 해준다.
         cartViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -83,4 +95,5 @@ public class OrderCartFragment extends Fragment {
         });
 
     }
+
 }
