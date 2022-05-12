@@ -13,6 +13,7 @@ import android.widget.Adapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,15 +48,13 @@ public class HomeFragment extends Fragment {
 
     private RecyclerViewDecoration recyclerViewDecoration;
 
-    private NestedScrollView nestedScrollView;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View homeRoot = inflater.inflate(R.layout.fragment_home, container, false);
 
-        nestedScrollView = homeRoot.findViewById(R.id.home_fragment_scrollView);
-        nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+        linearLayoutCompat = homeRoot.findViewById(R.id.fragment_home_layout);
+        linearLayoutCompat.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard();

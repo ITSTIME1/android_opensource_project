@@ -42,6 +42,7 @@ public class OrderCartFragment extends Fragment {
     }
 
 
+    // @TODO FragmentLifeCycle associated with ViewPager2
     public void fragmentManager(){
         cartViewPagerAdapter = new CartViewPagerAdapter(getChildFragmentManager(), getLifecycle());
         cartViewPager.setAdapter(cartViewPagerAdapter);

@@ -65,7 +65,6 @@
                     android:textSize="15sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            =
             <!-- 필터, 정렬 layout -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:gravity="right"
