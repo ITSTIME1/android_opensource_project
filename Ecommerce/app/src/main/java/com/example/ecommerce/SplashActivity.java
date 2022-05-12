@@ -7,6 +7,13 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * [Splash Screen]
+ *
+ * I'm using Handler but if you want to check user authentication valid if then I don't recommend this solution
+ * at that time, need to add check solutions but In this project not handling
+ */
+
 public class SplashActivity extends AppCompatActivity {
 
     private int splashScreenTime = 3000;

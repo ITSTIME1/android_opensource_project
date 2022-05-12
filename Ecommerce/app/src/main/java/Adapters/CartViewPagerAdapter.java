@@ -12,13 +12,6 @@ import Fragments.CartFragment2;
 import Fragments.CartFragment3;
 
 public class CartViewPagerAdapter extends FragmentStateAdapter {
-    public CartViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
-    }
-
-    public CartViewPagerAdapter(@NonNull Fragment fragment) {
-        super(fragment);
-    }
 
     public CartViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);

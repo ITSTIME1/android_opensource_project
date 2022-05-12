@@ -1,5 +1,6 @@
 package Fragments;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.ecommerce.R;
 
+/**
+ * [SearchFragment]
+ *
+ * This fragment very simple.
+ * You have to implementation "SearchView" and then setting primary funtions. (It's not necessary)
+ */
 public class SearchFragment extends Fragment{
 
     private SearchView searchView;

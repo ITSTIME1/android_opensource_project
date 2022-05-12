@@ -17,6 +17,15 @@ import com.google.android.material.tabs.TabLayout;
 
 import Adapters.CartViewPagerAdapter;
 
+
+/**
+ * [OrderCartFragment]
+ *
+ * This fragment has "TabLayout" and "ViewPager"
+ * before when you clone this project you should be study "fragment lifecycle"
+ * because I did face fragmentManager lifecycle associated with fragment lifecycle and navigationView
+ * In fact, I don't know correctly lifecycle until but i know that it's important to keep trying.
+ */
 public class OrderCartFragment extends Fragment {
 
     private TabLayout cartTabLayout;
@@ -48,7 +57,7 @@ public class OrderCartFragment extends Fragment {
         cartViewPager.setAdapter(cartViewPagerAdapter);
     }
 
-    // TabBar가 선택이 되었을때 설정하는 메서드
+    // ** Tab 시에 선택되어지는 position 값 **
     public void tabLayoutSelected() {
         cartTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

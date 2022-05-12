@@ -24,10 +24,15 @@ import Fragments.MyProfileFragment;
 import Fragments.OrderCartFragment;
 import Fragments.SearchFragment;
 
-
-// ** MainActivity **
-// This Activity is connecting activity that meaning is bottomNavigation and fragment or other activity
-// if you want to add reference you have to include in this activity
+/**
+ * [MainActivity]
+ *
+ * This is very important activity
+ * it has navigationView and Fragment so main acitivty is main "Lifecycle"
+ * and I'm used to FragmentManager that because I need to change content of fragment.
+ *
+ * If you want to know how to working navigationView change so If then, you need to check [replaceFragment]
+ * */
 
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
@@ -48,13 +53,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         setContentView(R.layout.activity_main);
 
 
-        // ** Object Reference Method **
-        // This method that refers all objects in "MainActivity"
+        /**
+         * [Init Method]
+         *
+         * That's reference method.
+         */
         init();
 
-        // ** BottomNavigation listener **
-        // This method is a change method that meaning is when you clicked bottomNavigationItem
-        // change fragment what you want
+        /**
+         * [Bottom Navigation ItemClickListener]
+         *
+         * I'm using implementation NavigationBarView.OnItemSelectedListener
+         * because I don't want complicated code and very simple
+         * if other solution I think make a OnitemSelectdListener class.
+         * but this project used to first solution.
+         */
         bottomNavigationView.setOnItemSelectedListener(this);
 
         // ** Automatically default set fragment == HomeFragment **
@@ -66,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
 
 
-
-    // ** All object reference method **
     private void init(){
         home_ly = findViewById(R.id.home_ly);
         orderCartFragment = new OrderCartFragment();
@@ -81,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
 
 
-    // ** ReplaceFragment Method **
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -90,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
 
-    // ** OnBottomNavigationItem override listener method **
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

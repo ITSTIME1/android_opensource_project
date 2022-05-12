@@ -28,10 +28,22 @@ import Adapters.FragmentHomeHolRecAdapter;
 import Models.FragmentHomeHolRec2ItemModel;
 import Models.FragmentHomeHolRecItemModel;
 
-
-// ** HomeFragment **
-// This fragment have multiple recyclerview and dialogs
-// So if you want to add in HomeFragment you did it.
+/**
+ * [HomeFragment]
+ *
+ * It shows the contents of this fragment when a user first enter application.
+ * I'm used some skils.
+ *
+ * RecyclerView
+ * Adapter
+ * Model
+ * RecyclerViewDecoration(need to change the width and height)
+ * SearchView Handling
+ * HideKeyboard function
+ *
+ * In fact, This project not used networking skils so if you want to practice networking found another solutions.
+ *
+ */
 
 public class HomeFragment extends Fragment {
 
@@ -123,7 +135,6 @@ public class HomeFragment extends Fragment {
     }
 
     // ** Keyboard Hide **
-
     private void hideKeyboard()
     {
         if (getActivity() != null && getActivity().getCurrentFocus() != null)
