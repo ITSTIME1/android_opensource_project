@@ -82,137 +82,131 @@
 
 
         <!-- Body Section -->
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/search_nested_scrollView"
-            android:fillViewport="true"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="최근 검색어"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="최근 검색내용이 없습니다." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:text="추천 검색어"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <!-- Keyword Section -->
+            <GridLayout
+                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="20dp"
+                android:columnCount="4"
+                android:rowCount="4">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="최근 검색어"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
+                <!-- 첫줄 -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="최근 검색내용이 없습니다." />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="40dp"
-                    android:text="추천 검색어"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <!-- Keyword Section -->
-                <GridLayout
+                <androidx.appcompat.widget.AppCompatButton
                     android:layout_marginLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <!-- 둘째줄 -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_button_bg"
+                    android:text="맥북"
+                    android:textSize="12dp" />
+
+            </GridLayout>
+
+            <!-- Ads View -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:foreground="@drawable/bg_transparent"
                     android:layout_margin="20dp"
-                    android:columnCount="4"
-                    android:rowCount="4">
-
-                    <!-- 첫줄 -->
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <!-- 둘째줄 -->
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/search_button_bg"
-                        android:text="맥북"
-                        android:textSize="12dp" />
-
-                </GridLayout>
-
-                <!-- Ads View -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="30dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:foreground="@drawable/bg_transparent"
-                        android:layout_margin="20dp"
-                        android:src="@drawable/recom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="200dp"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:src="@drawable/recom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.core.widget.NestedScrollView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

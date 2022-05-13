@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
@@ -26,31 +27,20 @@ import com.example.ecommerce.R;
  */
 public class SearchFragment extends Fragment{
 
-    private SearchView searchView;
-    private ConstraintLayout constraintLayout;
-    private NestedScrollView nestedScrollView;
+    private LinearLayoutCompat searchViewLinearLayout;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View searchRoot = inflater.inflate(R.layout.fragment_search, container, false);
 
-        searchView = searchRoot.findViewById(R.id.searchView);
-        constraintLayout = searchRoot.findViewById(R.id.search_constraint_layout);
-        nestedScrollView = searchRoot.findViewById(R.id.search_nested_scrollView);
 
+        searchViewLinearLayout = searchRoot.findViewById(R.id.searchView_layout);
 
-        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+        searchViewLinearLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard();
-                return false;
-            }
-        });
-
-        nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                hideKeyboard();
+                view.clearFocus();
                 return false;
             }
         });

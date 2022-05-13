@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard();
+                view.clearFocus();
                 return false;
             }
         });
