@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:text="장바구니"
-                android:textColor="@color/black"
                 android:textSize="25sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
