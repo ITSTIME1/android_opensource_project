@@ -2,7 +2,7 @@
 
 <h4>"Ecommerce clone project"</h5>
 
-<h5>"Hello guys, It's ecommerce clone project  if you want to practice xml design or associated with ecommerce content so this project is suitable for you."
+<h5>"Hello guys, It's ecommerce clone project  if you want to practice xml design or associated ecommerce content so this project is suitable for you."
 
 <h5> I thought that this project level is "Easy" but i'm not saying i always right just only indivisual think.
 
