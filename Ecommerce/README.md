@@ -11,6 +11,53 @@
 
 # How Can I use ?
 <h5> You can download my project or clone my repository 😋</h5>
+  
+# What has skils ?
+
+ - XMl
+	 - ConstraintLayout
+	 - LinearLayout
+	 - View
+	 - NestedScrollView
+	 - RecyclerView
+	 - AppbarLayout
+	 - TabLayout
+	 - TabItem
+	 - ViewPager2
+	 - FrameLayout
+	 - BottomNavigationView
+	  
+- Activity
+	- MainActivity (Connect Fragment)
+	- LoginActivity
+	- RegisterActivity
+	- SplashActivity
+	
+- Fragment
+	- HomeFragment
+	- MyprofileFragment
+	- OrderCartFragment
+	- SearchFragment
+	- CartFragment1
+	- CartFragment2
+	- CratFragment3
+	- CategoryFragment
+	- CategoryFragment2
+	- CategoryFragmen3
+- Adapter
+	- FragmentHomeRecAdapter
+	- FragmentHomeRec2Adapter
+	- CartViewPagerAdpater
+	- CategoryViewPagerAdapter
+
+- Function
+	- search Function
+	- hide Keyboard
+	- fragmentManager
+	- addOnTabSelectdListener
+	- registerOnPageChangeCallBack
+	- recyclerView.ItemDecoration
+	- setOnClickListener
 
 # License
 
