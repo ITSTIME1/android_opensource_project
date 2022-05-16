@@ -38,6 +38,7 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends AppCompatActivity {
+
     private RecyclerView marvelAvengersRec;
     private RecyclerView marvelRec;
 
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<MarvelResponse>() {
             @Override
             public void onResponse(Call<MarvelResponse> call, Response<MarvelResponse> response) {
+
                 if(response.body() != null) {
                     try {
                         marvelResponse = response.body();
@@ -119,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * [Retrofit getAvengersList]
+     */
     public void getAvengersList() {
         tbdmMarvelService = TBDMRetrofitClient.getInstance().create(TBDMMarvelService.class);
         Call<MarvelResponse> avengersCall = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "avengers", 1);
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * [RecyclerView change width class]
      */
-    public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
+    public static class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
         private final int divWidth;
 
         public RecyclerViewDecoration(int divWidth)

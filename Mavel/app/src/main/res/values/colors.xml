@@ -11,4 +11,5 @@
     <!-- Custom Color -->
     <color name="mainToolbarColor">#18191A</color>
     <color name="mainBackgroundColor">#222222</color>
+    <color name="detailTextColor">#3A9BDC</color>
 </resources>

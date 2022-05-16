@@ -46,6 +46,18 @@ public class Result {
     @Expose
     private Integer voteCount;
 
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    @SerializedName("vote_average")
+    @Expose
+    private Double voteAverage;
+
     public Boolean getAdult() {
         return adult;
     }

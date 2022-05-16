@@ -51,7 +51,7 @@ public class RetrofitMarvelAvengersAdapter extends RecyclerView.Adapter<Retrofit
         return resultList2.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avengersImageView;
 
 

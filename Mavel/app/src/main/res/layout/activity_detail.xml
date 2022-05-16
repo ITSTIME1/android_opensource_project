@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/mainToolbarColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Detail Movie Image -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/detail_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mavelimage1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Detail MovieTitle -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_title"
+                    android:textColor="@color/white"
+                    android:layout_margin="20dp"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:text="MovieTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <!-- Detail Average -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_average"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="@color/detailTextColor"
+                    android:text="8.3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Detail Release Date Time -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_releaseDateTime"
+                    android:layout_marginLeft="20dp"
+                    android:text="2012-04-25"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded"/>
+
+                <!-- Detail Popularity -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_popularity"
+                    android:layout_marginRight="20dp"
+                    android:gravity="right"
+                    android:textColor="@color/white"
+                    android:text="331.823"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Detail OverView -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textScaleX="1"
+                android:id="@+id/detail_overView"
+                android:letterSpacing="0.05"
+                android:gravity="left"
+                android:layout_margin="20dp"
+                android:textColor="@color/white"
+                android:text="When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>
