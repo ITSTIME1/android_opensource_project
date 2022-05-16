@@ -6,15 +6,13 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import adapters.RetrofitMarvelAdapter;
+import adapters.RetrofitMarvelAvengersAdapter;
 import constants.Constants;
 import me.relex.circleindicator.CircleIndicator2;
 import model.Result;
@@ -40,16 +38,19 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView marvelAvengersRec;
     private RecyclerView marvelRec;
-    private RetrofitMarvelAdapter retrofitMarvelAdapter;
-    private List<Result> resultList;
-    private MarvelResponse marvelResponse;
 
-    private CircleIndicator2 circleIndicator2;
-    private PagerSnapHelper pagerSnapHelper;
+    private RetrofitMarvelAvengersAdapter retrofitMarvelAvengersAdapter;
+    private RetrofitMarvelAdapter retrofitMarvelAdapter;
+
+    private List<Result> resultList;
+    private List<Result> resultList2;
+
+    private MarvelResponse marvelResponse;
     private RecyclerViewDecoration recyclerViewDecoration;
     private TBDMMarvelService tbdmMarvelService;
-    private TBDMRetrofitClient tbdmRetrofitClient;
+    private TextView firstTextView;
 
 
     @Override
@@ -58,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initialize();
-
-
+        getMovieList();
+        getAvengersList();
+        firstTextView();
 
     }
 
@@ -69,14 +71,22 @@ public class MainActivity extends AppCompatActivity {
      */
     public void initialize() {
         marvelRec = findViewById(R.id.marvel_rec);
+        marvelAvengersRec = findViewById(R.id.avengers_rec);
+
         marvelRec.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        recyclerViewDecoration = new RecyclerViewDecoration(120);
+        marvelAvengersRec.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+
+        recyclerViewDecoration = new RecyclerViewDecoration(marvelRec.getWidth() / 2);
+
         marvelRec.addItemDecoration(recyclerViewDecoration);
-        circleIndicator2 = findViewById(R.id.indicator);
+        marvelAvengersRec.addItemDecoration(recyclerViewDecoration);
+    }
 
-
-
-        tbdmMarvelService = tbdmRetrofitClient.getInstance().create(TBDMMarvelService.class);
+    /**
+     * [Retrofit getMovieList Method]
+     */
+    public void getMovieList(){
+        tbdmMarvelService = TBDMRetrofitClient.getInstance().create(TBDMMarvelService.class);
         Call<MarvelResponse> call = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "marvel", 1);
 
         call.enqueue(new Callback<MarvelResponse>() {
@@ -87,12 +97,43 @@ public class MainActivity extends AppCompatActivity {
                         marvelResponse = response.body();
                         resultList = marvelResponse.getResults();
                         retrofitMarvelAdapter = new RetrofitMarvelAdapter(resultList, getApplicationContext());
-
                         marvelRec.setAdapter(retrofitMarvelAdapter);
+                        marvelRec.setHasFixedSize(true);
+                        marvelRec.setNestedScrollingEnabled(true);
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                }
+                PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+                pagerSnapHelper.attachToRecyclerView(marvelRec);
 
-                        pagerSnapHelper.attachToRecyclerView(marvelRec);
-                        circleIndicator2.attachToRecyclerView(marvelRec, pagerSnapHelper);
+                CircleIndicator2 indicator = findViewById(R.id.indicator);
+                indicator.attachToRecyclerView(marvelRec, pagerSnapHelper);
+            }
 
+            @Override
+            public void onFailure(Call<MarvelResponse> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+
+    }
+
+    public void getAvengersList() {
+        tbdmMarvelService = TBDMRetrofitClient.getInstance().create(TBDMMarvelService.class);
+        Call<MarvelResponse> avengersCall = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "avengers", 1);
+
+        avengersCall.enqueue(new Callback<MarvelResponse>() {
+            @Override
+            public void onResponse(Call<MarvelResponse> call, Response<MarvelResponse> response) {
+                if(response.body() != null) {
+                    try {
+                        marvelResponse = response.body();
+                        resultList2 = marvelResponse.getResults();
+                        retrofitMarvelAvengersAdapter = new RetrofitMarvelAvengersAdapter(resultList2, getApplicationContext());
+                        marvelAvengersRec.setAdapter(retrofitMarvelAvengersAdapter);
+                        marvelAvengersRec.setHasFixedSize(true);
+                        marvelAvengersRec.setNestedScrollingEnabled(true);
                     } catch (Exception e){
                         System.out.println(e);
                     }
@@ -105,11 +146,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public void firstTextView(){
+        firstTextView = findViewById(R.id.first_text);
+        firstTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                marvelRec.scrollToPosition(0);
+            }
+        });
     }
 
 
-    // ** HomeHolRec 아이템 간격 조정 **
+    /**
+     * [RecyclerView change width class]
+     */
     public class RecyclerViewDecoration extends RecyclerView.ItemDecoration {
         private final int divWidth;
 

@@ -1,6 +1,5 @@
 package adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,13 @@ import com.example.mavel.R;
 import java.util.List;
 
 import model.Result;
+
+/**
+ * [RetrofitMarvelAdapter]
+ *
+ * In this page, I used to "Glide" for imageLoad.
+ *
+ */
 
 public class RetrofitMarvelAdapter extends RecyclerView.Adapter<RetrofitMarvelAdapter.ViewHolder> {
 
@@ -53,7 +59,7 @@ public class RetrofitMarvelAdapter extends RecyclerView.Adapter<RetrofitMarvelAd
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            marVelImageView = itemView.findViewById(R.id.mavel_image);
+            marVelImageView = itemView.findViewById(R.id.marvel_image);
         }
     }
 }

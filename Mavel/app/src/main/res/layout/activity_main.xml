@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:text="MavelStudio"
+                android:text="Marvel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -36,38 +36,89 @@
 
 
         <!-- Second Layout -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/marvel_linearLayout"
-            android:orientation="vertical"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:fillViewport="true"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:textColor="@color/white"
-                android:layout_margin="20dp"
-                android:textSize="15sp"
-                android:text="Tranding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <!-- Mavel Image RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/marvel_rec"
-                android:layout_margin="20dp"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/marvel_linearLayout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <!-- Headline Layout -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <!-- Indicator -->
-            <me.relex.circleindicator.CircleIndicator2
-                android:layout_gravity="center"
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                app:ci_animator="@animator/scale_with_alpha"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
+                        android:layout_margin="20dp"
+                        android:textSize="15sp"
+                        android:text="Marvel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/first_text"
+                            android:layout_marginRight="30dp"
+                            android:textColor="@color/white"
+                            android:text="처음으로"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <!-- Marvel RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/marvel_rec"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <!-- Indicator -->
+                <me.relex.circleindicator.CircleIndicator2
+                    android:layout_gravity="center"
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    app:ci_animator="@animator/scale_with_alpha"/>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:textSize="15dp"
+                    android:layout_margin="20dp"
+                    android:textColor="@color/white"
+                    android:text="Avengers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <!-- Popular Movie RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_margin="10dp"
+                    android:id="@+id/avengers_rec"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/avengers_title"
+                    android:text="avengers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

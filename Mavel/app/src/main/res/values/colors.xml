@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Custom Color -->
-    <color name="mainToolbarColor">#242526</color>
+    <color name="mainToolbarColor">#18191A</color>
     <color name="mainBackgroundColor">#222222</color>
 </resources>
