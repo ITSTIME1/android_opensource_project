@@ -1,4 +1,4 @@
-# Android OpenCloneSource
+# Android Clonesource
 Hi guys, Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
 so you can see only written java code projects.
@@ -54,7 +54,7 @@ I recommed you to read all.
 	-	MVVM
 	
 - **Network**
-	- Retrofit
+	- Retrofit2
 	- OkHttp
 	
 - **Database**
@@ -69,6 +69,11 @@ I recommed you to read all.
 	- etc..
 - **Design**
 	- Figma
+- **OpenSourceLibrary**
+	- Glide
+	- Gson
+	- CircleIndicator
+	- etc..
 
 # How to use it ?
 If you want to using your project or practice basic branch or can local repository download.
