@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/mainBackgroundColor"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -19,14 +19,14 @@
 
         <!-- Head ToolBar -->
         <androidx.appcompat.widget.Toolbar
-            android:background="@color/black"
+            android:background="@color/mainToolbarColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_gravity="center"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@color/white"
                 android:text="MavelStudio"
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
 
         <!-- Second Layout -->
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/mavel_linearLayout"
+            android:id="@+id/marvel_linearLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -45,14 +45,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:textColor="@color/white"
                 android:layout_margin="20dp"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:text="Tranding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <!-- Mavel Image RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mavel_rec"
+                android:id="@+id/marvel_rec"
                 android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -64,7 +64,8 @@
                 android:layout_gravity="center"
                 android:id="@+id/indicator"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="48dp"
+                app:ci_animator="@animator/scale_with_alpha"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

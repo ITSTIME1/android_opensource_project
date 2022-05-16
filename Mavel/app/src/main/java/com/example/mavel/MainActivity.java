@@ -1,30 +1,55 @@
 package com.example.mavel;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.MavelImageAdapter;
+import adapters.RetrofitMarvelAdapter;
+import constants.Constants;
 import me.relex.circleindicator.CircleIndicator2;
-import me.relex.circleindicator.CircleIndicator3;
-import model.MavelRecItemModel;
+import model.Result;
+import request.TBDMMarvelService;
+import request.TBDMRetrofitClient;
+import response.MarvelResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
+/**
+ * [MainActivity]
+ *
+ * This can be show "Marvel Movie List"
+ * I used "Retrofit2", "Gson", "RecyclerView"
+ * I have something to tell you.
+ * If you want to using the content of this project
+ * Before you start this project, you have to change "API_KEY"
+ * The "API_KEY" is in the "Constants" file.
+ *
+ * If you want to change BASE_URL no problem.
+ */
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private List<MavelRecItemModel> mavelRecItemModelList;
-    private MavelImageAdapter mavelImageAdapter;
+    private RecyclerView marvelRec;
+    private RetrofitMarvelAdapter retrofitMarvelAdapter;
+    private List<Result> resultList;
+    private MarvelResponse marvelResponse;
+
     private CircleIndicator2 circleIndicator2;
     private PagerSnapHelper pagerSnapHelper;
     private RecyclerViewDecoration recyclerViewDecoration;
+    private TBDMMarvelService tbdmMarvelService;
+    private TBDMRetrofitClient tbdmRetrofitClient;
 
 
     @Override
@@ -32,37 +57,56 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.mavel_rec);
-
-
-        circleIndicator2 = findViewById(R.id.indicator);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-        recyclerViewDecoration = new RecyclerViewDecoration( recyclerView.getWidth() / 2);
-        recyclerView.addItemDecoration(recyclerViewDecoration);
-
-        mavelRecItemModelList = new ArrayList<>();
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-        mavelRecItemModelList.add(new MavelRecItemModel(R.drawable.mavelimage1));
-
-
-        mavelImageAdapter = new MavelImageAdapter(mavelRecItemModelList);
-        recyclerView.setAdapter(mavelImageAdapter);
-
-        pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(recyclerView);
-        circleIndicator2.attachToRecyclerView(recyclerView, pagerSnapHelper);
+        initialize();
 
 
 
-
-        recyclerView.setHasFixedSize(true);
     }
 
+
+    /**
+     * [Initialize Reference]
+     */
+    public void initialize() {
+        marvelRec = findViewById(R.id.marvel_rec);
+        marvelRec.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        recyclerViewDecoration = new RecyclerViewDecoration(120);
+        marvelRec.addItemDecoration(recyclerViewDecoration);
+        circleIndicator2 = findViewById(R.id.indicator);
+
+
+
+        tbdmMarvelService = tbdmRetrofitClient.getInstance().create(TBDMMarvelService.class);
+        Call<MarvelResponse> call = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "marvel", 1);
+
+        call.enqueue(new Callback<MarvelResponse>() {
+            @Override
+            public void onResponse(Call<MarvelResponse> call, Response<MarvelResponse> response) {
+                if(response.body() != null) {
+                    try {
+                        marvelResponse = response.body();
+                        resultList = marvelResponse.getResults();
+                        retrofitMarvelAdapter = new RetrofitMarvelAdapter(resultList, getApplicationContext());
+
+                        marvelRec.setAdapter(retrofitMarvelAdapter);
+
+                        pagerSnapHelper.attachToRecyclerView(marvelRec);
+                        circleIndicator2.attachToRecyclerView(marvelRec, pagerSnapHelper);
+
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MarvelResponse> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+
+
+    }
 
 
     // ** HomeHolRec 아이템 간격 조정 **
