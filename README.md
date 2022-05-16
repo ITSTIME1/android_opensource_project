@@ -3,6 +3,9 @@ Hi guys, Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
 so you can see only written java code projects.
 
+# Sanpshot
+
+
 # What It has skils ?
 These repository is "basic level" so basically I used it in combination.
 Each other has flow annotation so if you want to know these flow.
