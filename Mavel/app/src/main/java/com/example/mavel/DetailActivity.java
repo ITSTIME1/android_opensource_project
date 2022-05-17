@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
 
 /**
@@ -34,7 +35,6 @@ public class DetailActivity extends AppCompatActivity {
 
         init();
         getIntentData();
-
 
     }
 
@@ -77,6 +77,14 @@ public class DetailActivity extends AppCompatActivity {
         detailPopularity.setText(Double.toString(detail_popularity_data));
     }
 
+    /**
+     * [Animator Library]
+     */
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Animatoo.animateZoom(this); //fire the slide left animation
+    }
 
 }
 

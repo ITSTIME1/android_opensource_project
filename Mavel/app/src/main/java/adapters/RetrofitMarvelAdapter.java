@@ -2,6 +2,7 @@ package adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
 import com.example.mavel.DetailActivity;
 import com.example.mavel.R;
@@ -94,6 +96,10 @@ public class RetrofitMarvelAdapter extends RecyclerView.Adapter<RetrofitMarvelAd
 
                         view.getContext().startActivity(detailIntent);
 
+                        /**
+                         * [Animator Transition]
+                         */
+                        Animatoo.animateZoom(view.getContext());
                     }
                 }
             });

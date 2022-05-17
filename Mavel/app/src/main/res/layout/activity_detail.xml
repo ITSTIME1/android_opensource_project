@@ -21,73 +21,82 @@
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="horizontal"
+
+            <!-- Detail MovieTitle -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:maxEms="8"
+                android:gravity="start"
+                android:id="@+id/detail_title"
+                android:maxLines="@integer/material_motion_duration_long_1"
+                android:textColor="@color/white"
+                android:layout_margin="20dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="MovieTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText"/>
+
+            <!-- Detail Average -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_average"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:textColor="@color/detailTextColor"
+                android:text="8.3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
-                <!-- Detail MovieTitle -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail_title"
-                    android:textColor="@color/white"
-                    android:layout_margin="20dp"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    android:text="MovieTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:ignore="HardcodedText" />
-
-                <!-- Detail Average -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail_average"
-                    android:textStyle="bold"
-                    android:textSize="28sp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="right"
-                    android:layout_gravity="center"
-                    android:textColor="@color/detailTextColor"
-                    android:text="8.3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="HardcodedText,RtlHardcoded" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- Detail Release Date Time -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail_releaseDateTime"
-                    android:layout_marginLeft="20dp"
-                    android:text="2012-04-25"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:ignore="HardcodedText,RtlHardcoded"/>
-
-                <!-- Detail Popularity -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail_popularity"
-                    android:layout_marginRight="20dp"
-                    android:gravity="right"
-                    android:textColor="@color/white"
-                    android:text="331.823"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="HardcodedText,RtlHardcoded" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_margin="20dp"
+            android:background="@color/mainBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Detail Release Date Time -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_releaseDateTime"
+                android:layout_marginLeft="20dp"
+                android:text="2012-04-25"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
+
+            <!-- Detail Popularity -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_popularity"
+                android:layout_marginRight="20dp"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:text="331.823"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_margin="20dp"
+            android:background="@color/mainBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_marginTop="14dp"
