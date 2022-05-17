@@ -1,15 +1,28 @@
 package com.example.mavel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.List;
+import java.util.Random;
 
 import adapters.RetrofitMarvelAdapter;
 import adapters.RetrofitMarvelAvengersAdapter;
@@ -54,18 +67,43 @@ public class MainActivity extends AppCompatActivity {
     private TextView firstTextView;
 
 
+    private final int randomPageNumberList = new Random().nextInt();
+    private int replacePageNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        /**
+         * [Validate PageNumber]
+         *
+         * because I used to Random().nextInt() :)
+         */
+        validatePageNumberList(randomPageNumberList);
+
+
         initialize();
+
+
         getMovieList();
         getAvengersList();
         firstTextView();
+        searchMovie();
+
 
     }
 
+    public void validatePageNumberList(int randomPageNumberList){
+        if(randomPageNumberList <= 5) {
+            replacePageNumber = randomPageNumberList;
+        } else {
+            replacePageNumber = 1;
+        }
+
+    }
 
     /**
      * [Initialize Reference]
@@ -88,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void getMovieList(){
         tbdmMarvelService = TBDMRetrofitClient.getInstance().create(TBDMMarvelService.class);
-        Call<MarvelResponse> call = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "marvel", 1);
+        Call<MarvelResponse> call = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "marvel", replacePageNumber);
 
         call.enqueue(new Callback<MarvelResponse>() {
             @Override
@@ -126,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void getAvengersList() {
         tbdmMarvelService = TBDMRetrofitClient.getInstance().create(TBDMMarvelService.class);
-        Call<MarvelResponse> avengersCall = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "avengers", 1);
+        Call<MarvelResponse> avengersCall = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, "avengers", replacePageNumber);
 
         avengersCall.enqueue(new Callback<MarvelResponse>() {
             @Override
@@ -153,6 +191,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * [Search Query Method]
+     * @param query
+     * @param pageNumber
+     */
+    public void getSearchQuery(String query, int pageNumber) {
+        Call<MarvelResponse> querySearch = tbdmMarvelService.getMarvelMovieList(Constants.API_KEY, query, pageNumber);
+        querySearch.enqueue(new Callback<MarvelResponse>() {
+            @Override
+            public void onResponse(Call<MarvelResponse> call, Response<MarvelResponse> response) {
+                if(response.body() != null) {
+                    try {
+                        marvelResponse = response.body();
+                        resultList2 = marvelResponse.getResults();
+                        retrofitMarvelAvengersAdapter = new RetrofitMarvelAvengersAdapter(resultList2, getApplicationContext());
+                        marvelAvengersRec.setAdapter(retrofitMarvelAvengersAdapter);
+                        marvelAvengersRec.setHasFixedSize(true);
+                        marvelAvengersRec.setNestedScrollingEnabled(true);
+                    }catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MarvelResponse> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+    }
+
+    /**
+     * [Go to first moveList]
+     */
     public void firstTextView(){
         firstTextView = findViewById(R.id.first_text);
         firstTextView.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +236,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * [Query Search]
+     */
+    public void searchMovie(){
+        final SearchView searchView = findViewById(R.id.item_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query != null) {
+                    getSearchQuery(query, replacePageNumber);
+                } else {
+                    getSearchQuery("avengers", replacePageNumber);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+    }
 
     /**
      * [RecyclerView change width class]
@@ -182,4 +279,7 @@ public class MainActivity extends AppCompatActivity {
             outRect.right = divWidth;
         }
     }
+
+
+
 }

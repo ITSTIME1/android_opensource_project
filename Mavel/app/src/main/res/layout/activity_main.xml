@@ -17,27 +17,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints">
 
-        <!-- Head ToolBar -->
-        <androidx.appcompat.widget.Toolbar
-            android:background="@color/mainToolbarColor"
+        <!-- Head AppBar -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_gravity="center"
-                android:textSize="22sp"
-                android:textColor="@color/white"
-                android:text="Marvel"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.Toolbar
+                android:background="@color/mainToolbarColor"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
-
-        </androidx.appcompat.widget.Toolbar>
+                app:menu="@menu/search_view"
+                app:titleTextColor="@color/white"
+                app:title="Marvel"
+                tools:ignore="MissingConstraints"/>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <!-- Second Layout -->
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/mainActivity"
             android:layout_width="match_parent"
             android:fillViewport="true"
             android:layout_height="match_parent">
