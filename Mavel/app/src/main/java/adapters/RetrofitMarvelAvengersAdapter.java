@@ -94,7 +94,7 @@ public class RetrofitMarvelAvengersAdapter extends RecyclerView.Adapter<Retrofit
 
                         view.getContext().startActivity(detailIntent);
 
-                        /**
+                        /*
                          * [Animator Transition]
                          */
                         Animatoo.animateZoom(view.getContext());

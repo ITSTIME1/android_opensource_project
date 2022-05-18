@@ -24,6 +24,8 @@ import model.Result;
  * [RetrofitMarvelAdapter]
  *
  * In this page, I used to "Glide" for imageLoad.
+ * and DetailMainActivity get datas from MainActivity.
+ *
  *
  */
 
@@ -67,6 +69,7 @@ public class RetrofitMarvelAdapter extends RecyclerView.Adapter<RetrofitMarvelAd
 
             /*
              * [itemView Click Listener]
+             *
              */
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
