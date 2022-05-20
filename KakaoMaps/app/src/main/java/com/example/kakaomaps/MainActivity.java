@@ -2,6 +2,7 @@ package com.example.kakaomaps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -30,8 +31,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private ActivityMainBinding activityMainBinding;
-    private RelativeLayout relativeLayout;
     private MapView mapView;
 
     @Override
@@ -40,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        getHashKey();
+        getKeyHash(this);
+        Log.e("getKeyHash", ""+getKeyHash(MainActivity.this));
 
         mapView = new MapView(this);
-        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
+        RelativeLayout mapViewContainer = findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
     }
@@ -52,25 +54,25 @@ public class MainActivity extends AppCompatActivity {
     /**
      * [Get key hash]
      */
-    private void getHashKey(){
-        PackageInfo packageInfo = null;
+    public static String getKeyHash(final Context context) {
+        PackageManager pm = context.getPackageManager();
         try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            if (packageInfo == null)
+                return null;
+
+            for (Signature signature : packageInfo.signatures) {
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if (packageInfo == null)
-            Log.e("KeyHash", "KeyHash:null");
-
-        assert packageInfo != null;
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
+        return null;
     }
 }
