@@ -6,19 +6,31 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+
 import com.example.playground.databinding.ActivityMainBinding;
 
-import Model.Test;
 
 public class MainActivity extends AppCompatActivity {
+
     private ActivityMainBinding activityMainBinding;
-    private final Test test = new Test();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        activityMainBinding.
+
+        Test test = new Test("바뀌기 전 텍스트");
+
+        activityMainBinding.testingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityMainBinding.testingID.setText("왠만해선 안그러죠");
+            }
+        });
+
+
+
     }
 }

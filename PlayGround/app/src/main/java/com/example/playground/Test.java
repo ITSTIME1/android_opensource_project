@@ -1,9 +1,10 @@
-package Model;
+package com.example.playground;
 
 public class Test {
     private String name;
 
-    public Test() {
+    public Test(String name) {
+        this.name = name;
     }
 
     public String getName() {
