@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import com.example.kakaomaps.databinding.ActivityMainBinding;
 
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.security.MessageDigest;
@@ -39,14 +41,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(activityMainBinding.getRoot());
+        RelativeLayout activityRoot = activityMainBinding.getRoot();
+        setContentView(activityRoot);
 
         getKeyHash(this);
         Log.e("getKeyHash", ""+getKeyHash(MainActivity.this));
 
         mapView = new MapView(this);
-        RelativeLayout mapViewContainer = findViewById(R.id.map_view);
+        RelativeLayout mapViewContainer = activityRoot;
         mapViewContainer.addView(mapView);
+
+        MapPOIItem marker = new MapPOIItem();
+        marker.setItemName("Default Marker");
+        marker.setTag(0);
+        marker.setMapPoint(MARKER_POINT);
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+        mapView.addPOIItem(marker);
+
 
     }
 
