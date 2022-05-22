@@ -1,10 +1,10 @@
-# Android Clone Opensource
+# Android Opensource Project
 Hi guys, Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
 so you can see only written java code projects.
 
 # Sanpshot
-<img src="https://user-images.githubusercontent.com/88642524/168735040-5cffc9d0-6f07-4c3c-8403-cd623565f012.gif" width="30%" height="30%">
+
 
 
 # What It has skils ?
