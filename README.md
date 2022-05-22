@@ -4,7 +4,8 @@ There's some android applications for java that's mean I only used java language
 so you can see only written java code projects.
 
 # Sanpshot
-<img src="https://user-images.githubusercontent.com/88642524/168735040-5cffc9d0-6f07-4c3c-8403-cd623565f012.gif" width="30%" height="30%">
+<img src="https://user-images.githubusercontent.com/88642524/168735040-5cffc9d0-6f07-4c3c-8403-cd623565f012.gif" width="60%" height="60%"><img src="https://user-images.githubusercontent.com/88642524/169692872-d7bc66ce-721b-4cd5-a8a3-82b3ef6604cc.gif" width="35%" height="35%">
+
 
 
 # What It has skils ?
