@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding activityMainBinding;
+    private ActivityMainBinding mainBinding;
     private List<DataModel> dataModelList;
 
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // layout connect
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         populateData();
     }
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             TestRecyclerAdapter testRecyclerAdapter = new TestRecyclerAdapter(dataModelList, this);
-            activityMainBinding.setTestingAdapter(testRecyclerAdapter);
+            mainBinding.setTestingAdapter(testRecyclerAdapter);
         }
 
     }
