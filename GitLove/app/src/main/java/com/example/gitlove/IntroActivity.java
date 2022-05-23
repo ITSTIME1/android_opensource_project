@@ -8,6 +8,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
+import Interface.StatusBarBuildVersionCheck;
 
 
 /**
@@ -16,14 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
  * I use "custom splashscreen" because when it excute not showing AnimatedIcon.
  * so I found it's problem android studio so Google might be investigation.
  */
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends AppCompatActivity implements StatusBarBuildVersionCheck {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
+        com.example.gitlove.databinding.ActivityIntroBinding activityIntroBinding =
+                DataBindingUtil.setContentView(this, R.layout.activity_intro);
 
-        StatusBarBuildVersionCheck();
+        statusBarBuildVersionCheck();
 
         /*
          * [Firebase LoginUser Check]
@@ -42,7 +46,7 @@ public class IntroActivity extends AppCompatActivity {
      * It's want to change "status bar color" completely transparent.
      */
     @SuppressLint("ObsoleteSdkInt")
-    private void StatusBarBuildVersionCheck(){
+    public void statusBarBuildVersionCheck(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
