@@ -1,5 +1,6 @@
 package com.example.gitlove;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import Interface.StatusBarBuildVersionCheck;
+import Interface.SystemBarBuildVersionCheck;
 
 
 /**
@@ -19,7 +20,7 @@ import Interface.StatusBarBuildVersionCheck;
  * I use "custom splashscreen" because when it excute not showing AnimatedIcon.
  * so I found it's problem android studio so Google might be investigation.
  */
-public class IntroActivity extends AppCompatActivity implements StatusBarBuildVersionCheck {
+public class IntroActivity extends AppCompatActivity implements SystemBarBuildVersionCheck {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +53,22 @@ public class IntroActivity extends AppCompatActivity implements StatusBarBuildVe
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
     }
+
+
+    @Override
+    public void statusBarBottomNavigationBarBuildVersionCheck() {
+
+    }
+
+    @Override
+    public void statusBarBuildVersionCheckOnlyStatusBar() {
+
+    }
+
+    @Override
+    public void setWindowFlag(Activity activity, int bits, Boolean on) {
+    }
+
 
     /**
      * [StartLoading]
