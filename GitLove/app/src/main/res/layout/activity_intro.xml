@@ -10,12 +10,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:background="@color/black"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <pl.droidsonroids.gif.GifImageView
             android:src="@drawable/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingClass,MissingConstraints" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

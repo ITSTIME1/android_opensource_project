@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,8 +23,9 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints">
+
         </FrameLayout>
 
         <me.ibrahimsn.lib.SmoothBottomBar
@@ -33,12 +35,12 @@
             app:backgroundColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1"
             app:menu="@menu/bottom_menu"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints">
+        </me.ibrahimsn.lib.SmoothBottomBar>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

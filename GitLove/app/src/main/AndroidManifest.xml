@@ -9,7 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitLove">
         <activity android:name=".MainActivity"/>
-
         <activity android:name=".IntroActivity"
             android:exported="true">
         <intent-filter>

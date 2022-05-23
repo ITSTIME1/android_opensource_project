@@ -36,6 +36,9 @@ android {
 dependencies {
     //noinspection GradleDependency
     implementation ("androidx.core:core-splashscreen:1.0.0-beta01")
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
