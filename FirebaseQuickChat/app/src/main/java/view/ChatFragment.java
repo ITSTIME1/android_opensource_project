@@ -10,10 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
 import androidx.fragment.app.Fragment;
 
+import com.example.firebasequickchat.R;
 import com.example.firebasequickchat.databinding.FragmentChatBinding;
-
 import adapter.ChatRoomsAdapter;
 import model.ChatRoomModel;
+
+
+// @TODO fragment_chat need to declare to bind:item
 
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
@@ -26,12 +29,23 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding = FragmentChatBinding.inflate(inflater, container, false);
 
 
+
         chatRoomsAdapter = new ChatRoomsAdapter();
         chatRoomModelObservableArrayList = new ObservableArrayList<>();
-
-
         fragmentChatBinding.chatRoomRec.setAdapter(chatRoomsAdapter);
+        fragmentChatBinding.setChatRoomList(chatRoomModelObservableArrayList);
+
+        prepareMovieData();
+
+
         return fragmentChatBinding.getRoot();
+    }
+
+    private void prepareMovieData() {
+        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "ChatName", "2022.05.25"));
+        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "LoveName", "2022.05.25"));
+        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "StarName", "2022.05.25"));
+        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "MavleName", "2022.05.25"));
     }
 
     @Override
@@ -39,4 +53,5 @@ public class ChatFragment extends Fragment {
         super.onDestroy();
         fragmentChatBinding = null;
     }
+
 }

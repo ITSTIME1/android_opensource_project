@@ -1,5 +1,4 @@
 package com.example.firebasequickchat;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;

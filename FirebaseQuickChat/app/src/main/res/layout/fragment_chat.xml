@@ -10,7 +10,7 @@
 
         <!-- ChatVariable, type -->
         <variable
-            name="chat"
+            name="ChatRoomList"
             type="ObservableArrayList&lt;ChatRoomModel&gt;"/>
 
     </data>
@@ -76,11 +76,12 @@
 
         <!-- ChatRooms RecyclerView -->
         <!-- binding ChatRoomModel -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatRoom_Rec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            bind:item="@{chat}"
+            bind:item="@{ChatRoomList}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
