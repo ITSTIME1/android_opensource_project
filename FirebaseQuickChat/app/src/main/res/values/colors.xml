@@ -11,4 +11,6 @@
     <!-- Custom Application Color -->
     <color name="chatMainBackgroundColor">#1C202B</color>
     <color name="chatBottomNavigationColor">#292F3F</color>
+    <color name="chatSearchViewHitColor">#FFFFFF</color>
+    <color name="chatMenuTextColor">#0da2ff</color>
 </resources>

@@ -1,27 +1,19 @@
 package com.example.firebasequickchat;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupMenu;
-
 import com.example.firebasequickchat.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import Interface.StatusBarVersionCheck;
 import me.ibrahimsn.lib.SmoothBottomBar;
 import view.ChatFragment;
@@ -42,9 +34,9 @@ import view.SettingFragment;
 public class MainActivity extends AppCompatActivity implements StatusBarVersionCheck {
     private ActivityMainBinding activityMainBinding;
     private NavController navController;
-    private ChatFragment chatFragment = new ChatFragment();
-    private ContactsFragment contactsFragment = new ContactsFragment();
-    private SettingFragment settingFragment = new SettingFragment();
+    private final ChatFragment chatFragment = new ChatFragment();
+    private final ContactsFragment contactsFragment = new ContactsFragment();
+    private final SettingFragment settingFragment = new SettingFragment();
 
 
 
@@ -52,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarVersionC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
                 activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
         statusBarVersionCheck();
         bottomNavigationInit();
 
@@ -60,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarVersionC
     }
 
     /**
-     * [BottomNavigation Initialize ]
+     * [BottomNavigation Initialize]
      */
     public void bottomNavigationInit(){
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(activityMainBinding.navigationLayout.getId());
@@ -80,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements StatusBarVersionC
 
 
 
-
+    /**
+     * [StatusBar Version Check]
+     */
     @SuppressLint("ObsoleteSdkInt")
     @Override
     public void statusBarVersionCheck() {

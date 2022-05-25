@@ -7,9 +7,9 @@
     <item
         android:id="@+id/fragment_contacts"
         android:title="@string/bottom_contacts"
-        android:icon="@drawable/ic_chat_icon"/>
+        android:icon="@drawable/ic_contact"/>
     <item
         android:id="@+id/fragment_setting"
         android:title="@string/bottom_setting"
-        android:icon="@drawable/ic_chat_icon"/>
+        android:icon="@drawable/ic_setting"/>
 </menu>

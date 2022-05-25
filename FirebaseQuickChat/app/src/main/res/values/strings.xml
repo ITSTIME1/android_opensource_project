@@ -3,4 +3,6 @@
     <string name="bottom_chat">Chat</string>
     <string name="bottom_contacts">Contacts</string>
     <string name="bottom_setting">Setting</string>
+    <string name="FirebaseQuickChat">QuickChat</string>
+    <string name="CopyRight">Copyright 2022. (ITSTIME) all rights reserved.</string>
 </resources>
