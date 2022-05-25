@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+        <import type="androidx.databinding.ObservableArrayList"/>
+        <import type="model.ChatRoomModel"/>
+
+        <!-- ChatVariable, type -->
+        <variable
+            name="chat"
+            type="ObservableArrayList&lt;ChatRoomModel&gt;"/>
 
     </data>
 
@@ -67,10 +75,12 @@
 
 
         <!-- ChatRooms RecyclerView -->
+        <!-- binding ChatRoomModel -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_rec"
+            android:id="@+id/chatRoom_Rec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            bind:item="@{chat}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
