@@ -14,12 +14,12 @@
     <fragment
         android:id="@+id/fragment_contacts"
         android:label="fragment_contacts"
-        android:name="view.ChatFragment"
+        android:name="view.ContactsFragment"
         tools:layout="@layout/fragment_chat"/>
     <fragment
         android:id="@+id/fragment_setting"
         android:label="fragment_setting"
-        android:name="view.ChatFragment"
+        android:name="view.SettingFragment"
         tools:layout="@layout/fragment_chat"/>
 
 </navigation>

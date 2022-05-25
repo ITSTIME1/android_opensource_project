@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:text="SettingView"
             android:layout_width="wrap_content"
