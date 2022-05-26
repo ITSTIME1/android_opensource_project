@@ -2,14 +2,14 @@ package model;
 
 
 /**
- * [ChatRoom Model]
+ * [Favourite DataModel]
  */
 
 public class ChatRoomModel {
-    public int chatRoomImage;
-    int chatRoomStarImage;
-    String chatRoomName;
-    String chatRoomDate;
+    private int chatRoomImage;
+    private int chatRoomStarImage;
+    private String chatRoomName;
+    private String chatRoomDate;
 
     public ChatRoomModel(int chatRoomImage, int chatRoomStarImage, String chatRoomName, String chatRoomDate) {
         this.chatRoomImage = chatRoomImage;

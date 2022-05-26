@@ -1,5 +1,4 @@
 package view;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,11 @@ import adapter.ChatRoomsAdapter;
 import model.ChatRoomModel;
 
 
-// @TODO fragment_chat need to declare to bind:item
+// @TODO Bind Item ChatRoom2Model
+// @TODO Create ChatRoom2ModelAdapter
+// @TODO BindingAdapter
+// @TODO Add ObservableArrayList<ChatRoom2Model> in ChatFragment and then I have to set ChatRoom2ModelAdapter
+
 
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;

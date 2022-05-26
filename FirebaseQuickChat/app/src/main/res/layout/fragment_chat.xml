@@ -7,85 +7,123 @@
     <data>
         <import type="androidx.databinding.ObservableArrayList"/>
         <import type="model.ChatRoomModel"/>
+        <import type="model.ChatRoom2Model"/>
 
-        <!-- ChatVariable, type -->
+        <!-- Favourite Rooms -->
         <variable
             name="ChatRoomList"
             type="ObservableArrayList&lt;ChatRoomModel&gt;"/>
 
+        <!-- Chat Rooms -->
+        <variable
+            name="ChatRoomList2"
+            type="ObservableArrayList&lt;ChatRoom2Model&gt;" />
+
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:background="@color/chatMainBackgroundColor"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/chatMainBackgroundColor"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                app:collapsedTitleTextColor="@color/white"
-                app:expandedTitleTextColor="@color/white">
+                android:background="@color/chatMainBackgroundColor"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:collapsedTitleTextColor="@color/white"
+                    app:expandedTitleTextColor="@color/white"
+                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="QuickChat"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        app:layout_collapseMode="pin"
+                        app:menu="@menu/toolbar_menu" />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <androidx.appcompat.widget.SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="20dp"
+                    android:animateLayoutChanges="true"
+                    android:background="@drawable/chatsearch_bg"
+                    android:layoutDirection="rtl"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Search..."
+                    tools:ignore="RtlHardcoded" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:textColor="@color/white"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:text="QuickChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Favourite Rooms"
+                    android:textSize="17sp"
                     tools:ignore="HardcodedText" />
 
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_margin="8dp"
-                    android:id="@+id/toolbar"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:menu="@menu/toolbar_menu"
-                    app:layout_collapseMode="pin" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    android:layout_height="match_parent">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chatRoom_Rec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        bind:item="@{ChatRoomList}"
+                        tools:ignore="MissingConstraints,NotSibling"/>
 
-            <androidx.appcompat.widget.SearchView
-                android:layout_alignParentRight="true"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/chatsearch_bg"
-                android:layout_margin="20dp"
-                android:layoutDirection="rtl"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:iconifiedByDefault="false"
-                app:queryHint="Search..."
-                tools:ignore="RtlHardcoded"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_margin="20dp"
-                android:textSize="17sp"
-                android:text="ChatRooms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <!-- ChatRooms RecyclerView -->
-        <!-- binding ChatRoomModel -->
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatRoom_Rec"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            bind:item="@{ChatRoomList}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="ChatRooms"
+                        android:textSize="17sp"
+                        tools:ignore="HardcodedText" />
 
 
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chatRoom_Rec2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        tools:ignore="MissingConstraints,NotSibling"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
