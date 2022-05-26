@@ -9,9 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebasequickchat.R;
 import com.example.firebasequickchat.databinding.FragmentChatBinding;
+
 import adapter.ChatRoomsAdapter;
 import model.ChatRoomModel;
 
@@ -20,7 +23,6 @@ import model.ChatRoomModel;
 
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
-    private ChatRoomsAdapter chatRoomsAdapter;
     private ObservableArrayList<ChatRoomModel> chatRoomModelObservableArrayList;
 
     @Nullable
@@ -29,14 +31,12 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding = FragmentChatBinding.inflate(inflater, container, false);
 
 
-
-        chatRoomsAdapter = new ChatRoomsAdapter();
         chatRoomModelObservableArrayList = new ObservableArrayList<>();
+        prepareMovieData();
+        ChatRoomsAdapter chatRoomsAdapter = new ChatRoomsAdapter(chatRoomModelObservableArrayList, getContext());
+        fragmentChatBinding.chatRoomRec.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         fragmentChatBinding.chatRoomRec.setAdapter(chatRoomsAdapter);
         fragmentChatBinding.setChatRoomList(chatRoomModelObservableArrayList);
-
-        prepareMovieData();
-
 
         return fragmentChatBinding.getRoot();
     }
@@ -45,7 +45,7 @@ public class ChatFragment extends Fragment {
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "ChatName", "2022.05.25"));
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "LoveName", "2022.05.25"));
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "StarName", "2022.05.25"));
-        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "MavleName", "2022.05.25"));
+        chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "MaVelName", "2022.05.25"));
     }
 
     @Override

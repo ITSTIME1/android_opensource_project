@@ -18,9 +18,11 @@ import model.ChatRoomModel;
 
 public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.ChatRoomViewHolder> {
     private List<ChatRoomModel> chatRoomModelObservableArrayList;
+    private Context context;
 
-    public ChatRoomsAdapter(){
-        this.chatRoomModelObservableArrayList = new ArrayList<>();
+    public ChatRoomsAdapter(List<ChatRoomModel> chatRoomModelObservableArrayList, Context context) {
+        this.chatRoomModelObservableArrayList = chatRoomModelObservableArrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -52,7 +54,6 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.Chat
     }
 
     public class ChatRoomViewHolder extends RecyclerView.ViewHolder {
-
         ChatRoomsBinding chatRoomsBinding;
 
         public ChatRoomViewHolder(@NonNull ChatRoomsBinding chatRoomsBinding) {
@@ -61,7 +62,7 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.Chat
         }
 
         public void bind(ChatRoomModel chatRoomModel){
-            chatRoomsBinding.setVariable(BR.chatRoom, chatRoomModel);
+            chatRoomsBinding.setChatRoom(chatRoomModel);
         }
     }
 }
