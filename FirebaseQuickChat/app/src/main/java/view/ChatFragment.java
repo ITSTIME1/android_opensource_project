@@ -14,19 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebasequickchat.R;
 import com.example.firebasequickchat.databinding.FragmentChatBinding;
 
+import adapter.ChatRoom2Adapter;
 import adapter.ChatRoomsAdapter;
+import model.ChatRoom2Model;
 import model.ChatRoomModel;
 
-
-// @TODO Bind Item ChatRoom2Model
-// @TODO Create ChatRoom2ModelAdapter
-// @TODO BindingAdapter
-// @TODO Add ObservableArrayList<ChatRoom2Model> in ChatFragment and then I have to set ChatRoom2ModelAdapter
 
 
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
     private ObservableArrayList<ChatRoomModel> chatRoomModelObservableArrayList;
+    private ObservableArrayList<ChatRoom2Model> chatRoom2ModelObservableArrayList;
 
     @Nullable
     @Override
@@ -35,10 +33,20 @@ public class ChatFragment extends Fragment {
 
 
         chatRoomModelObservableArrayList = new ObservableArrayList<>();
+        chatRoom2ModelObservableArrayList = new ObservableArrayList<>();
+
         prepareMovieData();
+        prepareMovieData2();
+
         ChatRoomsAdapter chatRoomsAdapter = new ChatRoomsAdapter(chatRoomModelObservableArrayList, getContext());
+        ChatRoom2Adapter chatRoom2Adapter = new ChatRoom2Adapter(chatRoom2ModelObservableArrayList, getContext());
+
         fragmentChatBinding.chatRoomRec.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentChatBinding.chatRoomRec2.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
         fragmentChatBinding.chatRoomRec.setAdapter(chatRoomsAdapter);
+        fragmentChatBinding.chatRoomRec2.setAdapter(chatRoom2Adapter);
+
         fragmentChatBinding.setChatRoomList(chatRoomModelObservableArrayList);
 
         return fragmentChatBinding.getRoot();
@@ -49,6 +57,23 @@ public class ChatFragment extends Fragment {
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "LoveName", "2022.05.25"));
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "StarName", "2022.05.25"));
         chatRoomModelObservableArrayList.add(new ChatRoomModel(R.drawable.chatrooms, R.drawable.ic_empty_star, "MaVelName", "2022.05.25"));
+    }
+
+    private void prepareMovieData2() {
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
+        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
     }
 
     @Override

@@ -10,11 +10,13 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <!-- Horizontal Context -->
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:background="@color/chatMainBackgroundColor"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,7 +44,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/chat2_profileName"
                         android:textSize="20sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:text="@{chatRoom2.chatRoom2ProfileName}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

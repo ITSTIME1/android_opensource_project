@@ -110,12 +110,11 @@
                         tools:ignore="HardcodedText" />
 
 
-
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/chatRoom_Rec2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        bind:item="@{ChatRoomList2}"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         tools:ignore="MissingConstraints,NotSibling"/>
 
