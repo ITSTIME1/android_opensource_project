@@ -48,6 +48,7 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding.chatRoomRec2.setAdapter(chatRoom2Adapter);
 
         fragmentChatBinding.setChatRoomList(chatRoomModelObservableArrayList);
+        fragmentChatBinding.setChatRoomList2(chatRoom2ModelObservableArrayList);
 
         return fragmentChatBinding.getRoot();
     }
@@ -70,10 +71,8 @@ public class ChatFragment extends Fragment {
         chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
         chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
         chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
-        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
         chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
         chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
-        chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));chatRoom2ModelObservableArrayList.add(new ChatRoom2Model(R.drawable.group, "HongTaeSun", "Hello Sir", "2022.05.27", "5"));
     }
 
     @Override

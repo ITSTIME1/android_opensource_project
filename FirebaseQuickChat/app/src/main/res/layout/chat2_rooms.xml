@@ -26,7 +26,8 @@
                 android:layout_marginRight="10dp"
                 android:src="@{chatRoom2.chatRoom2Image}"
                 android:layout_width="70dp"
-                android:layout_height="70dp"/>
+                android:layout_height="70dp"
+                tools:ignore="RtlHardcoded" />
 
             <!-- Vertical Context -->
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,6 +53,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/chat2_date"
+                        android:textColor="@color/white"
                         android:layout_marginRight="10dp"
                         android:gravity="end"
                         android:text="@{chatRoom2.chatRoom2Date}"
@@ -67,6 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
                         android:id="@+id/chat2_message"
                         android:text="@{chatRoom2.chatRoom2Message}"
                         android:layout_width="wrap_content"
