@@ -9,11 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.firebasequickchat.databinding.FragmentContactsBinding;
-
 public class ContactsFragment extends Fragment {
     private FragmentContactsBinding fragmentContactsBinding;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

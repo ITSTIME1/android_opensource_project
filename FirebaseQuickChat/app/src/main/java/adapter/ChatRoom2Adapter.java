@@ -38,9 +38,10 @@ public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.Chat
     void setItem(ObservableArrayList<ChatRoom2Model> chatRoom2Models) {
         if(chatRoom2Models == null) {
             return;
+        } else {
+            this.chatRoom2ModelList = chatRoom2Models;
+            notifyDataSetChanged();
         }
-        this.chatRoom2ModelList = chatRoom2Models;
-        notifyDataSetChanged();
     }
 
 

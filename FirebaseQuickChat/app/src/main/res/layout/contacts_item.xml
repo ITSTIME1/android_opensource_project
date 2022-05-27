@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="contactsItem"
+            type="model.ContactsModel"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/chatMainBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                tools:ignore="MissingConstraints">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@{contactsItem.contactsImageView}"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="28sp"
+                        android:textColor="@color/white"
+                        android:text="@{contactsItem.contactsProfileName}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@{contactsItem.contactsDescription}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>
