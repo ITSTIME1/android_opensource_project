@@ -39,7 +39,6 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:textSize="20sp"
                         android:textColor="@color/white"
                         android:text="@{contactsItem.contactsProfileName}"
                         android:layout_width="wrap_content"
@@ -48,8 +47,8 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center_vertical"
-                        android:textSize="14sp"
                         android:textColor="@color/chatContactDescriptionColor"
                         android:text="@{contactsItem.contactsDescription}"
                         android:layout_width="wrap_content"

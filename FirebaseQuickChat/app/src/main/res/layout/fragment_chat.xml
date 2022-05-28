@@ -92,14 +92,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="Favourite Rooms"
-                    android:textSize="17sp"
-                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="Favourite Rooms"
+                        android:textSize="17sp"
+                        tools:ignore="HardcodedText" />
+
+
+                    <!-- Edit, Align Include -->
+                    <include layout="@layout/edit_align_include_layout"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chatRoom_Rec"
@@ -109,17 +121,30 @@
                     bind:item="@{ChatRoomList}"
                     tools:ignore="MissingConstraints,NotSibling"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="ChatRooms"
-                    android:textSize="17sp"
-                    tools:ignore="HardcodedText" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="ChatRooms"
+                        android:textSize="17sp"
+                        tools:ignore="HardcodedText" />
+
+
+                    <!-- Edit, Align Include -->
+                    <include layout="@layout/edit_align_include_layout"/>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chatRoom_Rec2"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:item="@{ChatRoomList2}"

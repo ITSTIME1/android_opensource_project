@@ -28,11 +28,12 @@
                     android:layout_marginRight="10dp"
                     android:src="@{chatRoom2.chatRoom2Image}"
                     android:layout_width="60dp"
-                    android:layout_height="60dp"/>
+                    android:layout_height="60dp"
+                    tools:ignore="RtlHardcoded" />
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -53,6 +54,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/chat2_date"
                             android:gravity="end"
+                            android:layout_marginRight="10dp"
                             android:textColor="@color/white"
                             android:text="@{chatRoom2.chatRoom2Date}"
                             android:layout_width="match_parent"
@@ -69,31 +71,30 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/chat2_message"
+                            android:layout_marginTop="5dp"
                             android:textColor="@color/chatContactDescriptionColor"
                             android:text="@{chatRoom2.chatRoom2Message}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="250dp"
+                            android:gravity="center"
+                            android:layout_marginRight="10dp"
                             android:id="@+id/chat2_chatCount"
-                            android:gravity="end"
                             android:text="@{chatRoom2.chatRoom2Count}"
-                            android:textColor="@color/chatMenuTextColor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                            android:textColor="@color/white"
+                            android:background="@drawable/chat_count_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="RtlHardcoded" />
 
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
