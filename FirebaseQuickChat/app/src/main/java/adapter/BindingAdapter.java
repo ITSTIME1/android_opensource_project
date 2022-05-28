@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import model.ChatRoom2Model;
 import model.ChatRoomModel;
+import model.ContactsModel;
 
 
 /**
@@ -25,6 +26,14 @@ public class BindingAdapter {
         ChatRoom2Adapter chatRoom2Adapter =(ChatRoom2Adapter) recyclerView.getAdapter();
         if (chatRoom2Adapter != null) {
             chatRoom2Adapter.setItem(chatRoom2ModelObservableArrayList);
+        }
+    }
+
+    @androidx.databinding.BindingAdapter("bind:item")
+    public static void bindItem3(RecyclerView recyclerView, ObservableArrayList<ContactsModel> contactsModelObservableArrayList) {
+        ContactsAdapter contactsAdapter =(ContactsAdapter) recyclerView.getAdapter();
+        if (contactsAdapter != null) {
+            contactsAdapter.setItem(contactsModelObservableArrayList);
         }
     }
 

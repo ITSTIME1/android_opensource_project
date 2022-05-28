@@ -12,11 +12,11 @@ import model.ChatRoom2Model;
 
 
 public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.ChatRoom2ViewHolder> {
-    ObservableArrayList<ChatRoom2Model> chatRoom2ModelList;
+    ObservableArrayList<ChatRoom2Model> chatRoom2ModelObservableArrayList;
     Context context;
 
     public ChatRoom2Adapter(ObservableArrayList<ChatRoom2Model> chatRoom2ModelList, Context context) {
-        this.chatRoom2ModelList = chatRoom2ModelList;
+        this.chatRoom2ModelObservableArrayList = chatRoom2ModelList;
         this.context = context;
     }
 
@@ -29,7 +29,7 @@ public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.Chat
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoom2Adapter.ChatRoom2ViewHolder holder, int position) {
-        ChatRoom2Model chatRoom2Model = chatRoom2ModelList.get(position);
+        ChatRoom2Model chatRoom2Model = chatRoom2ModelObservableArrayList.get(position);
         holder.bind(chatRoom2Model);
     }
 
@@ -39,7 +39,7 @@ public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.Chat
         if(chatRoom2Models == null) {
             return;
         } else {
-            this.chatRoom2ModelList = chatRoom2Models;
+            this.chatRoom2ModelObservableArrayList = chatRoom2Models;
             notifyDataSetChanged();
         }
     }
@@ -47,7 +47,7 @@ public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.Chat
 
     @Override
     public int getItemCount() {
-        return chatRoom2ModelList.size();
+        return chatRoom2ModelObservableArrayList.size();
     }
 
     public class ChatRoom2ViewHolder extends RecyclerView.ViewHolder {

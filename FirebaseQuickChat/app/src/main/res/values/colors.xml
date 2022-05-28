@@ -13,4 +13,5 @@
     <color name="chatBottomNavigationColor">#292F3F</color>
     <color name="chatSearchViewHitColor">#FFFFFF</color>
     <color name="chatMenuTextColor">#0da2ff</color>
+    <color name="chatContactDescriptionColor">#808080</color>
 </resources>

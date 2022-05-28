@@ -9,8 +9,9 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@color/chatMainBackgroundColor"
@@ -18,12 +19,12 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 tools:ignore="MissingConstraints">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:src="@{contactsItem.contactsImageView}"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -38,7 +39,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:textSize="28sp"
+                        android:textSize="20sp"
                         android:textColor="@color/white"
                         android:text="@{contactsItem.contactsProfileName}"
                         android:layout_width="wrap_content"
@@ -48,8 +49,8 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:textSize="20sp"
-                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textColor="@color/chatContactDescriptionColor"
                         android:text="@{contactsItem.contactsDescription}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
