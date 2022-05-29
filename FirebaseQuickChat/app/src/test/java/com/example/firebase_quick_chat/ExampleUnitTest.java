@@ -1,4 +1,4 @@
-package com.example.firebasequickchat;
+package com.example.firebase_quick_chat;
 
 import org.junit.Test;
 

@@ -1,14 +1,18 @@
 package adapter;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.firebasequickchat.databinding.Chat2RoomsBinding;
-import model.ChatRoom2Model;
 
+
+import com.example.firebase_quick_chat.databinding.Chat2RoomsBinding;
+
+import model.ChatRoom2Model;
 
 
 public class ChatRoom2Adapter extends RecyclerView.Adapter<ChatRoom2Adapter.ChatRoom2ViewHolder> {

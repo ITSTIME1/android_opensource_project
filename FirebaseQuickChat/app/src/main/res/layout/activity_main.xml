@@ -6,7 +6,7 @@
     <data>
         <variable
             name="MainDataBinding"
-            type="com.example.firebasequickchat.MainActivity" />
+            type="com.example.firebase_quick_chat.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.example.firebasequickchat;
+package com.example.firebase_quick_chat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupMenu;
-import com.example.firebasequickchat.databinding.ActivityMainBinding;
+
+
+import com.example.firebase_quick_chat.databinding.ActivityMainBinding;
+
 import Interface.StatusBarVersionCheck;
 import me.ibrahimsn.lib.SmoothBottomBar;
 import view.ChatFragment;

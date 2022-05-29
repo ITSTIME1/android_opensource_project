@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.firebasequickchat.R;
-import com.example.firebasequickchat.databinding.FragmentChatBinding;
+
+import com.example.firebase_quick_chat.R;
+import com.example.firebase_quick_chat.databinding.FragmentChatBinding;
 
 import adapter.ChatRoom2Adapter;
 import adapter.ChatRoomsAdapter;

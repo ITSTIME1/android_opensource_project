@@ -2,16 +2,12 @@ package adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.firebasequickchat.BR;
-import com.example.firebasequickchat.databinding.ChatRoomsBinding;
+import com.example.firebase_quick_chat.databinding.ChatRoomsBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.ChatRoomModel;

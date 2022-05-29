@@ -3,6 +3,8 @@
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
+        google()  // Google's Maven repository
+
     }
     dependencies {
         def nav_version = "2.4.2"

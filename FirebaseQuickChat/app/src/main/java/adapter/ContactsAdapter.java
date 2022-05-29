@@ -3,19 +3,17 @@ package adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.firebasequickchat.databinding.ContactsItemBinding;
+import com.example.firebase_quick_chat.databinding.ContactsItemBinding;
+
 
 import java.util.List;
 
-import model.ChatRoom2Model;
 import model.ContactsModel;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {

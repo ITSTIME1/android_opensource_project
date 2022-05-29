@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.firebasequickchat.databinding.FragmentOnboardBinding;
 
+import com.example.firebase_quick_chat.databinding.FragmentOnboardBinding;
 
 
 
