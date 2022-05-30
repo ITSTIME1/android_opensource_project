@@ -86,7 +86,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/register_move_toLogin"
             android:text="로그인 페이지"
-            android:onClick="@{register::click}"
+            android:onClick="@{register::onClickText}"
             android:textColor="@color/black"
             android:textStyle="normal"
             android:elevation="0dp"

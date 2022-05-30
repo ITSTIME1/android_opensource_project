@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.firebasequickchat"
+        applicationId "com.example.firebase_quick_chat"
         minSdk 28
         targetSdk 31
         versionCode 1
@@ -51,3 +51,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
