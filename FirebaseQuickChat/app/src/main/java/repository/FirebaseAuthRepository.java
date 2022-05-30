@@ -48,7 +48,7 @@ public class FirebaseAuthRepository {
      * @param email 이메일을 EditText 에서 입력된 값을 가져와서 넣어준다.
      * @param password 패스워드를 EditText 에서 입력된 값을 가져와서 넣어준다.
      */
-    public void firebaseLogin(String email, String password) {
+    public void firebaseLoginProcess(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(application.getMainExecutor(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -64,11 +64,11 @@ public class FirebaseAuthRepository {
 
     /**
      * [Firebase Register Method]
-     * @param email
-     * @param password
+     * @param email 회원가입 화면에서 EditText 에서 작성한 값을 받아서 가져온다.
+     * @param password 회원가입 화면에서 EditText 에서 작성한 값을 받아서 가져온다.
      */
 
-    public void firebaseRegister(String email, String password) {
+    public void firebaseRegisterProcess(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(application.getMainExecutor(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -85,7 +85,7 @@ public class FirebaseAuthRepository {
     /**
      * [Firebase LogOut]
      */
-    public void logOut(){
+    public void logOutProcess(){
         firebaseAuth.signOut();
         // 로그아웃 상태가 활성화 되었다고 알려준다.
         booleanMutableLiveData.postValue(true);

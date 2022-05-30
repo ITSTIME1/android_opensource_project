@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintVertical_bias="0.8"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintVertical_bias="0.87"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -104,13 +104,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="HardcodedText" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/login_forgotPassword"
-            android:gravity="right"
+            android:gravity="end"
             android:text="비밀번호 찾기"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText,RtlHardcoded" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

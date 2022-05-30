@@ -2,33 +2,45 @@ package view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 
 import com.example.firebase_quick_chat.R;
 import com.example.firebase_quick_chat.databinding.ActivityRegisterBinding;
 
 import Interface.StatusBarVersionCheck;
 
+
 // @TODO Authentication 구현
 // @TODO Real-Timebase 연동
-public class RegisterActivity extends AppCompatActivity implements StatusBarVersionCheck {
 
+
+public class RegisterActivity extends AppCompatActivity implements StatusBarVersionCheck {
     private ActivityRegisterBinding activityRegisterBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+        activityRegisterBinding.setRegister(this);
+
     }
+
+    public void click(View view){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
 
     @SuppressLint("ObsoleteSdkInt")
     @Override
@@ -62,4 +74,5 @@ public class RegisterActivity extends AppCompatActivity implements StatusBarVers
         }
         win.setAttributes(winParams);
     }
+
 }

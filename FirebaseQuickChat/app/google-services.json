@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1012125357515",
+    "project_id": "fir-quickchat-34aad",
+    "storage_bucket": "fir-quickchat-34aad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012125357515:android:af490088b1fbb7f19cd24e",
+        "android_client_info": {
+          "package_name": "com.example.firebase_quick_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012125357515-526o3pq661b7dvu7vmp0f7qr8m13u115.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB21Qvt6dyML4L3agBIgEIkT4MRjtYNWZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012125357515-526o3pq661b7dvu7vmp0f7qr8m13u115.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012125357515:android:57705ec59f9855349cd24e",
+        "android_client_info": {
+          "package_name": "com.example.firebasequickchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012125357515-526o3pq661b7dvu7vmp0f7qr8m13u115.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB21Qvt6dyML4L3agBIgEIkT4MRjtYNWZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012125357515-526o3pq661b7dvu7vmp0f7qr8m13u115.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
