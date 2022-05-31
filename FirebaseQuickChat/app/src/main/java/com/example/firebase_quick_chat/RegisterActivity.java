@@ -1,44 +1,30 @@
-package view;
-
+package com.example.firebase_quick_chat;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
-import com.example.firebase_quick_chat.R;
 import com.example.firebase_quick_chat.databinding.ActivityRegisterBinding;
-
 import Interface.StatusBarVersionCheck;
-
-
-// @TODO Authentication 구현
-// @TODO Real-Timebase 연동
-
+import view.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity implements StatusBarVersionCheck {
-    private ActivityRegisterBinding activityRegisterBinding;
-
-
+    ActivityRegisterBinding activityRegisterBinding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
 
+
     }
 
-    public void onClickText(View view) {
-        System.out.println("CLick complete");
-        Log.d("TAG", "click");
-    }
+
 
 
 
