@@ -5,21 +5,44 @@
 
     <data>
         <variable
-            name="activity"
-            type="com.example.firebase_chat_basic.MainActivity" />
-
+            name="mainActivity"
+            type="com.example.firebase_chat_basic.view.activity.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:background="@color/white"
+        tools:context=".view.activity.MainActivity">
 
-        <Button
-            android:text="눌러봐"
-            android:onClick="@{activity::onClick}"
-            android:layout_width="wrap_content"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:menu="@menu/bottom_menu"
+            tools:ignore="MissingConstraints">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">firebase_chat_basic</string>
+    <string name="chatName">Chat</string>
+    <string name="chatContact">Contact</string>
+    <string name="chatSetting">Setting</string>
 </resources>

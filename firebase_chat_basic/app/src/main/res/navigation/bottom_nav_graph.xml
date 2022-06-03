@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/chat_home"
+    tools:ignore="InvalidNavigation">
+
+    <fragment
+        android:id="@+id/chat_contact"
+        android:name="com.example.firebase_chat_basic.view.fragment.ContactFragment"
+        android:label="chat_contact"/>
+
+    <fragment
+        android:id="@+id/chat_home"
+        android:name="com.example.firebase_chat_basic.view.fragment.ChatFragment"
+        android:label="chat_home"/>
+
+    <fragment
+        android:id="@+id/chat_setting"
+        android:name="com.example.firebase_chat_basic.view.fragment.SettingFragment"
+        android:label="chat_setting"/>
+
+</navigation>
