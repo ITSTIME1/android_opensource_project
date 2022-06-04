@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 
+
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
     @Nullable

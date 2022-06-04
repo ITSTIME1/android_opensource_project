@@ -6,12 +6,12 @@
         android:title="@string/chatName"/>
 
     <item
-        android:id="chat_contact"
+        android:id="@+id/chat_contact"
         android:icon="@drawable/ic_chat_contact"
         android:title="@string/chatContact"/>
 
     <item
-        android:id="chat_setting"
+        android:id="@+id/chat_setting"
         android:icon="@drawable/ic_chat_setting"
         android:title="@string/chatSetting"/>
 </menu>
