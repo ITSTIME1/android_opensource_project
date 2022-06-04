@@ -54,19 +54,44 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.chat_home:
                         activityMainBinding.viewPager.setCurrentItem(0);
+
                         break;
                     case R.id.chat_contact:
                         activityMainBinding.viewPager.setCurrentItem(1);
+
                         break;
                     case R.id.chat_setting:
                         activityMainBinding.viewPager.setCurrentItem(2);
+
                         break;
                 }
                 return true;
             }
         });
 
+        activityMainBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if(position == 0){
+                    activityMainBinding.bottomNavigation.setSelectedItemId(R.id.chat_home);
+                } else if (position == 1) {
+                    activityMainBinding.bottomNavigation.setSelectedItemId(R.id.chat_contact);
+                } else if (position == 2) {
+                    activityMainBinding.bottomNavigation.setSelectedItemId(R.id.chat_setting);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
 
 
 
