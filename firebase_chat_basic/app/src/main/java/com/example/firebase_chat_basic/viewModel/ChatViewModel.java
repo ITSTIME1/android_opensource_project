@@ -2,13 +2,15 @@ package com.example.firebase_chat_basic.viewModel;
 
 import android.annotation.SuppressLint;
 
+import androidx.lifecycle.ViewModel;
+
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatViewModel {
+public class ChatViewModel extends ViewModel {
     private List<ChatModel> chatModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
 

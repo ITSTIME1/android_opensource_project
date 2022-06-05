@@ -32,6 +32,7 @@
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:menu="@menu/toolbar_menu"
                     app:layout_collapseMode="pin">
                     <TextView
                         android:textSize="20sp"
