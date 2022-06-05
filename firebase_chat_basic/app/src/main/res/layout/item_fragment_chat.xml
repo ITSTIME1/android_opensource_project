@@ -1,48 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <data>
+        <variable
+            name="chatViewModel"
+            type="com.example.firebase_chat_basic.viewModel.ChatViewModel"/>
+        <variable
+            name="pos"
+            type="Integer"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/chat_profile_image"
-            android:src="@drawable/circle_image"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:civ_border_color="@color/chatMainBackgroundColor"
-            app:civ_border_width="1dp"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/chat_name"
-                android:textSize="20sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/item_fragment_chat_title"
+            <!-- 일단 고정 -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_gravity="center"
+                android:id="@+id/chat_profile_image"
+                android:src="@drawable/circle_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:civ_border_color="@color/chatMainBackgroundColor"
+                app:civ_border_width="1dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/chat_name"
+                    android:textSize="20sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@{chatViewModel.getTitle(pos)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
-            <TextView
-                android:id="@+id/chat_content"
-                android:textSize="12sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/item_fragment_chat_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/chat_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@{chatViewModel.getContent(pos)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

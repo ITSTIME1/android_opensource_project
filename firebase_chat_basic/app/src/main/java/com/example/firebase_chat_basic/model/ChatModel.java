@@ -5,37 +5,28 @@ package com.example.firebase_chat_basic.model;
  * [ChatModel]
  */
 public class ChatModel {
-    int chatImageViewId;
-    String chatNameViewId;
-    String chatContentViewId;
+    String chatNameView;
+    String chatContentView;
 
-    public ChatModel(int chatImageViewId, String chatNameViewId, String chatContentViewId) {
-        this.chatImageViewId = chatImageViewId;
-        this.chatNameViewId = chatNameViewId;
-        this.chatContentViewId = chatContentViewId;
+    public ChatModel(String chatNameView, String chatContentView) {
+        this.chatNameView = chatNameView;
+        this.chatContentView = chatContentView;
     }
 
-    public int getChatImageViewId() {
-        return chatImageViewId;
+    public String getChatNameView() {
+        return chatNameView;
     }
 
-    public void setChatImageViewId(int chatImageViewId) {
-        this.chatImageViewId = chatImageViewId;
+    public void setChatNameView(String chatNameView) {
+        this.chatNameView = chatNameView;
     }
 
-    public String getChatNameViewId() {
-        return chatNameViewId;
+    public String getChatContentView() {
+        return chatContentView;
     }
 
-    public void setChatNameViewId(String chatNameViewId) {
-        this.chatNameViewId = chatNameViewId;
-    }
-
-    public String getChatContentViewId() {
-        return chatContentViewId;
-    }
-
-    public void setChatContentViewId(String chatContentViewId) {
-        this.chatContentViewId = chatContentViewId;
+    public void setChatContentView(String chatContentView) {
+        this.chatContentView = chatContentView;
     }
 }
+
