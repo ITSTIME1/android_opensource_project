@@ -24,28 +24,46 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-
+/*
+@TODO MVVM Pattern Connect
+@TODO Fragment Design
+*/
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
-    private ViewPagerAdapter viewPagerAdapter;
-    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-    private ChatFragment chatFragment = new ChatFragment();
-    private ContactFragment contactFragment = new ContactFragment();
-    private SettingFragment settingFragment = new SettingFragment();
+    private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    private final ChatFragment chatFragment = new ChatFragment();
+    private final ContactFragment contactFragment = new ContactFragment();
+    private final SettingFragment settingFragment = new SettingFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initAdapter();
+        initNavigationListener();
 
+    }
+
+    /**
+     * [Adapter Initialize]
+     */
+    public void initAdapter(){
         fragmentArrayList.add(chatFragment);
         fragmentArrayList.add(contactFragment);
         fragmentArrayList.add(settingFragment);
 
-        viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
-
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
         activityMainBinding.viewPager.setAdapter(viewPagerAdapter);
+        // 상태유지
+        activityMainBinding.viewPager.setOffscreenPageLimit(fragmentArrayList.size());
 
+    }
+
+
+    /**
+     * [BottomNavigation & ViewPager2 clickListener]
+     */
+    public void initNavigationListener(){
         activityMainBinding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
@@ -92,15 +110,5 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
-
-
-
     }
-
-    public void onClick(View view) {
-        Toast.makeText(this, "데이터 바인딩 테스트", Toast.LENGTH_SHORT).show();
-    }
-
-
-
 }

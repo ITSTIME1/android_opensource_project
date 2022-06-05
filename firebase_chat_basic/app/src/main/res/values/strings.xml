@@ -3,4 +3,9 @@
     <string name="chatName">Chat</string>
     <string name="chatContact">Contact</string>
     <string name="chatSetting">Setting</string>
+    <string name="fragment_chat_title">Chat</string>
+    <string name="fragment_contact_title">Contact</string>
+    <string name="fragment_setting_title">Setting</string>
+    <string name="item_fragment_chat_title">HongTaeSun</string>
+    <string name="item_fragment_chat_content">fjwaeoifjawoievnwaoievbnwaawoievnwaoe</string>
 </resources>
