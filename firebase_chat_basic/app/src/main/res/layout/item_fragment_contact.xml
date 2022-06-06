@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="chatViewModel"
-            type="com.example.firebase_chat_basic.viewModel.ChatViewModel"/>
-        <variable
-            name="pos"
-            type="Integer"/>
-
     </data>
 
     <androidx.cardview.widget.CardView
@@ -25,7 +18,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_marginStart="10dp"
                 android:layout_gravity="center"
-                android:id="@+id/chat_profile_image"
+                android:id="@+id/contact_profile_image"
                 android:src="@drawable/circle_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -40,26 +33,24 @@
 
                 <TextView
                     android:textColor="@color/black"
-                    android:id="@+id/chat_name"
+                    android:id="@+id/contact_name"
                     android:textSize="18sp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
-                    android:text="@{chatViewModel.getTitle(pos)}"
+                    android:text="HongTaeSun"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
 
                 <TextView
-                    android:textColor="@color/chatMainBackgroundColor"
-                    android:id="@+id/chat_content"
+                    android:textColor="@color/chatItemDividerColor"
+                    android:id="@+id/contact_content"
                     android:textSize="12sp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@{chatViewModel.getContent(pos)}"
+                    android:text="010-9775-4185"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -3,6 +3,8 @@ package com.example.firebase_chat_basic.model;
 
 /**
  * [ChatModel]
+ *
+ * profileImage, userName, userContent
  */
 public class ChatModel {
     String chatNameView;

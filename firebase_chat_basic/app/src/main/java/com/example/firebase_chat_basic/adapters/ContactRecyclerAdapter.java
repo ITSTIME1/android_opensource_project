@@ -1,16 +1,26 @@
 package com.example.firebase_chat_basic.adapters;
-
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.firebase_chat_basic.databinding.ItemFragmentContactBinding;
+import com.example.firebase_chat_basic.viewModel.ContactViewModel;
+
+
+
 
 public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.CustomContactViewHolder> {
+    private ContactViewModel contactViewModel;
+
+    public ContactRecyclerAdapter(ContactViewModel contactViewModel) {
+        this.contactViewModel = contactViewModel;
+    }
+
     @NonNull
     @Override
     public ContactRecyclerAdapter.CustomContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        ItemFragmentContactBinding itemFragmentContactBinding = ItemFragmentContactBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new CustomContactViewHolder(itemFragmentContactBinding);
     }
 
     @Override
@@ -24,8 +34,10 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
     }
 
     public class CustomContactViewHolder extends RecyclerView.ViewHolder {
-        public CustomContactViewHolder(@NonNull View itemView) {
-            super(itemView);
+        ItemFragmentContactBinding itemFragmentContactBinding;
+        public CustomContactViewHolder(@NonNull ItemFragmentContactBinding itemFragmentContactBinding) {
+            super(itemFragmentContactBinding.getRoot());
+            this.itemFragmentContactBinding = itemFragmentContactBinding;
         }
     }
 }

@@ -4,13 +4,14 @@ import android.annotation.SuppressLint;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatViewModel extends ViewModel {
+public class ChatViewModel extends ViewModel implements BaseInterface {
     private List<ChatModel> chatModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
 
@@ -19,13 +20,15 @@ public class ChatViewModel extends ViewModel {
             chatModelList = new ArrayList<>();
             chatRecyclerAdapter = new ChatRecyclerAdapter(this);
         }
-        initChatModelList();
+        initRetrofit();
     }
 
     /**
-     * @TODO TEST
+     * @TODO Retrofit Firebase Connect
      */
-    public void initChatModelList(){
+    @Override
+    public void initRetrofit() {
+        BaseInterface.super.initRetrofit();
         chatModelList.add(new ChatModel("HongTaeSun", "Welcome To my firebase quick chat project"));
         chatModelList.add(new ChatModel( "HongTaeSun", "Welcome To my firebase quick chat project"));
         chatModelList.add(new ChatModel( "HongTaeSun", "Welcome To my firebase quick chat project"));
@@ -36,8 +39,6 @@ public class ChatViewModel extends ViewModel {
         chatModelList.add(new ChatModel( "HongTaeSun", "Welcome To my firebase quick chat project"));
         chatModelList.add(new ChatModel( "HongTaeSun", "Welcome To my firebase quick chat project"));
     }
-
-
 
     @SuppressLint("NotifyDataSetChanged")
     public void onCreate(){
