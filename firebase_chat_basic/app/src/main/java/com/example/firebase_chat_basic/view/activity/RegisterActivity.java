@@ -1,5 +1,7 @@
 package com.example.firebase_chat_basic.view.activity;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -18,6 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
-
+        activityRegisterBinding.setRegisterViewModel(registerViewModel);
     }
+
 }
