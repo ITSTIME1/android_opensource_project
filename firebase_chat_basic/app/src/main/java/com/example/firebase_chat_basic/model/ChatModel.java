@@ -9,6 +9,7 @@ package com.example.firebase_chat_basic.model;
 public class ChatModel {
     String chatNameView;
     String chatContentView;
+    String chatDateView;
 
     public ChatModel(String chatNameView, String chatContentView) {
         this.chatNameView = chatNameView;

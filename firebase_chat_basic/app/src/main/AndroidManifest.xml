@@ -9,16 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebase_chat_basic">
-        <activity
-            android:name=".view.activity.MainActivity"
+        <activity android:name=".view.activity.MainActivity"/>
+        <activity android:name=".view.activity.SplashActivity"/>
+        <activity android:name=".view.activity.RegisterActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER/"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.SplashActivity"/>
     </application>
 
 </manifest>
