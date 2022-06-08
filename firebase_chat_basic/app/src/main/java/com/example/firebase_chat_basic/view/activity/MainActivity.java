@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +25,30 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-/*
-@TODO MVVM Pattern Connect
-@TODO Fragment Design
-*/
+/**
+ * [MainActivity]
+ *
+ * MIT License
+ * Copyright (c) 2022 ITSTIME
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
@@ -35,18 +56,18 @@ public class MainActivity extends AppCompatActivity {
     private final ContactFragment contactFragment = new ContactFragment();
     private final SettingFragment settingFragment = new SettingFragment();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         initAdapter();
         initNavigationListener();
-
+        getDataFromRegisterActivity();
     }
 
-    /**
-     * [Adapter Initialize]
-     */
+    // adapter init
     public void initAdapter(){
         fragmentArrayList.add(chatFragment);
         fragmentArrayList.add(contactFragment);
@@ -60,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * [BottomNavigation & ViewPager2 clickListener]
-     */
+    // bottomNavigation click listener
     public void initNavigationListener(){
         activityMainBinding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -110,5 +129,30 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+    }
+
+    // get data from "RegisterActivity"
+    public void getDataFromRegisterActivity(){
+        Intent mainActivityIntent = getIntent();
+        String clientName = mainActivityIntent.getStringExtra("clientName");
+        String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
+        String clientPassword = mainActivityIntent.getStringExtra("clientPassword");
+
+        System.out.println("=============================");
+        System.out.println("MainActivity - succeeded");
+        System.out.println(clientName);
+        System.out.println(clientEmail);
+        System.out.println(clientPassword);
+        System.out.println("=============================");
+
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("clientName", clientName);
+        bundle.putString("clientEmail", clientEmail);
+        bundle.putString("clientPassword", clientPassword);
+
+        chatFragment.setArguments(bundle);
+
     }
 }

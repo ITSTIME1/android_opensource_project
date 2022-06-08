@@ -12,30 +12,37 @@ import androidx.fragment.app.Fragment;
 
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
-import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
-/**
- * @TODO ChatModel need to implementation "DATE" and "Alert Count"
- * @TODO Contacts "RecyclerView" and "Adapter" and "Contact ItemModel & Item"
- * @TODO Setting Fragment
- */
+
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
-    private ChatViewModel chatViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        init();
+        getData();
         return fragmentChatBinding.getRoot();
     }
 
-    public void init(){
-        chatViewModel = new ChatViewModel();
-        chatViewModel.onCreate();
 
-        fragmentChatBinding.setChatFragmentViewModel(chatViewModel);
-        fragmentChatBinding.setLifecycleOwner(this);
+
+    // get data from "RegisterActivity"
+    public void getData(){
+
+        Bundle bundle = getArguments();
+
+        if(bundle != null) {
+            String clientName = bundle.getString("clientName");
+            String clientEmail = bundle.getString("clientEmail");
+            String clientPassword = bundle.getString("clientPassword");
+
+            System.out.println("=============================");
+            System.out.println("ChatFragment - succeeded");
+            System.out.println(clientName);
+            System.out.println(clientEmail);
+            System.out.println(clientPassword);
+            System.out.println("=============================");
+        }
     }
 }
