@@ -29,7 +29,7 @@ public class ChatFragment extends Fragment {
         getDataFromMainActivity();
 
         chatViewModel = new ChatViewModel(clientUUID);
-        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+//        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         fragmentChatBinding.setChatViewModel(chatViewModel);
 
         return fragmentChatBinding.getRoot();
@@ -50,6 +50,7 @@ public class ChatFragment extends Fragment {
             String clientName = bundle.getString("clientName");
             String clientEmail = bundle.getString("clientEmail");
             String clientPassword = bundle.getString("clientPassword");
+            String clientProfileImage = bundle.getString("clientProfileImage");
             clientUUID = bundle.getString("clientUUID");
 
             System.out.println("=============================");
@@ -58,6 +59,7 @@ public class ChatFragment extends Fragment {
             System.out.println(clientEmail);
             System.out.println(clientPassword);
             System.out.println(clientUUID);
+            System.out.println(clientProfileImage);
             System.out.println("=============================");
         }
     }

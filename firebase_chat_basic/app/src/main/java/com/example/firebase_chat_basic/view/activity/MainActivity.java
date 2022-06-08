@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
         String clientPassword = mainActivityIntent.getStringExtra("clientPassword");
         String clientUUID = mainActivityIntent.getStringExtra("clientUUID");
+        String clientProfileImage = mainActivityIntent.getStringExtra("clientProfileImage");
 
         System.out.println("=============================");
         System.out.println("MainActivity - succeeded");
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(clientEmail);
         System.out.println(clientPassword);
         System.out.println(clientUUID);
+        System.out.println(clientProfileImage);
         System.out.println("=============================");
 
 
@@ -154,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("clientEmail", clientEmail);
         bundle.putString("clientPassword", clientPassword);
         bundle.putString("clientUUID", clientUUID);
+        bundle.putString("clientProfileImage", clientProfileImage);
 
         chatFragment.setArguments(bundle);
 

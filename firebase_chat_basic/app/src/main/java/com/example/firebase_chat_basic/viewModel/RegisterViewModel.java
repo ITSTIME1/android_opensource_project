@@ -61,19 +61,20 @@ public class RegisterViewModel extends ViewModel{
         String checkName = getRegisterName.getValue();
         String checkEmail = getRegisterEmail.getValue();
         String checkPassword = getRegisterPassword.getValue();
+        String checkProfileImage = getProfileImage.getValue();
+
+        if(checkProfileImage == null) checkProfileImage = "Default";
+
 
         // uuid create
         UUID uuid = UUID.randomUUID();
-
-        // image url
-        String checkProfile = getProfileImage.getValue();
-
 
         // into stringArrayList
         stringArrayList.add(checkName);
         stringArrayList.add(checkEmail);
         stringArrayList.add(checkPassword);
         stringArrayList.add(uuid.toString());
+        stringArrayList.add(checkProfileImage);
 
         // stringArrayList into getDataList
         getDataList.setValue(stringArrayList);
@@ -82,6 +83,8 @@ public class RegisterViewModel extends ViewModel{
         if(checkName == null || checkEmail == null || checkPassword == null) {
             System.out.println("값이 없어");
         } else {
+            String finalCheckProfileImage = checkProfileImage;
+
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,7 +99,7 @@ public class RegisterViewModel extends ViewModel{
                         databaseReference.child("users").child(uuid.toString()).child("password").setValue(checkPassword);
 
                         // first profile picture default
-                        databaseReference.child("users").child(checkName).child("profileImage").setValue("");
+                        databaseReference.child("users").child(uuid.toString()).child("profileImage").setValue(finalCheckProfileImage);
                     }
                 }
 

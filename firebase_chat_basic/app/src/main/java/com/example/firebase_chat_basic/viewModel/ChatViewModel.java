@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class ChatViewModel extends ViewModel {
     private ArrayList<ChatListModel> chatListModelArrayList;
+    private ChatListModel chatListModel;
     private DatabaseReference databaseReference;
     private ChatRecyclerAdapter chatRecyclerAdapter;
 
@@ -43,6 +44,11 @@ public class ChatViewModel extends ViewModel {
                 final String getId = snapshot.getKey();
 
                 if(!getId.equals(getUUID)) {
+                    String getName = snapshot.child("name").getValue(String.class);
+//                    String getProfileImage = snapshot.child("");
+//
+//                    // model connect
+//                    chatListModel = new ChatListModel(getName, );
 
                 }
 
