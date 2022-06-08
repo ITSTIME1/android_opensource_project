@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
             registerIntent.putExtra("clientName", registerData.get(0));
             registerIntent.putExtra("clientEmail", registerData.get(1));
             registerIntent.putExtra("clientPassword", registerData.get(2));
+            registerIntent.putExtra("clientUUID", registerData.get(3));
 
             if(registerData.get(0) == null && registerData.get(1) == null && registerData.get(2) == null) {
                 System.out.println("Null");
@@ -64,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             System.out.println(registerData.get(0).toString());
             System.out.println(registerData.get(1).toString());
             System.out.println(registerData.get(2).toString());
+            System.out.println(registerData.get(3).toString());
             System.out.println("=============================");
         });
 

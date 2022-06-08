@@ -73,6 +73,7 @@ public class RegisterViewModel extends ViewModel{
         stringArrayList.add(checkName);
         stringArrayList.add(checkEmail);
         stringArrayList.add(checkPassword);
+        stringArrayList.add(uuid.toString());
 
         // stringArrayList into getDataList
         getDataList.setValue(stringArrayList);
@@ -89,7 +90,7 @@ public class RegisterViewModel extends ViewModel{
                     } else {
 
                         // dataBase insert userdata
-                        // checkName == uid
+                        // create randomUUID
                         databaseReference.child("users").child(uuid.toString()).child("email").setValue(checkEmail);
                         databaseReference.child("users").child(uuid.toString()).child("name").setValue(checkName);
                         databaseReference.child("users").child(uuid.toString()).child("password").setValue(checkPassword);

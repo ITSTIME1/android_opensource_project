@@ -137,12 +137,14 @@ public class MainActivity extends AppCompatActivity {
         String clientName = mainActivityIntent.getStringExtra("clientName");
         String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
         String clientPassword = mainActivityIntent.getStringExtra("clientPassword");
+        String clientUUID = mainActivityIntent.getStringExtra("clientUUID");
 
         System.out.println("=============================");
         System.out.println("MainActivity - succeeded");
         System.out.println(clientName);
         System.out.println(clientEmail);
         System.out.println(clientPassword);
+        System.out.println(clientUUID);
         System.out.println("=============================");
 
 
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("clientName", clientName);
         bundle.putString("clientEmail", clientEmail);
         bundle.putString("clientPassword", clientPassword);
+        bundle.putString("clientUUID", clientUUID);
 
         chatFragment.setArguments(bundle);
 

@@ -16,11 +16,17 @@ public class ChatViewModel extends ViewModel {
     private DatabaseReference databaseReference;
     private ChatRecyclerAdapter chatRecyclerAdapter;
 
-    public ChatViewModel() {
+    private final String getUUID;
+
+    public ChatViewModel(String getUUID) {
+        this.getUUID = getUUID;
+
+        System.out.println(this.getUUID + "잘 들어왔어");
+
         if(chatListModelArrayList == null) {
             chatListModelArrayList = new ArrayList<>();
         }
-        getDataFromRealtimeBase();
+//        getDataFromRealtimeBase();
     }
 
     // 1. realTimeDatabase 에서 유저 정보를 가져온다.
@@ -28,12 +34,17 @@ public class ChatViewModel extends ViewModel {
 
 
     // @TODO 데이터 연결.
+    // @TODO 데이터 이쪽으로 받아야됨.
 
     public void getDataFromRealtimeBase(){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String getId = snapshot.getKey();
 
+                if(!getId.equals(getUUID)) {
+
+                }
 
 
             }
