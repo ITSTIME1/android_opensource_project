@@ -5,6 +5,9 @@
     xmlns:bind="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="chatViewModel"
+            type="com.example.firebase_chat_basic.viewModel.ChatViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -48,6 +51,7 @@
             android:id="@+id/chat_room_rec"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            bind:chatAdapter="@{chatViewModel.chatRecyclerAdapter}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </androidx.recyclerview.widget.RecyclerView>

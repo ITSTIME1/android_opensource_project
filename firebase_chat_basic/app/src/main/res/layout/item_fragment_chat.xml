@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="itemChatViewModel"
+            type="com.example.firebase_chat_basic.viewModel.ChatViewModel"/>
+
+        <variable
+            name="pos"
+            type="int"/>
 
     </data>
 
@@ -21,7 +28,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_gravity="center"
                 android:id="@+id/chat_profile_image"
-                android:src="@drawable/circle_image"
+                android:src="@{itemChatViewModel.getProfileImage(pos)}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:civ_border_color="@color/chatMainBackgroundColor"
@@ -29,7 +36,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_margin="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -43,7 +50,7 @@
                         android:id="@+id/chat_name"
                         android:textSize="18sp"
                         android:layout_marginStart="10dp"
-                        android:text="HongTaeSun"
+                        android:text="@{itemChatViewModel.getName(pos)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -52,7 +59,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="10dp"
                         android:gravity="right"
-                        android:text="2022-06-07"
+                        android:text="@{itemChatViewModel.getDate(pos)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:ignore="RtlHardcoded" />
@@ -69,7 +76,7 @@
                         android:id="@+id/chat_content"
                         android:textSize="12sp"
                         android:layout_marginStart="10dp"
-                        android:text="Hello What are you doing ?"
+                        android:text="@{itemChatViewModel.getContent(pos)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -80,7 +87,7 @@
                         android:id="@+id/chat_count"
                         android:layout_marginEnd="10dp"
                         android:layout_gravity="center"
-                        android:text="5"
+                        android:text="@{itemChatViewModel.getCount(pos)}"
                         android:layout_width="20dp"
                         android:layout_height="20dp"/>
 
