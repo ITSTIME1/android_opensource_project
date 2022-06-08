@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * [RegisterViewModel]
@@ -38,6 +39,7 @@ public class RegisterViewModel extends ViewModel{
     public MutableLiveData<String> getRegisterName = new MutableLiveData<>();
     public MutableLiveData<String> getRegisterEmail = new MutableLiveData<>();
     public MutableLiveData<String> getRegisterPassword = new MutableLiveData<>();
+    public MutableLiveData<String> getProfileImage = new MutableLiveData<>();
 
 
     // MutableLiveData list
@@ -60,6 +62,12 @@ public class RegisterViewModel extends ViewModel{
         String checkEmail = getRegisterEmail.getValue();
         String checkPassword = getRegisterPassword.getValue();
 
+        // uuid create
+        UUID uuid = UUID.randomUUID();
+
+        // image url
+        String checkProfile = getProfileImage.getValue();
+
 
         // into stringArrayList
         stringArrayList.add(checkName);
@@ -81,9 +89,13 @@ public class RegisterViewModel extends ViewModel{
                     } else {
 
                         // dataBase insert userdata
-                        databaseReference.child("users").child("clientName").setValue(checkName);
-                        databaseReference.child("users").child("clientEmail").setValue(checkEmail);
-                        databaseReference.child("users").child("clientPassword").setValue(checkPassword);
+                        // checkName == uid
+                        databaseReference.child("users").child(uuid.toString()).child("email").setValue(checkEmail);
+                        databaseReference.child("users").child(uuid.toString()).child("name").setValue(checkName);
+                        databaseReference.child("users").child(uuid.toString()).child("password").setValue(checkPassword);
+
+                        // first profile picture default
+                        databaseReference.child("users").child(checkName).child("profileImage").setValue("");
                     }
                 }
 
