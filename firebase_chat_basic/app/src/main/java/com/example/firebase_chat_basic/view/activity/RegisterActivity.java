@@ -1,4 +1,5 @@
 package com.example.firebase_chat_basic.view.activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -21,5 +22,29 @@ public class RegisterActivity extends AppCompatActivity {
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         activityRegisterBinding.setRegisterViewModel(registerViewModel);
+
+        observerIntent();
+    }
+
+    // The method is intentMethod for MainActivity.class
+    // Get data from "datList" in the "RegisterViewModel"
+    // Then, this method is deliver to "MainActivity"
+
+    public void observerIntent(){
+        registerViewModel.getDataList.observe(this, registerData -> {
+            Intent registerIntent = new Intent(this, MainActivity.class);
+            registerIntent.putExtra("clientName", registerData.get(0));
+            registerIntent.putExtra("clientEmail", registerData.get(1));
+            registerIntent.putExtra("clientPassword", registerData.get(2));
+            startActivity(registerIntent);
+            finish();
+
+            System.out.println(registerData.get(0).toString());
+            System.out.println(registerData.get(1).toString());
+            System.out.println(registerData.get(2).toString());
+
+            System.out.println("전부 잘 들어갔어요");
+        });
+
     }
 }

@@ -1,25 +1,37 @@
 package com.example.firebase_chat_basic.viewModel;
-
-import android.content.Intent;
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.firebase_chat_basic.databinding.ActivityRegisterBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+/**
+ * [RegisterViewModel]
+ *
+ *
+ * 1.
+ * The class is "ViewModel Class" for RegisterActivity.
+ * This includes "RealTimeDatabase", "MutableLiveData", "MutableLivedata<List<String>>".
+ *
+ * 2.
+ * If client is push "Register Button" and then get data from editText.getText() in "activity_register.xml".
+ * and then data is insert to "RealTimeDatabase" after going thorough a lot of conditions.
+ *
+ * 3.
+ * If the process all succeeded, In the RegisterActivity, through observer can data observe so then insert the data in the "registerIntent".
+ * */
 
 public class RegisterViewModel extends ViewModel{
 
     // firebase "realTimeDataBase" url
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
 
-    // firebaseDatabase
+    // firebaseDatabase instance
     private final DatabaseReference databaseReference;
 
     // Two-way dataBinding
@@ -27,6 +39,9 @@ public class RegisterViewModel extends ViewModel{
     public MutableLiveData<String> getRegisterEmail = new MutableLiveData<>();
     public MutableLiveData<String> getRegisterPassword = new MutableLiveData<>();
 
+
+    // MutableLiveData list
+    public MutableLiveData<ArrayList<String>> getDataList = new MutableLiveData<>();
 
 
     // RegisterViewModel constructor
@@ -38,10 +53,23 @@ public class RegisterViewModel extends ViewModel{
 
     // firebase realTimebase add data
     public void registerButton(){
+
+        ArrayList<String> stringArrayList = new ArrayList<>();
+
         String checkName = getRegisterName.getValue();
         String checkEmail = getRegisterEmail.getValue();
         String checkPassword = getRegisterPassword.getValue();
 
+
+        // into stringArrayList
+        stringArrayList.add(checkName);
+        stringArrayList.add(checkEmail);
+        stringArrayList.add(checkPassword);
+
+        // stringArrayList into getDataList
+        getDataList.setValue(stringArrayList);
+
+        // register logic
         if(checkName == null || checkEmail == null || checkPassword == null) {
             System.out.println("값이 없어");
         } else {
@@ -56,21 +84,15 @@ public class RegisterViewModel extends ViewModel{
                         databaseReference.child("users").child("clientName").setValue(checkName);
                         databaseReference.child("users").child("clientEmail").setValue(checkEmail);
                         databaseReference.child("users").child("clientPassword").setValue(checkPassword);
-
-                        System.out.println(checkName);
-                        System.out.println(checkEmail);
-                        System.out.println(checkPassword);
-
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    System.out.print(error);
                 }
             });
         }
 
     }
-
 }
