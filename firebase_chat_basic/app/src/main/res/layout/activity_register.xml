@@ -29,6 +29,7 @@
         <EditText
             android:id="@+id/register_name"
             android:paddingStart="10dp"
+            android:text="@={registerViewModel.getRegisterName}"
             android:background="@drawable/register_field_bg"
             android:layout_margin="20dp"
             android:hint="@string/register_name"
@@ -46,6 +47,7 @@
 
         <EditText
             android:id="@+id/register_email"
+            android:text="@={registerViewModel.getRegisterEmail}"
             android:paddingStart="10dp"
             android:background="@drawable/register_field_bg"
             android:elevation="5dp"
@@ -63,6 +65,7 @@
 
         <EditText
             android:id="@+id/register_password"
+            android:text="@={registerViewModel.getRegisterPassword}"
             android:paddingStart="10dp"
             android:background="@drawable/register_field_bg"
             android:layout_margin="20dp"
