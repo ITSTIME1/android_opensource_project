@@ -28,4 +28,10 @@ public class ContactFragment extends Fragment {
 
         return fragmentContactBinding.getRoot();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentContactBinding = null;
+    }
 }

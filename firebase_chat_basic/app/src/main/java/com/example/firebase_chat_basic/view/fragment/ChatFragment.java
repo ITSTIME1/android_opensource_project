@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
@@ -19,48 +16,48 @@ import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 public class ChatFragment extends Fragment {
     private FragmentChatBinding fragmentChatBinding;
-    private ChatViewModel chatViewModel;
-    private String clientUUID;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-
-        getDataFromMainActivity();
-
-        chatViewModel = new ChatViewModel(clientUUID);
-//        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        fragmentChatBinding.setChatViewModel(chatViewModel);
-
+        init();
         return fragmentChatBinding.getRoot();
     }
 
-    public void init(){
-
+    public void init() {
+        ChatViewModel chatViewModel = new ChatViewModel();
+        fragmentChatBinding.setChatViewModel(chatViewModel);
+        fragmentChatBinding.setLifecycleOwner(this);
     }
 
 
 
-    // get data from "RegisterActivity"
-    public void getDataFromMainActivity(){
-
-        Bundle bundle = getArguments();
-
-        if(bundle != null) {
-            String clientName = bundle.getString("clientName");
-            String clientEmail = bundle.getString("clientEmail");
-            String clientPassword = bundle.getString("clientPassword");
-            String clientProfileImage = bundle.getString("clientProfileImage");
-            clientUUID = bundle.getString("clientUUID");
-
-            System.out.println("=============================");
-            System.out.println("ChatFragment - succeeded");
-            System.out.println(clientName);
-            System.out.println(clientEmail);
-            System.out.println(clientPassword);
-            System.out.println(clientUUID);
-            System.out.println(clientProfileImage);
-            System.out.println("=============================");
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentChatBinding = null;
     }
+
+
+//    public void getDataFromMainActivity(){
+//        Bundle bundle = getArguments();
+//
+//        if(bundle != null) {
+//            String clientName = bundle.getString("clientName");
+//            String clientEmail = bundle.getString("clientEmail");
+//            String clientPassword = bundle.getString("clientPassword");
+//            String clientProfileImage = bundle.getString("clientProfileImage");
+//            String clientUUID = bundle.getString("clientUUID");
+//
+//            System.out.println("=============================");
+//            System.out.println("ChatFragment - succeeded");
+//            System.out.println(clientName);
+//            System.out.println(clientEmail);
+//            System.out.println(clientPassword);
+//            System.out.println(clientUUID);
+//            System.out.println(clientProfileImage);
+//            System.out.println("=============================");
+//        }
+//    }
 }

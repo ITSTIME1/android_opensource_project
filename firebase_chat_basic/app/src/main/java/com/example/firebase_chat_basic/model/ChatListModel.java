@@ -7,14 +7,12 @@ package com.example.firebase_chat_basic.model;
  */
 public class ChatListModel {
     String chatName;
-    String chatProfileImage;
     String chatDate;
     String chatContent;
-    int chatCount;
+    String chatCount;
 
-    public ChatListModel(String chatName, String chatProfileImage, String chatDate, String chatContent, int chatCount) {
+    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount) {
         this.chatName = chatName;
-        this.chatProfileImage = chatProfileImage;
         this.chatDate = chatDate;
         this.chatContent = chatContent;
         this.chatCount = chatCount;
@@ -26,14 +24,6 @@ public class ChatListModel {
 
     public void setChatName(String chatName) {
         this.chatName = chatName;
-    }
-
-    public String getChatProfileImage() {
-        return chatProfileImage;
-    }
-
-    public void setChatProfileImage(String chatProfileImage) {
-        this.chatProfileImage = chatProfileImage;
     }
 
     public String getChatDate() {
@@ -52,11 +42,11 @@ public class ChatListModel {
         this.chatContent = chatContent;
     }
 
-    public int getChatCount() {
+    public String getChatCount() {
         return chatCount;
     }
 
-    public void setChatCount(int chatCount) {
+    public void setChatCount(String chatCount) {
         this.chatCount = chatCount;
     }
 }

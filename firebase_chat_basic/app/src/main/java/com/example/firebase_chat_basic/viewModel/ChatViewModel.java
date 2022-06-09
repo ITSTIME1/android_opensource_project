@@ -1,98 +1,80 @@
 package com.example.firebase_chat_basic.viewModel;
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
 
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatListModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ChatViewModel extends ViewModel {
-    private ArrayList<ChatListModel> chatListModelArrayList;
-    private ChatListModel chatListModel;
-    private DatabaseReference databaseReference;
+public class ChatViewModel {
+    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
+    private ArrayList<ChatListModel> chatListModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
+    private final DatabaseReference databaseReference;
 
-    private final String getUUID;
+    public ChatViewModel(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
 
-    public ChatViewModel(String getUUID) {
-        this.getUUID = getUUID;
-
-        System.out.println(this.getUUID + "잘 들어왔어");
-
-        if(chatListModelArrayList == null) {
-            chatListModelArrayList = new ArrayList<>();
+        if(chatListModelList == null ){
+            chatListModelList = new ArrayList<>();
         }
-//        getDataFromRealtimeBase();
+        if(chatRecyclerAdapter == null) {
+            chatRecyclerAdapter = new ChatRecyclerAdapter(this);
+        }
+        getData();
     }
 
-    // 1. realTimeDatabase 에서 유저 정보를 가져온다.
-    // 2. name을 가져온다.
-
-
-    // @TODO 데이터 연결.
-    // @TODO 데이터 이쪽으로 받아야됨.
-
-    public void getDataFromRealtimeBase(){
+    public void getData(){
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final String getId = snapshot.getKey();
-
-                if(!getId.equals(getUUID)) {
-                    String getName = snapshot.child("name").getValue(String.class);
-//                    String getProfileImage = snapshot.child("");
-//
-//                    // model connect
-//                    chatListModel = new ChatListModel(getName, );
-
+                // 기존 배열리스트를 한번 초기화
+                chatListModelList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String getUserName = dataSnapshot.child("name").getValue(String.class);
+                    // chatName, chatDate, chatContent chatCount
+                    chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", "testing 용도", "0"));
                 }
-
+                chatRecyclerAdapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                System.out.println(error);
             }
         });
 
     }
 
+    public String getName(int pos){
+        return chatListModelList.get(pos).getChatName();
+    }
+    public String getContent(int pos){
+        return chatListModelList.get(pos).getChatContent();
+    }
+    public String getCount(int pos){
+        return chatListModelList.get(pos).getChatCount();
+    }
+    public String getDate(int pos){
+        return chatListModelList.get(pos).getChatDate();
+    }
+
+    public ArrayList<ChatListModel> getChatListModelList(){
+        return chatListModelList;
+    }
 
     public ChatRecyclerAdapter getChatRecyclerAdapter(){
         return chatRecyclerAdapter;
     }
 
-    public ArrayList<ChatListModel> getChatListModelArrayList(){
-        return chatListModelArrayList;
-    }
-
-    public String getProfileImage(int pos){
-        return chatListModelArrayList.get(pos).getChatProfileImage();
-    }
-
-    public String getName(int pos) {
-        return chatListModelArrayList.get(pos).getChatName();
-    }
-
-    public String getContent(int pos) {
-        return chatListModelArrayList.get(pos).getChatContent();
-    }
-
-    public int getCount(int pos) {
-        return chatListModelArrayList.get(pos).getChatCount();
-    }
-
-    public String getDate(int pos) {
-        return chatListModelArrayList.get(pos).getChatDate();
-    }
-
-
 
 }
-

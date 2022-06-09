@@ -5,12 +5,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
+
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapter.CustomChatViewHolder> {
-    private ChatViewModel chatViewModel;
+    private final ChatViewModel chatViewModel;
 
     public ChatRecyclerAdapter(ChatViewModel chatViewModel) {
         this.chatViewModel = chatViewModel;
@@ -32,11 +32,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        if(chatViewModel.getChatListModelArrayList() == null) {
-            return 0;
-        } else {
-            return chatViewModel.getChatListModelArrayList().size();
-        }
+        return chatViewModel.getChatListModelList() == null ?
+                0 : chatViewModel.getChatListModelList().size();
+
     }
 
     public class CustomChatViewHolder extends RecyclerView.ViewHolder {
@@ -48,9 +46,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         }
 
         public void bind(ChatViewModel chatViewModel, int pos){
-            // XMl 에서 chatViewModel 을 사용해서 binding 하겠다고 설정.
-            itemFragmentChatBinding.setItemChatViewModel(chatViewModel);
-            // pos 는 integer 형으로 받아올 값들은 인덱스 값이기 때문에 integer를 사용함.
+            itemFragmentChatBinding.setChatViewModel(chatViewModel);
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
         }
