@@ -38,7 +38,7 @@ public class ChatViewModel {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // 기존 배열리스트를 한번 초기화
                 chatListModelList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.child("users").getChildren()) {
                     String getUserName = dataSnapshot.child("name").getValue(String.class);
                     // chatName, chatDate, chatContent chatCount
                     chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", "testing 용도", "0"));
