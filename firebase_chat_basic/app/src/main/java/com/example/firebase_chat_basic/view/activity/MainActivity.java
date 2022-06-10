@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ViewPagerAdapter;
 import com.example.firebase_chat_basic.databinding.ActivityMainBinding;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BaseInterface {
     private ActivityMainBinding activityMainBinding;
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ChatFragment chatFragment = new ChatFragment();
@@ -68,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // adapter init
-    public void initAdapter(){
+
+
+    @Override
+    public void initAdapter() {
+        BaseInterface.super.initAdapter();
         fragmentArrayList.add(chatFragment);
         fragmentArrayList.add(contactFragment);
         fragmentArrayList.add(settingFragment);
@@ -77,9 +82,7 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.viewPager.setAdapter(viewPagerAdapter);
         // 상태유지
         activityMainBinding.viewPager.setOffscreenPageLimit(fragmentArrayList.size());
-
     }
-
 
     // bottomNavigation click listener
     public void initNavigationListener(){

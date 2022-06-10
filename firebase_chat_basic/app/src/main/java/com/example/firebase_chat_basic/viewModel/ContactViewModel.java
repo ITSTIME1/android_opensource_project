@@ -22,11 +22,4 @@ public class ContactViewModel extends ViewModel implements BaseInterface {
         }
     }
 
-    @Override
-    public void initRetrofit() {
-        BaseInterface.super.initRetrofit();
-        /*
-         * @TODO Retrofit List
-         */
-    }
 }

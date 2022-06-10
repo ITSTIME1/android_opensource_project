@@ -3,7 +3,8 @@ package com.example.firebase_chat_basic.model;
 /**
  * [ChatListModel]
  *
- * ChatFragment ItemList
+ * chatName, chatDate, chatContent, chatCount
+ * @TODO create ChatProfile
  */
 public class ChatListModel {
     String chatName;

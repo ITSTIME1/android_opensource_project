@@ -6,9 +6,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 
+/**
+ * [ViewPagerAdapter]
+ *
+ * Returns this "FragmentList" into MainActivity.
+ */
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    private ArrayList<Fragment> fragmentArrayList;
+    private final ArrayList<Fragment> fragmentArrayList;
 
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragmentArrayList) {
         super(fragmentActivity);

@@ -11,6 +11,12 @@ import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
+/**
+ * [ChatRecyclerAdapter]
+ *
+ * This adapter is that for "ChatFragment".
+ * All data binding is consist of "ChatViewModel".
+ */
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapter.CustomChatViewHolder> {
     private final ChatViewModel chatViewModel;
@@ -28,17 +34,22 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ChatRecyclerAdapter.CustomChatViewHolder holder, int position) {
-        // 데이터를 연결해줌.
+        // connect to in chatViewModel method
         holder.bind(chatViewModel, position);
 
     }
 
     @Override
     public int getItemCount() {
+        // return the method(getChatListModelList) in the chatViewModel
         return chatViewModel.getChatListModelList() == null ?
                 0 : chatViewModel.getChatListModelList().size();
 
     }
+
+
+    // custom "ChatViewHolder"
+    // ItemFragmentChatBinding == item_fragment_chat
 
     public class CustomChatViewHolder extends RecyclerView.ViewHolder {
         ItemFragmentChatBinding itemFragmentChatBinding;

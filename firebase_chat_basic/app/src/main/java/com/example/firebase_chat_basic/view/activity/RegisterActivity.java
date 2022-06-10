@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityRegisterBinding;
 import com.example.firebase_chat_basic.view.fragment.ChatFragment;
@@ -24,25 +25,32 @@ import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
  * and then receives data written by the client and get data from "RegisterViewModel"
  * Finally, it is handled here.
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements BaseInterface {
     private ActivityRegisterBinding activityRegisterBinding;
     private RegisterViewModel registerViewModel;
-    private ChatFragment chatFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+        defaultInit();
+        observerIntent();
+    }
+
+    @Override
+    public void defaultInit() {
+        BaseInterface.super.defaultInit();
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         activityRegisterBinding.setRegisterViewModel(registerViewModel);
-
-        observerIntent();
     }
 
     // The method is intentMethod for MainActivity.class
     // Get data from "datList" in the "RegisterViewModel"
     // Then, this method is deliver to "MainActivity"
 
-    public void observerIntent(){
+    @Override
+    public void observerIntent() {
+        BaseInterface.super.observerIntent();
         registerViewModel.getDataList.observe(this, registerData -> {
 
             // Activity -> Activity
@@ -70,6 +78,5 @@ public class RegisterActivity extends AppCompatActivity {
             System.out.println(registerData.get(4).toString());
             System.out.println("=============================");
         });
-
     }
 }
