@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable-anydpi/ic_chat_image_file_icon.xml" value="0.282" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable-anydpi/ic_chat_send_icon.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/bottom_menu_selector.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/chat_count_bg.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/chat_room_image_file_bg.xml" value="0.282" />
@@ -22,7 +23,7 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_chat.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_contact.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_setting.xml" value="0.28559213339033773" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_chat.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_chat.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_contact.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/menu/bottom_menu.xml" value="0.34791666666666665" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/menu/toolbar_menu.xml" value="0.28559213339033773" />

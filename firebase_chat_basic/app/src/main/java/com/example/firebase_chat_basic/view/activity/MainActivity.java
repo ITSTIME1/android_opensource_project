@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         Intent mainActivityIntent = getIntent();
         String clientName = mainActivityIntent.getStringExtra("clientName");
         String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
-        String clientPassword = mainActivityIntent.getStringExtra("clientPassword");
         String clientUUID = mainActivityIntent.getStringExtra("clientUUID");
         String clientProfileImage = mainActivityIntent.getStringExtra("clientProfileImage");
 
@@ -147,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         System.out.println("MainActivity - succeeded");
         System.out.println(clientName);
         System.out.println(clientEmail);
-        System.out.println(clientPassword);
         System.out.println(clientUUID);
         System.out.println(clientProfileImage);
         System.out.println("=============================");
@@ -157,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         Bundle bundle = new Bundle();
         bundle.putString("clientName", clientName);
         bundle.putString("clientEmail", clientEmail);
-        bundle.putString("clientPassword", clientPassword);
         bundle.putString("clientUUID", clientUUID);
         bundle.putString("clientProfileImage", clientProfileImage);
 

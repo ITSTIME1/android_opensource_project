@@ -21,7 +21,6 @@ public class ChatViewModel {
     private ArrayList<ChatListModel> chatListModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
     private final DatabaseReference databaseReference;
-    public MutableLiveData<ArrayList<ChatListModel>> arrayListMutableLiveData = new MutableLiveData<>();
 
     public ChatViewModel(){
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
@@ -32,22 +31,25 @@ public class ChatViewModel {
         if(chatRecyclerAdapter == null) {
             chatRecyclerAdapter = new ChatRecyclerAdapter(this);
         }
-        getData();
+        getRealTimeDatabase();
     }
 
-    public void getData(){
+    public void getRealTimeDatabase(){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // 기존 배열리스트를 한번 초기화
                 chatListModelList.clear();
+                final String getKey = snapshot.getKey();
+
                 for (DataSnapshot dataSnapshot : snapshot.child("users").getChildren()) {
                     String getUserName = dataSnapshot.child("name").getValue(String.class);
-                    // chatName, chatDate, chatContent chatCount
+                    String lastContent = "";
+                    int unseenCount = 0;
+                    String getUnseenCount = Integer.toString(unseenCount);
 
-                    // @TODO 이름 가져오고, 시간대 어떻게 할건지, 프로필은 보류, chatCount null 이면 안보이게 null이 아니면 보이게
-                    chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", "testing 용도", "0"));
+                    chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", lastContent, getUnseenCount));
                 }
                 chatRecyclerAdapter.notifyDataSetChanged();
 

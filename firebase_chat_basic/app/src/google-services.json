@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "634456083519",
+    "firebase_url": "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com",
     "project_id": "fir-chat-basic-dfd08",
     "storage_bucket": "fir-chat-basic-dfd08.appspot.com"
   },

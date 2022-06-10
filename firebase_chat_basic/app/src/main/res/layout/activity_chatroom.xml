@@ -4,6 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="chatRoomViewModel"
+            type="com.example.firebase_chat_basic.viewModel.ChatRoomViewModel"/>
+
 
     </data>
 
@@ -97,6 +101,7 @@
 
                 <EditText
                     android:id="@+id/chat_room_text_field"
+                    android:text="@{chatRoomViewModel.messageLiveData}"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/chat_room_text_field_bg"
                     android:hint="@string/chat_room_text_field_text"
@@ -112,10 +117,10 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/chat_room_send_button"
-                        android:layout_gravity="center"
+                        android:onClick="@{() -> chatRoomViewModel.sendMessage()}"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/ic_chat_send_icon"
-                        android:background="@drawable/chat_room_send_button_bg"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         tools:ignore="ContentDescription" />

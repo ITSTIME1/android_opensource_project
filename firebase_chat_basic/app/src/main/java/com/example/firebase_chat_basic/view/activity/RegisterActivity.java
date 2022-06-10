@@ -54,26 +54,24 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         registerViewModel.getDataList.observe(this, registerData -> {
 
             // Activity -> Activity
+            // 이름, 이메일, uid, image 전송.
             Intent registerIntent = new Intent(this, MainActivity.class);
             registerIntent.putExtra("clientName", registerData.get(0));
             registerIntent.putExtra("clientEmail", registerData.get(1));
-            registerIntent.putExtra("clientPassword", registerData.get(2));
             registerIntent.putExtra("clientUUID", registerData.get(3));
             registerIntent.putExtra("clientProfileImage", registerData.get(4));
 
-            if(registerData.get(0) == null && registerData.get(1) == null && registerData.get(2) == null) {
-                System.out.println("Null");
-                System.out.println("강제종료");
-            } else {
+            if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(3) != null && registerData.get(4) != null) {
                 startActivity(registerIntent);
                 finish();
+            } else {
+                System.out.println("registerData 값이 null이 있습니다.");
             }
 
             System.out.println("=============================");
             System.out.println("RegisterActivity - succeeded");
             System.out.println(registerData.get(0).toString());
             System.out.println(registerData.get(1).toString());
-            System.out.println(registerData.get(2).toString());
             System.out.println(registerData.get(3).toString());
             System.out.println(registerData.get(4).toString());
             System.out.println("=============================");
