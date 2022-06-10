@@ -1,11 +1,14 @@
 package com.example.firebase_chat_basic.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
+import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 
@@ -43,12 +46,22 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         public CustomChatViewHolder(@NonNull ItemFragmentChatBinding itemFragmentChatBinding) {
             super(itemFragmentChatBinding.getRoot());
             this.itemFragmentChatBinding = itemFragmentChatBinding;
+
         }
 
         public void bind(ChatViewModel chatViewModel, int pos){
             itemFragmentChatBinding.setChatViewModel(chatViewModel);
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
+
+            itemFragmentChatBinding.chatItemList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), ChatRoomActivity.class);
+                    intent.putExtra("dName", chatViewModel.getName(pos));
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -35,18 +35,19 @@ public class RegisterViewModel extends ViewModel{
     // firebaseDatabase instance
     private final DatabaseReference databaseReference;
 
-    // Two-way dataBinding
-    public MutableLiveData<String> getRegisterName = new MutableLiveData<>();
+    // two-way dataBinding
+    public MutableLiveData<String> getRegisterFirstName = new MutableLiveData<>();
+    public MutableLiveData<String> getRegisterSecondName = new MutableLiveData<>();
     public MutableLiveData<String> getRegisterEmail = new MutableLiveData<>();
     public MutableLiveData<String> getRegisterPassword = new MutableLiveData<>();
     public MutableLiveData<String> getProfileImage = new MutableLiveData<>();
 
 
-    // MutableLiveData list
+    // mutableLiveData list
     public MutableLiveData<ArrayList<String>> getDataList = new MutableLiveData<>();
 
 
-    // RegisterViewModel constructor
+    // registerViewModel constructor
     public RegisterViewModel() {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
 
@@ -58,11 +59,18 @@ public class RegisterViewModel extends ViewModel{
 
         ArrayList<String> stringArrayList = new ArrayList<>();
 
-        String checkName = getRegisterName.getValue();
+        // get data from EditText
+        String checkFirstName = getRegisterFirstName.getValue();
+        String checkSecondName = getRegisterSecondName.getValue();
         String checkEmail = getRegisterEmail.getValue();
         String checkPassword = getRegisterPassword.getValue();
         String checkProfileImage = getProfileImage.getValue();
 
+
+        // firstName + secondName
+        String checkName = checkFirstName + checkSecondName;
+
+        // profileImage default
         if(checkProfileImage == null) checkProfileImage = "Default";
 
 

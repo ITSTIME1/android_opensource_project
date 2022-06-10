@@ -1,5 +1,6 @@
 package com.example.firebase_chat_basic.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
+import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
+import com.example.firebase_chat_basic.view.activity.MainActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 // @TODO chatting list 만들기 firebase 연동.
@@ -30,8 +33,6 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
     }
-
-
 
     @Override
     public void onDestroyView() {

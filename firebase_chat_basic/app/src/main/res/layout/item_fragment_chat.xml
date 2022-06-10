@@ -18,6 +18,7 @@
         android:layout_height="90dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/chat_item_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -81,7 +82,7 @@
                     <TextView
                         android:gravity="center"
                         android:text="@{chatViewModel.getCount(pos).toString()}"
-                        android:layout_marginStart="120dp"
+                        android:layout_marginStart="210dp"
                         android:textColor="@color/white"
                         android:background="@drawable/chat_count_bg"
                         android:id="@+id/chat_count"
