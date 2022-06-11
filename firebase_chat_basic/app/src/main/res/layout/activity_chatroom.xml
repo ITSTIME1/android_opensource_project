@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="ChatName"
+                    android:text="@{chatRoomViewModel.getNameToChatFragment}"
                     android:textColor="@color/chatMainBackgroundColor"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
@@ -101,7 +101,6 @@
 
                 <EditText
                     android:id="@+id/chat_room_text_field"
-                    android:text="@{chatRoomViewModel.messageLiveData}"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/chat_room_text_field_bg"
                     android:hint="@string/chat_room_text_field_text"

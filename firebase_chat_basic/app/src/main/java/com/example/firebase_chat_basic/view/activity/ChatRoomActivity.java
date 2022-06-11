@@ -1,4 +1,5 @@
 package com.example.firebase_chat_basic.view.activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,6 +17,9 @@ import com.example.firebase_chat_basic.viewModel.ChatRoomViewModel;
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface{
     private ActivityChatroomBinding activityChatroomBinding;
     private ChatRoomViewModel chatRoomViewModel;
+    private String getChatRoomName;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     @Override
     public void defaultInit() {
         BaseInterface.super.defaultInit();
-        // @TODO Viewmodel 연결
+        Intent intent = getIntent();
+        getChatRoomName = intent.getStringExtra("dName");
+        chatRoomViewModel = new ChatRoomViewModel(getChatRoomName);
         activityChatroomBinding.setChatRoomViewModel(chatRoomViewModel);
     }
 

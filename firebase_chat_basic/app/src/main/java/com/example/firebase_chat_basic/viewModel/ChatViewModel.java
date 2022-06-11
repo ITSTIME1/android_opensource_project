@@ -24,6 +24,7 @@ public class ChatViewModel {
     private ChatRecyclerAdapter chatRecyclerAdapter;
     private final DatabaseReference databaseReference;
     private String getChatFragmentUID;
+    private int unseenCount = 0;
 
 
     public ChatViewModel(String getUID){
@@ -54,8 +55,49 @@ public class ChatViewModel {
                     if(!getKey.equals(getChatFragmentUID)) {
                         String getUserName = dataSnapshot.child("name").getValue(String.class);
                         String lastContent = "";
-                        int unseenCount = 0;
+
                         String getUnseenCount = Integer.toString(unseenCount);
+
+
+                        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                // chat 안에 있는 개수를 반환함.
+                                final int getChatCounts = (int) snapshot.getChildrenCount();
+                                if(getChatCounts > 0) {
+                                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                        final String getChatUID = dataSnapshot1.getKey();
+                                        final String getUserOne = dataSnapshot1.child("user_1").getValue(String.class);
+                                        final String getUserTwo = dataSnapshot1.child("user_2").getValue(String.class);
+
+                                        assert getUserOne != null;
+                                        if((getUserOne.equals(getChatFragmentUID) && getUserTwo.equals(getKey)) || (getUserOne.equals(getKey) && getUserTwo.equals(getChatFragmentUID))) {
+                                            for (DataSnapshot chatSnapShot : dataSnapshot1.child("message").getChildren()) {
+                                                // messageKey
+                                                final long getMessageKey = Long.parseLong(chatSnapShot.getKey());
+                                                // lastMessage key
+                                                // @TODO SharedPreference
+                                                // @TODO getLastSeenMessage = sharepreference에서 key값 저장되어 있는거 가져오기.
+                                                final long getLastSeenMessage;
+
+                                                if(getMessageKey > getLastSeenMessage) {
+                                                    unseenCount++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
 
                         chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", lastContent, getUnseenCount));
                     }
