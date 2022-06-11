@@ -14,6 +14,7 @@ import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityRegisterBinding;
 import com.example.firebase_chat_basic.view.fragment.ChatFragment;
+import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
 
 /**
@@ -49,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
     // The method is intentMethod for MainActivity.class
     // Get data from "datList" in the "RegisterViewModel"
     // Then, this method is deliver to "MainActivity"
+
+    // @TODO chatVIewModel 에서 채팅 작업 하기.
 
     @Override
     public void observerIntent() {

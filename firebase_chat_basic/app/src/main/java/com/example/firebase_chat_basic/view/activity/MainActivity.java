@@ -137,16 +137,17 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     // get data from "RegisterActivity"
     public void getDataFromRegisterActivity(){
         Intent mainActivityIntent = getIntent();
+
         String clientName = mainActivityIntent.getStringExtra("clientName");
         String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
-        String clientUUID = mainActivityIntent.getStringExtra("clientUUID");
+        String clientUID = mainActivityIntent.getStringExtra("clientUID");
         String clientProfileImage = mainActivityIntent.getStringExtra("clientProfileImage");
 
         System.out.println("=============================");
         System.out.println("MainActivity - succeeded");
         System.out.println(clientName);
         System.out.println(clientEmail);
-        System.out.println(clientUUID);
+        System.out.println(clientUID);
         System.out.println(clientProfileImage);
         System.out.println("=============================");
 
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         Bundle bundle = new Bundle();
         bundle.putString("clientName", clientName);
         bundle.putString("clientEmail", clientEmail);
-        bundle.putString("clientUUID", clientUUID);
+        bundle.putString("clientUID", clientUID);
         bundle.putString("clientProfileImage", clientProfileImage);
 
         chatFragment.setArguments(bundle);

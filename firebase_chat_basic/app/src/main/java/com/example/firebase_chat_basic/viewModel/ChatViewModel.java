@@ -5,9 +5,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatListModel;
+import com.example.firebase_chat_basic.view.fragment.ChatFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,10 +23,12 @@ public class ChatViewModel {
     private ArrayList<ChatListModel> chatListModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
     private final DatabaseReference databaseReference;
+    private String getChatFragmentUID;
 
-    public ChatViewModel(){
+
+    public ChatViewModel(String getUID){
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-
+        getChatFragmentUID = getUID;
         if(chatListModelList == null ){
             chatListModelList = new ArrayList<>();
         }
@@ -41,15 +45,20 @@ public class ChatViewModel {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // 기존 배열리스트를 한번 초기화
                 chatListModelList.clear();
-                final String getKey = snapshot.getKey();
-
                 for (DataSnapshot dataSnapshot : snapshot.child("users").getChildren()) {
-                    String getUserName = dataSnapshot.child("name").getValue(String.class);
-                    String lastContent = "";
-                    int unseenCount = 0;
-                    String getUnseenCount = Integer.toString(unseenCount);
+                    // users 하위에 있는 authentication uid 가져오기.
+                    final String getKey = dataSnapshot.getKey();
 
-                    chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", lastContent, getUnseenCount));
+                    // getChatFragmentUID = ChatFragment 에서 bundle을 통해서 받은 UID.
+                    assert getKey != null;
+                    if(!getKey.equals(getChatFragmentUID)) {
+                        String getUserName = dataSnapshot.child("name").getValue(String.class);
+                        String lastContent = "";
+                        int unseenCount = 0;
+                        String getUnseenCount = Integer.toString(unseenCount);
+
+                        chatListModelList.add(new ChatListModel(getUserName, "2022-06-09", lastContent, getUnseenCount));
+                    }
                 }
                 chatRecyclerAdapter.notifyDataSetChanged();
 
