@@ -66,11 +66,16 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
 
+
+            // 이름, uid, 그 사람으 ud
             itemFragmentChatBinding.chatItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ChatRoomActivity.class);
                     intent.putExtra("dName", chatViewModel.getName(pos));
+                    intent.putExtra("dChatKey", chatViewModel.getChatKey(pos));
+                    intent.putExtra("dGeyKey", chatViewModel.getKey(pos));
+                    intent.putExtra("dGetChatFragmentUID", chatViewModel.getGetChatFragmentUID(pos));
                     view.getContext().startActivity(intent);
                 }
             });

@@ -36,7 +36,7 @@ public class ChatFragment extends Fragment {
     }
 
     public void init() {
-        ChatViewModel chatViewModel = new ChatViewModel(clientUID);
+        ChatViewModel chatViewModel = new ChatViewModel(clientUID, getActivity().getApplication());
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
     }

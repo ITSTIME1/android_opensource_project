@@ -5,10 +5,8 @@
 
     <data>
         <variable
-            name="chatRoomViewModel"
-            type="com.example.firebase_chat_basic.viewModel.ChatRoomViewModel"/>
-
-
+            name="chatRoomActivity"
+            type="com.example.firebase_chat_basic.view.activity.ChatRoomActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@{chatRoomViewModel.getNameToChatFragment}"
+                    android:text="@{chatRoomActivity.dName}"
                     android:textColor="@color/chatMainBackgroundColor"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
@@ -116,7 +114,6 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/chat_room_send_button"
-                        android:onClick="@{() -> chatRoomViewModel.sendMessage()}"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/ic_chat_send_icon"

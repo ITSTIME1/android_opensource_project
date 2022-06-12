@@ -11,12 +11,18 @@ public class ChatListModel {
     String chatDate;
     String chatContent;
     String chatCount;
+    String chatKey;
+    String getKey;
+    String getChatFragmentUID;
 
-    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount) {
+    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String getKey, String getChatFragmentUID) {
         this.chatName = chatName;
         this.chatDate = chatDate;
         this.chatContent = chatContent;
         this.chatCount = chatCount;
+        this.chatKey = chatKey;
+        this.getKey = getKey;
+        this.getChatFragmentUID = getChatFragmentUID;
     }
 
     public String getChatName() {
@@ -49,5 +55,29 @@ public class ChatListModel {
 
     public void setChatCount(String chatCount) {
         this.chatCount = chatCount;
+    }
+
+    public String getChatKey() {
+        return chatKey;
+    }
+
+    public void setChatKey(String chatKey) {
+        this.chatKey = chatKey;
+    }
+
+    public String getGetKey() {
+        return getKey;
+    }
+
+    public void setGetKey(String getKey) {
+        this.getKey = getKey;
+    }
+
+    public String getGetChatFragmentUID() {
+        return getChatFragmentUID;
+    }
+
+    public void setGetChatFragmentUID(String getChatFragmentUID) {
+        this.getChatFragmentUID = getChatFragmentUID;
     }
 }
