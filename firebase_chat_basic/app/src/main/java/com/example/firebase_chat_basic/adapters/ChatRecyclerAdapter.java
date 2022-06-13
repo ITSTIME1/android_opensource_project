@@ -1,6 +1,7 @@
 package com.example.firebase_chat_basic.adapters;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,11 +73,20 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ChatRoomActivity.class);
-                    intent.putExtra("dName", chatViewModel.getName(pos));
-                    intent.putExtra("dChatKey", chatViewModel.getChatKey(pos));
-                    intent.putExtra("dGeyKey", chatViewModel.getKey(pos));
-                    intent.putExtra("dGetChatFragmentUID", chatViewModel.getGetChatFragmentUID(pos));
+                    intent.putExtra("getChatFragmentName", chatViewModel.getName(pos));
+                    intent.putExtra("getChatFragmentChatKey", chatViewModel.getChatKey(pos));
+                    intent.putExtra("getChatFragmentOtherKey", chatViewModel.getOtherKey(pos));
+                    intent.putExtra("getChatFragmentCurrentUserKey", chatViewModel.getChatFragmentUIDKey(pos));
                     view.getContext().startActivity(intent);
+
+
+
+                    Log.d("getChatFragmentLayoutData - ( ChatRecyclerAdapter ) 에서 값을 잘 ( 전달 했습니다. )",
+                            chatViewModel.getName(pos) + "\n" +
+                                    chatViewModel.getChatKey(pos) + "\n" +
+                                    chatViewModel.getOtherKey(pos) + "\n" +
+                                    chatViewModel.getChatFragmentUIDKey(pos));
+
                 }
             });
         }

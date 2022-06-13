@@ -12,17 +12,17 @@ public class ChatListModel {
     String chatContent;
     String chatCount;
     String chatKey;
-    String getKey;
-    String getChatFragmentUID;
+    String getOtherUID;
+    String getCurrentUserUID;
 
-    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String getKey, String getChatFragmentUID) {
+    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String getOtherUID, String getCurrentUserUID) {
         this.chatName = chatName;
         this.chatDate = chatDate;
         this.chatContent = chatContent;
         this.chatCount = chatCount;
         this.chatKey = chatKey;
-        this.getKey = getKey;
-        this.getChatFragmentUID = getChatFragmentUID;
+        this.getOtherUID = getOtherUID;
+        this.getCurrentUserUID = getCurrentUserUID;
     }
 
     public String getChatName() {
@@ -65,19 +65,19 @@ public class ChatListModel {
         this.chatKey = chatKey;
     }
 
-    public String getGetKey() {
-        return getKey;
+    public String getGetOtherUID() {
+        return getOtherUID;
     }
 
-    public void setGetKey(String getKey) {
-        this.getKey = getKey;
+    public void setGetOtherUID(String getOtherUID) {
+        this.getOtherUID = getOtherUID;
     }
 
-    public String getGetChatFragmentUID() {
-        return getChatFragmentUID;
+    public String getGetCurrentUserUID() {
+        return getCurrentUserUID;
     }
 
-    public void setGetChatFragmentUID(String getChatFragmentUID) {
-        this.getChatFragmentUID = getChatFragmentUID;
+    public void setGetCurrentUserUID(String getCurrentUserUID) {
+        this.getCurrentUserUID = getCurrentUserUID;
     }
 }

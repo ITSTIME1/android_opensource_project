@@ -94,6 +94,29 @@ public class RegisterViewModel extends ViewModel{
     }
 
 
+
+    // firebase realTimebase add data
+    public void registerButton(){
+        // firebase password 길이 확인용.
+//        ArrayList<String> validationPassword = new ArrayList<>();
+
+        // get data from EditText
+        checkFirstName = getRegisterFirstName.getValue();
+        checkSecondName = getRegisterSecondName.getValue();
+        checkEmail = getRegisterEmail.getValue();
+        checkPassword = getRegisterPassword.getValue();
+        checkProfileImage = getProfileImage.getValue();
+        checkName = checkFirstName + checkSecondName;
+
+        if(checkProfileImage == null) checkProfileImage = "Default";
+//        validationPassword.add(checkPassword);
+
+        // firebase createUser
+        firebaseRegister(checkEmail, checkPassword);
+    }
+
+
+
     // firebase register
     public void firebaseRegister(String checkEmail, String checkPassword) {
         firebaseAuth.createUserWithEmailAndPassword(checkEmail, checkPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -146,26 +169,5 @@ public class RegisterViewModel extends ViewModel{
         });
     }
 
-
-
-    // firebase realTimebase add data
-    public void registerButton(){
-        // firebase password 길이 확인용.
-        ArrayList<String> validationPassword = new ArrayList<>();
-
-        // get data from EditText
-        checkFirstName = getRegisterFirstName.getValue();
-        checkSecondName = getRegisterSecondName.getValue();
-        checkEmail = getRegisterEmail.getValue();
-        checkPassword = getRegisterPassword.getValue();
-        checkProfileImage = getProfileImage.getValue();
-        checkName = checkFirstName + checkSecondName;
-
-        if(checkProfileImage == null) checkProfileImage = "Default";
-        validationPassword.add(checkPassword);
-
-        // firebase createUser
-        firebaseRegister(checkEmail, checkPassword);
-    }
 
 }

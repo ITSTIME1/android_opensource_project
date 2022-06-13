@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -28,10 +29,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private ActivityChatroomBinding activityChatroomBinding;
     private String getChatRoomName;
 
-    public String dName;
-    private String dChatKey;
-    private String dGeyKey;
-    private String dGetChatFragmentUID;
+    public String getChatFragmentName;
+    private String getChatFragmentChatKey;
+    private String getChatFragmentOtherKey;
+    private String getChatFragmentCurrentUserKey;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -49,14 +50,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         testing();
 
-        if(dChatKey.isEmpty()) {
+        if(getChatFragmentChatKey.isEmpty()) {
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     // 채팅키를 받아왔는데 만약에 채팅키가 없다라고 한다면 하나를 무조건적으로 생성.
-                    dChatKey = "1";
+                    getChatFragmentChatKey = "1";
                     if(snapshot.hasChild("chat")) {
-                        dChatKey = String.valueOf(snapshot.child("chat").getChildrenCount() + 1);
+                        getChatFragmentChatKey = String.valueOf(snapshot.child("chat").getChildrenCount() + 1);
                     }
 
                 }
@@ -83,19 +84,16 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 final String currentTimeStamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
 
                 editor.putString("CurrentStamp", currentTimeStamp);
-                editor.putString("ChatKey", dChatKey);
+                editor.putString("ChatKey", getChatFragmentChatKey);
                 editor.apply();
 
 
-                databaseReference.child("chat").child(dChatKey).child("user_1").setValue(dGetChatFragmentUID);
-                databaseReference.child("chat").child(dChatKey).child("user_2").setValue(dGeyKey);
-                databaseReference.child("chat").child(dChatKey).child("message").child(currentTimeStamp).child("msg").setValue(getSendText);
-                databaseReference.child("chat").child(dChatKey).child("message").child(currentTimeStamp).child("getChatFragmentUID").setValue(dGetChatFragmentUID);
+                databaseReference.child("chat").child(getChatFragmentChatKey).child("user_1").setValue(getChatFragmentCurrentUserKey);
+                databaseReference.child("chat").child(getChatFragmentChatKey).child("user_2").setValue(getChatFragmentOtherKey);
+                databaseReference.child("chat").child(getChatFragmentChatKey).child("message").child(currentTimeStamp).child("msg").setValue(getSendText);
+                databaseReference.child("chat").child(getChatFragmentChatKey).child("message").child(currentTimeStamp).child("Sender").setValue(getChatFragmentCurrentUserKey);
             }
         });
-
-
-
 
         onBackPressed();
     }
@@ -118,12 +116,19 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     public void testing(){
         Intent intent = getIntent();
-        dName = intent.getStringExtra("dName");
-        dChatKey = intent.getStringExtra("dChatKey");
-        dGeyKey = intent.getStringExtra("dGeyKey");
-        dGetChatFragmentUID = intent.getStringExtra("dGetChatFragmentUID");
+        getChatFragmentName = intent.getStringExtra("getChatFragmentName");
+        // 채팅방 내역이 없을 경우 chatKey 값은 들어오지 않는다.
+        // chatKey는 String 타입으로 들어온다.
+        getChatFragmentChatKey = intent.getStringExtra("getChatFragmentChatKey");
+        getChatFragmentOtherKey = intent.getStringExtra("getChatFragmentOtherKey");
+        getChatFragmentCurrentUserKey = intent.getStringExtra("getChatFragmentCurrentUserKey");
 
-        System.out.println(dName + "\n" + dChatKey + "\n" + dGeyKey + "\n" + "이름" + "채팅방 키" + "터치한 타인키");
+
+        Log.d("getChatFragmentLayoutData - ( ChatRoomActivity ) 에서 값을 잘 ( 전달 받았습니다. )",
+                getChatFragmentName + "\n" +
+                        getChatFragmentChatKey + "\n" +
+                        getChatFragmentOtherKey + "\n" +
+                        getChatFragmentCurrentUserKey);
     }
 
 }
