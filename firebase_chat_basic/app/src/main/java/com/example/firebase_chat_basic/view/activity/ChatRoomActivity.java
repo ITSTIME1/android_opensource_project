@@ -21,83 +21,75 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 // @TODO ChatRecyclerAdapter 로 부터 전달되어진 Intent 받고 ChatRoomActivity RecyclerView ChatList Item 연결 후 BindCustomAdapter 로 ChatRecyclerView 연결.
 
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface{
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private DatabaseReference databaseReference;
     private ActivityChatroomBinding activityChatroomBinding;
-    private String getChatRoomName;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private Long dateTime;
+    private Timestamp timestamp;
 
-    public String getChatFragmentName;
-    private String getChatFragmentChatKey;
-    private String getChatFragmentOtherKey;
-    private String getChatFragmentCurrentUserKey;
 
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-
+    private String getOtherName;
+    private String getDate;
+    private String getContent;
+    private String getRefreshCount;
+    private String getOtherUID;
+    private String getCurrentMyUID;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
-        defaultInit();
-        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-        editor = pref.edit();
-
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-        testing();
-
-        if(getChatFragmentChatKey.isEmpty()) {
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    // 채팅키를 받아왔는데 만약에 채팅키가 없다라고 한다면 하나를 무조건적으로 생성.
-                    getChatFragmentChatKey = "1";
-                    if(snapshot.hasChild("chat")) {
-                        getChatFragmentChatKey = String.valueOf(snapshot.child("chat").getChildrenCount() + 1);
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    System.out.println(error);
-
-                }
-            });
-        }
-
+        defaultInit();
+        getFromChatRecyclerAdapter();
 
 
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String getSendText = activityChatroomBinding.chatRoomTextField.getText().toString();
+                // 이쪽으로 레이아웃을 터치해서 받은 상대방의 UID 값을 넘겨받음.
+                final String chatRoomUID = getOtherUID;
+                final String getMyUID = getCurrentMyUID;
+                final String getText = activityChatroomBinding.chatRoomTextField.getText().toString();
 
+                final String sender_user = getMyUID;
+                final String receiver_user = getOtherUID;
 
-                // user_1 = 내꺼 uid
-                // user_2 = 연결하고자 하는 상대방의 uid
+                // 마지막 text 저장.
 
-                final String currentTimeStamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+                if(!getText.isEmpty()) {
+                    editor.putString("putSendText", getText);
 
-                editor.putString("CurrentStamp", currentTimeStamp);
-                editor.putString("ChatKey", getChatFragmentChatKey);
-                editor.apply();
+                    dateTime = System.currentTimeMillis();
+                    timestamp = new Timestamp(dateTime);
+                    System.out.println("Current Time Stamp: "+ timestamp);
+                    // 저장한 순간
+                    editor.putLong("dateTime", dateTime);
+                    editor.apply();
+                }
 
-
-                databaseReference.child("chat").child(getChatFragmentChatKey).child("user_1").setValue(getChatFragmentCurrentUserKey);
-                databaseReference.child("chat").child(getChatFragmentChatKey).child("user_2").setValue(getChatFragmentOtherKey);
-                databaseReference.child("chat").child(getChatFragmentChatKey).child("message").child(currentTimeStamp).child("msg").setValue(getSendText);
-                databaseReference.child("chat").child(getChatFragmentChatKey).child("message").child(currentTimeStamp).child("Sender").setValue(getChatFragmentCurrentUserKey);
+                // 유저 필드를 생성.
+                // 실시간 키값 생성해서 이전 키값에 저장.
+                databaseReference.child("chat").child(chatRoomUID).child("sender_user").setValue(sender_user);
+                databaseReference.child("chat").child(chatRoomUID).child("receiver_user").setValue(receiver_user);
+                // String 값으로 실시간으로 현재 시간의 millis 가 들어감. 거기 안에
+                databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(getText);
+                // 현재 날짜도 포함시켜 준다.
+                databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(timestamp.toString());
             }
         });
 
         onBackPressed();
     }
-
     public void onBackPressed(){
         activityChatroomBinding.chatRoomBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,23 +104,17 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         BaseInterface.super.defaultInit();
         Intent intent = getIntent();
         activityChatroomBinding.setChatRoomActivity(this);
+        preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
     }
 
-    public void testing(){
-        Intent intent = getIntent();
-        getChatFragmentName = intent.getStringExtra("getChatFragmentName");
-        // 채팅방 내역이 없을 경우 chatKey 값은 들어오지 않는다.
-        // chatKey는 String 타입으로 들어온다.
-        getChatFragmentChatKey = intent.getStringExtra("getChatFragmentChatKey");
-        getChatFragmentOtherKey = intent.getStringExtra("getChatFragmentOtherKey");
-        getChatFragmentCurrentUserKey = intent.getStringExtra("getChatFragmentCurrentUserKey");
-
-
-        Log.d("getChatFragmentLayoutData - ( ChatRoomActivity ) 에서 값을 잘 ( 전달 받았습니다. )",
-                getChatFragmentName + "\n" +
-                        getChatFragmentChatKey + "\n" +
-                        getChatFragmentOtherKey + "\n" +
-                        getChatFragmentCurrentUserKey);
+    public void getFromChatRecyclerAdapter(){
+        Intent getIntent = getIntent();
+        getOtherName = getIntent.getStringExtra("getOtherName");
+        getDate = getIntent.getStringExtra("getDate");
+        getContent = getIntent.getStringExtra("getContent");
+        getRefreshCount = getIntent.getStringExtra("getRefreshCount");
+        getOtherUID = getIntent.getStringExtra("getOtherUID");
+        getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
     }
-
 }

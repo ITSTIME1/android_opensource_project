@@ -24,7 +24,7 @@ public class ChatFragment extends Fragment {
     public String clientName;
     public String clientEmail;
     public String clientProfileImage;
-    public String clientUID;
+    public String getCurrentMyUID;
 
     @Nullable
     @Override
@@ -36,7 +36,7 @@ public class ChatFragment extends Fragment {
     }
 
     public void init() {
-        ChatViewModel chatViewModel = new ChatViewModel(clientUID, getActivity().getApplication());
+        ChatViewModel chatViewModel = new ChatViewModel(getCurrentMyUID, getActivity().getApplication());
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
     }
@@ -55,7 +55,7 @@ public class ChatFragment extends Fragment {
             clientName = bundle.getString("clientName");
             clientEmail = bundle.getString("clientEmail");
             clientProfileImage = bundle.getString("clientProfileImage");
-            clientUID = bundle.getString("clientUID");
+            getCurrentMyUID = bundle.getString("clientUID");
 
             System.out.println("=============================");
             System.out.println("ChatFragment - succeeded");

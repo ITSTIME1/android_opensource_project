@@ -125,6 +125,8 @@ public class RegisterViewModel extends ViewModel{
                 if(task.isSuccessful()) {
                     System.out.println("성공");
 
+
+                    // 현재 내가 가입해서 얻은 uid
                     final String currentUserUID = firebaseUser.getUid();
                     // temp variable
                     String finalCheckProfileImage = checkProfileImage;
@@ -136,13 +138,13 @@ public class RegisterViewModel extends ViewModel{
                     stringArrayList.add(finalCheckProfileImage);
 
                     getDataList.setValue(stringArrayList);
-                    Log.d("getDataList", "into data success");
+                    Log.d("getDataList", "데이터가 성공적으로 getDataList 에 저장되었습니다.");
 
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.child("users").hasChild(currentUserUID)){
-                                System.out.println("이미 이 계정은 존재해요");
+                                Log.d("realtimeDataBase", "현재 users 하위에 같은 UID 가 존재 합니다.");
                             } else {
 
                                 // 1. 리얼타임데이터베이스에 저장 email, name
@@ -151,7 +153,7 @@ public class RegisterViewModel extends ViewModel{
                                 databaseReference.child("users").child(currentUserUID).child("email").setValue(checkEmail);
                                 // 2. 프로필 이미지는 처음엔 기본 아무것도 없는 상태로 저장.
                                 databaseReference.child("users").child(currentUserUID).child("profileImage").setValue(finalCheckProfileImage);
-                                Log.d("realtimeDataBase", "into realtimeDataBase success");
+                                Log.d("realtimeDataBase", "회원가입 내용을 성공적으로 리얼타임 데이터베이스에 저장 하였습니다.");
                             }
                         }
 

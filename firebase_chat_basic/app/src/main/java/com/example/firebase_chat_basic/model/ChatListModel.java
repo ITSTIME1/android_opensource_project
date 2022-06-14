@@ -11,18 +11,16 @@ public class ChatListModel {
     String chatDate;
     String chatContent;
     String chatCount;
-    String chatKey;
-    String getOtherUID;
-    String getCurrentUserUID;
+    String chatOtherUID;
+    String chatMyUID;
 
-    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String getOtherUID, String getCurrentUserUID) {
+    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatOtherUID, String chatMyUID) {
         this.chatName = chatName;
         this.chatDate = chatDate;
         this.chatContent = chatContent;
         this.chatCount = chatCount;
-        this.chatKey = chatKey;
-        this.getOtherUID = getOtherUID;
-        this.getCurrentUserUID = getCurrentUserUID;
+        this.chatOtherUID = chatOtherUID;
+        this.chatMyUID = chatMyUID;
     }
 
     public String getChatName() {
@@ -57,27 +55,19 @@ public class ChatListModel {
         this.chatCount = chatCount;
     }
 
-    public String getChatKey() {
-        return chatKey;
+    public String getChatOtherUID() {
+        return chatOtherUID;
     }
 
-    public void setChatKey(String chatKey) {
-        this.chatKey = chatKey;
+    public void setChatOtherUID(String chatOtherUID) {
+        this.chatOtherUID = chatOtherUID;
     }
 
-    public String getGetOtherUID() {
-        return getOtherUID;
+    public String getChatMyUID() {
+        return chatMyUID;
     }
 
-    public void setGetOtherUID(String getOtherUID) {
-        this.getOtherUID = getOtherUID;
-    }
-
-    public String getGetCurrentUserUID() {
-        return getCurrentUserUID;
-    }
-
-    public void setGetCurrentUserUID(String getCurrentUserUID) {
-        this.getCurrentUserUID = getCurrentUserUID;
+    public void setChatMyUID(String chatMyUID) {
+        this.chatMyUID = chatMyUID;
     }
 }

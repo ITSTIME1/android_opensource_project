@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
+import com.example.firebase_chat_basic.model.ChatListModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatRoomViewModel;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
@@ -72,21 +73,16 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             itemFragmentChatBinding.chatItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ChatRoomActivity.class);
-                    intent.putExtra("getChatFragmentName", chatViewModel.getName(pos));
-                    intent.putExtra("getChatFragmentChatKey", chatViewModel.getChatKey(pos));
-                    intent.putExtra("getChatFragmentOtherKey", chatViewModel.getOtherKey(pos));
-                    intent.putExtra("getChatFragmentCurrentUserKey", chatViewModel.getChatFragmentUIDKey(pos));
-                    view.getContext().startActivity(intent);
 
+                    Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
+                    intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getName(pos));
+                    intoChatRoomActivity.putExtra("getDate", chatViewModel.getDate(pos));
+                    intoChatRoomActivity.putExtra("getContent", chatViewModel.getContent(pos));
+                    intoChatRoomActivity.putExtra("getRefreshCount", chatViewModel.getCount(pos));
+                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
+                    intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getCurrentMyUID(pos));
 
-
-                    Log.d("getChatFragmentLayoutData - ( ChatRecyclerAdapter ) 에서 값을 잘 ( 전달 했습니다. )",
-                            chatViewModel.getName(pos) + "\n" +
-                                    chatViewModel.getChatKey(pos) + "\n" +
-                                    chatViewModel.getOtherKey(pos) + "\n" +
-                                    chatViewModel.getChatFragmentUIDKey(pos));
-
+                    view.getContext().startActivity(intoChatRoomActivity);
                 }
             });
         }
