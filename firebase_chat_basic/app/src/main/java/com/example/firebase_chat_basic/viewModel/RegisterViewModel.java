@@ -127,7 +127,7 @@ public class RegisterViewModel extends ViewModel{
 
 
                     // 현재 내가 가입해서 얻은 uid
-                    final String currentUserUID = firebaseUser.getUid();
+                    String currentUserUID = firebaseUser.getUid();
                     // temp variable
                     String finalCheckProfileImage = checkProfileImage;
 
