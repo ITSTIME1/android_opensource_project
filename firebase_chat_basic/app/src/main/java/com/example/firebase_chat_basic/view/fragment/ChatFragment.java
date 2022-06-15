@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
             System.out.println("ChatFragment - succeeded");
             System.out.println(clientName);
             System.out.println(clientEmail);
-            System.out.println(clientUID);
+            System.out.println(getCurrentMyUID);
             System.out.println(clientProfileImage);
             System.out.println("=============================");
         }

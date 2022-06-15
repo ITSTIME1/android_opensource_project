@@ -36,12 +36,19 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private Timestamp timestamp;
 
 
+
+
     private String getOtherName;
     private String getDate;
     private String getContent;
     private String getRefreshCount;
     private String getOtherUID;
     private String getCurrentMyUID;
+
+
+    public String getGetOtherName() {
+        return getOtherName;
+    }
 
 
     @Override
@@ -58,10 +65,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             public void onClick(View view) {
                 // 이쪽으로 레이아웃을 터치해서 받은 상대방의 UID 값을 넘겨받음.
                 final String chatRoomUID = getOtherUID;
-                final String getMyUID = getCurrentMyUID;
                 final String getText = activityChatroomBinding.chatRoomTextField.getText().toString();
 
-                final String sender_user = getMyUID;
+                final String sender_user = getCurrentMyUID;
                 final String receiver_user = getOtherUID;
 
                 // 마지막 text 저장.
@@ -69,8 +75,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 if(!getText.isEmpty()) {
                     editor.putString("putSendText", getText);
 
+                    // 초로 가지고옴
                     dateTime = System.currentTimeMillis();
                     timestamp = new Timestamp(dateTime);
+                    // 2022-06-15 10:50:32.01
                     System.out.println("Current Time Stamp: "+ timestamp);
                     // 저장한 순간
                     editor.putLong("dateTime", dateTime);
@@ -79,8 +87,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
                 // 유저 필드를 생성.
                 // 실시간 키값 생성해서 이전 키값에 저장.
-                databaseReference.child("chat").child(chatRoomUID).child("sender_user").setValue(sender_user);
-                databaseReference.child("chat").child(chatRoomUID).child("receiver_user").setValue(receiver_user);
+                // chatRoomUID = 상대방 UID
+                databaseReference.child("chat").child(chatRoomUID).child("sender_user").setValue(sender_user + " 보내는 사람");
+                databaseReference.child("chat").child(chatRoomUID).child("receiver_user").setValue(receiver_user + " 받는 사람");
                 // String 값으로 실시간으로 현재 시간의 millis 가 들어감. 거기 안에
                 databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(getText);
                 // 현재 날짜도 포함시켜 준다.
@@ -117,4 +126,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         getOtherUID = getIntent.getStringExtra("getOtherUID");
         getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
     }
+
+
 }

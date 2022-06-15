@@ -40,7 +40,7 @@ public class ChatViewModel extends AndroidViewModel {
     private ArrayList<ChatListModel> chatListModelList;
     private ChatRecyclerAdapter chatRecyclerAdapter;
     private DatabaseReference databaseReference;
-    private String getCurrentMyUID;
+    private String getCurrentMyUIDKey;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private LocalDate localDate;
@@ -51,6 +51,7 @@ public class ChatViewModel extends AndroidViewModel {
     String getOtherName;
     String getDate;
     String getContent;
+    int getChatListCount;
     int getChatCount;
     String getRefreshCount;
 
@@ -65,6 +66,7 @@ public class ChatViewModel extends AndroidViewModel {
     public ChatViewModel(String getCurrentMyUID, Application application){
         super(application);
         initViewModel();
+        getCurrentMyUIDKey = getCurrentMyUID;
         initRealTimeDatabaseVariable();
         getRealTimeDatabase();
     }
@@ -75,7 +77,6 @@ public class ChatViewModel extends AndroidViewModel {
         preferences = context.getSharedPreferences("putSendText", Context.MODE_PRIVATE);
         editor = preferences.edit();
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-        getCurrentMyUID = getCurrentMyUID;
         localDate = LocalDate.now();
 
 
@@ -105,123 +106,77 @@ public class ChatViewModel extends AndroidViewModel {
 
     public void getRealTimeDatabase(){
 
-        //  우선 적으로 루트 단에 있는 모든 값들을 가져와서 검사하는데
-        // 1. users 가 저장되어 있는 uid 값들을 전부 가져와서 내 uid랑 비교한다.
+        // users 에 대한 정보를 전부 가지고 온다.
+        // 데이터의 변경 사항의 대해서 수신대기한다.
+        // 1. Root 에서 부터 찾는다.
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // snapshot == root
+                chatListModelList.clear();
+                for (DataSnapshot userDataSnapshot : snapshot.child("users").getChildren()) {
+                    // 1. users - nov... key 값을 가져오고
+                    // 2. key 값이랑 나의 키값이랑 다르다면 name을 가지고 온다.
+                    // 3. 데이트 값을 가지고 온다.
+                    getOtherUID = userDataSnapshot.getKey();
 
-                // 루트 - users 아래에 있는 하위 값들을 전부 가져올때 까지 반복.
-                for(DataSnapshot dataSnapshot : snapshot.child("users").getChildren()) {
-                    // users - key 값들.
-                    getOtherUID = dataSnapshot.getKey();
-                    Log.d("getOtherUID = 다른 사람의 uid : ", getOtherUID);
-                    // 나의 uid 와 다른 uid 값을 비교해서
-                    // 같지 않은 데이터만 가져옴
-                    // ( 같게 되면 나의 아이디까지 가져오게 되니까
-
-                    // 나랑 같지 않은것 중 이름, 채팅 내역, 채팅 카운트
-
-                    // 채팅 내역 같은 경우는 채팅 내역이 있나 없나로 판단하고
-                    // 채팅 내역이 있다면 채팅 내역에 있던 마지막 메세지를 전달해준다.
-                    // 만약 채팅 내역이 없다면 빈 메세지를 전달해주고
-
-                    if(!getOtherUID.equals(getCurrentMyUID)) {
-                        getOtherName = dataSnapshot.child(getOtherUID).getValue(String.class);
-                        getDate = localDate.toString();
-
-
-                        // 채팅 내역을 불러올건데 한번 호출 된 후에 다시 호출 되지 않는다.
-                        // 한번 가지고 와서 표시할 목적이기 때문에 수신을 대기 할 필요가 없다.
+                    if(!getOtherUID.equals(getCurrentMyUIDKey)) {
+                        getOtherName = userDataSnapshot.child("name").getValue(String.class);
+                        getDate = currentDate;
+                        getContent = "채팅을 시작하지 않았습니다.";
+                        getChatCount = 0;
                         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @SuppressLint("NotifyDataSetChanged")
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                // chat 하위 목록의 채팅 목록이 0개 이상이라면 (채팅방 존재)
-                                // chatRoomActivity 에서 메세지를 보냈을때 chatRoomUID, comments 가 생성이 되었다.
-                                // 그렇다는건 chat 하위 목록이 생겨났다는 거고
+                                // chatList 개수를 가지고 온다.
+                                getChatListCount = (int) snapshot.getChildrenCount();
+                                // 1. 한개 이상 존재하는거
+                                // 2. 아무것도 없는거
+                                // 3. 채팅 방이 생성되어서 생긴 키 값은 채팅할 상대방의 키 getOtherUID
+                                // 4.
+                                if(getChatListCount > 0) {
+                                    for(DataSnapshot chatListValue : snapshot.getChildren()) {
+                                        // getOtherUID = getChatKey
+                                        // 채팅 생성시 상대방의 UID로 생성했기 때문이다.
+                                        final String getChatKey = chatListValue.getKey();
+                                        final String sender_user = chatListValue.child("sender_user").getValue(String.class);
+                                        final String receive_user = chatListValue.child("receive_user").getValue(String.class);
 
+                                        // 보내는 사람의 UID 가 나의 UID가 같고 , 받는 사람의 UID 가
+                                        if((sender_user.equals(getCurrentMyUIDKey) && receive_user.equals(getChatKey)) || (sender_user.equals(getChatKey) && receive_user.equals(getCurrentMyUIDKey))) {
+                                            // 댓글 하위에 잇는 목록들을 다 가지고 오고
+                                            for(DataSnapshot chatCommentsSnapShot : snapshot.child("comments").getChildren()) {
+                                                final long getMessageValue = Long.parseLong(Objects.requireNonNull(chatCommentsSnapShot.getKey()));
+                                                final long getLastMessageValue = preferences.getLong("dateTime", 0);
+                                                getContent = chatCommentsSnapShot.child("msg").getValue(String.class);
 
-                                getDate = currentDate;
-                                Log.d("getDate = 현재 날짜 : ", getDate);
-
-                                // 카운트 가지고오기.
-                                getRefreshCount = String.valueOf(getChatCount);
-                                Log.d("getChatCount = 현재 채팅 개수 : ", getRefreshCount);
-                                // chat - 하위목록(채팅방개수)
-                                if(snapshot.getChildrenCount() > 0) {
-                                    // 존재하는 채팅방을 전부 다 가지고온다.
-                                    // dataSnapshot1 은 생성되는 chatRoomUID 가 되고 그 uid 하위 목록에 comments 라는걸 가지고 있다면
-                                    // uid를 쭉 가지고오고
-                                    // uid 에서 sender, receiver 정보가 일치한다면
-                                    for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-
-                                        // chat - 하위에 있는 채팅목록의 UID 값들을 다 가지고온다.
-                                        // UID 값은 상대방의 UID 값으로 기록되어 있음.
-
-                                        // 보내는 필드랑
-                                        // 받는 필드를 가지고 와서
-
-                                        // 만약 보내는 사람의 UID 가 현재 내꺼랑 맞고
-                                        // 만약 받는 사람의 UID 가 상대방의 UID 가 맞다면 정보를 가지고 온다.
-                                        final String chatRoomUID = dataSnapshot1.getKey();
-                                        final String sender_user = dataSnapshot1.child("sender_user").getValue(String.class);
-                                        Log.d("sender_user = 보내는 사람 UID : ", sender_user);
-                                        final String receiver_user = dataSnapshot1.child("receiver_user").getValue(String.class);
-                                        Log.d("receiver_user = 받는 사람 UID : ", receiver_user);
-
-                                        // 1. 보내는 사람이 나이고 받는 사람이 다른 사람의 UID로 일치할 때 ( 직접 보내는 시점 )
-                                        // 2. 보내는 사람의 그 사람이고 받는 사람이 나일때 ( 받는 시점 )
-                                        if(sender_user.equals(getCurrentMyUID) && receiver_user.equals(getOtherUID) || sender_user.equals(getOtherUID) && receiver_user.equals(getCurrentMyUID)) {
-
-                                            // uid 정보 하위에 저장되어 있는 comments 정보를 가지고 온다.
-
-                                            // users - uid - 정보
-                                            // chat - chatkey(uid) - comments - message(메세지키값을 활용해서 하나더 생성 되었다면 chat count++;)
-                                            for(DataSnapshot chatDataSnapShot : dataSnapshot1.child("comments").getChildren()) {
-
-                                                // comment 하위에 있는 채팅을 하게 되면 생성될 키값들을 가지고 온다
-                                                // 채팅을 하게 되면 그 값들이 아래로 하나씩 생기는데
-                                                // 이전 채팅값이랑 새로 보낸 채팅값의 키값을 비교해서 ( 만약 이전의 채팅했다면 1 새로 채팅했다면 2니까 )
-                                                final long getCommentKey = Long.parseLong(Objects.requireNonNull(chatDataSnapShot.getKey()));
-                                                Log.d("commentsKey = commentsKey dateTime : ", String.valueOf(getCommentKey));
-                                                // 채팅을 보냈으면 보내는 곳에서 putString 으로 sharedPreference 로 저장해주고
-                                                // 그 값을 여기서 가져온다.
-                                                final long getLastCommentKey = preferences.getLong("dateTime", 0);
-                                                Log.d("getLastCommentKey = 마지막에 저장되었던 채팅 키 : ", String.valueOf(getLastCommentKey));
-                                                getContent = chatDataSnapShot.child("dateTime").child("msg").getValue(String.class);
-                                                Log.d("getContent = 마지막에 msg에 저장된 메세지 : ", getContent);
-                                                if(getCommentKey > getLastCommentKey) {
+                                                if(getMessageValue > getLastMessageValue) {
                                                     getChatCount++;
                                                 }
                                             }
                                         }
-;                                    }
+                                    }
                                 }
-
-                                // getOtherName, getDate, getContent, getRefreshCount, getOtherUID, getCurrentMyUID
-                                chatListModelList.add(new ChatListModel(getOtherName, getDate, getContent, getRefreshCount, getOtherUID, getCurrentMyUID));
-                                chatRecyclerAdapter.notifyDataSetChanged();
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                System.out.println("onCancelled ChatViewModel : " + error);
 
                             }
                         });
-                        Log.d("getOtherName = 다른 사람의 name", getOtherName);
                     }
+
                 }
+                chatListModelList.add(new ChatListModel(getOtherName, getDate, getContent, String.valueOf(getChatCount), getOtherUID, getCurrentMyUIDKey));
+                chatRecyclerAdapter.notifyDataSetChanged();
 
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error);
+
             }
         });
+
 
     }
 
