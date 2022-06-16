@@ -45,7 +45,6 @@ public class ChatFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     public void obServer(){
         chatViewModel.chatListModelList.observe(getViewLifecycleOwner(), chatListModels -> {
-            chatListModels.clear();
             chatRecyclerAdapter.notifyDataSetChanged();
         });
     }
