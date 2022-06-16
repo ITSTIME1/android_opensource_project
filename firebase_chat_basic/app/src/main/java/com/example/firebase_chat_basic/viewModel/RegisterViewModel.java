@@ -1,14 +1,10 @@
 package com.example.firebase_chat_basic.viewModel;
-import android.os.Handler;
+
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.example.firebase_chat_basic.view.activity.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,13 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
 /**
@@ -71,6 +61,7 @@ public class RegisterViewModel extends ViewModel{
     public int passwordPattern = 6;
 
 
+
     ArrayList<String> stringArrayList;
     String checkFirstName;
     String checkSecondName;
@@ -90,7 +81,6 @@ public class RegisterViewModel extends ViewModel{
         getRegisterEmail = new MutableLiveData<>();
         getRegisterPassword = new MutableLiveData<>();
         getProfileImage = new MutableLiveData<>();
-
     }
 
 
@@ -143,6 +133,7 @@ public class RegisterViewModel extends ViewModel{
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             if(snapshot.child("users").hasChild(currentUserUID)){
                                 Log.d("realtimeDataBase", "현재 users 하위에 같은 UID 가 존재 합니다.");
                             } else {

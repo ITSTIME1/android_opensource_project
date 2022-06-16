@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BindCustomAdapter {
 
-    @BindingAdapter("bind:chatAdapter")
+    @BindingAdapter("chatAdapter")
     public static void chatAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);

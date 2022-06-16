@@ -1,7 +1,5 @@
 package com.example.firebase_chat_basic.view.fragment;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
-import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
-import com.example.firebase_chat_basic.view.activity.MainActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 // @TODO chatting list 만들기 firebase 연동.
@@ -31,22 +25,15 @@ public class ChatFragment extends Fragment {
     public String getCurrentMyUID;
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         getDataFromMainActivity();
         init();
-        obServer();
 
         return fragmentChatBinding.getRoot();
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void obServer(){
-        chatViewModel.chatListModelList.observe(getViewLifecycleOwner(), chatListModels -> {
-            chatRecyclerAdapter.notifyDataSetChanged();
-        });
     }
 
     public void init() {

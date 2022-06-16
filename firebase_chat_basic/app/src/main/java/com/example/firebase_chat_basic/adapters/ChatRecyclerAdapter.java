@@ -45,8 +45,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public int getItemCount() {
         // return the method(getChatListModelList) in the chatViewModel
-        return chatViewModel.getChatListModelList() == null ?
-                0 : chatViewModel.getChatListModelList().size();
+        return chatViewModel.getChatListModelList().size();
 
     }
 
