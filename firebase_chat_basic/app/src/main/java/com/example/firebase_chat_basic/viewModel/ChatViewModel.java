@@ -41,7 +41,7 @@ public class ChatViewModel extends AndroidViewModel {
 
     String getContent = "메세지가 없습니다.";
     int getChatCount = 0;
-    String getChatKey = "";
+    int receive_chat_count = 0;
 
 
     public ChatViewModel(String getCurrentMyUID, Application application){
@@ -97,27 +97,28 @@ public class ChatViewModel extends AndroidViewModel {
                                     for(DataSnapshot chatSnapShot : snapshot.getChildren()) {
                                         final String getChatKey = chatSnapShot.getKey();
                                         Log.d("getChatKey", getChatKey + "<-- 이걸로 chatRoomKey 넘겨줄거임");
-                                        final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
-                                        Log.d("receive_user ", receive_user);
-                                        final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
-                                        Log.d("sender_user ", sender_user);
-
-                                        assert sender_user != null;
-                                        if((sender_user.equals(getCurrentMyUIDKey) && Objects.equals(receive_user, getUserKey)) || (sender_user.equals(getUserKey)
-                                                && Objects.requireNonNull(receive_user).equals(getCurrentMyUIDKey))){
-
-                                            for(DataSnapshot chatDataSnapShot : chatSnapShot.child("comments").getChildren()) {
-                                                // getKey = 165156 날짜를 밀리세컨즈로 저장해둔 값.
-                                                final long getMessageKey = Long.parseLong(chatDataSnapShot.getKey());
-                                                Log.d("getMessageKey 최신 키 값 ", String.valueOf(getMessageKey));
-                                                final long getLastMessageKey = preferences.getLong("getLastCommentKey", 0);
-                                                Log.d("getLastMessageKey 마지막 키 값 ", String.valueOf(getLastMessageKey));
-
-                                                if(getMessageKey > getLastMessageKey) {
-                                                    getChatCount++;
+                                        if(chatSnapShot.hasChild("receiver_user") && chatSnapShot.hasChild("sender_user") && chatSnapShot.hasChild("comments")) {
+                                            final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
+                                            Log.d("receive_user ", receive_user);
+                                            final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
+                                            Log.d("sender_user ", sender_user);
+                                            assert sender_user != null;
+                                            if((sender_user.equals(getCurrentMyUIDKey) && receive_user.equals(getUserKey) || (sender_user.equals(getUserKey) && receive_user.equals(getCurrentMyUIDKey)))){
+                                                for(DataSnapshot chatDataSnapShot : chatSnapShot.child("comments").getChildren()) {
+                                                    // getKey = 165156 날짜를 밀리세컨즈로 저장해둔 값.
+                                                    final long getMessageKey = Long.parseLong(chatDataSnapShot.getKey());
+                                                    Log.d("getMessageKey 최신 키 값 ", String.valueOf(getMessageKey));
+                                                    final long getLastMessageKey = preferences.getLong("getLastCommentKey", 0);
+                                                    Log.d("getLastMessageKey 마지막 키 값 ", String.valueOf(getLastMessageKey));
+                                                    getContent = chatDataSnapShot.child("msg").getValue(String.class);
+                                                    if(getMessageKey > getLastMessageKey) {
+                                                        receive_chat_count++;
+                                                        Log.d("chatCount", String.valueOf(getChatCount));
+                                                    }
                                                 }
                                             }
                                         }
+
                                     }
                                 }
                             }
@@ -126,7 +127,7 @@ public class ChatViewModel extends AndroidViewModel {
 
                             }
                         });
-                        chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getChatCount), getUserKey, getCurrentMyUIDKey);
+                        chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(receive_chat_count), getUserKey, getCurrentMyUIDKey);
                         chatListModelArrayList.add(chatListModel);
                         chatRecyclerAdapter.notifyDataSetChanged();
                     }

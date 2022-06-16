@@ -64,6 +64,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     // sendMessage method.
     // @TODO 채팅방이 두개가 생기는 이유가 뭘까
+    // @TODO 다른 채팅방 생기는 이유를 고쳐야 함.
     public void sendMessage(){
 
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
