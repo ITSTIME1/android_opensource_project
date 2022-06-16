@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,14 +36,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private Long dateTime;
     private Timestamp timestamp;
 
-
-
-
-    private String getOtherName;
-    private String getDate;
-    private String getContent;
-    private String getRefreshCount;
+    // 상대방 이름
+    String getOtherName;
+    // 상대방 UID
     String getOtherUID;
+    // 나의 UID
     String getCurrentMyUID;
 
 
@@ -51,6 +49,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
 
+    // 두개가 다르게 저장이된다.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,52 +57,59 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         defaultInit();
         getFromChatRecyclerAdapter();
+        sendMessage();
+        onBackPressed();
+    }
 
+
+    // sendMessage method.
+    // @TODO 채팅방이 두개가 생기는 이유가 뭘까
+    public void sendMessage(){
 
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 이쪽으로 레이아웃을 터치해서 받은 상대방의 UID 값을 넘겨받음.
-                final String chatRoomUID = getOtherUID;
+
+                final String getChatRoomKey = getOtherUID;
+                String receiver_key = getOtherUID;
+                String sender_key = getCurrentMyUID;
+
                 String getText = activityChatroomBinding.chatRoomTextField.getText().toString();
-
-
-                // ex) 보내는 사람이 홍태선 uid = Z066V
-                // ex) 받는 사람이 허유돈 uid = Q8WDoq
-                String sender_user = getCurrentMyUID;
-                Log.d("sender_user Value : ", sender_user);
-                String receiver_user = getOtherUID;
-                Log.d("receiver_user : ", receiver_user);
 
                 // 마지막 text 저장.
 
                 if(!getText.isEmpty()) {
+                    // Text가 비어있지 않다면 putString 에 getText 값을 저장해주고.
                     editor.putString("putSendText", getText);
-
-                    // 초로 가지고옴
-                    dateTime = System.currentTimeMillis();
-                    timestamp = new Timestamp(dateTime);
-                    // 2022-06-15 10:50:32.01
-                    System.out.println("Current Time Stamp: "+ timestamp);
-                    // 저장한 순간
-                    editor.putInt("getLastCommentKey", Math.toIntExact(dateTime));
-                    editor.apply();
+                    Toast.makeText(ChatRoomActivity.this, "보내실 메세지가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
+                // 시간을 밀리세컨즈 단위로 변경.
+                dateTime = System.currentTimeMillis();
+                // getLastCommentKey 값으로 저장.
+                editor.putLong("getLastCommentKey", dateTime);
+
+                // 보내는 시간을 날짜 + 시간으로 나타내기 위해서 timeStamp 변수 운영.
+                timestamp = new Timestamp(dateTime);
+                // 적용
+                editor.apply();
 
                 // 유저 필드를 생성.
                 // 실시간 키값 생성해서 이전 키값에 저장.
                 // chatRoomUID = 상대방 UID
-                databaseReference.child("chat").child(chatRoomUID).child("sender_user").setValue(sender_user);
-                databaseReference.child("chat").child(chatRoomUID).child("receiver_user").setValue(receiver_user);
+                databaseReference.child("chat").child(getChatRoomKey).child("sender_user").setValue(sender_key);
+                databaseReference.child("chat").child(getChatRoomKey).child("receiver_user").setValue(receiver_key);
                 // String 값으로 실시간으로 현재 시간의 millis 가 들어감. 거기 안에
-                databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(getText);
+                databaseReference.child("chat").child(getChatRoomKey).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(getText);
                 // 현재 날짜도 포함시켜 준다.
-                databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(timestamp.toString());
+                databaseReference.child("chat").child(getChatRoomKey).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(timestamp.toString());
+
+
+                // 보내고 난 뒤에 메세지를 초기화.
             }
         });
-
-        onBackPressed();
     }
+
     public void onBackPressed(){
         activityChatroomBinding.chatRoomBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,9 +131,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public void getFromChatRecyclerAdapter(){
         Intent getIntent = getIntent();
         getOtherName = getIntent.getStringExtra("getOtherName");
-        getDate = getIntent.getStringExtra("getDate");
-        getContent = getIntent.getStringExtra("getContent");
-        getRefreshCount = getIntent.getStringExtra("getRefreshCount");
         getOtherUID = getIntent.getStringExtra("getOtherUID");
         getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
     }

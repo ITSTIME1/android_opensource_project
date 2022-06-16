@@ -73,11 +73,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 @Override
                 public void onClick(View view) {
 
+
                     Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
                     intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getName(pos));
-                    intoChatRoomActivity.putExtra("getDate", chatViewModel.getDate(pos));
-                    intoChatRoomActivity.putExtra("getContent", chatViewModel.getContent(pos));
-                    intoChatRoomActivity.putExtra("getRefreshCount", chatViewModel.getCount(pos));
                     intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
                     intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getCurrentMyUID(pos));
 

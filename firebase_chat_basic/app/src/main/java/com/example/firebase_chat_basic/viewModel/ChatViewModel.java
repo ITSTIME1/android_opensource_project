@@ -3,11 +3,10 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
@@ -17,12 +16,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 
 // @TODO 1. 문제점 채팅을 보내는 즉시 채팅의 개수가 2배로 증가
@@ -43,7 +41,7 @@ public class ChatViewModel extends AndroidViewModel {
 
     String getContent = "메세지가 없습니다.";
     int getChatCount = 0;
-    int i;
+    String getChatKey = "";
 
 
     public ChatViewModel(String getCurrentMyUID, Application application){
@@ -76,13 +74,53 @@ public class ChatViewModel extends AndroidViewModel {
                         final String getUserName = dataSnapshot.child("name").getValue(String.class);
 
 
+
+//                        databaseReference.child("chat").child(chatRoomUID).child("sender_user").setValue(sender_user);
+//                        databaseReference.child("chat").child(chatRoomUID).child("receiver_user").setValue(receiver_user);
+//                        // String 값으로 실시간으로 현재 시간의 millis 가 들어감. 거기 안에
+//                        databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(getText);
+//                        // 현재 날짜도 포함시켜 준다.
+//                        databaseReference.child("chat").child(chatRoomUID).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(timestamp.toString());
+
+
                         // 채팅 탐색.
                         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            }
+                                int getChatCount = (int) snapshot.getChildrenCount();
+                                Log.d("채팅 개수 ", String.valueOf(getChatCount));
 
+                                // 채팅방의 개수가 있는것과 없는것.
+                                if(getChatCount > 0) {
+                                    // chatKeySnapShot  D/chatKeySnapShot: DataSnapshot { key = UsSF86xUzmQR0hBlCxYFkGt3Sxy2, value = {comments={null={msg=}}, sender_user=lb7oZnqLZUaBn9gf94v49zpQKGu1, receiver_user=UsSF86xUzmQR0hBlCxYFkGt3Sxy2} }
+                                    for(DataSnapshot chatSnapShot : snapshot.getChildren()) {
+                                        final String getChatKey = chatSnapShot.getKey();
+                                        Log.d("getChatKey", getChatKey + "<-- 이걸로 chatRoomKey 넘겨줄거임");
+                                        final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
+                                        Log.d("receive_user ", receive_user);
+                                        final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
+                                        Log.d("sender_user ", sender_user);
+
+                                        assert sender_user != null;
+                                        if((sender_user.equals(getCurrentMyUIDKey) && Objects.equals(receive_user, getUserKey)) || (sender_user.equals(getUserKey)
+                                                && Objects.requireNonNull(receive_user).equals(getCurrentMyUIDKey))){
+
+                                            for(DataSnapshot chatDataSnapShot : chatSnapShot.child("comments").getChildren()) {
+                                                // getKey = 165156 날짜를 밀리세컨즈로 저장해둔 값.
+                                                final long getMessageKey = Long.parseLong(chatDataSnapShot.getKey());
+                                                Log.d("getMessageKey 최신 키 값 ", String.valueOf(getMessageKey));
+                                                final long getLastMessageKey = preferences.getLong("getLastCommentKey", 0);
+                                                Log.d("getLastMessageKey 마지막 키 값 ", String.valueOf(getLastMessageKey));
+
+                                                if(getMessageKey > getLastMessageKey) {
+                                                    getChatCount++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -91,12 +129,6 @@ public class ChatViewModel extends AndroidViewModel {
                         chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getChatCount), getUserKey, getCurrentMyUIDKey);
                         chatListModelArrayList.add(chatListModel);
                         chatRecyclerAdapter.notifyDataSetChanged();
-
-                        // 여기서 데이터 변경이 일어나면 ChatFragment 에서 데이터를 감지해서 자동적으로 노티피를함.
-                        // chatRecyclerAdapter 에 다시 notify가 되었다는걸 알려주어야 됨 왜냐하면
-                        // 초반에는 list 값이 새로 변경 되었기 때문에
-                        // chatRecyclerAdapter는 이를 감지하지 못하기 때문임.
-
                     }
 
                 }
@@ -117,8 +149,6 @@ public class ChatViewModel extends AndroidViewModel {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         LocalDate localDate = LocalDate.now();
     }
-
-
 
 
     public String getName(int pos){
