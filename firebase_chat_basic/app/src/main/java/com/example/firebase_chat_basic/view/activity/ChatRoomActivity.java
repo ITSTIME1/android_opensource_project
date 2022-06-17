@@ -25,8 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-// @TODO ChatRecyclerAdapter 로 부터 전달되어진 Intent 받고 ChatRoomActivity RecyclerView ChatList Item 연결 후 BindCustomAdapter 로 ChatRecyclerView 연결.
-
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface{
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private DatabaseReference databaseReference;
@@ -68,9 +66,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
 
-    // sendMessage method.
-    // @TODO 채팅방이 두개가 생기는 이유가 뭘까
-    // @TODO 다른 채팅방 생기는 이유를 고쳐야 함.
     // @TODO 받는게 안받귀네?
     public void sendMessage(){
 

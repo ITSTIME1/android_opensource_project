@@ -29,6 +29,12 @@ import java.util.Objects;
 // @TODO 3. 채팅 개수가 보내는쪽은 표시되지 않음.
 
 
+// 1. 처음 chatkey = null 이기 때문에
+// 2. 두번째 chatkey 값이 비었다면 getOtherUId 값을 저장시켜서
+// 3. 그리고 나서 sendbutton 클릭시에 채팅방이 생기니까. chatkey 값이 저장되는 형태
+// 4. chatKey 값이 저장되니 onDataChanged 로 데이터의 변화가 생기니 트리거가 다시 한번 작동해서 chat 내역을 가지고오는데
+
+
 public class ChatViewModel extends AndroidViewModel {
     // database reference
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
@@ -101,10 +107,11 @@ public class ChatViewModel extends AndroidViewModel {
                                         chatKey = getChatKey;
                                         Log.d("chatKey", chatKey);
                                         if(chatSnapShot.hasChild("receiver_user") && chatSnapShot.hasChild("sender_user") && chatSnapShot.hasChild("comments")) {
+
                                             final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
                                             final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
 
-                                            if((receive_user.equals(getChatKey) && sender_user.equals(getCurrentMyUIDKey)) || (receive_user.equals(getCurrentMyUIDKey) && sender_user.equals(getChatKey))) {
+                                            if((receive_user.equals(chatKey) && sender_user.equals(getCurrentMyUIDKey)) || (receive_user.equals(getCurrentMyUIDKey) && sender_user.equals(chatKey))) {
                                                 // commentSnapShot 으로 comments 내용을 전부다 가지고 온다.
                                                 for(DataSnapshot commentSnapShot : chatSnapShot.child("comments").getChildren()) {
                                                     if(commentSnapShot != null) {
