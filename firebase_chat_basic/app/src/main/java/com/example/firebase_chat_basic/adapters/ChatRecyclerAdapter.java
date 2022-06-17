@@ -72,11 +72,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             itemFragmentChatBinding.chatItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
                     intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getName(pos));
-                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
+                    intoChatRoomActivity.putExtra("getChatKey", chatViewModel.getChatKey(pos));
                     intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getCurrentMyUID(pos));
 
                     view.getContext().startActivity(intoChatRoomActivity);

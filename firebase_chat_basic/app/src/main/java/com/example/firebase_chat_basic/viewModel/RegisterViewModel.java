@@ -41,7 +41,7 @@ public class RegisterViewModel extends ViewModel{
 
     // firebaseDatabase instance
     private final DatabaseReference databaseReference;
-    private FirebaseAuth firebaseAuth;
+    private final FirebaseAuth firebaseAuth;
 
     // two-way dataBinding
     public MutableLiveData<String> getRegisterFirstName;
