@@ -76,8 +76,11 @@ public class ChatViewModel extends AndroidViewModel {
                 chatListModelArrayList.clear();
                 for(DataSnapshot userDataSnapshot : snapshot.child("users").getChildren()) {
                     final String getUserKey = userDataSnapshot.getKey();
+                    Log.d("getUserKey", getUserKey);
                     assert getUserKey != null;
                     if (!getUserKey.equals(getCurrentMyUIDKey)){
+                        final String getOtherKey = getUserKey;
+                        Log.d("getOtherKey", getOtherKey);
                         final String getUserName = userDataSnapshot.child("name").getValue(String.class);
                         // 채팅 탐색.
                         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,16 +89,17 @@ public class ChatViewModel extends AndroidViewModel {
 
                                 int getChatCount = (int) snapshot.getChildrenCount();
                                 Log.d("채팅 개수 ", String.valueOf(getChatCount));
+                                Log.d("chatKey", chatKey);
 
                                 // 채팅방의 개수가 있는것과 없는것.
                                 if(getChatCount > 0) {
                                     // 채팅 이름은 상대방의 key 값으로 저장.
                                     // 그럼 포문을 가지고 올때 chatSnapShot 에 묶음으로 가지고 오게 됨.
                                     for(DataSnapshot chatSnapShot : snapshot.getChildren()) {
-                                        // 상대방의 키 값이 저장.
-                                        // 5nAjIMn384XxwfToPl7tNs1jOpi1
+                                        // comments, receiver, sender...
                                         final String getChatKey = chatSnapShot.getKey();
                                         chatKey = getChatKey;
+                                        Log.d("chatKey", chatKey);
                                         if(chatSnapShot.hasChild("receiver_user") && chatSnapShot.hasChild("sender_user") && chatSnapShot.hasChild("comments")) {
                                             final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
                                             final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
@@ -124,14 +128,13 @@ public class ChatViewModel extends AndroidViewModel {
 
                                     }
                                 }
-
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
-                        chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getMessageCount), chatKey, getCurrentMyUIDKey);
+                        chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getMessageCount), chatKey, getCurrentMyUIDKey, getOtherKey);
                         chatListModelArrayList.add(chatListModel);
                     }
                 }
@@ -168,6 +171,9 @@ public class ChatViewModel extends AndroidViewModel {
 
     public String getChatKey(int pos) {
         return chatListModelArrayList.get(pos).getChatKey();
+    }
+    public String getOtherUID(int pos) {
+        return chatListModelArrayList.get(pos).getChatOtherUID();
     }
 
     public String getCurrentMyUID(int pos) {

@@ -13,6 +13,8 @@ import com.example.firebase_chat_basic.model.ChatListModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatRoomViewModel;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * [ChatRecyclerAdapter]
@@ -76,6 +78,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                     intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getName(pos));
                     intoChatRoomActivity.putExtra("getChatKey", chatViewModel.getChatKey(pos));
                     intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getCurrentMyUID(pos));
+                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
 
                     view.getContext().startActivity(intoChatRoomActivity);
                 }

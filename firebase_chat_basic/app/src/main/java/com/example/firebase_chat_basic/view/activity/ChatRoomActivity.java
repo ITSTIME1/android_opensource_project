@@ -39,9 +39,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     // 상대방 이름
     String getOtherName;
     // 상대방 UID
-    String getChatKey = "";
+    String getChatKey;
     // 나의 UID
     String getCurrentMyUID;
+    // 상대방 UId
+    String getOtherUID;
 
 
     public String getGetOtherName() {
@@ -57,6 +59,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         defaultInit();
         getFromChatRecyclerAdapter();
+        if(getChatKey.isEmpty()) {
+            getChatKey = getOtherUID;
+            Log.d("getChatKey from ChatRoomActivity", "");
+        }
         sendMessage();
         onBackPressed();
     }
@@ -65,13 +71,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     // sendMessage method.
     // @TODO 채팅방이 두개가 생기는 이유가 뭘까
     // @TODO 다른 채팅방 생기는 이유를 고쳐야 함.
+    // @TODO 받는게 안받귀네?
     public void sendMessage(){
 
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 이쪽으로 레이아웃을 터치해서 받은 상대방의 UID 값을 넘겨받음.
-                String receiver_key = getChatKey;
+                String receiver_key = getOtherUID;
                 Log.d("receiver_key ", receiver_key);
                 String sender_key = getCurrentMyUID;
                 Log.d("sender_key ", sender_key);
@@ -135,6 +142,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         getOtherName = getIntent.getStringExtra("getOtherName");
         getChatKey = getIntent.getStringExtra("getChatKey");
         getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
+        getOtherUID = getIntent.getStringExtra("getOtherUID");
     }
 
 
