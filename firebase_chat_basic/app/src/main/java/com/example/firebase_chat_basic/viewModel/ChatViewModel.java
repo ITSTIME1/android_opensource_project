@@ -47,9 +47,10 @@ public class ChatViewModel extends AndroidViewModel {
     String newDateFormat;
     private SharedPreferences preferences;
 
-    String getContent = "메세지가 없습니다.";
+    String getContent = "";
     int getMessageCount;
     String chatKey = "";
+    private boolean dataset = false;
 
 
     public ChatViewModel(String getCurrentMyUID, Application application){
@@ -80,10 +81,12 @@ public class ChatViewModel extends AndroidViewModel {
             // 데이터가 변경될 때마다 다시 트리거 된다.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatListModelArrayList.clear();
+                getMessageCount = 0;
                 for(DataSnapshot userDataSnapshot : snapshot.child("users").getChildren()) {
                     final String getUserKey = userDataSnapshot.getKey();
                     Log.d("getUserKey", getUserKey);
                     assert getUserKey != null;
+                    dataset = false;
                     if (!getUserKey.equals(getCurrentMyUIDKey)){
                         final String getOtherKey = getUserKey;
                         Log.d("getOtherKey", getOtherKey);
@@ -111,7 +114,7 @@ public class ChatViewModel extends AndroidViewModel {
                                             final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
                                             final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
 
-                                            if((receive_user.equals(chatKey) && sender_user.equals(getCurrentMyUIDKey)) || (receive_user.equals(getCurrentMyUIDKey) && sender_user.equals(chatKey))) {
+                                            if((receive_user.equals(getOtherKey) && sender_user.equals(getCurrentMyUIDKey)) || (receive_user.equals(getCurrentMyUIDKey) && sender_user.equals(getOtherKey))) {
                                                 // commentSnapShot 으로 comments 내용을 전부다 가지고 온다.
                                                 for(DataSnapshot commentSnapShot : chatSnapShot.child("comments").getChildren()) {
                                                     if(commentSnapShot != null) {
@@ -135,17 +138,21 @@ public class ChatViewModel extends AndroidViewModel {
 
                                     }
                                 }
+                                if(!dataset) {
+                                    dataset = true;
+                                    chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getMessageCount), chatKey, getCurrentMyUIDKey, getOtherKey);
+                                    chatListModelArrayList.add(chatListModel);
+                                    chatRecyclerAdapter.notifyDataSetChanged();
+                                }
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
-                        chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getMessageCount), chatKey, getCurrentMyUIDKey, getOtherKey);
-                        chatListModelArrayList.add(chatListModel);
+
                     }
                 }
-                chatRecyclerAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

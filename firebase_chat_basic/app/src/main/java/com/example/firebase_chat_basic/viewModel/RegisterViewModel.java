@@ -60,6 +60,8 @@ public class RegisterViewModel extends ViewModel{
     public Pattern emailPattern = Patterns.EMAIL_ADDRESS;
     public int passwordPattern = 6;
 
+    private String currentUserUID;
+
 
 
     ArrayList<String> stringArrayList;
@@ -115,9 +117,10 @@ public class RegisterViewModel extends ViewModel{
                 if(task.isSuccessful()) {
                     System.out.println("성공");
 
-
-                    // 현재 내가 가입해서 얻은 uid
-                    String currentUserUID = firebaseUser.getUid();
+                    if(firebaseUser != null ) {
+                        // 현재 내가 가입해서 얻은 uid
+                        currentUserUID = firebaseUser.getUid();
+                    }
                     // temp variable
                     String finalCheckProfileImage = checkProfileImage;
 
