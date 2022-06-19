@@ -83,6 +83,7 @@ public class RegisterViewModel extends ViewModel{
         getRegisterEmail = new MutableLiveData<>();
         getRegisterPassword = new MutableLiveData<>();
         getProfileImage = new MutableLiveData<>();
+
     }
 
 

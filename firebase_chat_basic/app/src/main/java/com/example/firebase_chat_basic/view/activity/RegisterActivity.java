@@ -59,7 +59,6 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         registerViewModel.getDataList.observe(this, registerData -> {
 
             Intent registerIntent = new Intent(this, MainActivity.class);
-
             if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(2) != null) {
                 registerIntent.putExtra("clientUID", registerData.get(0));
                 registerIntent.putExtra("clientName", registerData.get(1));

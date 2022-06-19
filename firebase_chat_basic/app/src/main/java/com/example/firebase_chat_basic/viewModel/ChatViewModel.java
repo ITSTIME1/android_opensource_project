@@ -2,12 +2,12 @@ package com.example.firebase_chat_basic.viewModel;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
@@ -18,39 +18,30 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 
-// @TODO 1. 문제점 채팅을 보내는 즉시 채팅의 개수가 2배로 증가
-// @TODO 2. 모든 채팅방에 동일한 채팅 표시
-// @TODO 3. 채팅 개수가 보내는쪽은 표시되지 않음.
-
-
-// 1. 처음 chatkey = null 이기 때문에
-// 2. 두번째 chatkey 값이 비었다면 getOtherUId 값을 저장시켜서
-// 3. 그리고 나서 sendbutton 클릭시에 채팅방이 생기니까. chatkey 값이 저장되는 형태
-// 4. chatKey 값이 저장되니 onDataChanged 로 데이터의 변화가 생기니 트리거가 다시 한번 작동해서 chat 내역을 가지고오는데
-
+// @TODO getContent 내용이 다른 한쪽에서는 최신화가 안됨.
 
 public class ChatViewModel extends AndroidViewModel {
     // database reference
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
+    public MutableLiveData<ArrayList<ChatListModel>> arrayListMutableLiveData = new MutableLiveData<>();
     public ArrayList<ChatListModel> chatListModelArrayList;
     private ChatListModel chatListModel;
     private ChatRecyclerAdapter chatRecyclerAdapter;
 
     private DatabaseReference databaseReference;
-    String getCurrentMyUIDKey;
-    String newDateFormat;
+    private String getCurrentMyUIDKey;
+    private String getDate;
+    private int chatKey;
     private SharedPreferences preferences;
-
-    String getContent = "";
-    int getMessageCount;
-    String chatKey = "";
+    private String getContent;
+    private int getMessageCount;
     private boolean dataset = false;
+
 
 
     public ChatViewModel(String getCurrentMyUID, Application application){
@@ -61,101 +52,90 @@ public class ChatViewModel extends AndroidViewModel {
             getCurrentMyUIDKey = getCurrentMyUID;
         }
 
-        if(chatListModelArrayList == null && chatRecyclerAdapter ==null) {
+        if(chatListModelArrayList == null && chatRecyclerAdapter == null) {
             chatListModelArrayList = new ArrayList<>();
             chatRecyclerAdapter = new ChatRecyclerAdapter(this);
         }
 
         Date nowDate = new Date();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        newDateFormat = simpleDateFormat.format(nowDate);
-        realTimeDataBase();
-
+        getDate = simpleDateFormat.format(nowDate);
+        userRealTimeDataBase();
     }
-    public void realTimeDataBase() {
-        // 경로에서 데이터를 읽고 수신을 대기해야 될 경우 사용한다.
+    @SuppressLint("NotifyDataSetChanged")
+    public void userRealTimeDataBase() {
         databaseReference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
-            // onDataChange 는 한번 트리거 된 후 하위 요소를 포함한
-            // 데이터가 변경될 때마다 다시 트리거 된다.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chatListModelArrayList.clear();
-                getMessageCount = 0;
-                for(DataSnapshot userDataSnapshot : snapshot.child("users").getChildren()) {
-                    final String getUserKey = userDataSnapshot.getKey();
-                    Log.d("getUserKey", getUserKey);
-                    assert getUserKey != null;
-                    dataset = false;
-                    if (!getUserKey.equals(getCurrentMyUIDKey)){
-                        final String getOtherKey = getUserKey;
-                        Log.d("getOtherKey", getOtherKey);
-                        final String getUserName = userDataSnapshot.child("name").getValue(String.class);
-                        // 채팅 탐색.
-                        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                int getChatCount = (int) snapshot.getChildrenCount();
-                                Log.d("채팅 개수 ", String.valueOf(getChatCount));
-                                Log.d("chatKey", chatKey);
-
-                                // 채팅방의 개수가 있는것과 없는것.
-                                if(getChatCount > 0) {
-                                    // 채팅 이름은 상대방의 key 값으로 저장.
-                                    // 그럼 포문을 가지고 올때 chatSnapShot 에 묶음으로 가지고 오게 됨.
-                                    for(DataSnapshot chatSnapShot : snapshot.getChildren()) {
-                                        // comments, receiver, sender...
-                                        final String getChatKey = chatSnapShot.getKey();
-                                        chatKey = getChatKey;
-                                        Log.d("chatKey", chatKey);
-                                        if(chatSnapShot.hasChild("receiver_user") && chatSnapShot.hasChild("sender_user") && chatSnapShot.hasChild("comments")) {
-
-                                            final String receive_user = chatSnapShot.child("receiver_user").getValue(String.class);
-                                            final String sender_user = chatSnapShot.child("sender_user").getValue(String.class);
-
-                                            if((receive_user.equals(getOtherKey) && sender_user.equals(getCurrentMyUIDKey)) || (receive_user.equals(getCurrentMyUIDKey) && sender_user.equals(getOtherKey))) {
-                                                // commentSnapShot 으로 comments 내용을 전부다 가지고 온다.
-                                                for(DataSnapshot commentSnapShot : chatSnapShot.child("comments").getChildren()) {
-                                                    if(commentSnapShot != null) {
-                                                        long beforeMessageKey = 0;
-                                                        final long recentMessageKey = preferences.getLong("getLastCommentKey", 0);
-                                                        long commentSnapShotKey = Long.parseLong(Objects.requireNonNull(commentSnapShot.getKey()));
-                                                        // 만약 가지고온 값보다 작은 값만 저장.
-                                                        if(commentSnapShotKey < recentMessageKey) {
-                                                            beforeMessageKey = Long.parseLong(commentSnapShot.getKey());
-                                                        }
-                                                        getContent = commentSnapShot.child("msg").getValue(String.class);
-                                                        if(recentMessageKey > beforeMessageKey) {
-                                                            getMessageCount++;
-                                                        }
-                                                    } else {
-                                                        Log.d("commentSnapShot is null ", null);
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                }
-                                if(!dataset) {
-                                    dataset = true;
-                                    chatListModel = new ChatListModel(getUserName, newDateFormat, getContent, String.valueOf(getMessageCount), chatKey, getCurrentMyUIDKey, getOtherKey);
-                                    chatListModelArrayList.add(chatListModel);
-                                    chatRecyclerAdapter.notifyDataSetChanged();
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                for(DataSnapshot dataSnapshot : snapshot.child("users").getChildren()) {
+                    // 키 값을 전부 가지고 와준 다음에
+                    final String dataSnapShotKey = dataSnapshot.getKey();
+                    // 나의 키 값이랑 다른 값만 가지고 와서 리스트에 추가시킨다.
+                    if(!dataSnapShotKey.equals(getCurrentMyUIDKey)) {
+                        final String getOtherKey = dataSnapShotKey;
+                        final String getOtherName = dataSnapshot.child("name").getValue(String.class);
+                        Log.d("getOtherName", getOtherName);
+                        chatRealTimeDataBase(getOtherKey);
+                        ChatListModel chatListModel = new ChatListModel(getOtherName, getDate, getContent, String.valueOf(getMessageCount), Integer.toString(chatKey), getCurrentMyUIDKey, getOtherKey);
+                        chatListModelArrayList.add(chatListModel);
                     }
+                    arrayListMutableLiveData.setValue(chatListModelArrayList);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void chatRealTimeDataBase(String getOtherKey) {
+        final String getOtherUID = getOtherKey;
+        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot chatDataSnapShot : snapshot.getChildren()) {
+                    if(chatDataSnapShot != null) {
+                        chatKey = Integer.parseInt(Objects.requireNonNull(chatDataSnapShot.getKey()));
+                    }
+                    // chat - 하위 키 값이 채팅 기록을 가지고 있다면
+                    assert chatDataSnapShot != null;
+                    if(chatDataSnapShot.hasChild("receiver_user") && chatDataSnapShot.hasChild("sender_user")) {
+                        final String receiver_user = chatDataSnapShot.child("receiver_user").getValue(String.class);
+                        final String sender_user = chatDataSnapShot.child("sender_user").getValue(String.class);
+
+                        if((receiver_user.equals(getCurrentMyUIDKey) && sender_user.equals(getOtherUID)) || (receiver_user.equals(getOtherUID) && sender_user.equals(getCurrentMyUIDKey))) {
+                            for(DataSnapshot commentsSnapShot : chatDataSnapShot.child("comments").getChildren()) {
+                                // chatCount 값과 그리고 마지막 메세지 설정
+                                final int commentsCount = (int) commentsSnapShot.getChildrenCount();
+                                if(commentsCount < 0) {
+                                    getContent = "채팅 기록이 없습니다";
+                                    getMessageCount = 0;
+                                } else {
+                                    long beforeMessageKey = 0;
+                                    final long recentMessageKey = preferences.getLong("getLastCommentKey", 0);
+                                    long childrenMessageKey = Long.parseLong(Objects.requireNonNull(commentsSnapShot.getKey()));
+                                    // 만약 가지고온 값보다 작은 값만 저장.
+                                    if(childrenMessageKey < recentMessageKey) {
+                                        beforeMessageKey = Long.parseLong(commentsSnapShot.getKey());
+                                    }
+                                    getContent = commentsSnapShot.child("msg").getValue(String.class);
+                                    if(recentMessageKey > beforeMessageKey) {
+                                        getMessageCount++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -166,36 +146,34 @@ public class ChatViewModel extends AndroidViewModel {
         preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = preferences.edit();
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-        LocalDate localDate = LocalDate.now();
     }
 
 
     public String getName(int pos){
-        return chatListModelArrayList.get(pos).getChatName();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatName();
     }
     public String getContent(int pos){
-        return chatListModelArrayList.get(pos).getChatContent();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatContent();
     }
     public String getCount(int pos){
-        return chatListModelArrayList.get(pos).getChatCount();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatCount();
     }
     public String getDate(int pos){
-        return chatListModelArrayList.get(pos).getChatDate();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatDate();
     }
 
     public String getChatKey(int pos) {
-        return chatListModelArrayList.get(pos).getChatKey();
-    }
-    public String getOtherUID(int pos) {
-        return chatListModelArrayList.get(pos).getChatOtherUID();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatKey();
     }
 
     public String getCurrentMyUID(int pos) {
-        return chatListModelArrayList.get(pos).getChatMyUID();
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatMyUID();
     }
-
-    public ArrayList<ChatListModel> getChatListModelList(){
-        return chatListModelArrayList;
+    public String getOtherUID(int pos) {
+        return Objects.requireNonNull(arrayListMutableLiveData.getValue()).get(pos).getChatOtherUID();
+    }
+    public int getChatListModelList(){
+        return chatListModelArrayList.size();
     }
 
     public ChatRecyclerAdapter getChatRecyclerAdapter(){

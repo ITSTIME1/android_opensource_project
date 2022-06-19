@@ -16,6 +16,8 @@ import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 /**
  * [ChatRecyclerAdapter]
  *
@@ -47,7 +49,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public int getItemCount() {
         // return the method(getChatListModelList) in the chatViewModel
-        return chatViewModel.getChatListModelList().size();
+        return chatViewModel.getChatListModelList();
 
     }
 

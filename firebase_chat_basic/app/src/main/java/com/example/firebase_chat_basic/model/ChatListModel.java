@@ -7,13 +7,13 @@ package com.example.firebase_chat_basic.model;
  * @TODO create ChatProfile
  */
 public class ChatListModel {
-    String chatName;
-    String chatDate;
-    String chatContent;
-    String chatCount;
-    String chatKey;
-    String chatMyUID;
-    String chatOtherUID;
+    private String chatName;
+    private String chatDate;
+    private String chatContent;
+    private String chatCount;
+    private String chatKey;
+    private String chatMyUID;
+    private String chatOtherUID;
 
     public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String chatMyUID, String chatOtherUID) {
         this.chatName = chatName;
@@ -57,20 +57,20 @@ public class ChatListModel {
         this.chatCount = chatCount;
     }
 
-    public String getChatMyUID() {
-        return chatMyUID;
-    }
-
-    public void setChatMyUID(String chatMyUID) {
-        this.chatMyUID = chatMyUID;
-    }
-
     public String getChatKey() {
         return chatKey;
     }
 
     public void setChatKey(String chatKey) {
         this.chatKey = chatKey;
+    }
+
+    public String getChatMyUID() {
+        return chatMyUID;
+    }
+
+    public void setChatMyUID(String chatMyUID) {
+        this.chatMyUID = chatMyUID;
     }
 
     public String getChatOtherUID() {

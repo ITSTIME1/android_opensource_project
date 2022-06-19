@@ -35,15 +35,13 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private Timestamp timestamp;
 
     // 상대방 이름
-    String getOtherName;
+    private String getOtherName;
     // 상대방 UID
-    String getChatKey;
+    private String getChatKey;
     // 나의 UID
-    String getCurrentMyUID;
+    private String getCurrentMyUID;
     // 상대방 UId
-    String getOtherUID;
-
-
+    private String getOtherUID;
     public String getGetOtherName() {
         return getOtherName;
     }
@@ -58,17 +56,27 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         defaultInit();
         getFromChatRecyclerAdapter();
         if(getChatKey.isEmpty()) {
-            getChatKey = getOtherUID;
-            Log.d("getChatKey from ChatRoomActivity", "");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    getChatKey = "1";
+                    if(snapshot.hasChild("chat")) {
+                        getChatKey = String.valueOf(snapshot.child("chat").getChildrenCount() + 1);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
         sendMessage();
         onBackPressed();
     }
 
 
-    // @TODO 받는게 안받귀네?
     public void sendMessage(){
-
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +88,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 String getText = activityChatroomBinding.chatRoomTextField.getText().toString();
 
                 if(!getText.isEmpty()) {
-                    // Text가 비어있지 않다면 putString 에 getText 값을 저장해주고.
                     editor.putString("putSendText", getText);
                 }
                 // 시간을 밀리세컨즈 단위로 변경.
@@ -91,16 +98,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 editor.apply();
 
 
-                // 1. 보낼때 getChatRoomKey 값이 변하면 안됨 다른 기기에서 보냈을 때 해당 기기의 otherkey 는 달라지기 때문이다.
-                // didi - wfwf랑 교신
-                // ex) didi - uid 1 값의 저장이되고 sender_user 나의 uid 그리고 receive_user didi uid
-                // ex) 만약 didi가 wfwf랑 교신을 할때
-                // didi를 터치한 wfwf 기기에서는 didi 의 uid 값이 전달이 되면서 getChatRoomKey 가 바뀌게 됨.
-                // wfwf를 터치한 didi 기기에서는 wfwf uid 값이 전달이 되면서
-
-                // 이게 똑같지 않아서 채팅방이 하나가 더 생기는 거임.
-                // chat key 를 다른걸로 생성해야 된다.
-
                 databaseReference.child("chat").child(getChatKey).child("sender_user").setValue(sender_key);
                 databaseReference.child("chat").child(getChatKey).child("receiver_user").setValue(receiver_key);
                 // String 값으로 실시간으로 현재 시간의 millis 가 들어감. 거기 안에
@@ -109,6 +106,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 databaseReference.child("chat").child(getChatKey).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(timestamp.toString());
 
 
+                Toast.makeText(ChatRoomActivity.this, "메세지가 전상적으로 전송 되었습니다.", Toast.LENGTH_LONG).show();
                 // 보내고 난 뒤에 메세지를 초기화.
             }
         });
@@ -139,6 +137,4 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
         getOtherUID = getIntent.getStringExtra("getOtherUID");
     }
-
-
 }

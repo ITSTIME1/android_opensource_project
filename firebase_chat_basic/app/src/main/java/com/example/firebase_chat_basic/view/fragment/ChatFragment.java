@@ -1,6 +1,7 @@
 package com.example.firebase_chat_basic.view.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         getDataFromMainActivity();
         init();
+        chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), chatListModels -> {
+            chatRecyclerAdapter.notifyDataSetChanged();
+        });
 
         return fragmentChatBinding.getRoot();
     }
