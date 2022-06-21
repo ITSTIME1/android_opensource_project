@@ -33,10 +33,6 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         getDataFromMainActivity();
         init();
-        chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), chatListModels -> {
-            chatRecyclerAdapter.notifyDataSetChanged();
-        });
-
         return fragmentChatBinding.getRoot();
     }
 

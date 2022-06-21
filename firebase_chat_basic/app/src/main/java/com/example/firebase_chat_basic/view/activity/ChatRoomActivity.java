@@ -1,4 +1,5 @@
 package com.example.firebase_chat_basic.view.activity;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
+import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.viewModel.ChatRoomViewModel;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private DatabaseReference databaseReference;
     private ActivityChatroomBinding activityChatroomBinding;
+    private ChatRecyclerAdapter chatRecyclerAdapter;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Long dateTime;
@@ -78,6 +81,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     public void sendMessage(){
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
                 // 이쪽으로 레이아웃을 터치해서 받은 상대방의 UID 값을 넘겨받음.
