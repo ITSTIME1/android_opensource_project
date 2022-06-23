@@ -160,6 +160,5 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         bundle.putString("clientProfileImage", clientProfileImage);
 
         chatFragment.setArguments(bundle);
-
     }
 }

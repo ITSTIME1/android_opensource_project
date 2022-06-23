@@ -1,10 +1,18 @@
 package com.example.firebase_chat_basic.viewModel;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.firebase_chat_basic.view.activity.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,7 +42,7 @@ import java.util.regex.Pattern;
  * If the process all succeeded, In the RegisterActivity, through observer can data observe so then insert the data in the "registerIntent".
  * */
 
-public class RegisterViewModel extends ViewModel{
+public class RegisterViewModel extends AndroidViewModel {
 
     // firebase "realTimeDataBase" url
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
@@ -42,6 +50,7 @@ public class RegisterViewModel extends ViewModel{
     // firebaseDatabase instance
     private final DatabaseReference databaseReference;
     private final FirebaseAuth firebaseAuth;
+    private ArrayList<String> stringArrayList;
 
     // two-way dataBinding
     public MutableLiveData<String> getRegisterFirstName;
@@ -52,19 +61,11 @@ public class RegisterViewModel extends ViewModel{
     // mutableLiveData list
     public MutableLiveData<ArrayList<String>> getDataList = new MutableLiveData<>();
 
+    private FirebaseUser firebaseUser;
 
-
-    // firebase uuid, emailPattern, passwordPattern
-    public String getFirebaseUserUID;
-    private final FirebaseUser firebaseUser;
-    public Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-    public int passwordPattern = 6;
-
-    private String currentUserUID;
-
-
-
-    ArrayList<String> stringArrayList;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    String currentUserUID;
     String checkFirstName;
     String checkSecondName;
     String checkEmail;
@@ -73,25 +74,25 @@ public class RegisterViewModel extends ViewModel{
     String checkName;
 
     // registerViewModel constructor
-    public RegisterViewModel() {
+    public RegisterViewModel(Application application) {
+        super(application);
+        Application context = getApplication();
+        preferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         stringArrayList = new ArrayList<>();
         getRegisterFirstName = new MutableLiveData<>();
         getRegisterSecondName = new MutableLiveData<>();
         getRegisterEmail = new MutableLiveData<>();
         getRegisterPassword = new MutableLiveData<>();
         getProfileImage = new MutableLiveData<>();
-
     }
 
 
 
     // firebase realTimebase add data
     public void registerButton(){
-        // firebase password 길이 확인용.
-//        ArrayList<String> validationPassword = new ArrayList<>();
 
         // get data from EditText
         checkFirstName = getRegisterFirstName.getValue();
@@ -102,10 +103,10 @@ public class RegisterViewModel extends ViewModel{
         checkName = checkFirstName + checkSecondName;
 
         if(checkProfileImage == null) checkProfileImage = "Default";
-//        validationPassword.add(checkPassword);
 
-        // firebase createUser
+        // firebase authentication
         firebaseRegister(checkEmail, checkPassword);
+
     }
 
 
@@ -115,48 +116,43 @@ public class RegisterViewModel extends ViewModel{
         firebaseAuth.createUserWithEmailAndPassword(checkEmail, checkPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
                 if(task.isSuccessful()) {
+
+                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if(firebaseUser != null ) {
+                        currentUserUID = firebaseUser.getUid();
+                        Log.d("currentUserUID", currentUserUID);
+                    }
                     System.out.println("성공");
 
-                    if(firebaseUser != null ) {
-                        // 현재 내가 가입해서 얻은 uid
-                        currentUserUID = firebaseUser.getUid();
-                    }
-                    // temp variable
                     String finalCheckProfileImage = checkProfileImage;
 
 
+
+                    // 데이터 베이스에 저장.
+                    databaseReference.child("users").child(currentUserUID).child("uid").setValue(currentUserUID);
+                    databaseReference.child("users").child(currentUserUID).child("name").setValue(checkName);
+                    databaseReference.child("users").child(currentUserUID).child("email").setValue(checkEmail);
+                    databaseReference.child("users").child(currentUserUID).child("profileImage").setValue(finalCheckProfileImage);
+
+
+
+                    // MutableLiveData 를 통해서 값을 받아서 MainActivity 로 보냄
                     stringArrayList.add(currentUserUID);
                     stringArrayList.add(checkName);
                     stringArrayList.add(checkEmail);
-                    stringArrayList.add(finalCheckProfileImage);
+                    stringArrayList.add(checkProfileImage);
 
                     getDataList.setValue(stringArrayList);
-                    Log.d("getDataList", "데이터가 성공적으로 getDataList 에 저장되었습니다.");
 
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    editor.putString("authenticationUID", currentUserUID);
+                    editor.putString("authenticationName", checkName);
+                    editor.putString("authenticationEmail", checkEmail);
+                    editor.putString("authenticationCheckProfileImage", checkProfileImage);
+                    editor.commit();
 
-                            if(snapshot.child("users").hasChild(currentUserUID)){
-                                Log.d("realtimeDataBase", "현재 users 하위에 같은 UID 가 존재 합니다.");
-                            } else {
-
-                                // 1. 리얼타임데이터베이스에 저장 email, name
-                                databaseReference.child("users").child(currentUserUID).child("uid").setValue(currentUserUID);
-                                databaseReference.child("users").child(currentUserUID).child("name").setValue(checkName);
-                                databaseReference.child("users").child(currentUserUID).child("email").setValue(checkEmail);
-                                // 2. 프로필 이미지는 처음엔 기본 아무것도 없는 상태로 저장.
-                                databaseReference.child("users").child(currentUserUID).child("profileImage").setValue(finalCheckProfileImage);
-                                Log.d("realtimeDataBase", "회원가입 내용을 성공적으로 리얼타임 데이터베이스에 저장 하였습니다.");
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            System.out.print(error);
-                        }
-                    });
+                    Log.d("authenticationUID", preferences.getString("authenticationUID", ""));
 
 
                 } else {

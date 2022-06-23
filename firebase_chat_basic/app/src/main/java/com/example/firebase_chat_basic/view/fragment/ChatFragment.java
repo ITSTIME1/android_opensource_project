@@ -13,16 +13,20 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 // @TODO chatting list 만들기 firebase 연동.
 
 public class ChatFragment extends Fragment {
+    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
     private FragmentChatBinding fragmentChatBinding;
     private ChatRecyclerAdapter chatRecyclerAdapter;
     private ChatViewModel chatViewModel;
-    public String clientName;
-    public String clientEmail;
-    public String clientProfileImage;
     public String getCurrentMyUID;
 
 
@@ -33,8 +37,10 @@ public class ChatFragment extends Fragment {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         getDataFromMainActivity();
         init();
+
         return fragmentChatBinding.getRoot();
     }
+
 
     public void init() {
         chatViewModel = new ChatViewModel(getCurrentMyUID, getActivity().getApplication());
@@ -57,9 +63,9 @@ public class ChatFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if(bundle != null) {
-            clientName = bundle.getString("clientName");
-            clientEmail = bundle.getString("clientEmail");
-            clientProfileImage = bundle.getString("clientProfileImage");
+            String clientName = bundle.getString("clientName");
+            String clientEmail = bundle.getString("clientEmail");
+            String clientProfileImage = bundle.getString("clientProfileImage");
             getCurrentMyUID = bundle.getString("clientUID");
 
             System.out.println("=============================");
@@ -71,4 +77,5 @@ public class ChatFragment extends Fragment {
             System.out.println("=============================");
         }
     }
+
 }

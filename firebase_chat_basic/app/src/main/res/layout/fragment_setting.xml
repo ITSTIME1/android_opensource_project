@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="setting"
+            type="com.example.firebase_chat_basic.view.fragment.SettingFragment"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -37,6 +39,12 @@
                         android:text="@string/fragment_setting_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/logout_button"
+                        android:text="로그아웃"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"/>
 
 
                 </androidx.appcompat.widget.Toolbar>
