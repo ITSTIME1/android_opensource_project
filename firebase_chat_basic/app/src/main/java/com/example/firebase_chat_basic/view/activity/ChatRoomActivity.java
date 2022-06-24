@@ -36,16 +36,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Long dateTime;
-    private Timestamp timestamp;
-
     // 상대방 이름
     private String getOtherName;
-    // 상대방 UID
-    String getCombineKey;
+    // 채팅방 키
+    private String getChatKey;
     // 나의 UID
-    String getCurrentMyUID;
+    private String getCurrentMyUID;
     // 상대방 UId
-    String getOtherUID;
+    private String getOtherUID;
     public String getGetOtherName() {
         return getOtherName;
     }
@@ -59,7 +57,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         defaultInit();
         getFromChatRecyclerAdapter();
-        Log.d("getCombineKey", getCombineKey);
         sendMessage();
         onBackPressed();
 
@@ -70,16 +67,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String chatText = activityChatroomBinding.chatRoomTextField.getText().toString();
-                dateTime = System.currentTimeMillis();
+                // 채팅을 하는거야 그 상대방의 chatKey 값을 가지고 와서.
+                final String chatText = activityChatroomBinding.chatRoomTextField.getText().toString();
+                if(!chatText.isEmpty()) {
+                    dateTime = System.currentTimeMillis();
+                    // 채팅 저장
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(dateTime)).child("msg").setValue(chatText);
+                    // 보낸 사람 저장
+                    databaseReference.child("chat").child(getChatKey).child("보낸사람").setValue(getCurrentMyUID);
+                    // 받은 사람 저장
+                    databaseReference.child("chat").child(getChatKey).child("받은사람").setValue(getOtherUID);
 
-                if(!getCombineKey.isEmpty()) {
-                    databaseReference.child("chat").child(getCombineKey).child("comments").child(String.valueOf(dateTime)).child("msg").setValue(chatText);
-                    databaseReference.child("chat").child(getCombineKey).child("comments").child(String.valueOf(dateTime)).child("currentDate").setValue(dateTime.toString());
-                    editor.putString("chatLastText", chatText);
                     editor.putLong("chatDateTime", dateTime);
-                    editor.apply();
-                    Log.d("채팅방 저장완료", "");
+                    editor.commit();
+
                 }
 
             }
@@ -98,7 +99,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     @Override
     public void defaultInit() {
         BaseInterface.super.defaultInit();
-        Intent intent = getIntent();
         activityChatroomBinding.setChatRoomActivity(this);
         preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         editor = preferences.edit();
@@ -107,8 +107,15 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public void getFromChatRecyclerAdapter(){
         Intent getIntent = getIntent();
         getOtherName = getIntent.getStringExtra("getOtherName");
-        getCombineKey = getIntent.getStringExtra("getChatKey");
+        getChatKey = getIntent.getStringExtra("getChatKey");
         getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
         getOtherUID = getIntent.getStringExtra("getOtherUID");
+
+        Log.d("getOtherName", getOtherName);
+        Log.d("getChatKey", getChatKey);
+        Log.d("getCurrentMyUID", getCurrentMyUID);
+        Log.d("getOtherUID", getOtherUID);
+
+
     }
 }

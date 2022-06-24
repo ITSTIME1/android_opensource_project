@@ -22,6 +22,7 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_margin="10dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/circle_image"
                 android:layout_width="50dp"

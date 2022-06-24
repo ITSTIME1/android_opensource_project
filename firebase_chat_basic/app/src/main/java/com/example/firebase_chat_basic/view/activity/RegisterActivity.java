@@ -56,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         observerIntent();
     }
 
+    // check current user
     public void check_firebase_user(){
         preferences = getSharedPreferences("authentication", Activity.MODE_PRIVATE);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -88,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         }
     }
 
+    // default init
     @Override
     public void defaultInit() {
         BaseInterface.super.defaultInit();
@@ -95,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         activityRegisterBinding.setRegisterViewModel(registerViewModel);
     }
 
+    // observer method
     @Override
     public void observerIntent() {
         BaseInterface.super.observerIntent();
