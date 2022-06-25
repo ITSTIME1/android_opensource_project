@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
@@ -21,12 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 // @TODO chatting list 만들기 firebase 연동.
 
-public class ChatFragment extends Fragment {
-    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
+public class ChatFragment extends Fragment implements BaseInterface {
     private FragmentChatBinding fragmentChatBinding;
     private ChatRecyclerAdapter chatRecyclerAdapter;
-    private ChatViewModel chatViewModel;
     public String getCurrentMyUID;
 
 
@@ -36,14 +35,14 @@ public class ChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         getDataFromMainActivity();
-        init();
-
+        defaultInit();
         return fragmentChatBinding.getRoot();
     }
 
-
-    public void init() {
-        chatViewModel = new ChatViewModel(getCurrentMyUID, getActivity().getApplication());
+    @Override
+    public void defaultInit() {
+        BaseInterface.super.defaultInit();
+        ChatViewModel chatViewModel = new ChatViewModel(getCurrentMyUID, getActivity().getApplication());
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
 
@@ -61,7 +60,6 @@ public class ChatFragment extends Fragment {
 
     public void getDataFromMainActivity(){
         Bundle bundle = getArguments();
-
         if(bundle != null) {
             String clientName = bundle.getString("clientName");
             String clientEmail = bundle.getString("clientEmail");

@@ -11,4 +11,5 @@ public interface BaseInterface {
     public default void initRetrofit(){};
     public default void initAdapter(){};
     public default void observerIntent(){};
+    public default void initNavigationListener(){};
 }

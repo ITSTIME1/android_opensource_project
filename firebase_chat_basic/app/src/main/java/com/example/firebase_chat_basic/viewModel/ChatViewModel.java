@@ -30,21 +30,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-// @TODO getContent 내용이 다른 한쪽에서는 최신화가 안됨.
+// @TODO Contacts 에서 users 에 추가된 리스트 값만 뽑아서
+// @TODO 거기서 채팅을 시작하게 되면 chatRoom이 형서되서서 chat에 표시되게끔 한다.
 
 public class ChatViewModel extends AndroidViewModel {
-    // database reference
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
+
     public ArrayList<ChatListModel> chatListModelArrayList;
     public ArrayList<ChatListModel> resultList;
+
     private ChatRecyclerAdapter chatRecyclerAdapter;
+
     private DatabaseReference databaseReference;
     private SharedPreferences preferences;
-    private String firebase_MyKey;
-    private String chatContent = "메세지";
-    private String chatCount = String.valueOf(0);
-    private boolean dataSet = false;
 
+    private String firebase_MyKey;
+
+    Date nowDate = new Date();
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat newDtFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String chatDate = newDtFormat.format(nowDate);
 
 
     public ChatViewModel(String getCurrentMyUID, Application application) {
@@ -58,7 +63,7 @@ public class ChatViewModel extends AndroidViewModel {
             chatRecyclerAdapter = new ChatRecyclerAdapter(this);
             // No Adapter 문제가 생기는거임 아직 리스트 값이 없는데 그러니까
         }
-        if(resultList == null){
+        if (resultList == null) {
             resultList = new ArrayList<>();
         }
         // 유저 정보 생성.
@@ -68,7 +73,6 @@ public class ChatViewModel extends AndroidViewModel {
 
 
     // 새로운 유저 생성
-    // @TODO 유저 리스트 남겨지는 문제 해결해야됨.
     @SuppressLint("NotifyDataSetChanged")
     public void userRealTimeDataBase() {
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -80,13 +84,9 @@ public class ChatViewModel extends AndroidViewModel {
 
                 // 최초에 앱을 실행했을때 채팅의 내역 그리고 나와 키 값이 다른 사람의 값을 가지고 온다.
                 Log.d("ChatViewModel", "======== onDataChange ========");
-                for(DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
+                for (DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
                     if (!Objects.requireNonNull(userSnapshot.child("uid").getValue(String.class)).equals(firebase_MyKey)) {
-                        Date nowDate = new Date();
-                        @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat newDtFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        String chatDate = newDtFormat.format(nowDate);
-                        ;
+
                         Log.d("ChatViewModel", "======== Date 생성 ========");
 
                         String chatKey = firebase_MyKey + userSnapshot.child("uid").getValue(String.class);
@@ -152,6 +152,7 @@ public class ChatViewModel extends AndroidViewModel {
                                         }
                                     }
                                 }
+
 //                                // 채팅방이 없다는건 채팅을 하지 않았다는것
 //                                // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
 //                                chatListModelArrayList.add(new ChatListModel(
@@ -180,6 +181,7 @@ public class ChatViewModel extends AndroidViewModel {
             }
         });
     }
+
     public void initViewModel() {
         Application context = getApplication();
         preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
@@ -225,38 +227,3 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
 }
-
-
-
-//    int chatRoomCount = (int) snapshot.getChildrenCount();
-//                if(chatRoomCount > 0) {
-//                    for(DataSnapshot chatSnapShot : snapshot.getChildren()){
-//                        final String getChatKey = chatSnapShot.getKey();
-//                        // 반복문을 통해서 얻어온 키 값의 길이와 객체를 생성하기 전에 부여
-//                        assert getChatKey != null;
-//                        if(getChatKey.length() == chatKey.length() && ) {
-//                            // comments 하위에 있는 메세지 키 값들을 가지고 온다.
-//                            for(DataSnapshot commentSnapShot : chatSnapShot.child("comments").getChildren()) {
-//                                long beforeMessageKey = 0;
-//                                final long recentMessageKey = preferences.getLong("chatDateTime", 0);
-//                                long childMessageKey = Long.parseLong(Objects.requireNonNull(commentSnapShot.getKey()));
-//
-//                                getContent = commentSnapShot.child("msg").getValue(String.class);
-//                                if (recentMessageKey > childMessageKey) {
-//                                    beforeMessageKey = Long.parseLong(commentSnapShot.getKey());
-//                                }
-//                                // 최신 메세지가 이전 메세지 보다 크다면
-//                                if (recentMessageKey > beforeMessageKey) {
-//                                    getMessageCount++;
-//                                }
-//                            }
-//                        } else {
-//                            continue;
-//                        }
-//                    }
-//                }
-//                chatListModelArrayList.add(new ChatListModel(firebase_otherName, getDate, getContent, String.valueOf(getMessageCount), chatKey, firebase_MyKey, firebase_otherUID));
-//                chatRecyclerAdapter.notifyDataSetChanged();
-//                Log.d("list chatKey ", String.valueOf(chatListModelArrayList.get(0).getChatKey()));
-//
-//                Log.d("리스트추가 후 변경사항 적용", "");

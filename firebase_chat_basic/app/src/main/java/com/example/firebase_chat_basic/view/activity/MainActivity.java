@@ -62,30 +62,15 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
         initAdapter();
         initNavigationListener();
         getDataFromRegisterActivity();
     }
 
-    // adapter init
-
-
+    // navigation listener init
     @Override
-    public void initAdapter() {
-        BaseInterface.super.initAdapter();
-        fragmentArrayList.add(chatFragment);
-        fragmentArrayList.add(contactFragment);
-        fragmentArrayList.add(settingFragment);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
-        activityMainBinding.viewPager.setAdapter(viewPagerAdapter);
-        // 상태유지
-        activityMainBinding.viewPager.setOffscreenPageLimit(fragmentArrayList.size());
-    }
-
-    // bottomNavigation click listener
-    public void initNavigationListener(){
+    public void initNavigationListener() {
+        BaseInterface.super.initNavigationListener();
         activityMainBinding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
@@ -134,6 +119,19 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         });
     }
 
+    @Override
+    public void initAdapter() {
+        BaseInterface.super.initAdapter();
+        fragmentArrayList.add(chatFragment);
+        fragmentArrayList.add(contactFragment);
+        fragmentArrayList.add(settingFragment);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
+        activityMainBinding.viewPager.setAdapter(viewPagerAdapter);
+        // 상태유지
+        activityMainBinding.viewPager.setOffscreenPageLimit(fragmentArrayList.size());
+    }
+
     // get data from "RegisterActivity"
     public void getDataFromRegisterActivity(){
         Intent mainActivityIntent = getIntent();
@@ -160,5 +158,6 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         bundle.putString("clientProfileImage", clientProfileImage);
 
         chatFragment.setArguments(bundle);
+        contactFragment.setArguments(bundle);
     }
 }

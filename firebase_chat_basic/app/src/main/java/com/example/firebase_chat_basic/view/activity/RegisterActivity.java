@@ -41,9 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 public class RegisterActivity extends AppCompatActivity implements BaseInterface {
     private ActivityRegisterBinding activityRegisterBinding;
     private RegisterViewModel registerViewModel;
-    private FirebaseUser firebaseUser;
-    private SharedPreferences preferences;
-//    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     Intent registerIntent;
 
     @Override
@@ -58,10 +55,9 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
 
     // check current user
     public void check_firebase_user(){
-        preferences = getSharedPreferences("authentication", Activity.MODE_PRIVATE);
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        // 유저가 없으면 회원가입 해야 되니까 아무 실행 안함.
-        // 유저가 있으면 유저 정보가 나의 정보가 맞나 확인하고 정보를 넘김.
+        SharedPreferences preferences = getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if (firebaseUser == null) {
             Log.d("Authentication User is Not", "");
         } else if(firebaseUser.getUid().equals(preferences.getString("authenticationUID", ""))) {
