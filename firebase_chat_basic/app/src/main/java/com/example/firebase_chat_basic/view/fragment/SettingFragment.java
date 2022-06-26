@@ -1,16 +1,13 @@
 package com.example.firebase_chat_basic.view.fragment;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentSettingBinding;
 import com.google.firebase.auth.FirebaseAuth;

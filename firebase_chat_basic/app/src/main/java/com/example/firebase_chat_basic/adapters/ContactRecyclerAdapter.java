@@ -10,7 +10,7 @@ import com.example.firebase_chat_basic.viewModel.ContactViewModel;
 
 
 public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.CustomContactViewHolder> {
-    private ContactViewModel contactViewModel;
+    private final ContactViewModel contactViewModel;
 
     public ContactRecyclerAdapter(ContactViewModel contactViewModel) {
         this.contactViewModel = contactViewModel;
@@ -25,12 +25,13 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ContactRecyclerAdapter.CustomContactViewHolder holder, int position) {
+        holder.bind(contactViewModel, position);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return contactViewModel.getContactModelList().size();
     }
 
     public class CustomContactViewHolder extends RecyclerView.ViewHolder {
@@ -38,6 +39,11 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
         public CustomContactViewHolder(@NonNull ItemFragmentContactBinding itemFragmentContactBinding) {
             super(itemFragmentContactBinding.getRoot());
             this.itemFragmentContactBinding = itemFragmentContactBinding;
+        }
+
+        public void bind(ContactViewModel contactViewModel, int position){
+            itemFragmentContactBinding.setContactViewModel(contactViewModel);
+            itemFragmentContactBinding.setPos(position);
         }
     }
 }

@@ -60,25 +60,28 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
 
         if (firebaseUser == null) {
             Log.d("Authentication User is Not", "");
-        } else if(firebaseUser.getUid().equals(preferences.getString("authenticationUID", ""))) {
+        } else if(firebaseUser.getUid().equals(preferences.getString("authentication_uid", ""))) {
 
-            Log.d("User Checking", String.valueOf(firebaseUser.getUid().equals(preferences.getString("authenticationUID", ""))));
+            Log.d("User Checking", String.valueOf(firebaseUser.getUid().equals(preferences.getString("authentication_uid", ""))));
             registerIntent = new Intent(this, MainActivity.class);
+
             // preference 에서 값을 가지고 온 뒤
-            final String authentication_UID = preferences.getString("authenticationUID", "");
-            final String authentication_Name = preferences.getString("authenticationName", "");
-            final String authentication_Email = preferences.getString("authenticationEmail", "");
-            final String authentication_ProfileImage = preferences.getString("authenticationCheckProfileImage", "");
+            final String authentication_uid = preferences.getString("authentication_uid", "");
+            final String authentication_name = preferences.getString("authentication_name", "");
+            final String authentication_email = preferences.getString("authentication_email", "");
+            final String authentication_profile_image = preferences.getString("authentication_check_profile_image", "");
+            final String authentication_phone_number = preferences.getString("authentication_phone_number", "");
 
-            registerIntent.putExtra("clientUID", authentication_UID);
-            registerIntent.putExtra("clientName", authentication_Name);
-            registerIntent.putExtra("clientEmail", authentication_Email);
-            registerIntent.putExtra("clientProfileImage", authentication_ProfileImage);
+            registerIntent.putExtra("client_uid", authentication_uid);
+            registerIntent.putExtra("client_name", authentication_name);
+            registerIntent.putExtra("client_email", authentication_email);
+            registerIntent.putExtra("client_profile_image", authentication_profile_image);
+            registerIntent.putExtra("client_phone_number", authentication_phone_number);
 
-            Log.d("Authentication User is exist", String.valueOf(authentication_UID));
+            Log.d("Authentication User is exist", String.valueOf(authentication_uid));
 
             startActivity(registerIntent);
-            Toast.makeText(this, "로그인 완료" + authentication_UID, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "로그인 완료" + authentication_uid, Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Log.d("유저정보도 없고, 값도 틀립니다.", "");
@@ -99,11 +102,12 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         BaseInterface.super.observerIntent();
         registerViewModel.getDataList.observe(this, registerData -> {
             registerIntent = new Intent(this, MainActivity.class);
-            if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(2) != null) {
-                registerIntent.putExtra("clientUID", registerData.get(0));
-                registerIntent.putExtra("clientName", registerData.get(1));
-                registerIntent.putExtra("clientEmail", registerData.get(2));
-                registerIntent.putExtra("clientProfileImage", registerData.get(3));
+            if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(2) != null && registerData.get(4) != null) {
+                registerIntent.putExtra("client_uid", registerData.get(0));
+                registerIntent.putExtra("client_name", registerData.get(1));
+                registerIntent.putExtra("client_email", registerData.get(2));
+                registerIntent.putExtra("client_profile_image", registerData.get(3));
+                registerIntent.putExtra("client_phone_number", registerData.get(4));
                 Log.d("registerIntent", "success");
             } else {
                 Log.d("registerData", "register Data null");

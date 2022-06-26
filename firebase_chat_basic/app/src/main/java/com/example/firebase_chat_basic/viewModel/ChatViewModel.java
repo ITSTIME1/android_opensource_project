@@ -1,34 +1,22 @@
 package com.example.firebase_chat_basic.viewModel;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-
-
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatListModel;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
 
 // @TODO Contacts 에서 users 에 추가된 리스트 값만 뽑아서
 // @TODO 거기서 채팅을 시작하게 되면 chatRoom이 형서되서서 chat에 표시되게끔 한다.

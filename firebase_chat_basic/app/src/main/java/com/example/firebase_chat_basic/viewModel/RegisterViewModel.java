@@ -61,6 +61,7 @@ public class RegisterViewModel extends AndroidViewModel {
     private String currentUserUID;
     private String check_profile_image;
     private String check_sum_name;
+    private String check_phone_number;
 
 
     // registerViewModel constructor
@@ -90,9 +91,7 @@ public class RegisterViewModel extends AndroidViewModel {
         String check_email = getRegister_email.getValue();
         String check_password = getRegister_password.getValue();
 
-        // @TODO phone_number 넘겨주기 해야됨.
-        String check_phone_number = getRegister_phone_number.getValue();
-
+        check_phone_number = getRegister_phone_number.getValue();
         check_sum_name = check_first_name + check_second_name;
         if(check_profile_image == null) check_profile_image = "Default";
 
@@ -121,26 +120,31 @@ public class RegisterViewModel extends AndroidViewModel {
 
 
 
-                    // 데이터 베이스에 저장.
+                    // realtime database save.
+                    // uid, name, email, profileImage, phoneNumber
                     databaseReference.child("users").child(currentUserUID).child("uid").setValue(currentUserUID);
                     databaseReference.child("users").child(currentUserUID).child("name").setValue(check_sum_name);
                     databaseReference.child("users").child(currentUserUID).child("email").setValue(check_email);
                     databaseReference.child("users").child(currentUserUID).child("profileImage").setValue(finalCheckProfileImage);
+                    databaseReference.child("users").child(currentUserUID).child("phoneNumber").setValue(check_phone_number);
 
 
 
-                    // MutableLiveData 를 통해서 값을 받아서 MainActivity 로 보냄
+
+                    // mutable livedata
                     stringArrayList.add(currentUserUID);
                     stringArrayList.add(check_sum_name);
                     stringArrayList.add(check_email);
                     stringArrayList.add(check_profile_image);
+                    stringArrayList.add(check_phone_number);
 
                     getDataList.setValue(stringArrayList);
 
-                    editor.putString("authenticationUID", currentUserUID);
-                    editor.putString("authenticationName", check_sum_name);
-                    editor.putString("authenticationEmail", check_email);
-                    editor.putString("authenticationCheckProfileImage", check_profile_image);
+                    editor.putString("authentication_uid", currentUserUID);
+                    editor.putString("authentication_name", check_sum_name);
+                    editor.putString("authentication_email", check_email);
+                    editor.putString("authentication_check_profile_image", check_profile_image);
+                    editor.putString("authentication_phone_number", check_phone_number);
                     editor.commit();
 
                     Log.d("authenticationUID", preferences.getString("authenticationUID", ""));

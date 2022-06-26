@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initAdapter();
         initNavigationListener();
-        getDataFromRegisterActivity();
+        getDataFromActivity();
     }
 
     // navigation listener init
@@ -133,29 +133,37 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     }
 
     // get data from "RegisterActivity"
-    public void getDataFromRegisterActivity(){
+
+
+    @Override
+    public void getDataFromActivity() {
+        BaseInterface.super.getDataFromActivity();
         Intent mainActivityIntent = getIntent();
 
-        String clientName = mainActivityIntent.getStringExtra("clientName");
-        String clientEmail = mainActivityIntent.getStringExtra("clientEmail");
-        String clientUID = mainActivityIntent.getStringExtra("clientUID");
-        String clientProfileImage = mainActivityIntent.getStringExtra("clientProfileImage");
+
+        String client_name = mainActivityIntent.getStringExtra("client_name");
+        String client_email = mainActivityIntent.getStringExtra("client_email");
+        String client_uid = mainActivityIntent.getStringExtra("client_uid");
+        String client_profile_image = mainActivityIntent.getStringExtra("client_profile_image");
+        String client_phone_number = mainActivityIntent.getStringExtra("client_phone_number");
 
         System.out.println("=============================");
         System.out.println("MainActivity - succeeded");
-        System.out.println(clientName);
-        System.out.println(clientEmail);
-        System.out.println(clientUID);
-        System.out.println(clientProfileImage);
+        System.out.println(client_name);
+        System.out.println(client_email);
+        System.out.println(client_uid);
+        System.out.println(client_profile_image);
+        System.out.println(client_phone_number);
         System.out.println("=============================");
 
 
 
         Bundle bundle = new Bundle();
-        bundle.putString("clientName", clientName);
-        bundle.putString("clientEmail", clientEmail);
-        bundle.putString("clientUID", clientUID);
-        bundle.putString("clientProfileImage", clientProfileImage);
+        bundle.putString("fragment_client_name", client_name);
+        bundle.putString("fragment_client_email", client_email);
+        bundle.putString("fragment_client_uid", client_uid);
+        bundle.putString("fragment_client_profile_image", client_profile_image);
+        bundle.putString("fragment_client_phone_number", client_phone_number);
 
         chatFragment.setArguments(bundle);
         contactFragment.setArguments(bundle);

@@ -12,4 +12,5 @@ public interface BaseInterface {
     public default void initAdapter(){};
     public default void observerIntent(){};
     public default void initNavigationListener(){};
+    public default  void getDataFromActivity(){};
 }

@@ -1,60 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="contactViewModel"
+            type="com.example.firebase_chat_basic.viewModel.ContactViewModel"/>
+
+        <variable
+            name="pos"
+            type="Integer" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="90dp">
-
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/chat_item_layout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <!-- 일단 고정 -->
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center"
                 android:id="@+id/contact_profile_image"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/circle_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:civ_border_color="@color/chatMainBackgroundColor"
-                app:civ_border_width="1dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
 
+            <!-- text header -->
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginStart="10dp"
+                android:layout_margin="10dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:textColor="@color/black"
-                    android:id="@+id/contact_name"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:text="HongTaeSun"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-
-                <TextView
-                    android:textColor="@color/chatItemDividerColor"
-                    android:id="@+id/contact_content"
-                    android:textSize="12sp"
-                    android:layout_marginStart="10dp"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="010-9775-4185"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/contact_name"
+                        android:text="HongTaeSun"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="RtlHardcoded">
+                        <TextView
+                            android:id="@+id/contact_phone_number"
+                            android:text="+821097754185"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/contact_state_message"
+                            android:layout_gravity="center"
+                            android:text="오늘의 나는 행복한 삶을 꿈꾸자"
+                            android:textSize="11sp"
+                            android:textColor="@color/chatMainBackgroundColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:gravity="end"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/contact_online_state"
+                                android:text="Online"
+                                android:gravity="center"
+                                android:textColor="@color/chatMainBackgroundColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <View
             android:background="@color/chatItemDividerColor"
             android:layout_width="match_parent"

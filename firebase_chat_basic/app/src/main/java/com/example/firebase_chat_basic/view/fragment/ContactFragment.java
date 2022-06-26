@@ -4,17 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentContactBinding;
+import com.example.firebase_chat_basic.viewModel.ContactViewModel;
 
-public class ContactFragment extends Fragment {
+public class ContactFragment extends Fragment implements BaseInterface {
     private FragmentContactBinding fragmentContactBinding;
+    private String getCurrentMyUID;
 
     @Nullable
     @Override
@@ -22,9 +25,7 @@ public class ContactFragment extends Fragment {
 
         fragmentContactBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
 
-        /*
-         *  Do this
-         */
+
 
         return fragmentContactBinding.getRoot();
     }
@@ -33,5 +34,37 @@ public class ContactFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         fragmentContactBinding = null;
+    }
+
+    @Override
+    public void defaultInit() {
+        BaseInterface.super.defaultInit();
+        ContactViewModel contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        fragmentContactBinding.setContactViewModel(contactViewModel);
+        fragmentContactBinding.setLifecycleOwner(this);
+
+    }
+
+    @Override
+    public void getDataFromActivity() {
+        BaseInterface.super.getDataFromActivity();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+
+            String clientName = bundle.getString("fragment_client_name");
+            String clientEmail = bundle.getString("fragment_client_email");
+            String clientProfileImage = bundle.getString("fragment_client_profile_image");
+            getCurrentMyUID = bundle.getString("fragment_client_uid");
+            String client_phone_number = bundle.getString("fragment_client_phone_number");
+
+            System.out.println("=============================");
+            System.out.println("ChatFragment - succeeded");
+            System.out.println(clientName);
+            System.out.println(clientEmail);
+            System.out.println(getCurrentMyUID);
+            System.out.println(clientProfileImage);
+            System.out.println(client_phone_number);
+            System.out.println("=============================");
+        }
     }
 }
