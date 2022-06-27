@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+
+import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatListModel;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +23,7 @@ import java.util.Objects;
 // @TODO Contacts 에서 users 에 추가된 리스트 값만 뽑아서
 // @TODO 거기서 채팅을 시작하게 되면 chatRoom이 형서되서서 chat에 표시되게끔 한다.
 
-public class ChatViewModel extends AndroidViewModel {
+public class ChatViewModel extends AndroidViewModel implements FirebaseInterface {
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
 
     public ArrayList<ChatListModel> chatListModelArrayList;
@@ -55,14 +57,14 @@ public class ChatViewModel extends AndroidViewModel {
             resultList = new ArrayList<>();
         }
         // 유저 정보 생성.
-        userRealTimeDataBase();
+        getUserDataBase();
 
     }
 
 
-    // 새로운 유저 생성
-    @SuppressLint("NotifyDataSetChanged")
-    public void userRealTimeDataBase() {
+    @Override
+    public void getUserDataBase() {
+        FirebaseInterface.super.getUserDataBase();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,58 +90,77 @@ public class ChatViewModel extends AndroidViewModel {
                         // 채팅방이 없다는건 채팅을 하지 않았다는것
                         // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
                         chatListModelArrayList.clear();
-                        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                Log.d("ChatViewModel", "======== 채팅 읽어오기 ========");
-                                int chatRoomCount = (int) snapshot.getChildrenCount();
-                                // 채팅이 있으면
-                                if (chatRoomCount > 0) {
-                                    Log.d("ChatViewModel", "======== 채팅방 검사 시작 ========");
-                                    // 채팅방 내역을 훑고
-                                    for (DataSnapshot chatDataSnapShot : snapshot.getChildren()) {
-                                        // 그 해당 채팅방의 보낸 사람과 받은 사람의 키 값을 확인할거임.
-                                        if (chatDataSnapShot.hasChild("보낸사람") && chatDataSnapShot.hasChild("받은사람")) {
-                                            final String receiver = chatDataSnapShot.child("받은사람").getValue(String.class);
-                                            final String sender = chatDataSnapShot.child("보낸사람").getValue(String.class);
-                                            // 보낸 사람과 받은 사람의 키 값들을 확인하고
-                                            if ((receiver.equals(getOtherKey) && sender.equals(firebase_MyKey)) || (receiver.equals(firebase_MyKey) && sender.equals(getOtherKey))) {
-                                                // 해당 키 값을 저장해주고
-                                                Log.d("ChatViewModel", "======== 채팅방 검사 완료 ========");
+                        // chat logic
+                        getChatDataBase(getOtherName, getOtherKey);
 
-                                                final String getChatKey = chatDataSnapShot.getKey();
-                                                String getContent = "메세지가 없습니다.";
-                                                int getMessageCount = 0;
 
-                                                for (DataSnapshot messageSnapShot : chatDataSnapShot.child("message").getChildren()) {
-                                                    long beforeMessageKey = 0;
-                                                    final long recentMessageKey = preferences.getLong("chatDateTime", 0);
-                                                    long childMessageKey = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
+                    }
+                }
+            }
 
-                                                    if (recentMessageKey > childMessageKey) {
-                                                        beforeMessageKey = Long.parseLong(messageSnapShot.getKey());
-                                                    }
-                                                    if (recentMessageKey > beforeMessageKey) {
-                                                        getMessageCount++;
-                                                    }
-                                                    getContent = messageSnapShot.child("msg").getValue(String.class);
-                                                }
-                                                chatListModelArrayList.add(new ChatListModel(
-                                                        getOtherName,
-                                                        chatDate,
-                                                        getContent,
-                                                        String.valueOf(getMessageCount),
-                                                        getChatKey,
-                                                        firebase_MyKey,
-                                                        getOtherKey));
-                                                chatRecyclerAdapter.notifyDataSetChanged();
-                                                Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                                            }
-                                        }
+            }
+        });
+    }
+
+    @Override
+    public void getChatDataBase(String getOtherName, String getOtherKey) {
+        FirebaseInterface.super.getChatDataBase(getOtherName, getOtherKey);
+        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Log.d("ChatViewModel", "======== 채팅 읽어오기 ========");
+                int chatRoomCount = (int) snapshot.getChildrenCount();
+                // 채팅이 있으면
+                if (chatRoomCount > 0) {
+                    Log.d("ChatViewModel", "======== 채팅방 검사 시작 ========");
+                    // 채팅방 내역을 훑고
+                    for (DataSnapshot chatDataSnapShot : snapshot.getChildren()) {
+                        // 그 해당 채팅방의 보낸 사람과 받은 사람의 키 값을 확인할거임.
+                        if (chatDataSnapShot.hasChild("보낸사람") && chatDataSnapShot.hasChild("받은사람")) {
+                            final String receiver = chatDataSnapShot.child("받은사람").getValue(String.class);
+                            final String sender = chatDataSnapShot.child("보낸사람").getValue(String.class);
+                            // 보낸 사람과 받은 사람의 키 값들을 확인하고
+                            if ((receiver.equals(getOtherKey) && sender.equals(firebase_MyKey)) || (receiver.equals(firebase_MyKey) && sender.equals(getOtherKey))) {
+                                // 해당 키 값을 저장해주고
+                                Log.d("ChatViewModel", "======== 채팅방 검사 완료 ========");
+
+                                final String getChatKey = chatDataSnapShot.getKey();
+                                String getContent = "메세지가 없습니다.";
+                                int getMessageCount = 0;
+
+                                for (DataSnapshot messageSnapShot : chatDataSnapShot.child("message").getChildren()) {
+                                    long beforeMessageKey = 0;
+                                    final long recentMessageKey = preferences.getLong("chatDateTime", 0);
+                                    long childMessageKey = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
+
+                                    if (recentMessageKey > childMessageKey) {
+                                        beforeMessageKey = Long.parseLong(messageSnapShot.getKey());
                                     }
+                                    if (recentMessageKey > beforeMessageKey) {
+                                        getMessageCount++;
+                                    }
+                                    getContent = messageSnapShot.child("msg").getValue(String.class);
                                 }
+                                chatListModelArrayList.add(new ChatListModel(
+                                        getOtherName,
+                                        chatDate,
+                                        getContent,
+                                        String.valueOf(getMessageCount),
+                                        getChatKey,
+                                        firebase_MyKey,
+                                        getOtherKey));
+                                chatRecyclerAdapter.notifyDataSetChanged();
+                                Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
+
+                            }
+                        }
+                    }
+                }
 
 //                                // 채팅방이 없다는건 채팅을 하지 않았다는것
 //                                // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
@@ -152,15 +173,6 @@ public class ChatViewModel extends AndroidViewModel {
 //                                        firebase_MyKey,
 //                                        getOtherKey));
 //                                chatRecyclerAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-                }
             }
 
             @Override
@@ -169,6 +181,7 @@ public class ChatViewModel extends AndroidViewModel {
             }
         });
     }
+
 
     public void initViewModel() {
         Application context = getApplication();

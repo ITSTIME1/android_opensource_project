@@ -14,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_margin="20dp"
             android:orientation="horizontal"
@@ -113,23 +111,46 @@
             app:layout_constraintVertical_bias=".6"
             tools:ignore="Autofill,MissingConstraints,RtlSymmetry" />
 
-        <EditText
-            android:id="@+id/register_phone_number"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50sp"
-            android:elevation="4dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/register_field_bg"
-            android:hint="@string/register_phone_number"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:text="@={registerViewModel.getRegister_phone_number}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7"
-            tools:ignore="Autofill,MissingConstraints,RtlSymmetry,TextFields" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.75"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:textAlignment="center"
+                android:hint="+82"
+                android:layout_margin="20dp"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:elevation="4dp"
+                android:inputType="none"
+                android:background="@drawable/register_field_bg"
+                tools:ignore="Autofill,HardcodedText" />
+
+            <EditText
+                android:textAlignment="center"
+                android:id="@+id/register_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:elevation="4dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/register_field_bg"
+                android:hint="@string/register_phone_number"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:text="@={registerViewModel.getRegister_phone_number}"
+                tools:ignore="Autofill,MissingConstraints,RtlSymmetry,TextFields" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
         <TextView

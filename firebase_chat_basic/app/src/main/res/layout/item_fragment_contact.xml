@@ -45,7 +45,7 @@
 
                     <TextView
                         android:id="@+id/contact_name"
-                        android:text="HongTaeSun"
+                        android:text="@{contactViewModel.getUserName(pos)}"
                         android:textSize="15sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -57,7 +57,7 @@
                         tools:ignore="RtlHardcoded">
                         <TextView
                             android:id="@+id/contact_phone_number"
-                            android:text="+821097754185"
+                            android:text="@{`+82`+contactViewModel.getPhoneNumber(pos)}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
 

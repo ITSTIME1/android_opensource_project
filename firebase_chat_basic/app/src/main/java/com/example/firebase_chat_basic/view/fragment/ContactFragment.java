@@ -15,18 +15,20 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.FragmentContactBinding;
 import com.example.firebase_chat_basic.viewModel.ContactViewModel;
 
+import java.util.Objects;
+
 public class ContactFragment extends Fragment implements BaseInterface {
     private FragmentContactBinding fragmentContactBinding;
     private String getCurrentMyUID;
+    private ContactViewModel contactViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         fragmentContactBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
 
-
-
+        defaultInit();
+        getDataFromActivity();
         return fragmentContactBinding.getRoot();
     }
 
@@ -39,7 +41,7 @@ public class ContactFragment extends Fragment implements BaseInterface {
     @Override
     public void defaultInit() {
         BaseInterface.super.defaultInit();
-        ContactViewModel contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        contactViewModel = new ContactViewModel(requireActivity().getApplication(), getCurrentMyUID);
         fragmentContactBinding.setContactViewModel(contactViewModel);
         fragmentContactBinding.setLifecycleOwner(this);
 
