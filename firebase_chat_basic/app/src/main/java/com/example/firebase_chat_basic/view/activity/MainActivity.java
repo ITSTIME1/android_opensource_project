@@ -79,15 +79,12 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
                 switch (item.getItemId()){
                     case R.id.chat_home:
                         activityMainBinding.viewPager.setCurrentItem(0);
-
                         break;
                     case R.id.chat_contact:
                         activityMainBinding.viewPager.setCurrentItem(1);
-
                         break;
                     case R.id.chat_setting:
                         activityMainBinding.viewPager.setCurrentItem(2);
-
                         break;
                 }
                 return true;

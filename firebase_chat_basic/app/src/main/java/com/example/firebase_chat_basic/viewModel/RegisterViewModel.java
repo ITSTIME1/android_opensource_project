@@ -80,6 +80,7 @@ public class RegisterViewModel extends AndroidViewModel {
         getRegister_second_name= new MutableLiveData<>();
         getRegister_email = new MutableLiveData<>();
         getRegister_password = new MutableLiveData<>();
+        getRegister_phone_number = new MutableLiveData<>();
     }
 
     // register button
