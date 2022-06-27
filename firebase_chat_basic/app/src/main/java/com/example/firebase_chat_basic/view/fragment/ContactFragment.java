@@ -26,9 +26,8 @@ public class ContactFragment extends Fragment implements BaseInterface {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentContactBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
-
-        defaultInit();
         getDataFromActivity();
+        defaultInit();
         return fragmentContactBinding.getRoot();
     }
 
@@ -60,7 +59,7 @@ public class ContactFragment extends Fragment implements BaseInterface {
             String client_phone_number = bundle.getString("fragment_client_phone_number");
 
             System.out.println("=============================");
-            System.out.println("ChatFragment - succeeded");
+            System.out.println("ContactFragment - succeeded");
             System.out.println(clientName);
             System.out.println(clientEmail);
             System.out.println(getCurrentMyUID);
