@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         String client_uid = mainActivityIntent.getStringExtra("client_uid");
         String client_profile_image = mainActivityIntent.getStringExtra("client_profile_image");
         String client_phone_number = mainActivityIntent.getStringExtra("client_phone_number");
+        String client_online_state = mainActivityIntent.getStringExtra("client_online_state");
 
         System.out.println("=============================");
         System.out.println("MainActivity - succeeded");
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         System.out.println(client_uid);
         System.out.println(client_profile_image);
         System.out.println(client_phone_number);
+        System.out.println(client_online_state);
         System.out.println("=============================");
 
 
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         bundle.putString("fragment_client_uid", client_uid);
         bundle.putString("fragment_client_profile_image", client_profile_image);
         bundle.putString("fragment_client_phone_number", client_phone_number);
+        bundle.putString("fragment_client_online_state", client_online_state);
 
         chatFragment.setArguments(bundle);
         contactFragment.setArguments(bundle);

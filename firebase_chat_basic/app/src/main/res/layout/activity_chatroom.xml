@@ -55,7 +55,7 @@
                     android:id="@+id/chat_room_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20202-06-10"
+                    android:text="2022-06-10"
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

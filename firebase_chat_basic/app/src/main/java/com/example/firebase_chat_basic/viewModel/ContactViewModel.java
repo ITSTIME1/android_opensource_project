@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+// @TODO Contact 정보 눌렀을 때 정보 XML 짜기
 public class ContactViewModel extends AndroidViewModel implements FirebaseInterface {
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private final DatabaseReference databaseReference;
@@ -98,6 +98,9 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
             }
         });
     }
+
+
+
 
     @Override
     public String getUserName(int pos) {
