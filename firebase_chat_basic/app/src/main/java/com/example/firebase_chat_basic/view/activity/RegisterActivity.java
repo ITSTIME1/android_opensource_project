@@ -72,6 +72,8 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
             final String authentication_profile_image = preferences.getString("authentication_check_profile_image", "");
             final String authentication_phone_number = preferences.getString("authentication_phone_number", "");
             final String authentication_online_state = preferences.getString("authentication_online_state", "");
+            final String authentication_profile_background_image = preferences.getString("authentication_profile_background_image", "");
+            final String authentication_state_message = preferences.getString("authentication_state_message", "");
 
             registerIntent.putExtra("client_uid", authentication_uid);
             registerIntent.putExtra("client_name", authentication_name);
@@ -79,6 +81,8 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
             registerIntent.putExtra("client_profile_image", authentication_profile_image);
             registerIntent.putExtra("client_phone_number", authentication_phone_number);
             registerIntent.putExtra("client_online_state", authentication_online_state);
+            registerIntent.putExtra("client_profile_background_image", authentication_profile_background_image);
+            registerIntent.putExtra("client_state_message", authentication_state_message);
 
             Log.d("Authentication User is exist", String.valueOf(authentication_uid));
 
@@ -111,6 +115,9 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
                 registerIntent.putExtra("client_profile_image", registerData.get(3));
                 registerIntent.putExtra("client_phone_number", registerData.get(4));
                 registerIntent.putExtra("client_online_state", registerData.get(5));
+                registerIntent.putExtra("client_profile_background_image", registerData.get(6));
+                registerIntent.putExtra("client_state_message", registerData.get(7));
+
                 Log.d("registerIntent", "success");
             } else {
                 Log.d("registerData", "register Data null");

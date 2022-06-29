@@ -28,18 +28,21 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
     private ArrayList<ContactModel> contactModelList;
     private ContactRecyclerAdapter contactRecyclerAdapter;
     private String firebase_my_key;
+    private String firebase_my_profile_background_image;
     private String firebase_my_phone_number;
     private String contact_profile_image;
+    private String contact_profile_background_image;
     private String contact_name;
     private String contact_state_message;
     private String contact_phone_number;
     private String contact_online_state;
 
     // constructor init
-    public ContactViewModel(Application application, String getCurrentMyUID) {
+    public ContactViewModel(Application application, String getCurrentMyUID, String getProfileBackgroundImage) {
         super(application);
-        if (getCurrentMyUID != null) {
+        if (getCurrentMyUID != null && getProfileBackgroundImage != null) {
             firebase_my_key = getCurrentMyUID;
+            firebase_my_profile_background_image = getProfileBackgroundImage;
         }
         Log.d("firebase_my_key", String.valueOf(firebase_my_key));
         contactModelList = new ArrayList<>();
@@ -68,10 +71,15 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
 
                 assert getUserKey != null;
                 if (!getUserKey.equals(firebase_my_key)) {
+
                     contact_profile_image = snapshot.child("profileImage").getValue(String.class);
                     contact_name = snapshot.child("name").getValue(String.class);
                     contact_phone_number = snapshot.child("phoneNumber").getValue(String.class);
-                    contactModelList.add(new ContactModel(contact_profile_image, contact_name, "", contact_phone_number, ""));
+                    contact_profile_background_image = snapshot.child("backgroundImage").getValue(String.class);
+                    contact_online_state = snapshot.child("online").getValue(String.class);
+                    contact_state_message = snapshot.child("stateMessage").getValue(String.class);
+
+                    contactModelList.add(new ContactModel(contact_profile_image, contact_name, contact_state_message, contact_phone_number, contact_online_state, contact_profile_background_image));
                     contactRecyclerAdapter.notifyDataSetChanged();
                 }
 
@@ -116,6 +124,16 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
     public String getProfileImage(int pos) {
         return contactModelList.get(pos).getContact_profile_image();
     }
+
+    public String getBackgroundProfileImage(int pos) {
+        return contactModelList.get(pos).getContact_profile_background_image();
+    }
+
+    public String getStateMessage(int pos) {
+        return contactModelList.get(pos).getContact_state_message();
+    }
+
+
 
     public ContactRecyclerAdapter getContactRecyclerAdapter() {
         return contactRecyclerAdapter;

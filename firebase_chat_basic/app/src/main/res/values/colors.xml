@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="chatMainBackgroundColor">#1AA7EC</color>
     <color name="chatItemDividerColor">#bbbbbb</color>
+    <color name="chatProfileTransParentColor">#00000000</color>
 </resources>

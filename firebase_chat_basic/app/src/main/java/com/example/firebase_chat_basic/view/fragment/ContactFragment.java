@@ -20,6 +20,7 @@ import java.util.Objects;
 public class ContactFragment extends Fragment implements BaseInterface {
     private FragmentContactBinding fragmentContactBinding;
     private String getCurrentMyUID;
+    private String client_profile_background_image;
 
     @Nullable
     @Override
@@ -39,7 +40,7 @@ public class ContactFragment extends Fragment implements BaseInterface {
     @Override
     public void defaultInit() {
         BaseInterface.super.defaultInit();
-        ContactViewModel contactViewModel = new ContactViewModel(requireActivity().getApplication(), getCurrentMyUID);
+        ContactViewModel contactViewModel = new ContactViewModel(requireActivity().getApplication(), getCurrentMyUID, client_profile_background_image);
         fragmentContactBinding.setContactViewModel(contactViewModel);
         fragmentContactBinding.setLifecycleOwner(this);
 
@@ -57,6 +58,7 @@ public class ContactFragment extends Fragment implements BaseInterface {
             getCurrentMyUID = bundle.getString("fragment_client_uid");
             String client_phone_number = bundle.getString("fragment_client_phone_number");
             String client_online_state = bundle.getString("fragment_client_online_state");
+            client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
 
             System.out.println("=============================");
             System.out.println("ContactFragment - succeeded");
@@ -66,6 +68,7 @@ public class ContactFragment extends Fragment implements BaseInterface {
             System.out.println(clientProfileImage);
             System.out.println(client_phone_number);
             System.out.println(client_online_state);
+            System.out.println(client_profile_background_image);
             System.out.println("=============================");
         }
     }

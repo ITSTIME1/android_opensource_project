@@ -9,13 +9,15 @@ public class ContactModel {
     private String contact_state_message;
     private String contact_phone_number;
     private String contact_online_state;
+    private String contact_profile_background_image;
 
-    public ContactModel(String contact_profile_image, String contact_name, String contact_state_message, String contact_phone_number, String contact_online_state) {
+    public ContactModel(String contact_profile_image, String contact_name, String contact_state_message, String contact_phone_number, String contact_online_state, String contact_profile_background_image) {
         this.contact_profile_image = contact_profile_image;
         this.contact_name = contact_name;
         this.contact_state_message = contact_state_message;
         this.contact_phone_number = contact_phone_number;
         this.contact_online_state = contact_online_state;
+        this.contact_profile_background_image = contact_profile_background_image;
     }
 
     public String getContact_profile_image() {
@@ -56,5 +58,13 @@ public class ContactModel {
 
     public void setContact_online_state(String contact_online_state) {
         this.contact_online_state = contact_online_state;
+    }
+
+    public String getContact_profile_background_image() {
+        return contact_profile_background_image;
+    }
+
+    public void setContact_profile_background_image(String contact_profile_background_image) {
+        this.contact_profile_background_image = contact_profile_background_image;
     }
 }

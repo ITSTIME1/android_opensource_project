@@ -60,6 +60,8 @@ public class ChatFragment extends Fragment implements BaseInterface {
             String clientProfileImage = bundle.getString("fragment_client_profile_image");
             getCurrentMyUID = bundle.getString("fragment_client_uid");
             String client_phone_number = bundle.getString("fragment_client_phone_number");
+            String client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
+            String client_state_message = bundle.getString("fragment_client_state_message");
 
             System.out.println("=============================");
             System.out.println("ChatFragment - succeeded");
@@ -68,6 +70,8 @@ public class ChatFragment extends Fragment implements BaseInterface {
             System.out.println(getCurrentMyUID);
             System.out.println(clientProfileImage);
             System.out.println(client_phone_number);
+            System.out.println(client_profile_background_image);
+            System.out.println(client_state_message);
             System.out.println("=============================");
         }
     }

@@ -60,8 +60,10 @@ public class RegisterViewModel extends AndroidViewModel {
     // data into firebase authentication
     private String currentUserUID;
     private String check_profile_image;
+    private String check_profile_background_image;
     private String check_sum_name;
     private String check_phone_number;
+    private String check_state_message;
     private boolean onlineState = true;
 
 
@@ -92,10 +94,14 @@ public class RegisterViewModel extends AndroidViewModel {
         String check_second_name = getRegister_second_name.getValue();
         String check_email = getRegister_email.getValue();
         String check_password = getRegister_password.getValue();
+        String check_state_message = "Default";
 
         check_phone_number = getRegister_phone_number.getValue();
         check_sum_name = check_first_name + check_second_name;
+
+        // image need to use glide
         if(check_profile_image == null) check_profile_image = "Default";
+        if(check_profile_background_image == null) check_profile_background_image = "Default";
 
         // firebase authentication
         firebaseRegister(check_email, check_password);
@@ -129,6 +135,8 @@ public class RegisterViewModel extends AndroidViewModel {
                     databaseReference.child("users").child(currentUserUID).child("profileImage").setValue(finalCheckProfileImage);
                     databaseReference.child("users").child(currentUserUID).child("phoneNumber").setValue(check_phone_number);
                     databaseReference.child("users").child(currentUserUID).child("online").setValue(onlineState);
+                    databaseReference.child("users").child(currentUserUID).child("backgroundImage").setValue(check_profile_background_image);
+                    databaseReference.child("users").child(currentUserUID).child("stateMessage").setValue(check_state_message);
 
 
                     // mutable livedata add
@@ -138,6 +146,8 @@ public class RegisterViewModel extends AndroidViewModel {
                     stringArrayList.add(check_profile_image);
                     stringArrayList.add(check_phone_number);
                     stringArrayList.add(String.valueOf(onlineState));
+                    stringArrayList.add(check_profile_background_image);
+                    stringArrayList.add(check_state_message);
 
                     getDataList.setValue(stringArrayList);
 
@@ -147,6 +157,8 @@ public class RegisterViewModel extends AndroidViewModel {
                     editor.putString("authentication_check_profile_image", check_profile_image);
                     editor.putString("authentication_phone_number", check_phone_number);
                     editor.putString("authentication_online_state", String.valueOf(onlineState));
+                    editor.putString("authentication_profile_background_image", check_profile_background_image);
+                    editor.putString("authentication_state_message", check_state_message);
                     editor.commit();
 
                     Log.d("authenticationUID", preferences.getString("authenticationUID", ""));
