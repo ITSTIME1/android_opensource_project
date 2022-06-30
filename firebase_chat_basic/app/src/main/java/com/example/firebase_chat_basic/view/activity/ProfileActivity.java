@@ -28,21 +28,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         super.onCreate(savedInstanceState);
         activityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         defaultInit();
-        activityProfileBinding.profileName.setText(client_name);
-
-
-        ImageView chat = activityProfileBinding.chatImageGif;
-        GlideDrawableImageViewTarget chat_gif_image = new GlideDrawableImageViewTarget(chat);
-        Glide.with(this).load(R.raw.iconmessage).into(chat_gif_image);
-
-        ImageView contact = activityProfileBinding.contactImageGif;
-        GlideDrawableImageViewTarget contact_gif_image = new GlideDrawableImageViewTarget(contact);
-        Glide.with(this).load(R.raw.iconcontact).into(contact_gif_image);
-
-        ImageView save = activityProfileBinding.saveImageGif;
-        GlideDrawableImageViewTarget save_gif_image = new GlideDrawableImageViewTarget(save);
-        Glide.with(this).load(R.raw.iconsave).into(save_gif_image);
-
+        glide();
     }
 
 
@@ -55,5 +41,26 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         client_profile_image = intent.getStringExtra("client_profile_image");
         client_background_image = intent.getStringExtra("client_background_image");
         client_state_message = intent.getStringExtra("client_state_message");
+
+        if(client_state_message == null ){
+            client_state_message = "Default Message";
+        }
+
+        activityProfileBinding.profileName.setText(client_name);
+        activityProfileBinding.profileStateMessage.setText(client_state_message);
+    }
+
+    public void glide(){
+        ImageView chat = activityProfileBinding.chatImageGif;
+        GlideDrawableImageViewTarget chat_gif_image = new GlideDrawableImageViewTarget(chat);
+        Glide.with(this).load(R.raw.iconmessage).into(chat_gif_image);
+
+        ImageView contact = activityProfileBinding.contactImageGif;
+        GlideDrawableImageViewTarget contact_gif_image = new GlideDrawableImageViewTarget(contact);
+        Glide.with(this).load(R.raw.iconcontact).into(contact_gif_image);
+
+        ImageView save = activityProfileBinding.saveImageGif;
+        GlideDrawableImageViewTarget save_gif_image = new GlideDrawableImageViewTarget(save);
+        Glide.with(this).load(R.raw.iconsave).into(save_gif_image);
     }
 }
