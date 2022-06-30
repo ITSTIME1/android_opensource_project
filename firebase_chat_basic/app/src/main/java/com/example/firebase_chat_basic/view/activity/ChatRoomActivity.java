@@ -105,6 +105,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
     public void getFromChatRecyclerAdapter(){
+
         Intent getIntent = getIntent();
         getOtherName = getIntent.getStringExtra("getOtherName");
         getChatKey = getIntent.getStringExtra("getChatKey");

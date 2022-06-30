@@ -35,6 +35,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     private SharedPreferences preferences;
 
     private String firebase_MyKey;
+    private boolean listSet = false;
 
     Date nowDate = new Date();
     @SuppressLint("SimpleDateFormat")
@@ -75,6 +76,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                 // 최초에 앱을 실행했을때 채팅의 내역 그리고 나와 키 값이 다른 사람의 값을 가지고 온다.
                 Log.d("ChatViewModel", "======== onDataChange ========");
                 for (DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
+                    listSet = false;
                     if (!Objects.requireNonNull(userSnapshot.child("uid").getValue(String.class)).equals(firebase_MyKey)) {
 
                         Log.d("ChatViewModel", "======== Date 생성 ========");
@@ -98,6 +100,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                     }
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -146,16 +149,19 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                     }
                                     getContent = messageSnapShot.child("msg").getValue(String.class);
                                 }
-                                chatListModelArrayList.add(new ChatListModel(
-                                        getOtherName,
-                                        chatDate,
-                                        getContent,
-                                        String.valueOf(getMessageCount),
-                                        getChatKey,
-                                        firebase_MyKey,
-                                        getOtherKey));
-                                chatRecyclerAdapter.notifyDataSetChanged();
-                                Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
+                                if(!listSet) {
+                                    listSet = true;
+                                    chatListModelArrayList.add(new ChatListModel(
+                                            getOtherName,
+                                            chatDate,
+                                            getContent,
+                                            String.valueOf(getMessageCount),
+                                            getChatKey,
+                                            firebase_MyKey,
+                                            getOtherKey));
+                                    chatRecyclerAdapter.notifyDataSetChanged();
+                                    Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
+                                }
 
                             }
                         }
@@ -177,7 +183,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("ChatViewModel Load DataBase Error", String.valueOf(error));
             }
         });
     }

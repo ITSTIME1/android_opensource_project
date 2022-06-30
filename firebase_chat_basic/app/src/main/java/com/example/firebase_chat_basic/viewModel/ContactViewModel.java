@@ -36,6 +36,8 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
     private String contact_state_message;
     private String contact_phone_number;
     private String contact_online_state;
+    private String contact_my_uid;
+    private String contact_other_uid;
 
     // constructor init
     public ContactViewModel(Application application, String getCurrentMyUID, String getProfileBackgroundImage) {
@@ -78,9 +80,24 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
                     contact_profile_background_image = snapshot.child("backgroundImage").getValue(String.class);
                     contact_online_state = snapshot.child("online").getValue(String.class);
                     contact_state_message = snapshot.child("stateMessage").getValue(String.class);
+                    contact_my_uid = firebase_my_key;
+                    contact_other_uid = snapshot.child("uid").getValue(String.class);
 
-                    contactModelList.add(new ContactModel(contact_profile_image, contact_name, contact_state_message, contact_phone_number, contact_online_state, contact_profile_background_image));
+                    String chatKey = firebase_my_key + snapshot.child("uid").getValue(String.class);
+
+                    contactModelList.add(new ContactModel(contact_profile_image,
+                            contact_name,
+                            contact_state_message,
+                            contact_phone_number,
+                            contact_online_state,
+                            contact_profile_background_image,
+                            chatKey,
+                            contact_my_uid,
+                            contact_other_uid));
+
                     contactRecyclerAdapter.notifyDataSetChanged();
+
+                    Log.d("contact to chatKey 확인용 ", contactModelList.get(0).getChatKey());
                 }
 
             }
@@ -133,6 +150,17 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
         return contactModelList.get(pos).getContact_state_message();
     }
 
+    public String getChatKey(int pos) {
+        return contactModelList.get(pos).getChatKey();
+    }
+
+    public String getMyUID(int pos) {
+        return contactModelList.get(pos).getContact_my_uid();
+    }
+
+    public String getOtherUID(int pos) {
+        return contactModelList.get(pos).getContact_other_uid();
+    }
 
 
     public ContactRecyclerAdapter getContactRecyclerAdapter() {

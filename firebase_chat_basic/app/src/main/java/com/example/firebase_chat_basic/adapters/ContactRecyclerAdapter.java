@@ -62,6 +62,10 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
                     contactIntent.putExtra("client_profile_image", contactViewModel.getProfileImage(position));
                     contactIntent.putExtra("client_background_image", contactViewModel.getBackgroundProfileImage(position));
                     contactIntent.putExtra("client_state_message", contactViewModel.getStateMessage(position));
+                    contactIntent.putExtra("chatKey", contactViewModel.getChatKey(position));
+                    contactIntent.putExtra("client_my_uid", contactViewModel.getMyUID(position));
+                    contactIntent.putExtra("client_other_uid", contactViewModel.getOtherUID(position));
+
 
                     view.getContext().startActivity(contactIntent);
                 }
