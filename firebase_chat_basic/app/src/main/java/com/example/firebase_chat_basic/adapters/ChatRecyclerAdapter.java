@@ -1,7 +1,6 @@
 package com.example.firebase_chat_basic.adapters;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
-import com.example.firebase_chat_basic.model.ChatListModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
-import com.example.firebase_chat_basic.viewModel.ChatRoomViewModel;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Objects;
 
 /**
  * [ChatRecyclerAdapter]

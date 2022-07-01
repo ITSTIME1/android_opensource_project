@@ -14,7 +14,7 @@ import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
-// @TODO chatting list 만들기 firebase 연동.
+
 
 public class ChatFragment extends Fragment implements BaseInterface {
     private FragmentChatBinding fragmentChatBinding;

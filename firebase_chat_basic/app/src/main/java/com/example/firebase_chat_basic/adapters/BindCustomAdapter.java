@@ -28,4 +28,12 @@ public class BindCustomAdapter {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
+
+    @BindingAdapter("RoomAdapter")
+    public static void chatRoomAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 }
