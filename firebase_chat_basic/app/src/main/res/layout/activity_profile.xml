@@ -97,6 +97,7 @@
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/chat_image_gif_layout"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:layout_width="wrap_content"

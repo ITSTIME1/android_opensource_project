@@ -1,8 +1,10 @@
 package com.example.firebase_chat_basic.adapters;
+
 ;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecyclerAdapter.CustomViewHolder> {
-    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-    private ArrayList<ChatRoomModel> chatRoomModelArrayList;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private ArrayList<ChatRoomModel> chatRoomModelArrayList;
     private Context context;
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         this.context = context;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
-        editor = sharedPreferences.edit();;
     }
 
     @NonNull
@@ -44,20 +44,17 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
         if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
-
             holder.itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
             holder.itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
         } else {
-
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.GONE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.VISIBLE);
-
             holder.itemMessageBinding.otherMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
             holder.itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
 
         }
-    }
 
+    }
     @Override
     public int getItemCount() {
         return chatRoomModelArrayList.size();
@@ -70,6 +67,5 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
             super(itemMessageBinding.getRoot());
             this.itemMessageBinding = itemMessageBinding;
         }
-
     }
 }

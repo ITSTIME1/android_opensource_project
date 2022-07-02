@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     // chatRoomActivity 에서 클릭시에 chatRoomActivity 에서 받은 ChatKey 값을 받아서 메세지를 생성하게 됨.
     // 보낼게 이름, uid, 프로필 이미지, 내 아이디,
     public void goToChatRoom(){
-        activityProfileBinding.chatImageGif.setOnClickListener(new View.OnClickListener() {
+        activityProfileBinding.chatImageGifLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

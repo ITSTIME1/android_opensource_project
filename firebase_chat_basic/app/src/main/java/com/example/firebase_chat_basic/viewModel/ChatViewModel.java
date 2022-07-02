@@ -1,20 +1,25 @@
 package com.example.firebase_chat_basic.viewModel;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
+import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ChatListModel;
+import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,19 +28,21 @@ import java.util.Objects;
 // @TODO Contacts 에서 users 에 추가된 리스트 값만 뽑아서
 // @TODO 거기서 채팅을 시작하게 되면 chatRoom이 형서되서서 chat에 표시되게끔 한다.
 
+
+//        @TODO database.addListe 로 하다 보니 메세지를 누르면 전부다 가지고 오게 됨 그래서 방법을 바꿔야 되는데
+//        @TODO 1. 메세지는 추가 될때만 list에 적용되게끔 변경
+//        @TODO 2. 초기에 chatRoomActivity 에 입장하면 자동적으로 메세지 로드
+
 public class ChatViewModel extends AndroidViewModel implements FirebaseInterface {
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-
     public ArrayList<ChatListModel> chatListModelArrayList;
-    public ArrayList<ChatListModel> resultList;
-
     private ChatRecyclerAdapter chatRecyclerAdapter;
-
     private DatabaseReference databaseReference;
     private SharedPreferences preferences;
 
     private String firebase_MyKey;
     private boolean listSet = false;
+
 
     Date nowDate = new Date();
     @SuppressLint("SimpleDateFormat")
@@ -52,10 +59,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         if (chatListModelArrayList == null && chatRecyclerAdapter == null) {
             chatListModelArrayList = new ArrayList<>();
             chatRecyclerAdapter = new ChatRecyclerAdapter(this);
-            // No Adapter 문제가 생기는거임 아직 리스트 값이 없는데 그러니까
-        }
-        if (resultList == null) {
-            resultList = new ArrayList<>();
         }
         // 유저 정보 생성.
         getUserDataBase();
@@ -95,8 +98,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
 
                         // chat logic
                         getChatDataBase(getOtherName, getOtherKey);
-
-
                     }
                 }
             }
@@ -113,6 +114,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     public void getChatDataBase(String getOtherName, String getOtherKey) {
         FirebaseInterface.super.getChatDataBase(getOtherName, getOtherKey);
         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -148,8 +150,9 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                         getMessageCount++;
                                     }
                                     getContent = messageSnapShot.child("msg").getValue(String.class);
+
                                 }
-                                if(!listSet) {
+                                if (!listSet) {
                                     listSet = true;
                                     chatListModelArrayList.add(new ChatListModel(
                                             getOtherName,
@@ -196,6 +199,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
     }
 
+
     public String getName(int pos) {
         return chatListModelArrayList.get(pos).getChatName();
     }
@@ -232,5 +236,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     public ChatRecyclerAdapter getChatRecyclerAdapter() {
         return chatRecyclerAdapter;
     }
+
 
 }

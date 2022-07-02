@@ -4,13 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="chatRoomActivity"
-            type="com.example.firebase_chat_basic.view.activity.ChatRoomActivity"/>
-
-        <variable
-            name="pos"
-            type="Integer" />
 
     </data>
 
@@ -34,7 +27,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/chat_room_message_bg"
                 android:padding="20dp"
-                android:text="Text is your text"
+                android:text="Text"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
                 tools:ignore="HardcodedText,RtlCompat" />
@@ -45,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:gravity="right"
-                android:text="오후 5:18"
+                android:text="202222"
                 tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -63,7 +56,7 @@
                 android:layout_gravity="start"
                 android:background="@drawable/chat_room_meesage_other"
                 android:padding="20dp"
-                android:text="Text is your text"
+                android:text="text"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
                 tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
@@ -73,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="오후 5:18"
+                android:text="2022"
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

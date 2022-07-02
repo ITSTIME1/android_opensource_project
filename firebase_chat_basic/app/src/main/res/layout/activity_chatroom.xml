@@ -8,6 +8,7 @@
         <variable
             name="chatRoomActivity"
             type="com.example.firebase_chat_basic.view.activity.ChatRoomActivity" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,10 +68,10 @@
             android:id="@+id/chat_room_list_rec"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            bind:RoomAdapter="@{chatRoomActivity.chatRoomRecyclerAdapter}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chat_room_header_id"
             app:layout_constraintEnd_toEndOf="parent"
+            bind:RoomAdapter="@{chatRoomActivity.chatRoomRecyclerAdapter}"
             app:layout_constraintBottom_toTopOf="@+id/chat_room_text_field_layout">
         </androidx.recyclerview.widget.RecyclerView>
 
