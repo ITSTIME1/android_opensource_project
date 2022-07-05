@@ -1,18 +1,27 @@
 package com.example.firebase_chat_basic.view.activity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
@@ -25,25 +34,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 
 /**
  * [ChatRoomActivity Introduce]
  *
  * <Topic>
- *     "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
- *     you can to send "message", "image", "voice", "reservation message"
- *     there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
+ * "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
+ * you can to send "message", "image", "voice", "reservation message"
+ * there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
  *
  * </Topic>
- *
- *
  */
 
 
-public class ChatRoomActivity extends AppCompatActivity implements BaseInterface{
+public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener {
     private ActivityChatroomBinding activityChatroomBinding;
 
     private DatabaseReference databaseReference;
@@ -59,10 +68,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private ArrayList<ChatRoomModel> chat_room_list;
 
     private boolean dataSet = false;
+    private InputMethodManager inputMethodManager;
 
     public String getOtherName() {
         return get_other_name;
     }
+
 
     public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
         return chat_room_recycler_adapter;
@@ -76,7 +87,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         get_from_chat_recycler_adapter();
         get_message_list();
         send_message();
-        on_back_pressed();
         on_focus_text_field();
     }
 
@@ -99,11 +109,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
                                 final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
                                 final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
-                                if(!dataSet) {
+                                if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
-                                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1);
+                                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                                 }
 
                             }
@@ -149,22 +159,62 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
 
+    // 키보드 엔터키 누르면 키보드 사라짐
+    // 리사이클러뷰 쪽 누르면 키보드 사라짐
 
     // back pressed
-    public void on_back_pressed() {
-        activityChatroomBinding.chatRoomBackButton.setOnClickListener((View view) -> finish());
+    public void on_back_pressed(View view) {
+        finish();
+    }
+
+    // if you touch "enter key" hide keyboard
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+            activityChatroomBinding.chatRoomTextField.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            return true;
+        }
+        return false;
+
     }
 
     // focus text field
     public void on_focus_text_field(){
         activityChatroomBinding.chatRoomTextField.setOnFocusChangeListener((View view, boolean b) -> {
+            // 포커스가 활성화 되었을 때
             if(b) {
-                Toast.makeText(ChatRoomActivity.this, "키보드 열림", Toast.LENGTH_SHORT).show();
-                new Handler(Looper.getMainLooper()).postDelayed(() ->
-                        activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1), 500);
+                if(view != null) {
+                    activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1);
+                        }
+                    }, 500);
+                }
             }
         });
     }
+
+
+
+    // if you touch "view" hide keyboard
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View view = getCurrentFocus();
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+            int[] scrcoords = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom()) ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+            activityChatroomBinding.chatRoomTextField.clearFocus();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+
 
     // initialize
     @Override
@@ -173,14 +223,13 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.setChatRoomActivity(this);
         activityChatroomBinding.setLifecycleOwner(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
             chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
         }
-
         SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         editor = preferences.edit();
-
     }
 
     // get data from (chat recycler adapter, profile activity)
@@ -195,4 +244,5 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         Log.d("getCurrentMyUID", get_current_my_uid);
         Log.d("getOtherUID", get_other_uid);
     }
+
 }

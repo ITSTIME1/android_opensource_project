@@ -20,6 +20,7 @@ public class BindCustomAdapter {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
     @BindingAdapter("ContactAdapter")
     public static void contactAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {

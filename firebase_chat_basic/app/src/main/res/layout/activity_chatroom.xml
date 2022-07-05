@@ -33,6 +33,7 @@
 
             <ImageView
                 android:id="@+id/chat_room_back_button"
+                android:onClick="@{chatRoomActivity::on_back_pressed}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
@@ -101,6 +102,8 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:orientation="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -113,7 +116,7 @@
                     android:layout_width="320dp"
                     android:layout_height="40dp"
                     android:inputType="text"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center"

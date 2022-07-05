@@ -1,6 +1,7 @@
 package com.example.firebase_chat_basic.adapters;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,18 +66,15 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
 
-
             // 이름, uid, 그 사람으 ud
-            itemFragmentChatBinding.chatItemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
-                    intoChatRoomActivity.putExtra("getOtherName", chatViewModel.get_user_name(pos));
-                    intoChatRoomActivity.putExtra("getChatKey", chatViewModel.get_chat_key(pos));
-                    intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.get_my_uid(pos));
-                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.get_other_uid(pos));
-                    view.getContext().startActivity(intoChatRoomActivity);
-                }
+            itemFragmentChatBinding.chatItemLayout.setOnClickListener(view -> {
+                Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
+                intoChatRoomActivity.putExtra("getOtherName", chatViewModel.get_user_name(pos));
+                intoChatRoomActivity.putExtra("getChatKey", chatViewModel.get_chat_key(pos));
+                intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.get_my_uid(pos));
+                intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.get_other_uid(pos));
+                view.getContext().startActivity(intoChatRoomActivity);
+                Log.d("이거 되나", "");
             });
         }
     }

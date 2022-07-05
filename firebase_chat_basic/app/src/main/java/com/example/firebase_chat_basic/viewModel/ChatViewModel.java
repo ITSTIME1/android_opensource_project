@@ -52,7 +52,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         }
         // 유저 정보 생성.
         get_user_database();
-
     }
 
     @Override
@@ -221,8 +220,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         return chat_array_list;
 
     }
-
-    public ChatRecyclerAdapter get_chat_recycler_adapter() {
+    public ChatRecyclerAdapter getChat_recycler_adapter() {
         return chat_recycler_adapter;
     }
 
