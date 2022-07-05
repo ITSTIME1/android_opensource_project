@@ -1,18 +1,13 @@
 package com.example.firebase_chat_basic.view.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
@@ -21,8 +16,6 @@ import com.example.firebase_chat_basic.databinding.ActivityMainBinding;
 import com.example.firebase_chat_basic.view.fragment.ChatFragment;
 import com.example.firebase_chat_basic.view.fragment.ContactFragment;
 import com.example.firebase_chat_basic.view.fragment.SettingFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
@@ -62,33 +55,29 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        initAdapter();
-        initNavigationListener();
-        getDataFromActivity();
+        init_adapter();
+        init_navigation();
+        get_data_intent();
     }
 
     // navigation listener init
+    @SuppressLint("NonConstantResourceId")
     @Override
-    public void initNavigationListener() {
-        BaseInterface.super.initNavigationListener();
-        activityMainBinding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                switch (item.getItemId()){
-                    case R.id.chat_home:
-                        activityMainBinding.viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.chat_contact:
-                        activityMainBinding.viewPager.setCurrentItem(1);
-                        break;
-                    case R.id.chat_setting:
-                        activityMainBinding.viewPager.setCurrentItem(2);
-                        break;
-                }
-                return true;
+    public void init_navigation() {
+        BaseInterface.super.init_navigation();
+        activityMainBinding.bottomNavigation.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.chat_home:
+                    activityMainBinding.viewPager.setCurrentItem(0);
+                    break;
+                case R.id.chat_contact:
+                    activityMainBinding.viewPager.setCurrentItem(1);
+                    break;
+                case R.id.chat_setting:
+                    activityMainBinding.viewPager.setCurrentItem(2);
+                    break;
             }
+            return true;
         });
 
         activityMainBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -117,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     }
 
     @Override
-    public void initAdapter() {
-        BaseInterface.super.initAdapter();
+    public void init_adapter() {
+        BaseInterface.super.init_adapter();
         fragmentArrayList.add(chatFragment);
         fragmentArrayList.add(contactFragment);
         fragmentArrayList.add(settingFragment);
@@ -133,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
 
 
     @Override
-    public void getDataFromActivity() {
-        BaseInterface.super.getDataFromActivity();
+    public void get_data_intent() {
+        BaseInterface.super.get_data_intent();
         Intent mainActivityIntent = getIntent();
 
 

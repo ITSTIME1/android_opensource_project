@@ -3,11 +3,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -16,16 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityRegisterBinding;
-import com.example.firebase_chat_basic.view.fragment.ChatFragment;
-import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * [RegisterActivity]
@@ -49,8 +39,8 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         // 실행 중에 파이어베이스 유저 정보가 없다면
         check_firebase_user();
-        defaultInit();
-        observerIntent();
+        default_init();
+        observer_intent();
     }
 
     // check current user
@@ -96,16 +86,16 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
 
     // default init
     @Override
-    public void defaultInit() {
-        BaseInterface.super.defaultInit();
+    public void default_init() {
+        BaseInterface.super.default_init();
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         activityRegisterBinding.setRegisterViewModel(registerViewModel);
     }
 
     // observer method
     @Override
-    public void observerIntent() {
-        BaseInterface.super.observerIntent();
+    public void observer_intent() {
+        BaseInterface.super.observer_intent();
         registerViewModel.getDataList.observe(this, registerData -> {
             registerIntent = new Intent(this, MainActivity.class);
             if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(2) != null && registerData.get(4) != null) {
@@ -117,7 +107,6 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
                 registerIntent.putExtra("client_online_state", registerData.get(5));
                 registerIntent.putExtra("client_profile_background_image", registerData.get(6));
                 registerIntent.putExtra("client_state_message", registerData.get(7));
-
                 Log.d("registerIntent", "success");
             } else {
                 Log.d("registerData", "register Data null");

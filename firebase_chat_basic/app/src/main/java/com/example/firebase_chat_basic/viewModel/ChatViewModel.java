@@ -5,70 +5,67 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
-import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
+import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.model.ChatListModel;
-import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-// @TODO Contacts 에서 users 에 추가된 리스트 값만 뽑아서
-// @TODO 거기서 채팅을 시작하게 되면 chatRoom이 형서되서서 chat에 표시되게끔 한다.
 
+public class ChatViewModel extends AndroidViewModel implements FirebaseInterface, BaseInterface {
+    public ArrayList<ChatListModel> chat_array_list;
+    private ChatRecyclerAdapter chat_recycler_adapter;
 
-//        @TODO database.addListe 로 하다 보니 메세지를 누르면 전부다 가지고 오게 됨 그래서 방법을 바꿔야 되는데
-//        @TODO 1. 메세지는 추가 될때만 list에 적용되게끔 변경
-//        @TODO 2. 초기에 chatRoomActivity 에 입장하면 자동적으로 메세지 로드
-
-public class ChatViewModel extends AndroidViewModel implements FirebaseInterface {
-    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-    public ArrayList<ChatListModel> chatListModelArrayList;
-    private ChatRecyclerAdapter chatRecyclerAdapter;
     private DatabaseReference databaseReference;
     private SharedPreferences preferences;
 
-    private String firebase_MyKey;
+    private String firebase_my_uid;
     private boolean listSet = false;
 
 
-    Date nowDate = new Date();
+    private final Date now_date = new Date();
     @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat newDtFormat = new SimpleDateFormat("yyyy-MM-dd");
-    String chatDate = newDtFormat.format(nowDate);
+    private final SimpleDateFormat new_date_format = new SimpleDateFormat("yyyy-MM-dd");
+    private final String chat_date = new_date_format.format(now_date);
 
 
-    public ChatViewModel(String getCurrentMyUID, Application application) {
+    public ChatViewModel(String get_current_my_uid, Application application) {
         super(application);
-        initViewModel();
-        if (getCurrentMyUID != null) {
-            firebase_MyKey = getCurrentMyUID;
+        default_init();
+        if (get_current_my_uid != null) {
+            firebase_my_uid = get_current_my_uid;
         }
-        if (chatListModelArrayList == null && chatRecyclerAdapter == null) {
-            chatListModelArrayList = new ArrayList<>();
-            chatRecyclerAdapter = new ChatRecyclerAdapter(this);
+        if (chat_array_list == null && chat_recycler_adapter == null) {
+            chat_array_list = new ArrayList<>();
+            chat_recycler_adapter = new ChatRecyclerAdapter(this);
         }
         // 유저 정보 생성.
-        getUserDataBase();
+        get_user_database();
 
     }
 
+    @Override
+    public void default_init() {
+        BaseInterface.super.default_init();
+        Application context = getApplication();
+        preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
+    }
 
     @Override
-    public void getUserDataBase() {
-        FirebaseInterface.super.getUserDataBase();
+    public void get_user_database() {
+        FirebaseInterface.super.get_user_database();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -80,11 +77,11 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                 Log.d("ChatViewModel", "======== onDataChange ========");
                 for (DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
                     listSet = false;
-                    if (!Objects.requireNonNull(userSnapshot.child("uid").getValue(String.class)).equals(firebase_MyKey)) {
+                    if (!Objects.requireNonNull(userSnapshot.child("uid").getValue(String.class)).equals(firebase_my_uid)) {
 
                         Log.d("ChatViewModel", "======== Date 생성 ========");
 
-                        String chatKey = firebase_MyKey + userSnapshot.child("uid").getValue(String.class);
+                        String chatKey = firebase_my_uid + userSnapshot.child("uid").getValue(String.class);
                         Log.d("chatKey ", chatKey);
                         Log.d("ChatViewModel", "======== 채팅방이 없을시 가져가는 [ChatKey] 생성 ========");
                         // 상대방의 키 값을 저장.
@@ -94,10 +91,10 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                         // 채팅 검사
                         // 채팅방이 없다는건 채팅을 하지 않았다는것
                         // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
-                        chatListModelArrayList.clear();
+                        chat_array_list.clear();
 
                         // chat logic
-                        getChatDataBase(getOtherName, getOtherKey);
+                        get_chat_database(getOtherName, getOtherKey);
                     }
                 }
             }
@@ -111,17 +108,17 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     }
 
     @Override
-    public void getChatDataBase(String getOtherName, String getOtherKey) {
-        FirebaseInterface.super.getChatDataBase(getOtherName, getOtherKey);
+    public void get_chat_database(String get_other_name, String get_other_key) {
+        FirebaseInterface.super.get_chat_database(get_other_name, get_other_key);
         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 Log.d("ChatViewModel", "======== 채팅 읽어오기 ========");
-                int chatRoomCount = (int) snapshot.getChildrenCount();
+                int chat_room_count = (int) snapshot.getChildrenCount();
                 // 채팅이 있으면
-                if (chatRoomCount > 0) {
+                if (chat_room_count > 0) {
                     Log.d("ChatViewModel", "======== 채팅방 검사 시작 ========");
                     // 채팅방 내역을 훑고
                     for (DataSnapshot chatDataSnapShot : snapshot.getChildren()) {
@@ -130,39 +127,40 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                             final String receiver = chatDataSnapShot.child("받은사람").getValue(String.class);
                             final String sender = chatDataSnapShot.child("보낸사람").getValue(String.class);
                             // 보낸 사람과 받은 사람의 키 값들을 확인하고
-                            if ((receiver.equals(getOtherKey) && sender.equals(firebase_MyKey)) || (receiver.equals(firebase_MyKey) && sender.equals(getOtherKey))) {
+                            if ((Objects.equals(receiver, get_other_key) && Objects.requireNonNull(sender).equals(firebase_my_uid)) ||
+                                    (Objects.requireNonNull(receiver).equals(firebase_my_uid) && Objects.requireNonNull(sender).equals(get_other_key))) {
                                 // 해당 키 값을 저장해주고
                                 Log.d("ChatViewModel", "======== 채팅방 검사 완료 ========");
 
-                                final String getChatKey = chatDataSnapShot.getKey();
-                                String getContent = "메세지가 없습니다.";
-                                int getMessageCount = 0;
+                                final String get_chat_key = chatDataSnapShot.getKey();
+                                String get_content = "메세지가 없습니다.";
+                                int get_message_count = 0;
 
                                 for (DataSnapshot messageSnapShot : chatDataSnapShot.child("message").getChildren()) {
-                                    long beforeMessageKey = 0;
-                                    final long recentMessageKey = preferences.getLong("chatDateTime", 0);
-                                    long childMessageKey = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
+                                    long before_message_key = 0;
+                                    final long recent_message_key = preferences.getLong("chatDateTime", 0);
+                                    long child_message_key = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
 
-                                    if (recentMessageKey > childMessageKey) {
-                                        beforeMessageKey = Long.parseLong(messageSnapShot.getKey());
+                                    if (recent_message_key > child_message_key) {
+                                        before_message_key = Long.parseLong(messageSnapShot.getKey());
                                     }
-                                    if (recentMessageKey > beforeMessageKey) {
-                                        getMessageCount++;
+                                    if (recent_message_key > before_message_key) {
+                                        get_message_count++;
                                     }
-                                    getContent = messageSnapShot.child("msg").getValue(String.class);
+                                    get_content = messageSnapShot.child("msg").getValue(String.class);
 
                                 }
                                 if (!listSet) {
                                     listSet = true;
-                                    chatListModelArrayList.add(new ChatListModel(
-                                            getOtherName,
-                                            chatDate,
-                                            getContent,
-                                            String.valueOf(getMessageCount),
-                                            getChatKey,
-                                            firebase_MyKey,
-                                            getOtherKey));
-                                    chatRecyclerAdapter.notifyDataSetChanged();
+                                    chat_array_list.add(new ChatListModel(
+                                            get_other_name,
+                                            chat_date,
+                                            get_content,
+                                            String.valueOf(get_message_count),
+                                            get_chat_key,
+                                            firebase_my_uid,
+                                            get_other_key));
+                                    chat_recycler_adapter.notifyDataSetChanged();
                                     Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
                                 }
 
@@ -170,18 +168,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                         }
                     }
                 }
-
-//                                // 채팅방이 없다는건 채팅을 하지 않았다는것
-//                                // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
-//                                chatListModelArrayList.add(new ChatListModel(
-//                                        getOtherName,
-//                                        chatDate,
-//                                        chatContent,
-//                                        String.valueOf(chatCount),
-//                                        chatKey,
-//                                        firebase_MyKey,
-//                                        getOtherKey));
-//                                chatRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -191,50 +177,53 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         });
     }
 
-
-    public void initViewModel() {
-        Application context = getApplication();
-        preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
-        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = preferences.edit();
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
+    @Override
+    public String get_user_name(int pos) {
+        return chat_array_list.get(pos).getChatName();
     }
 
-
-    public String getName(int pos) {
-        return chatListModelArrayList.get(pos).getChatName();
+    @Override
+    public String get_my_uid(int pos) {
+        return chat_array_list.get(pos).getChatMyUID();
     }
 
-    public String getContent(int pos) {
-        return chatListModelArrayList.get(pos).getChatContent();
+    @Override
+    public String get_profile_image(int pos) {
+        return FirebaseInterface.super.get_profile_image(pos);
     }
 
-    public String getCount(int pos) {
-        return chatListModelArrayList.get(pos).getChatCount();
+    @Override
+    public String get_content(int pos) {
+        return chat_array_list.get(pos).getChatContent();
     }
 
-    public String getDate(int pos) {
-        return chatListModelArrayList.get(pos).getChatDate();
+    @Override
+    public String get_count(int pos) {
+        return chat_array_list.get(pos).getChatCount();
     }
 
-    public String getChatKey(int pos) {
-        return chatListModelArrayList.get(pos).getChatKey();
+    @Override
+    public String get_date(int pos) {
+        return chat_array_list.get(pos).getChatDate();
     }
 
-    public String getCurrentMyUID(int pos) {
-        return chatListModelArrayList.get(pos).getChatMyUID();
+    @Override
+    public String get_chat_key(int pos) {
+        return chat_array_list.get(pos).getChatKey();
     }
 
-    public String getOtherUID(int pos) {
-        return chatListModelArrayList.get(pos).getChatOtherUID();
+    @Override
+    public String get_other_uid(int pos) {
+        return chat_array_list.get(pos).getChatOtherUID();
     }
 
-    public ArrayList<ChatListModel> getChatListModelList() {
-        return chatListModelArrayList;
+    public ArrayList<ChatListModel> get_chat_list() {
+        return chat_array_list;
 
     }
 
-    public ChatRecyclerAdapter getChatRecyclerAdapter() {
-        return chatRecyclerAdapter;
+    public ChatRecyclerAdapter get_chat_recycler_adapter() {
+        return chat_recycler_adapter;
     }
 
 

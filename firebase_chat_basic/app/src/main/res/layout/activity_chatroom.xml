@@ -9,6 +9,10 @@
             name="chatRoomActivity"
             type="com.example.firebase_chat_basic.view.activity.ChatRoomActivity" />
 
+        <variable
+            name="b"
+            type="Boolean"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@{chatRoomActivity.getOtherName}"
+                    android:text="@{chatRoomActivity.otherName}"
                     android:textColor="@color/chatMainBackgroundColor"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />

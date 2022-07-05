@@ -13,7 +13,6 @@
         android:theme="@style/Theme.Firebase_chat_basic">
         <activity android:name=".view.activity.MainActivity"/>
         <activity android:name=".view.activity.ProfileActivity"/>
-        <activity android:name=".view.activity.SplashActivity"/>
         <activity android:name=".view.activity.RegisterActivity"
             android:exported="true">
             <intent-filter>
@@ -21,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER/"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.ChatRoomActivity"/>
+        <activity android:name=".view.activity.ChatRoomActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".view.activity.LoginActivity"/>
     </application>
 

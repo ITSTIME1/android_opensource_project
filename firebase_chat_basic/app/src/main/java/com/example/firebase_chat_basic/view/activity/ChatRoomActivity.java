@@ -1,21 +1,22 @@
 package com.example.firebase_chat_basic.view.activity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
+import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.database.DataSnapshot;
@@ -28,57 +29,58 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * [ChatRoomActivity Introduce]
+ *
+ * <Topic>
+ *     "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
+ *     you can to send "message", "image", "voice", "reservation message"
+ *     there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
+ *
+ * </Topic>
+ *
+ *
+ */
 
-public class ChatRoomActivity extends AppCompatActivity implements BaseInterface {
-    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-    private DatabaseReference databaseReference;
+
+public class ChatRoomActivity extends AppCompatActivity implements BaseInterface{
     private ActivityChatroomBinding activityChatroomBinding;
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-    private Long dateTime;
-    // 상대방 이름
-    private String getOtherName;
-    // 채팅방 키
-    private String getChatKey;
-    // 나의 UID
-    private String getCurrentMyUID;
-    // 상대방 UId
-    private String getOtherUID;
 
-    // message adapter
-    private ChatRoomRecyclerAdapter chatRoomRecyclerAdapter;
-    private ArrayList<ChatRoomModel> chatRoomModelArrayList;
+    private DatabaseReference databaseReference;
+    private SharedPreferences.Editor editor;
+
+    private String get_other_name;
+    private String get_chat_key;
+    private String get_current_my_uid;
+    private String get_other_uid;
+    private Long date_time;
+
+    private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
+    private ArrayList<ChatRoomModel> chat_room_list;
 
     private boolean dataSet = false;
 
-
-    public String getGetOtherName() {
-        return getOtherName;
+    public String getOtherName() {
+        return get_other_name;
     }
 
     public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
-        return chatRoomRecyclerAdapter;
+        return chat_room_recycler_adapter;
     }
 
-    // 두개가 다르게 저장이된다.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-        defaultInit();
-
-
+        default_init();
         get_from_chat_recycler_adapter();
         get_message_list();
-
-
         send_message();
         on_back_pressed();
-
+        on_focus_text_field();
     }
 
-    // chatRoomActivity 에 진입했을 때 메세지를 불러올 메서드.
+    // create_list
     public void get_message_list() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -87,7 +89,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 for (DataSnapshot chatSnapShot : snapshot.child("chat").getChildren()) {
                     // 메세지를 가지고 있다면
                     if (chatSnapShot.hasChild("message")) {
-                        chatRoomModelArrayList.clear();
+                        chat_room_list.clear();
                         // message 를 가지고 온다.
                         for (DataSnapshot messageSnapShot : chatSnapShot.child("message").getChildren()) {
                             // 메세지를 가지고 와서 그 메세지 값들이 메세지와 나의 키 값이 있다면
@@ -96,17 +98,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                             if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey")) {
                                 final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
                                 final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
-
-                                // 보내는 시간을 기준으로 함.
-                                Date nowDate = new Date();
-                                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + " HH:mm");
-                                // 포맷 지정
-                                String setDate = simpleDateFormat.format(nowDate);
+                                final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
                                 if(!dataSet) {
                                     dataSet = true;
-                                    chatRoomModelArrayList.add(new ChatRoomModel(setKey, setListMessage, setDate));
-                                    chatRoomRecyclerAdapter.notifyDataSetChanged();
-                                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chatRoomModelArrayList.size()-1);
+                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate));
+                                    chat_room_recycler_adapter.notifyDataSetChanged();
+                                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1);
                                 }
 
                             }
@@ -118,74 +115,84 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("get_message_list (Error) ", String.valueOf(error));
             }
         });
     }
 
+    // send_message
     public void send_message() {
-        activityChatroomBinding.chatRoomSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 채팅을 하는거야 그 상대방의 chatKey 값을 가지고 와서.
-                final String chatText = activityChatroomBinding.chatRoomTextField.getText().toString();
-                if (!chatText.isEmpty()) {
-                    dateTime = System.currentTimeMillis();
-                    // 채팅 저장
-                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(dateTime)).child("msg").setValue(chatText);
-                    // msg 에 키 값 저장
-                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(dateTime)).child("mineKey").setValue(getCurrentMyUID);
-                    // 보낸 사람 저장
-                    databaseReference.child("chat").child(getChatKey).child("보낸사람").setValue(getCurrentMyUID);
-                    // 받은 사람 저장
-                    databaseReference.child("chat").child(getChatKey).child("받은사람").setValue(getOtherUID);
+        activityChatroomBinding.chatRoomSendButton.setOnClickListener((View view) -> {
+            final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
+            if (!chat_text.isEmpty()) {
+                date_time = System.currentTimeMillis();
 
-                    editor.putLong("chatDateTime", dateTime);
-                    editor.commit();
+                Date now_date = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + " HH:mm");
+                // 날짜 포멧 지정 (저장용)
+                String set_date = simpleDateFormat.format(now_date);
+                // 채팅 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
+                // msg 에 키 값 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
+                // msg 에 시간 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
+                // 보낸 사람 저장
+                databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+                // 받은 사람 저장
+                databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
 
-                }
+                editor.putLong("chatDateTime", date_time);
+                editor.commit();
             }
         });
     }
 
+
+
+    // back pressed
     public void on_back_pressed() {
-        activityChatroomBinding.chatRoomBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
+        activityChatroomBinding.chatRoomBackButton.setOnClickListener((View view) -> finish());
+    }
+
+    // focus text field
+    public void on_focus_text_field(){
+        activityChatroomBinding.chatRoomTextField.setOnFocusChangeListener((View view, boolean b) -> {
+            if(b) {
+                Toast.makeText(ChatRoomActivity.this, "키보드 열림", Toast.LENGTH_SHORT).show();
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                        activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1), 500);
             }
         });
     }
 
+    // initialize
     @Override
-    public void defaultInit() {
-        BaseInterface.super.defaultInit();
+    public void default_init() {
+        BaseInterface.super.default_init();
         activityChatroomBinding.setChatRoomActivity(this);
         activityChatroomBinding.setLifecycleOwner(this);
-        if (chatRoomModelArrayList == null && chatRoomRecyclerAdapter == null) {
-            chatRoomModelArrayList = new ArrayList<>();
-            chatRoomRecyclerAdapter = new ChatRoomRecyclerAdapter(chatRoomModelArrayList, getBaseContext());
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
+        if (chat_room_list == null && chat_room_recycler_adapter == null) {
+            chat_room_list = new ArrayList<>();
+            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
         }
 
-        preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         editor = preferences.edit();
 
     }
 
-    // get data (Chat Recycler Adapter, Profile Activity)
+    // get data from (chat recycler adapter, profile activity)
     public void get_from_chat_recycler_adapter() {
-
         Intent getIntent = getIntent();
-        getOtherName = getIntent.getStringExtra("getOtherName");
-        getChatKey = getIntent.getStringExtra("getChatKey");
-        getCurrentMyUID = getIntent.getStringExtra("getCurrentMyUID");
-        getOtherUID = getIntent.getStringExtra("getOtherUID");
-
-        Log.d("getOtherName", getOtherName);
-        Log.d("getChatKey", getChatKey);
-        Log.d("getCurrentMyUID", getCurrentMyUID);
-        Log.d("getOtherUID", getOtherUID);
-
-
+        get_other_name = getIntent.getStringExtra("getOtherName");
+        get_chat_key = getIntent.getStringExtra("getChatKey");
+        get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
+        get_other_uid = getIntent.getStringExtra("getOtherUID");
+        Log.d("getOtherName", get_other_name);
+        Log.d("getChatKey", get_chat_key);
+        Log.d("getCurrentMyUID", get_current_my_uid);
+        Log.d("getOtherUID", get_other_uid);
     }
 }

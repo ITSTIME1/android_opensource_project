@@ -1,31 +1,16 @@
 package com.example.firebase_chat_basic.adapters;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
-import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
-import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * [ChatRecyclerAdapter]
@@ -59,7 +44,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public int getItemCount() {
         // return the method(getChatListModelList) in the chatViewModel
-        return chatViewModel.getChatListModelList().size();
+        return chatViewModel.get_chat_list().size();
     }
 
 
@@ -86,10 +71,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
-                    intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getName(pos));
-                    intoChatRoomActivity.putExtra("getChatKey", chatViewModel.getChatKey(pos));
-                    intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getCurrentMyUID(pos));
-                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
+                    intoChatRoomActivity.putExtra("getOtherName", chatViewModel.get_user_name(pos));
+                    intoChatRoomActivity.putExtra("getChatKey", chatViewModel.get_chat_key(pos));
+                    intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.get_my_uid(pos));
+                    intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.get_other_uid(pos));
                     view.getContext().startActivity(intoChatRoomActivity);
                 }
             });

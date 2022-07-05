@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ContactRecyclerAdapter;
 import com.example.firebase_chat_basic.model.ContactModel;
@@ -19,13 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 // @TODO Contact 정보 눌렀을 때 정보 XML 짜기
 public class ContactViewModel extends AndroidViewModel implements FirebaseInterface {
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private final DatabaseReference databaseReference;
-    private ArrayList<ContactModel> contactModelList;
+    private final ArrayList<ContactModel> contact_list;
     private ContactRecyclerAdapter contactRecyclerAdapter;
     private String firebase_my_key;
     private String firebase_my_profile_background_image;
@@ -47,18 +45,18 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
             firebase_my_profile_background_image = getProfileBackgroundImage;
         }
         Log.d("firebase_my_key", String.valueOf(firebase_my_key));
-        contactModelList = new ArrayList<>();
+        contact_list = new ArrayList<>();
         contactRecyclerAdapter = new ContactRecyclerAdapter(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
 
 
-        getUserDataBase();
+        get_user_database();
     }
 
 
     @Override
-    public void getUserDataBase() {
-        FirebaseInterface.super.getUserDataBase();
+    public void get_user_database() {
+        FirebaseInterface.super.get_user_database();
         // user의 정보를 딱 한번만 가지고 와서 리스트에 넣어준다.
         // 구지 수신을 대기할 필요가 없음.
         // @TODO Online 상태랑 상태메세지 users에 넣어야됨.
@@ -83,21 +81,21 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
                     contact_my_uid = firebase_my_key;
                     contact_other_uid = snapshot.child("uid").getValue(String.class);
 
-                    String chatKey = firebase_my_key + snapshot.child("uid").getValue(String.class);
+                    String chat_key = firebase_my_key + snapshot.child("uid").getValue(String.class);
 
-                    contactModelList.add(new ContactModel(contact_profile_image,
+                    contact_list.add(new ContactModel(contact_profile_image,
                             contact_name,
                             contact_state_message,
                             contact_phone_number,
                             contact_online_state,
                             contact_profile_background_image,
-                            chatKey,
+                            chat_key,
                             contact_my_uid,
                             contact_other_uid));
 
                     contactRecyclerAdapter.notifyDataSetChanged();
 
-                    Log.d("contact to chatKey 확인용 ", contactModelList.get(0).getChatKey());
+                    Log.d("contact to chat_key 확인용 ", contact_list.get(0).getChatKey());
                 }
 
             }
@@ -128,38 +126,38 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
 
 
     @Override
-    public String getUserName(int pos) {
-        return contactModelList.get(pos).getContact_name();
+    public String get_user_name(int pos) {
+        return contact_list.get(pos).getContact_name();
     }
 
     @Override
-    public String getPhoneNumber(int pos) {
-        return contactModelList.get(pos).getContact_phone_number();
+    public String get_phone_number(int pos) {
+        return contact_list.get(pos).getContact_phone_number();
     }
 
     @Override
-    public String getProfileImage(int pos) {
-        return contactModelList.get(pos).getContact_profile_image();
+    public String get_profile_image(int pos) {
+        return contact_list.get(pos).getContact_profile_image();
     }
 
-    public String getBackgroundProfileImage(int pos) {
-        return contactModelList.get(pos).getContact_profile_background_image();
+    public String get_background_profile_image(int pos) {
+        return contact_list.get(pos).getContact_profile_background_image();
     }
 
-    public String getStateMessage(int pos) {
-        return contactModelList.get(pos).getContact_state_message();
+    public String get_state_message(int pos) {
+        return contact_list.get(pos).getContact_state_message();
     }
 
-    public String getChatKey(int pos) {
-        return contactModelList.get(pos).getChatKey();
+    public String get_chat_key(int pos) {
+        return contact_list.get(pos).getChatKey();
     }
 
-    public String getMyUID(int pos) {
-        return contactModelList.get(pos).getContact_my_uid();
+    public String get_my_uid(int pos) {
+        return contact_list.get(pos).getContact_my_uid();
     }
 
-    public String getOtherUID(int pos) {
-        return contactModelList.get(pos).getContact_other_uid();
+    public String get_other_uid(int pos) {
+        return contact_list.get(pos).getContact_other_uid();
     }
 
 
@@ -168,7 +166,7 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
     }
 
     public ArrayList<ContactModel> getContactModelList() {
-        return contactModelList;
+        return contact_list;
     }
 
 

@@ -3,7 +3,6 @@ package com.example.firebase_chat_basic.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -31,15 +30,19 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
-        defaultInit();
+        get_intent_data();
+        default_init();
         glide();
-        goToChatRoom();
+        go_to_chat_room();
+    }
+    @Override
+    public void default_init() {
+        BaseInterface.super.default_init();
+        activityProfileBinding.profileName.setText(client_name);
+        activityProfileBinding.profileStateMessage.setText(client_state_message);
     }
 
-
-    @Override
-    public void defaultInit() {
-        BaseInterface.super.defaultInit();
+    public void get_intent_data(){
         Intent intent = getIntent();
         // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 상대방 uid, 나의 uid
         client_name = intent.getStringExtra("client_name");
@@ -53,11 +56,19 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         if(client_state_message == null ){
             client_state_message = "Default Message";
         }
-
-        activityProfileBinding.profileName.setText(client_name);
-        activityProfileBinding.profileStateMessage.setText(client_state_message);
     }
-
+    public void go_to_chat_room(){
+        activityProfileBinding.chatImageGifLayout.setOnClickListener(view -> {
+            Log.d("chat gif 클릭 잘 됨 ", "");
+            Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
+            goToChatRoom.putExtra("getChatKey", chatKey);
+            goToChatRoom.putExtra("getOtherName", client_name);
+            goToChatRoom.putExtra("getOtherUID", client_other_uid);
+            goToChatRoom.putExtra("getCurrentMyUID", client_my_uid);
+            startActivity(goToChatRoom);
+            finish();
+        });
+    }
     public void glide(){
         ImageView chat = activityProfileBinding.chatImageGif;
         GlideDrawableImageViewTarget chat_gif_image = new GlideDrawableImageViewTarget(chat);
@@ -71,29 +82,4 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         GlideDrawableImageViewTarget save_gif_image = new GlideDrawableImageViewTarget(save);
         Glide.with(this).load(R.raw.iconsave).into(save_gif_image);
     }
-
-    // @TODO 채팅 하기 클릭시 채팅 룸으로 값 보내주기.
-    // Contact 에서 클릭하면 ChatRoomActivity 로 가는데 이 때 필요한건 chatKey 가 필요한것임.
-    // 때문에 ChatRoomActivity 에 key 값과 나머지 값들을 보내주고
-    // chatRoomActivity 에서 클릭시에 chatRoomActivity 에서 받은 ChatKey 값을 받아서 메세지를 생성하게 됨.
-    // 보낼게 이름, uid, 프로필 이미지, 내 아이디,
-    public void goToChatRoom(){
-        activityProfileBinding.chatImageGifLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Log.d("chat gif 클릭 잘 됨 ", "");
-                Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
-                goToChatRoom.putExtra("getChatKey", chatKey);
-                goToChatRoom.putExtra("getOtherName", client_name);
-                goToChatRoom.putExtra("getOtherUID", client_other_uid);
-                goToChatRoom.putExtra("getCurrentMyUID", client_my_uid);
-
-                startActivity(goToChatRoom);
-                finish();
-            }
-        });
-    }
-
-
 }

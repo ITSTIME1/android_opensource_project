@@ -18,47 +18,41 @@ import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 public class ChatFragment extends Fragment implements BaseInterface {
     private FragmentChatBinding fragmentChatBinding;
-    private ChatRecyclerAdapter chatRecyclerAdapter;
-    public String getCurrentMyUID;
-
+    private ChatRecyclerAdapter chat_recycler_adapter;
+    public String get_current_my_uid;
 
     @SuppressLint("NotifyDataSetChanged")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        getDataFromMainActivity();
-        defaultInit();
+        get_intent_data();
+        default_init();
         return fragmentChatBinding.getRoot();
     }
 
+
+    // initialize
     @Override
-    public void defaultInit() {
-        BaseInterface.super.defaultInit();
-        ChatViewModel chatViewModel = new ChatViewModel(getCurrentMyUID, requireActivity().getApplication());
+    public void default_init() {
+        BaseInterface.super.default_init();
+        ChatViewModel chatViewModel = new ChatViewModel(get_current_my_uid, requireActivity().getApplication());
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
-
-        if(chatRecyclerAdapter == null) {
-            chatRecyclerAdapter = new ChatRecyclerAdapter(chatViewModel);
+        if(chat_recycler_adapter == null) {
+            chat_recycler_adapter = new ChatRecyclerAdapter(chatViewModel);
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        fragmentChatBinding = null;
-    }
 
-
-    public void getDataFromMainActivity(){
+    // get intent data
+    public void get_intent_data(){
         Bundle bundle = getArguments();
         if(bundle != null) {
-
             String clientName = bundle.getString("fragment_client_name");
             String clientEmail = bundle.getString("fragment_client_email");
             String clientProfileImage = bundle.getString("fragment_client_profile_image");
-            getCurrentMyUID = bundle.getString("fragment_client_uid");
+            get_current_my_uid = bundle.getString("fragment_client_uid");
             String client_phone_number = bundle.getString("fragment_client_phone_number");
             String client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
             String client_state_message = bundle.getString("fragment_client_state_message");
@@ -67,13 +61,20 @@ public class ChatFragment extends Fragment implements BaseInterface {
             System.out.println("ChatFragment - succeeded");
             System.out.println(clientName);
             System.out.println(clientEmail);
-            System.out.println(getCurrentMyUID);
+            System.out.println(get_current_my_uid);
             System.out.println(clientProfileImage);
             System.out.println(client_phone_number);
             System.out.println(client_profile_background_image);
             System.out.println(client_state_message);
             System.out.println("=============================");
         }
+    }
+
+    // destroy fragment chat binding view lifecycle
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentChatBinding = null;
     }
 
 }
