@@ -39,6 +39,12 @@
                         android:text="@string/fragment_chat_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/splash_activity"
+                        android:text="splash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

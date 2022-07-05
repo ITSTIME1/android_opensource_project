@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebase_chat_basic">
         <activity android:name=".view.activity.MainActivity"/>
+        <activity android:name=".view.activity.SplashActivity"/>
         <activity android:name=".view.activity.ProfileActivity"/>
         <activity android:name=".view.activity.RegisterActivity"
             android:exported="true">

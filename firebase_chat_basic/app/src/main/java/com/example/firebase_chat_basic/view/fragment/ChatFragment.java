@@ -1,5 +1,6 @@
 package com.example.firebase_chat_basic.view.fragment;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
+import com.example.firebase_chat_basic.view.activity.SplashActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 
@@ -28,7 +30,18 @@ public class ChatFragment extends Fragment implements BaseInterface {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         get_intent_data();
         default_init();
+        ononon();
         return fragmentChatBinding.getRoot();
+    }
+
+    public void ononon(){
+        fragmentChatBinding.splashActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SplashActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
