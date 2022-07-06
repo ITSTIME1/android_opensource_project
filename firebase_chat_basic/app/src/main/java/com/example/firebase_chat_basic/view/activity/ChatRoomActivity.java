@@ -52,7 +52,7 @@ import java.util.Date;
  */
 
 
-public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener {
+public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener {
     private ActivityChatroomBinding activityChatroomBinding;
 
     private DatabaseReference databaseReference;
@@ -79,6 +79,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         return chat_room_recycler_adapter;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +89,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         get_message_list();
         send_message();
         on_focus_text_field();
+        activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
     }
 
     // create_list
@@ -181,39 +183,21 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
     // focus text field
-    public void on_focus_text_field(){
+    public void on_focus_text_field() {
         activityChatroomBinding.chatRoomTextField.setOnFocusChangeListener((View view, boolean b) -> {
             // 포커스가 활성화 되었을 때
-            if(b) {
-                if(view != null) {
+            if (b) {
+                if (view != null) {
                     activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size()-1);
+                            activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                         }
                     }, 500);
                 }
             }
         });
     }
-
-
-
-    // if you touch "view" hide keyboard
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View view = getCurrentFocus();
-        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
-            int[] scrcoords = new int[2];
-            view.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + view.getTop() - scrcoords[1];
-            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom()) ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
-            activityChatroomBinding.chatRoomTextField.clearFocus();
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
 
 
     // initialize
@@ -243,6 +227,33 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         Log.d("getChatKey", get_chat_key);
         Log.d("getCurrentMyUID", get_current_my_uid);
         Log.d("getOtherUID", get_other_uid);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+
+            case MotionEvent.ACTION_UP:
+                int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
+                Log.d("constraint_view_h", String.valueOf(constraint_view_h));
+
+                int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
+                Log.d("header_view_h", String.valueOf(header_view_h));
+                int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
+                Log.d("edittext_view_h", String.valueOf(edittext_view_h));
+                int result = constraint_view_h - header_view_h - edittext_view_h;
+                Log.d("result_height", String.valueOf(result));
+
+                if(result < constraint_view_h) {
+                    if (view != null) {
+                        InputMethodManager manager= (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+
+        }
+        return true;
     }
 
 }

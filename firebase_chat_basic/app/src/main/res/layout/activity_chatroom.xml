@@ -16,28 +16,32 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_view_id"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="InvalidId">
         <!-- top header -->
+
         <RelativeLayout
             android:id="@+id/chat_room_header_id"
-            android:elevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints,UselessLeaf">
 
             <ImageView
                 android:id="@+id/chat_room_back_button"
-                android:onClick="@{chatRoomActivity::on_back_pressed}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:onClick="@{chatRoomActivity::on_back_pressed}"
                 android:src="@drawable/ic_chat_room_left_direction"
                 tools:ignore="ContentDescription" />
 
