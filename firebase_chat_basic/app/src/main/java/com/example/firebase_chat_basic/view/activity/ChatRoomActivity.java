@@ -229,31 +229,26 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         Log.d("getOtherUID", get_other_uid);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
-            case MotionEvent.ACTION_UP:
-                int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
-                Log.d("constraint_view_h", String.valueOf(constraint_view_h));
+            int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
+            int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
+            int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
 
-                int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
-                Log.d("header_view_h", String.valueOf(header_view_h));
-                int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
-                Log.d("edittext_view_h", String.valueOf(edittext_view_h));
-                int result = constraint_view_h - header_view_h - edittext_view_h;
-                Log.d("result_height", String.valueOf(result));
+            int result = constraint_view_h - header_view_h - edittext_view_h;
 
-                if(result < constraint_view_h) {
-                    if (view != null) {
-                        InputMethodManager manager= (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
+            if (result < constraint_view_h) {
+                if (view != null) {
+                    inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    activityChatroomBinding.chatRoomTextField.clearFocus();
                 }
-
+            }
         }
-        return true;
+        return false;
     }
 
 }
