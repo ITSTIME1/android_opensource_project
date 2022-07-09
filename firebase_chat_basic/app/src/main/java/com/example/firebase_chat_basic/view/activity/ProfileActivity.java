@@ -1,8 +1,10 @@
 package com.example.firebase_chat_basic.view.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -14,7 +16,18 @@ import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityProfileBinding;
+import com.sothree.slidinguppanel.ScrollableViewHelper;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.ViewDragHelper;
 
+
+// @TODO 첨부파일 구현 grid layout 구현.
+
+/**
+ * <Topic>
+ *     이거다.
+ * </Topic>
+ */
 public class ProfileActivity extends AppCompatActivity implements BaseInterface {
     private ActivityProfileBinding activityProfileBinding;
     private String client_profile_image;
@@ -34,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         default_init();
         glide();
         go_to_chat_room();
+        swipe_scroll();
     }
     @Override
     public void default_init() {
@@ -69,6 +83,8 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
             finish();
         });
     }
+
+    // glide profile_image, background_image
     public void glide(){
         ImageView chat = activityProfileBinding.chatImageGif;
         GlideDrawableImageViewTarget chat_gif_image = new GlideDrawableImageViewTarget(chat);
@@ -81,5 +97,23 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         ImageView save = activityProfileBinding.saveImageGif;
         GlideDrawableImageViewTarget save_gif_image = new GlideDrawableImageViewTarget(save);
         Glide.with(this).load(R.raw.iconsave).into(save_gif_image);
+    }
+
+    // swipe_scroll
+    public void swipe_scroll(){
+        activityProfileBinding.slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {}
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    activityProfileBinding.scrollableTouchText.setText("위로 올려 보세요");
+                    activityProfileBinding.scrollableTouchIcon.setImageResource(R.drawable.ic_chat_profile_up_panel_icon);
+                } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    activityProfileBinding.scrollableTouchText.setText("한번 터치해 보세요");
+                    activityProfileBinding.scrollableTouchIcon.setImageResource(R.drawable.ic_chat_profile_down_panel_icon);
+                }
+            }
+        });
     }
 }

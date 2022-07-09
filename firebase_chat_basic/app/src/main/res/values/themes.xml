@@ -15,5 +15,14 @@
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowActionBarOverlay">true</item>
+
+
     </style>
+
+    <style name="ChatRoomActivity_Bottom_Sheet_Dialog" parent="Theme.AppCompat.Light">
+
+        <!-- bottom sheet behind color -->
+        <item name="android:colorBackground">@color/chatRoomActivityBottomSheetDialogBackgroundOpacity</item>
+    </style>
+
 </resources>

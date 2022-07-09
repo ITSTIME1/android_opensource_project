@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,6 +29,7 @@ import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,8 +54,11 @@ import java.util.Date;
  */
 
 
-public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener {
+public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener, View.OnClickListener {
     private ActivityChatroomBinding activityChatroomBinding;
+
+    private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
+    private ArrayList<ChatRoomModel> chat_room_list;
 
     private DatabaseReference databaseReference;
     private SharedPreferences.Editor editor;
@@ -64,8 +69,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private String get_other_uid;
     private Long date_time;
 
-    private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
-    private ArrayList<ChatRoomModel> chat_room_list;
 
     private boolean dataSet = false;
     private InputMethodManager inputMethodManager;
@@ -87,12 +90,17 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         default_init();
         get_from_chat_recycler_adapter();
         get_message_list();
-        send_message();
         on_focus_text_field();
+        click_listener();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void click_listener() {
+        activityChatroomBinding.chatRoomUploadImage.setOnClickListener(this);
         activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
     }
 
-    // create_list
+    // get from realtime_database
     public void get_message_list() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -132,43 +140,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         });
     }
 
-    // send_message
-    public void send_message() {
-        activityChatroomBinding.chatRoomSendButton.setOnClickListener((View view) -> {
-            final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
-            if (!chat_text.isEmpty()) {
-                date_time = System.currentTimeMillis();
-
-                Date now_date = new Date();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + " HH:mm");
-                // 날짜 포멧 지정 (저장용)
-                String set_date = simpleDateFormat.format(now_date);
-                // 채팅 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
-                // msg 에 키 값 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
-                // msg 에 시간 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
-                // 보낸 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-                // 받은 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-
-                editor.putLong("chatDateTime", date_time);
-                editor.commit();
-            }
-        });
-    }
-
-
-    // 키보드 엔터키 누르면 키보드 사라짐
-    // 리사이클러뷰 쪽 누르면 키보드 사라짐
-
-    // back pressed
-    public void on_back_pressed(View view) {
-        finish();
-    }
-
     // if you touch "enter key" hide keyboard
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -199,7 +170,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         });
     }
 
-
     // initialize
     @Override
     public void default_init() {
@@ -218,37 +188,91 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     // get data from (chat recycler adapter, profile activity)
     public void get_from_chat_recycler_adapter() {
+
         Intent getIntent = getIntent();
-        get_other_name = getIntent.getStringExtra("getOtherName");
-        get_chat_key = getIntent.getStringExtra("getChatKey");
-        get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
-        get_other_uid = getIntent.getStringExtra("getOtherUID");
-        Log.d("getOtherName", get_other_name);
-        Log.d("getChatKey", get_chat_key);
-        Log.d("getCurrentMyUID", get_current_my_uid);
-        Log.d("getOtherUID", get_other_uid);
+        if (getIntent != null) {
+            get_other_name = getIntent.getStringExtra("getOtherName");
+            get_chat_key = getIntent.getStringExtra("getChatKey");
+            get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
+            get_other_uid = getIntent.getStringExtra("getOtherUID");
+            Log.d("getOtherName", get_other_name);
+            Log.d("getChatKey", get_chat_key);
+            Log.d("getCurrentMyUID", get_current_my_uid);
+            Log.d("getOtherUID", get_other_uid);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            final int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
+            final int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
+            final int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
 
-            int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
-            int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
-            int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
+            // result view is "recycler_view_area"
+            final int result = constraint_view_h - header_view_h - edittext_view_h;
 
-            int result = constraint_view_h - header_view_h - edittext_view_h;
-
-            if (result < constraint_view_h) {
-                if (view != null) {
-                    inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    activityChatroomBinding.chatRoomTextField.clearFocus();
-                }
+            if (result < constraint_view_h && view != null) {
+                inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                activityChatroomBinding.chatRoomTextField.clearFocus();
             }
         }
         return false;
     }
 
+
+    @SuppressLint("InflateParams")
+    @Override
+    public void onClick(View view) {
+        // touch upload image
+        if (view.getId() == activityChatroomBinding.chatRoomUploadImage.getId()) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.activity_chatroom_upload_bottom_dialog, null, false);
+            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ChatRoomActivity.this, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
+            bottomSheetDialog.setContentView(view);
+            bottomSheetDialog.show();
+        }
+
+        // touch send button
+        if (view.getId() == activityChatroomBinding.chatRoomSendButton.getId()) {
+            final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
+            if (!chat_text.isEmpty()) {
+                date_time = System.currentTimeMillis();
+
+                Date now_date = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + " HH:mm");
+                // 날짜 포멧 지정 (저장용)
+                String set_date = simpleDateFormat.format(now_date);
+                // 채팅 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
+                // msg 에 키 값 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
+                // msg 에 시간 저장
+                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
+                // 보낸 사람 저장
+                databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+                // 받은 사람 저장
+                databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+
+                editor.putLong("chatDateTime", date_time);
+                editor.commit();
+
+                activityChatroomBinding.chatRoomTextField.setText("");
+            }
+        }
+
+        // touch back button
+        if(view.getId() == activityChatroomBinding.chatRoomBackButton.getId()) {
+            finish();
+        }
+
+        // 1. 이미지 접근
+        // 2. 동영상 접근
+        // 3. 예약 메세지
+        // 4. 음성인식
+        // 5. 전화하기
+        // 6. 카메라
+    }
 }

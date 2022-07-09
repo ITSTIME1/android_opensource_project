@@ -10,4 +10,10 @@
     <color name="chatMainBackgroundColor">#1AA7EC</color>
     <color name="chatItemDividerColor">#bbbbbb</color>
     <color name="chatProfileTransParentColor">#00000000</color>
+
+
+    <!-- ChatRoom Activity Color Resource -->
+    <color name="chatRoomActivityBottomSheetDialogBackgroundTransparent">#00000000</color>
+    <color name="chatRoomActivityBottomSheetDialogBackgroundOpacity">#99000000</color>
+    <color name="chatRoomActivityBottomSheetDialogBackgroundOpacityGray">#99000000</color>
 </resources>

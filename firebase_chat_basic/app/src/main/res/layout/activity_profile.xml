@@ -35,12 +35,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/scrollable_touch_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_chat_profile_up_panel_icon"
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/scrollable_touch_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="100dp"

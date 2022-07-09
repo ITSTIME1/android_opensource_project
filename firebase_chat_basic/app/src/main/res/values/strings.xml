@@ -16,4 +16,10 @@
     <string name="register_SecondName">이름</string>
     <string name="chat_editText_text">채팅을 입력해주세요</string>
     <string name="chat_room_text_field_text">Message…</string>
+    <string name="bottom_dialog_picture_string">나의 사진</string>
+    <string name="bottom_dialog_video_string">나의 동영상</string>
+    <string name="bottom_dialog_record_voice_string">음성 녹음</string>
+    <string name="bottom_dialog_call_string_string">전화 하기</string>
+    <string name="bottom_dialog_reservation_message_string">예약 문자</string>
+    <string name="bottom_dialog_camera_string">카메라</string>
 </resources>

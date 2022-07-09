@@ -41,7 +41,6 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:onClick="@{chatRoomActivity::on_back_pressed}"
                 android:src="@drawable/ic_chat_room_left_direction"
                 tools:ignore="ContentDescription" />
 
