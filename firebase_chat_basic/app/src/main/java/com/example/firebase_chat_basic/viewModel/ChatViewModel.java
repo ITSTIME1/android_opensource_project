@@ -147,7 +147,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                         get_message_count++;
                                     }
                                     get_content = messageSnapShot.child("msg").getValue(String.class);
-
                                 }
                                 if (!listSet) {
                                     listSet = true;

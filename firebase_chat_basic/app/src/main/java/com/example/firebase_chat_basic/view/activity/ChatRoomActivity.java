@@ -6,37 +6,35 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
+import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +47,11 @@ import java.util.Date;
  * "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
  * you can to send "message", "image", "voice", "reservation message"
  * there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
+ *
+ *  Let me introduce "ChatRoomActivity Methods"
+ *  1. image method
+ *  2. video select method
+ *  3. voice select method
  *
  * </Topic>
  */
@@ -72,6 +75,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     private boolean dataSet = false;
     private InputMethodManager inputMethodManager;
+    private BottomSheetDialog bottomSheetDialog;
+
+
 
     public String getOtherName() {
         return get_other_name;
@@ -92,6 +98,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         get_message_list();
         on_focus_text_field();
         click_listener();
+
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -125,10 +134,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_recycler_adapter.notifyDataSetChanged();
                                     activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                                 }
-
                             }
                         }
-
                     }
                 }
             }
@@ -152,6 +159,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         return false;
 
     }
+
 
     // focus text field
     public void on_focus_text_field() {
@@ -227,12 +235,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     @Override
     public void onClick(View view) {
         // touch upload image
+        // create bottomSheetDialog
         if (view.getId() == activityChatroomBinding.chatRoomUploadImage.getId()) {
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.activity_chatroom_upload_bottom_dialog, null, false);
-            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ChatRoomActivity.this, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
-            bottomSheetDialog.setContentView(view);
-            bottomSheetDialog.show();
+            ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
+            chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
+            chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
         }
 
         // touch send button
@@ -242,7 +249,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 date_time = System.currentTimeMillis();
 
                 Date now_date = new Date();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + " HH:mm");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
                 // 날짜 포멧 지정 (저장용)
                 String set_date = simpleDateFormat.format(now_date);
                 // 채팅 저장
@@ -267,6 +274,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         if(view.getId() == activityChatroomBinding.chatRoomBackButton.getId()) {
             finish();
         }
+
+
 
         // 1. 이미지 접근
         // 2. 동영상 접근

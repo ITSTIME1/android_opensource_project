@@ -1,82 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="chatRoomBottomSheetDialog"
+            type="com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog" />
+    </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/bottom_sheet_dialog_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="@color/chatRoomActivityBottomSheetDialogBackgroundTransparent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent">
 
-        <GridLayout
-            android:id="@+id/chatroom_activity_grid_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="150dp"
-            android:columnCount="3"
-            android:orientation="horizontal"
-            android:rowCount="3"
-            tools:ignore="MissingConstraints,UselessLeaf">
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_my_picture"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_picture_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/bottom_sheet_dialog_layout"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints">
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_my_video"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_video_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+            <GridLayout
+                android:id="@+id/chatroom_activity_grid_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="120dp"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:rowCount="3"
+                tools:ignore="MissingConstraints,UselessLeaf">
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_my_reservation_message"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_reservation_message_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_my_picture"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_record_voice"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_record_voice_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_my_video"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_call"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_call_string_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_my_reservation_message"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/chatroom_activity_grid_camera"
-                android:layout_margin="20dp"
-                android:text="@string/bottom_dialog_camera_string"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </GridLayout>
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_record_voice"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_call"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/chatroom_activity_grid_camera"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="ContentDescription" />
+            </GridLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

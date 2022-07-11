@@ -19,10 +19,17 @@
 
     </style>
 
-    <style name="ChatRoomActivity_Bottom_Sheet_Dialog" parent="Theme.AppCompat.Light">
 
+    <!-- ThemeOverlay, Theme 차이가 있음 -->
+    <!-- Theme이 지속적으로 유지해줌 round를 -->
+    <style name="ChatRoomActivity_Bottom_Sheet_Dialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <!-- bottom sheet behind color -->
-        <item name="android:colorBackground">@color/chatRoomActivityBottomSheetDialogBackgroundOpacity</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 </resources>

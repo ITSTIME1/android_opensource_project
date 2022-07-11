@@ -13,7 +13,7 @@
 
 
     <!-- ChatRoom Activity Color Resource -->
-    <color name="chatRoomActivityBottomSheetDialogBackgroundTransparent">#00000000</color>
+    <color name="chatRoomActivityBottomSheetDialogBackgroundTransparent">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacity">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacityGray">#99000000</color>
 </resources>
