@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -66,16 +67,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private DatabaseReference databaseReference;
     private SharedPreferences.Editor editor;
 
-    private String get_other_name;
-    private String get_chat_key;
-    private String get_current_my_uid;
-    private String get_other_uid;
+    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
     private Long date_time;
 
 
     private boolean dataSet = false;
     private InputMethodManager inputMethodManager;
-    private BottomSheetDialog bottomSheetDialog;
 
 
 
@@ -98,7 +95,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         get_message_list();
         on_focus_text_field();
         click_listener();
-
 
 
     }
@@ -231,7 +227,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
 
-    @SuppressLint("InflateParams")
     @Override
     public void onClick(View view) {
         // touch upload image
@@ -240,43 +235,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
             chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
+
+            Log.d("chatRoomBottomSheetDialog", "");
         }
-
-        // touch send button
-        if (view.getId() == activityChatroomBinding.chatRoomSendButton.getId()) {
-            final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
-            if (!chat_text.isEmpty()) {
-                date_time = System.currentTimeMillis();
-
-                Date now_date = new Date();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
-                // 날짜 포멧 지정 (저장용)
-                String set_date = simpleDateFormat.format(now_date);
-                // 채팅 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
-                // msg 에 키 값 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
-                // msg 에 시간 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
-                // 보낸 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-                // 받은 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-
-                editor.putLong("chatDateTime", date_time);
-                editor.commit();
-
-                activityChatroomBinding.chatRoomTextField.setText("");
-            }
-        }
-
-        // touch back button
-        if(view.getId() == activityChatroomBinding.chatRoomBackButton.getId()) {
-            finish();
-        }
-
-
-
         // 1. 이미지 접근
         // 2. 동영상 접근
         // 3. 예약 메세지
@@ -284,4 +245,47 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // 5. 전화하기
         // 6. 카메라
     }
+
+    // data binding -> back_pressed
+    public void back_pressed(){
+        finish();
+    }
+
+
+    // data binding -> send_button
+    public void send_button(){
+        final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
+        // 텍스트가 비어있지 않다면 database 쓰기 로직 실행.
+        if (!chat_text.isEmpty()) {
+            date_time = System.currentTimeMillis();
+
+            Date now_date = new Date();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
+            // 날짜 포멧 지정 (저장용)
+            String set_date = simpleDateFormat.format(now_date);
+            // 채팅 저장
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
+            // msg 에 키 값 저장
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
+            // msg 에 시간 저장
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
+            // 보낸 사람 저장
+            databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+            // 받은 사람 저장
+            databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+
+            // picture editor 페이지에서 사진을 편집, 수정, etc 작업을 수행 후 적용을 눌렀을때 chatRoomActivity 쪽으로 적용 되어진 사진을 보내며
+            // 적용 되어진 사진을 받아서 그 intent 값이 null이 아닐 경우 databasereference에 보낸다.
+            // 그 후에 그 사진의 uri 를 가져온 뒤
+
+            // 때문에 사진이 null 이라면 if문이 실행되지 않고
+            // 만약 사진이 있다면 if문이 동작하게 된다.
+
+            editor.putLong("chatDateTime", date_time);
+            editor.commit();
+
+            activityChatroomBinding.chatRoomTextField.setText("");
+        }
+    }
+
 }

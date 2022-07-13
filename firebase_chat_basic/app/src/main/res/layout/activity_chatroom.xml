@@ -41,6 +41,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:onClick="@{() -> chatRoomActivity.back_pressed()}"
                 android:src="@drawable/ic_chat_room_left_direction"
                 tools:ignore="ContentDescription" />
 
@@ -127,6 +128,7 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/chat_room_send_button"
+                        android:onClick="@{() -> chatRoomActivity.send_button()}"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_chat_send_icon"
                         android:layout_width="30dp"

@@ -5,21 +5,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityProfileBinding;
-import com.sothree.slidinguppanel.ScrollableViewHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.ViewDragHelper;
-
 
 // @TODO 첨부파일 구현 grid layout 구현.
 
@@ -86,17 +80,9 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
 
     // glide profile_image, background_image
     public void glide(){
-        ImageView chat = activityProfileBinding.chatImageGif;
-        GlideDrawableImageViewTarget chat_gif_image = new GlideDrawableImageViewTarget(chat);
-        Glide.with(this).load(R.raw.iconmessage).into(chat_gif_image);
-
-        ImageView contact = activityProfileBinding.contactImageGif;
-        GlideDrawableImageViewTarget contact_gif_image = new GlideDrawableImageViewTarget(contact);
-        Glide.with(this).load(R.raw.iconcontact).into(contact_gif_image);
-
-        ImageView save = activityProfileBinding.saveImageGif;
-        GlideDrawableImageViewTarget save_gif_image = new GlideDrawableImageViewTarget(save);
-        Glide.with(this).load(R.raw.iconsave).into(save_gif_image);
+        Glide.with(this).load(R.raw.iconmessage).into(activityProfileBinding.chatImageGif);
+        Glide.with(this).load(R.raw.iconcontact).into(activityProfileBinding.contactImageGif);
+        Glide.with(this).load(R.raw.iconsave).into(activityProfileBinding.saveImageGif);
     }
 
     // swipe_scroll
