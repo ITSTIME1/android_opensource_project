@@ -32,6 +32,8 @@ import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,13 +101,22 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
 
 
                 // TedImagePicker - image selected
-                TedImagePicker.with(requireContext())
-                        .start(new OnSelectedListener() {
-                            @Override
-                            public void onSelected(@NonNull Uri uri) {
-                                Log.d("선택되었습니다.", "");
-                            }
-                        });
+                TedImagePicker.with(requireContext()).startMultiImage(new OnMultiSelectedListener() {
+                    @Override
+                    public void onSelected(@NonNull List<? extends Uri> list) {
+
+                        // multi로 선택한 이미지들의 uri를 가지고 와서 list에 넣어준다.
+                        ArrayList<Uri> uriArrayList = new ArrayList<>();
+                        uriArrayList.add((Uri) list);
+
+                        Intent imageIntent = new Intent(getActivity(), PictureActivity.class);
+                        imageIntent.putExtra("select_image", uriArrayList);
+
+                        // @TODO 여러 사진을 보여주는 imageViewer 를 제작해야됨.
+                        startActivity(imageIntent);
+                        Log.d("image uri list ", String.valueOf(uriArrayList));
+                    }
+                });
             }
         });
     }

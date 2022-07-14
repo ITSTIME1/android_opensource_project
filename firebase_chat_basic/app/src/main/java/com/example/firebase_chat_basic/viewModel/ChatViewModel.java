@@ -135,7 +135,19 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                 String get_content = "메세지가 없습니다.";
                                 int get_message_count = 0;
 
+                                // 여기 까지 클릭해서 로직이 돌게 된다면 현재 chat_count는 0이에요
+                                // 근데 만약 상대방이 나에게 채팅을 보낸다면 거기서 로직이 다시 돌게 됩니다.
+                                // 로직을 다시 돌게 되면 chat_count 가 다시 변경 되게 된다.
+
+
+                                // @TODO 이렇게 chat count 값을 조절하자.
+                                // 내가 확인한 채팅의 값은 개수로 치지 않는다
+                                // 즉 새로운 메세지의 값만 개수로 친다는거
+                                // 그럼 기존의 잇던 chatting 값에다가 boolean 값을 넣어주고 만약 layout을 클릭했을 때 boolean 값을 true 로 설정해준다.
+                                // 그럼 마지막까지 왔던 메세지는 true로 설정되어 있고
+                                // 새로 들어온 값은 false 이기 때문에 그 false 의 조건을 가지고 있는 메세지 값만 다시 count 해서 for문 로직을 짠다.
                                 for (DataSnapshot messageSnapShot : chatDataSnapShot.child("message").getChildren()) {
+
                                     long before_message_key = 0;
                                     final long recent_message_key = preferences.getLong("chatDateTime", 0);
                                     long child_message_key = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
@@ -147,6 +159,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                         get_message_count++;
                                     }
                                     get_content = messageSnapShot.child("msg").getValue(String.class);
+
                                 }
                                 if (!listSet) {
                                     listSet = true;
