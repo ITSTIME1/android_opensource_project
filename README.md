@@ -7,7 +7,8 @@ so you can see only written java code projects.
 
 
 
-# What It has skils ?
+ 
+# What have It skils ?
 These repository is "basic level" so basically I used it in combination.
 Each other has flow annotation so if you want to know these flow.
 I recommed you to read all.
