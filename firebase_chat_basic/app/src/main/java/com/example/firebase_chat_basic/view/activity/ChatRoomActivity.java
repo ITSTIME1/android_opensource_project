@@ -236,6 +236,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
 
+
+
             Log.d("chatRoomBottomSheetDialog", "");
         }
         // 1. 이미지 접근

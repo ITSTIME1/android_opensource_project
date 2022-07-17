@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,8 @@ import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomD
 import com.example.firebase_chat_basic.view.activity.PictureActivity;
 import com.example.firebase_chat_basic.view.activity.ProfileActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
@@ -49,15 +52,17 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
  * [ChatRoomBottomSheetDialog] - StickCode
  */
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
+    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
-    public Bitmap callback_image;
+    private DatabaseReference databaseReference;
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activityChatroomUploadBottomDialogBinding = DataBindingUtil.inflate(inflater, R.layout.activity_chatroom_upload_bottom_dialog, container, false);
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
         picture_access();
 //        picture_access_result();
         glide();
@@ -111,15 +116,18 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
                         // 이게 눌렀을 때 선택 되는것
                         // 선택이 되었을 때 이렇게 들어옴.
                         // D/선택 됨: [content://media/external/images/media/57, content://media/external/images/media/55]
+                        // 이게 절대경로가 아님 절대경로는 pictureActivity 에서 변경해줄거임
+                        //리스트가 안간다.
 
                         Log.d("선택 됨", list.toString());
+                        Glide.with(requireContext()).load(list.get(0)).into(activityChatroomUploadBottomDialogBinding.testImageView);
 
                         // profile activity 로 데이터 값을 전달 합니다.
                         Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);
-                        multiImageIntent.putExtra("multiImage", (Serializable) list);
+                        multiImageIntent.putExtra("selectedImage", (Serializable) list);
                         startActivity(multiImageIntent);
 
-                        Log.d("성공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
+//                        Log.d("성공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
                     }
                 });
             }
@@ -195,6 +203,10 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
 
     // call method
     private void call() {
+//        String call_number = databaseReference.child("users").child(currentUserUID).child("phoneNumber");
+//        Intent callIntent = new Intent(Intent.ACTION_CALL);
+//        callIntent.setData(Uri.parse("0"+call_number));
+
     }
 
     // camera method

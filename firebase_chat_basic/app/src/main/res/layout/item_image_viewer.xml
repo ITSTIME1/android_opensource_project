@@ -12,20 +12,20 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/picture_card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:cardCornerRadius="10dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/picture_card_linear"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/picture_image"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="wrap_content"
                 tools:ignore="ContentDescription" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

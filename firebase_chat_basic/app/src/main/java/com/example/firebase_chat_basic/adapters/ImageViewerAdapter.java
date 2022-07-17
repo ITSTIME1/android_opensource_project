@@ -1,28 +1,22 @@
 package com.example.firebase_chat_basic.adapters;
-import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.databinding.ItemImageViewerBinding;
 import com.example.firebase_chat_basic.model.ImageViewerModel;
-import com.example.firebase_chat_basic.view.activity.PictureActivity;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
+
 
 public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.ImageViewHolder> {
-    private ArrayList<ImageViewerModel> imageViewerModelList;
-    private Context context;
+    private final ArrayList<ImageViewerModel> imageViewerModelList;
 
-
-    public ImageViewerAdapter(ArrayList<ImageViewerModel> imageViewerModelList, Context context) {
+    public ImageViewerAdapter(ArrayList<ImageViewerModel> imageViewerModelList) {
         this.imageViewerModelList = imageViewerModelList;
-        this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -41,11 +35,6 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
         return imageViewerModelList.size();
     }
 
-    public ImageViewerAdapter getImageAdapter(){
-        return ImageViewerAdapter.this;
-    }
-
-
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ItemImageViewerBinding itemImageViewerBinding;
@@ -56,7 +45,8 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
         }
 
         public void binding(ArrayList<ImageViewerModel> imageViewerModelList, int pos){
-            itemImageViewerBinding.pictureImage.setImageURI(Uri.parse(imageViewerModelList.get(pos).getImage_viewer()));
+            Glide.with(itemImageViewerBinding.pictureImage.getContext())
+                    .load(imageViewerModelList.get(pos).getImage_viewer()).into(itemImageViewerBinding.pictureImage);
             itemImageViewerBinding.executePendingBindings();
         }
 
