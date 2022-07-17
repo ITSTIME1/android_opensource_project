@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
 import com.example.firebase_chat_basic.view.activity.PictureActivity;
+import com.example.firebase_chat_basic.view.activity.ProfileActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.annotations.NotNull;
 import com.gun0912.tedpermission.PermissionListener;
@@ -32,8 +33,10 @@ import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,19 +105,21 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
 
                 // TedImagePicker - image selected
                 TedImagePicker.with(requireContext()).startMultiImage(new OnMultiSelectedListener() {
+
                     @Override
                     public void onSelected(@NonNull List<? extends Uri> list) {
+                        // 이게 눌렀을 때 선택 되는것
+                        // 선택이 되었을 때 이렇게 들어옴.
+                        // D/선택 됨: [content://media/external/images/media/57, content://media/external/images/media/55]
 
-                        // multi로 선택한 이미지들의 uri를 가지고 와서 list에 넣어준다.
-                        ArrayList<Uri> uriArrayList = new ArrayList<>();
-                        uriArrayList.add((Uri) list);
+                        Log.d("선택 됨", list.toString());
 
-                        Intent imageIntent = new Intent(getActivity(), PictureActivity.class);
-                        imageIntent.putExtra("select_image", uriArrayList);
+                        // profile activity 로 데이터 값을 전달 합니다.
+                        Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);
+                        multiImageIntent.putExtra("multiImage", (Serializable) list);
+                        startActivity(multiImageIntent);
 
-                        // @TODO 여러 사진을 보여주는 imageViewer 를 제작해야됨.
-                        startActivity(imageIntent);
-                        Log.d("image uri list ", String.valueOf(uriArrayList));
+                        Log.d("성공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
                     }
                 });
             }
