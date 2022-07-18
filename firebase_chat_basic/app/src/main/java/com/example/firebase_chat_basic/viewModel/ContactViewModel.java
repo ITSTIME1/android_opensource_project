@@ -83,6 +83,7 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
 
                     String chat_key = firebase_my_key + snapshot.child("uid").getValue(String.class);
 
+                    // 그 사람의 contact_list 값.
                     contact_list.add(new ContactModel(contact_profile_image,
                             contact_name,
                             contact_state_message,

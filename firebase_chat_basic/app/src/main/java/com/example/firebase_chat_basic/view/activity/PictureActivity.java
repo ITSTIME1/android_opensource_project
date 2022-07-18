@@ -13,6 +13,7 @@ import com.example.firebase_chat_basic.databinding.ActivityPictureBinding;
 import com.example.firebase_chat_basic.model.ImageViewerModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -33,7 +34,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityPictureBinding = DataBindingUtil.setContentView(this, R.layout.activity_picture);
-
+        default_init();
         get_data_intent();
 
     }
@@ -41,6 +42,8 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
+        activityPictureBinding.setPictureActivity(this);
+        activityPictureBinding.setLifecycleOwner(this);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -53,24 +56,22 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerList value: content://media/external/images/media/41
         //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerList value: content://media/external/images/media/57
         //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerModelArrayList 개수: 2
-        activityPictureBinding.setPictureActivity(this);
-        activityPictureBinding.setLifecycleOwner(this);
-
-
         ArrayList<ImageViewerModel> imageViewerModelArrayList = new ArrayList<>();
-        List<Object> getSelectedList = (List<Object>) getIntent.getSerializableExtra("selectedImage");
-        Log.d("getSelectedList", String.valueOf(getSelectedList.size()));
+        List<Object> getSelectedList = Collections.singletonList(getIntent.getSerializableExtra("selectedImage"));
+
         if(getSelectedList != null) {
             for (int i = 0; i < getSelectedList.size(); i++) {
                 imageViewerModelArrayList.add(new ImageViewerModel(getSelectedList.get(i).toString()));
                 Log.d("imageViewerList value", imageViewerModelArrayList.get(i).getImage_viewer());
             }
-
             imageViewerAdapter = new ImageViewerAdapter(imageViewerModelArrayList);
             imageViewerAdapter.notifyDataSetChanged();
-            Log.d("imageViewerModelArrayList 개수 ", String.valueOf(imageViewerModelArrayList.size()));
-            Log.d("imageViewerModelArrayList 보기 ", imageViewerModelArrayList.get(0).getImage_viewer());
         }
+    }
+
+    // backPressed method
+    public void onBackPressed(){
+        finish();
     }
 
     // binding imageViewerAdapter

@@ -2,9 +2,11 @@ package com.example.firebase_chat_basic.view.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -19,7 +21,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 /**
  * <Topic>
- *     이거다.
+ * 이거다.
  * </Topic>
  */
 public class ProfileActivity extends AppCompatActivity implements BaseInterface {
@@ -31,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     private String chatKey;
     private String client_my_uid;
     private String client_other_uid;
+    private String client_phone_number;
 
 
     @Override
@@ -42,7 +45,9 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         glide();
         go_to_chat_room();
         swipe_scroll();
+        call_method();
     }
+
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
@@ -50,22 +55,24 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         activityProfileBinding.profileStateMessage.setText(client_state_message);
     }
 
-    public void get_intent_data(){
+    public void get_intent_data() {
         Intent intent = getIntent();
         // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 상대방 uid, 나의 uid
         client_name = intent.getStringExtra("client_name");
         client_profile_image = intent.getStringExtra("client_profile_image");
         client_background_image = intent.getStringExtra("client_background_image");
         client_state_message = intent.getStringExtra("client_state_message");
+        client_phone_number = intent.getStringExtra("client_phone_number");
         chatKey = intent.getStringExtra("chatKey");
         client_my_uid = intent.getStringExtra("client_my_uid");
         client_other_uid = intent.getStringExtra("client_other_uid");
 
-        if(client_state_message == null ){
+        if (client_state_message == null) {
             client_state_message = "Default Message";
         }
     }
-    public void go_to_chat_room(){
+
+    public void go_to_chat_room() {
         activityProfileBinding.chatImageGifLayout.setOnClickListener(view -> {
             Log.d("chat gif 클릭 잘 됨 ", "");
             Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
@@ -79,17 +86,19 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     }
 
     // glide profile_image, background_image
-    public void glide(){
+    public void glide() {
         Glide.with(this).load(R.raw.iconmessage).into(activityProfileBinding.chatImageGif);
         Glide.with(this).load(R.raw.iconcontact).into(activityProfileBinding.contactImageGif);
         Glide.with(this).load(R.raw.iconsave).into(activityProfileBinding.saveImageGif);
     }
 
     // swipe_scroll
-    public void swipe_scroll(){
+    public void swipe_scroll() {
         activityProfileBinding.slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
-            public void onPanelSlide(View panel, float slideOffset) {}
+            public void onPanelSlide(View panel, float slideOffset) {
+            }
+
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
@@ -98,6 +107,24 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
                 } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     activityProfileBinding.scrollableTouchText.setText("한번 터치해 보세요");
                     activityProfileBinding.scrollableTouchIcon.setImageResource(R.drawable.ic_chat_profile_down_panel_icon);
+                }
+            }
+        });
+    }
+
+    // call_method
+    public void call_method() {
+        activityProfileBinding.callIdLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+client_phone_number));
+                Log.d("콜링 메서드", "");
+                Log.d("client_phone_number ", String.valueOf(client_phone_number));
+                try{
+                    startActivity(callIntent);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d("콜링 메서드 에러", "");
                 }
             }
         });

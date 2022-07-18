@@ -56,7 +56,8 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
                 public void onClick(View view) {
                     Intent contactIntent = new Intent(view.getContext(), ProfileActivity.class);
 
-                    // 이름, 프로필 이미지, 배경 이미지, 상태 메세지
+                    // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 전화번호
+                    contactIntent.putExtra("client_phone_number", contactViewModel.get_phone_number(position));
                     contactIntent.putExtra("client_name", contactViewModel.get_user_name(position));
                     contactIntent.putExtra("client_profile_image", contactViewModel.get_profile_image(position));
                     contactIntent.putExtra("client_background_image", contactViewModel.get_background_profile_image(position));

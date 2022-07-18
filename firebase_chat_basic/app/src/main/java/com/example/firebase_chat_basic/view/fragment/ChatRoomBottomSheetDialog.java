@@ -51,6 +51,9 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
 /**
  * [ChatRoomBottomSheetDialog] - StickCode
  */
+
+
+// @TODO imagePicker 완성 시키기
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
     private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
@@ -120,7 +123,6 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment{
                         //리스트가 안간다.
 
                         Log.d("선택 됨", list.toString());
-                        Glide.with(requireContext()).load(list.get(0)).into(activityChatroomUploadBottomDialogBinding.testImageView);
 
                         // profile activity 로 데이터 값을 전달 합니다.
                         Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);

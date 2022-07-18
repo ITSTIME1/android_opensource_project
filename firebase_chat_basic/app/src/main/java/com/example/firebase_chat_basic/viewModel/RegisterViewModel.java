@@ -140,6 +140,7 @@ public class RegisterViewModel extends AndroidViewModel {
 
 
                     // mutable livedata add
+                    // 모델로 바꿀 수 있을 것 같다.
                     stringArrayList.add(currentUserUID);
                     stringArrayList.add(check_sum_name);
                     stringArrayList.add(check_email);
