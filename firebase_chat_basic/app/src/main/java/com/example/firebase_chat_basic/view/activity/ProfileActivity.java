@@ -118,8 +118,6 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
             @Override
             public void onClick(View view) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+client_phone_number));
-                Log.d("콜링 메서드", "");
-                Log.d("client_phone_number ", String.valueOf(client_phone_number));
                 try{
                     startActivity(callIntent);
                 }catch (Exception e) {

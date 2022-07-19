@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebase_chat_basic">
+        <activity android:name=".view.activity.VideoActivity"/>
         <activity android:name=".view.activity.PictureActivity"/>
         <activity android:name=".view.activity.MainActivity"/>
         <activity android:name=".view.activity.SplashActivity"/>

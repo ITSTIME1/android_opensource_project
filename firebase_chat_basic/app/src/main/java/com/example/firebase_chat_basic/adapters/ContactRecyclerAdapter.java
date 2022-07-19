@@ -35,7 +35,11 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
 
     @Override
     public int getItemCount() {
-        return contactViewModel.getContactModelList().size();
+        if(contactViewModel.getContactModelList().size() == 0) {
+            return 0;
+        } else {
+            return contactViewModel.getContactModelList().size();
+        }
     }
 
     public class CustomContactViewHolder extends RecyclerView.ViewHolder {

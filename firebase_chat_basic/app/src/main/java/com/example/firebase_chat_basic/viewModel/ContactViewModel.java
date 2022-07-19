@@ -38,8 +38,11 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
     private String contact_other_uid;
 
     // constructor init
+    // getCurrentMyUId = reference 에서 가지고 옵시다.
     public ContactViewModel(Application application, String getCurrentMyUID, String getProfileBackgroundImage) {
         super(application);
+
+
         if (getCurrentMyUID != null && getProfileBackgroundImage != null) {
             firebase_my_key = getCurrentMyUID;
             firebase_my_profile_background_image = getProfileBackgroundImage;

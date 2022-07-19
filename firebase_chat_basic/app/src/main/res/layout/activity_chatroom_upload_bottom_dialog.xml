@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/bottom_sheet_dialog_layout"
             android:layout_width="match_parent"
@@ -37,6 +38,7 @@
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_my_picture"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.picture_access()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
@@ -46,6 +48,7 @@
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_my_video"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.video_access()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"

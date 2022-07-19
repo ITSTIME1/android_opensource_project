@@ -2,6 +2,7 @@ package com.example.firebase_chat_basic.view.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.view.activity.SplashActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
+import java.util.ArrayList;
 
 
 public class ChatFragment extends Fragment implements BaseInterface {
@@ -34,6 +36,7 @@ public class ChatFragment extends Fragment implements BaseInterface {
         return fragmentChatBinding.getRoot();
     }
 
+    // test spalshScreen
     public void ononon(){
         fragmentChatBinding.splashActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +72,9 @@ public class ChatFragment extends Fragment implements BaseInterface {
             String client_phone_number = bundle.getString("fragment_client_phone_number");
             String client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
             String client_state_message = bundle.getString("fragment_client_state_message");
-
             System.out.println("=============================");
             System.out.println("ChatFragment - succeeded");
+
             System.out.println(clientName);
             System.out.println(clientEmail);
             System.out.println(get_current_my_uid);

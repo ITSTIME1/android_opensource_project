@@ -17,7 +17,7 @@ import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 /**
  * [ChatRecyclerAdapter]
  * <p>
- * This adapter is that for "ChatFragment".
+ * This adapter is that for "ChatFragment"
  * All data binding is consist of "ChatViewModel".
  */
 
@@ -46,8 +46,11 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public int getItemCount() {
         // return the method(getChatListModelList) in the chatViewModel
-
-        return chatViewModel.get_chat_list().size();
+        if(chatViewModel.get_chat_list().size() == 0) {
+            return 0;
+        } else {
+            return chatViewModel.get_chat_list().size();
+        }
     }
 
 
@@ -105,8 +108,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
         // chat_count_setting method
         public void chat_count_setting(int pos){
-            // chatcount 가 없다면 GONE
-            // 채팅이 있다면 visible
             if(chatViewModel.get_chat_list().get(pos).getChatCount().isEmpty()) {
                 itemFragmentChatBinding.chatCountLayout.setVisibility(View.GONE);
             } else {

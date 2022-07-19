@@ -5,9 +5,6 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="pictureActivity"
-            type="com.example.firebase_chat_basic.view.activity.PictureActivity"/>
 
     </data>
 
@@ -31,7 +28,6 @@
 
             <ImageView
                 android:id="@+id/picture_back_pressed"
-                android:onClick="@{()->pictureActivity.onBackPressed()}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
@@ -65,7 +61,6 @@
             android:id="@+id/image_viewer_rec"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            bind:ImageViewer="@{pictureActivity.imageViewerAdapter}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
