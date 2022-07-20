@@ -5,6 +5,9 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="videoActivity"
+            type="com.example.firebase_chat_basic.view.activity.VideoActivity" />
 
     </data>
 
@@ -57,8 +60,8 @@
                 tools:ignore="HardcodedText" />
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_viewer_rec"
+        <VideoView
+            android:id="@+id/video_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"

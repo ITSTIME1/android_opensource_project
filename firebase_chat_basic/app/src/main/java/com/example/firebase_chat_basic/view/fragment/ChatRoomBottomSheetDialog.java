@@ -158,18 +158,16 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
 //    }
 
 
+    // @TODO RecyclerView 작업
     // video access method (Databinding)
     public void video_access() {
         TedImagePicker.with(requireContext()).video().start(new OnSelectedListener() {
             @Override
             public void onSelected(@NonNull Uri uri) {
-                ArrayList<Uri> uriArrayList = new ArrayList<>();
-                uriArrayList.add(uri);
                 Intent videoIntent = new Intent(getContext(), VideoActivity.class);
-                videoIntent.putExtra("videoIntent", uriArrayList);
+                videoIntent.putExtra("videoIntent", uri);
+                Log.d("uri 체크좀 해볼게요 video_access ", String.valueOf(uri));
                 startActivity(videoIntent);
-                Log.d("uriVideoList ", String.valueOf(uriArrayList.size()));
-                Log.d("videoIntent ", "성공");
             }
         });
     }
