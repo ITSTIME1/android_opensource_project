@@ -1,4 +1,6 @@
 package com.example.firebase_chat_basic.adapters;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -12,11 +14,12 @@ import java.util.ArrayList;
 
 public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.ImageViewHolder> {
     private final ArrayList<ImageViewerModel> imageViewerModelList;
+    private final Context context;
 
-    public ImageViewerAdapter(ArrayList<ImageViewerModel> imageViewerModelList) {
+    public ImageViewerAdapter(ArrayList<ImageViewerModel> imageViewerModelList, Context context) {
         this.imageViewerModelList = imageViewerModelList;
+        this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -35,7 +38,6 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
         return imageViewerModelList.size();
     }
 
-
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ItemImageViewerBinding itemImageViewerBinding;
 
@@ -45,7 +47,7 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
         }
 
         public void binding(ArrayList<ImageViewerModel> imageViewerModelList, int pos){
-            Glide.with(itemImageViewerBinding.pictureImage.getContext())
+            Glide.with(context)
                     .load(imageViewerModelList.get(pos).getImage_viewer()).into(itemImageViewerBinding.pictureImage);
             itemImageViewerBinding.executePendingBindings();
         }

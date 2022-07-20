@@ -1,5 +1,4 @@
 package com.example.firebase_chat_basic.view.activity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -7,15 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.MediaController;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityVideoBinding;
-
-import java.util.ArrayList;
 
 
 /**
@@ -79,5 +75,9 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
     public void default_init() {
         BaseInterface.super.default_init();
         activityVideoBinding.setVideoActivity(this);
+    }
+
+    public void onBackKey(){
+        finish();
     }
 }

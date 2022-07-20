@@ -166,7 +166,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                     activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+                            activityChatroomBinding.chatRoomListRec.smoothScrollToPosition(chat_room_list.size() - 1);
                         }
                     }, 500);
                 }

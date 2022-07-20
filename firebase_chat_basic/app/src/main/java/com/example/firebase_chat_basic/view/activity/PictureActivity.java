@@ -51,22 +51,17 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
     public void get_data_intent() {
         BaseInterface.super.get_data_intent();
         Intent getIntent = getIntent();
-        // 이미지 까지는 잘 들어오는데 imageView 에 적용이 안됨.
-        //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/getSelectedList: 2
-        //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerList value: content://media/external/images/media/41
-        //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerList value: content://media/external/images/media/57
-        //2022-07-17 19:39:48.894 10264-10264/com.example.firebase_chat_basic D/imageViewerModelArrayList 개수: 2
         ArrayList<ImageViewerModel> imageViewerModelArrayList = new ArrayList<>();
         List<Object> getSelectedList = Collections.singletonList(getIntent.getSerializableExtra("selectedImage"));
 
-        if(getSelectedList != null) {
+        if(getSelectedList != null ){
             for (int i = 0; i < getSelectedList.size(); i++) {
                 imageViewerModelArrayList.add(new ImageViewerModel(getSelectedList.get(i).toString()));
+                imageViewerAdapter = new ImageViewerAdapter(imageViewerModelArrayList, PictureActivity.this);
                 Log.d("imageViewerList value", imageViewerModelArrayList.get(i).getImage_viewer());
             }
-            imageViewerAdapter = new ImageViewerAdapter(imageViewerModelArrayList);
-            imageViewerAdapter.notifyDataSetChanged();
         }
+        imageViewerAdapter.notifyDataSetChanged();
     }
 
     // backPressed method
