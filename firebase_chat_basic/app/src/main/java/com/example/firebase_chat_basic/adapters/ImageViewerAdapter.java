@@ -47,8 +47,7 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
         }
 
         public void binding(ArrayList<ImageViewerModel> imageViewerModelList, int pos){
-            Glide.with(context)
-                    .load(imageViewerModelList.get(pos).getImage_viewer()).into(itemImageViewerBinding.pictureImage);
+            Glide.with(context).load(imageViewerModelList.get(pos).getImage_viewer()).into(itemImageViewerBinding.pictureImage);
             itemImageViewerBinding.executePendingBindings();
         }
 

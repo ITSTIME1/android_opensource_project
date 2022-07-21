@@ -11,5 +11,6 @@ public interface BaseInterface {
     public default void init_adapter(){};
     public default void observer_intent(){};
     public default void init_navigation(){};
-    public default  void get_data_intent(){};
+    public default void get_data_intent(){};
+    public default void onBackPressed(){};
 }

@@ -98,8 +98,9 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
             public void onSelected(@NonNull List<? extends Uri> list) {
                 Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);
                 multiImageIntent.putExtra("selectedImage", (Serializable) list);
+                Log.d("selectedImage", String.valueOf(list));
                 startActivity(multiImageIntent);
-//                        Log.d("성공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
+//                        Log.d("성Ima공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
             }
         });
     }
