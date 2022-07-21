@@ -26,6 +26,7 @@ import java.util.List;
  */
 
 
+// simple crop adapt
 public class PictureActivity extends AppCompatActivity implements BaseInterface {
     private ImageViewerAdapter imageViewerAdapter;
     private ActivityPictureBinding activityPictureBinding;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface FirebaseInterface {
     // database method
     public default void get_user_database(){};
-    public default void get_chat_database(String getOtherName, String getOtherKey){};
+    public default void get_chat_database(String getOtherName, String getOtherKey, String getPhoneNumber){};
 
     // get method chat
     public default String get_user_name(int pos){

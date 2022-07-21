@@ -88,6 +88,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 intoChatRoomActivity.putExtra("getChatKey", chatViewModel.get_chat_key(pos));
                 intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.get_my_uid(pos));
                 intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.get_other_uid(pos));
+                intoChatRoomActivity.putExtra("getPhoneNumber", chatViewModel.get_phone_number(pos));
                 view.getContext().startActivity(intoChatRoomActivity);
 
                 // 채팅을 눌렀을 때 count 가 0 보다 크다면 채팅 값이 있다는 거니까 클릭할 때 마다 초기화

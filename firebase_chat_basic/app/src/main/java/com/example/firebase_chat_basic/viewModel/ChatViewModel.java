@@ -77,6 +77,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                 for (DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
                     listSet = false;
                     if (!Objects.requireNonNull(userSnapshot.child("uid").getValue(String.class)).equals(firebase_my_uid)) {
+                        final String getPhoneNumber = userSnapshot.child("phoneNumber").getValue(String.class);
 
                         Log.d("ChatViewModel", "======== Date 생성 ========");
 
@@ -93,7 +94,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                         chat_array_list.clear();
 
                         // chat logic
-                        get_chat_database(getOtherName, getOtherKey);
+                        get_chat_database(getOtherName, getOtherKey, getPhoneNumber);
                     }
                 }
             }
@@ -107,8 +108,8 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     }
 
     @Override
-    public void get_chat_database(String get_other_name, String get_other_key) {
-        FirebaseInterface.super.get_chat_database(get_other_name, get_other_key);
+    public void get_chat_database(String get_other_name, String get_other_key, String get_phone_number) {
+        FirebaseInterface.super.get_chat_database(get_other_name, get_other_key, get_phone_number);
         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -170,7 +171,8 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                             String.valueOf(get_message_count),
                                             get_chat_key,
                                             firebase_my_uid,
-                                            get_other_key));
+                                            get_other_key,
+                                            get_phone_number));
                                     chat_recycler_adapter.notifyDataSetChanged();
                                     Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
                                 }
@@ -226,6 +228,10 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     @Override
     public String get_other_uid(int pos) {
         return chat_array_list.get(pos).getChatOtherUID();
+    }
+
+    public String get_phone_number(int pos) {
+        return chat_array_list.get(pos).getChatPhoneNumber();
     }
 
     public ArrayList<ChatListModel> get_chat_list() {

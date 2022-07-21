@@ -67,13 +67,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private DatabaseReference databaseReference;
     private SharedPreferences.Editor editor;
 
-    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
+    private String get_other_name,
+            get_chat_key,
+            get_current_my_uid,
+            get_other_uid;
+
+    public String get_phone_number;
+
+
+
     private Long date_time;
 
 
     private boolean dataSet = false;
     private InputMethodManager inputMethodManager;
-
 
 
     public String getOtherName() {
@@ -199,10 +206,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             get_chat_key = getIntent.getStringExtra("getChatKey");
             get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
             get_other_uid = getIntent.getStringExtra("getOtherUID");
+            get_phone_number = getIntent.getStringExtra("getPhoneNumber");
             Log.d("getOtherName", get_other_name);
             Log.d("getChatKey", get_chat_key);
             Log.d("getCurrentMyUID", get_current_my_uid);
             Log.d("getOtherUID", get_other_uid);
+            Log.d("getPhoneNumber", get_phone_number);
         }
     }
 
@@ -235,9 +244,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
             chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
-
-
-
             Log.d("chatRoomBottomSheetDialog", "");
         }
         // 1. 이미지 접근
@@ -288,6 +294,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
             activityChatroomBinding.chatRoomTextField.setText("");
         }
+    }
+
+    public String getGet_phone_number() {
+        return get_phone_number;
     }
 
 }

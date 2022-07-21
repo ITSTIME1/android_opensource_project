@@ -14,8 +14,8 @@ public class ChatListModel {
     private String chatKey;
     private String chatMyUID;
     private String chatOtherUID;
-
-    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String chatMyUID, String chatOtherUID) {
+    private String chatPhoneNumber;
+    public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String chatMyUID, String chatOtherUID, String chatPhoneNumber) {
         this.chatName = chatName;
         this.chatDate = chatDate;
         this.chatContent = chatContent;
@@ -23,6 +23,7 @@ public class ChatListModel {
         this.chatKey = chatKey;
         this.chatMyUID = chatMyUID;
         this.chatOtherUID = chatOtherUID;
+        this.chatPhoneNumber = chatPhoneNumber;
     }
 
     public String getChatName() {
@@ -79,5 +80,13 @@ public class ChatListModel {
 
     public void setChatOtherUID(String chatOtherUID) {
         this.chatOtherUID = chatOtherUID;
+    }
+
+    public String getChatPhoneNumber() {
+        return chatPhoneNumber;
+    }
+
+    public void setChatPhoneNumber(String chatPhoneNumber) {
+        this.chatPhoneNumber = chatPhoneNumber;
     }
 }

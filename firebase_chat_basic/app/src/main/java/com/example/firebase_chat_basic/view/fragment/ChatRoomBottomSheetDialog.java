@@ -1,7 +1,10 @@
 package com.example.firebase_chat_basic.view.fragment;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,22 +12,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
+import com.example.firebase_chat_basic.view.activity.Camera2Activity;
+import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
+import com.example.firebase_chat_basic.view.activity.MainActivity;
 import com.example.firebase_chat_basic.view.activity.PictureActivity;
 import com.example.firebase_chat_basic.view.activity.VideoActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import gun0912.tedimagepicker.builder.TedImagePicker;
 import gun0912.tedimagepicker.builder.listener.OnMultiSelectedListener;
 import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
@@ -37,15 +52,19 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
 
 // @TODO imagePicker 완성 시키기
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment implements BaseInterface {
+    private ActivityResultLauncher activityResultLauncher;
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1001;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activityChatroomUploadBottomDialogBinding = DataBindingUtil.inflate(inflater, R.layout.activity_chatroom_upload_bottom_dialog, container, false);
+
         default_init();
         glide();
+        camera_permission();
         return activityChatroomUploadBottomDialogBinding.getRoot();
     }
 
@@ -84,7 +103,7 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
 
 
     // picture access method (Databinding)
-    public void picture_access(){
+    public void picture_access() {
         permission_image();
 //                Intent bottomSheetIntent = new Intent(Intent.ACTION_PICK);
 //                bottomSheetIntent.setType("image/*");
@@ -106,19 +125,16 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     }
 
     // ted permission check
-    public void permission_image(){
-        PermissionListener permissionListener = new PermissionListener()
-        {
+    public void permission_image() {
+        PermissionListener permissionListener = new PermissionListener() {
             @Override
-            public void onPermissionGranted()
-            {
+            public void onPermissionGranted() {
                 Toast.makeText(getContext(), "권한이 허가된 상태입니다", Toast.LENGTH_SHORT).show();
                 Log.e("권한", "권한 허가 상태");
             }
 
             @Override
-            public void onPermissionDenied(List<String> deniedPermissions)
-            {
+            public void onPermissionDenied(List<String> deniedPermissions) {
                 Toast.makeText(getContext(), "권한이 거부된 상태입니다", Toast.LENGTH_SHORT).show();
                 Log.e("권한", "권한 거부 상태");
             }
@@ -182,14 +198,63 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     }
 
     // call method
-    private void call() {
-//        String call_number = databaseReference.child("users").child(currentUserUID).child("phoneNumber");
-//        Intent callIntent = new Intent(Intent.ACTION_CALL);
-//        callIntent.setData(Uri.parse("0"+call_number));
+    public void call() {
+        ChatRoomActivity chatRoomActivity = new ChatRoomActivity();
+        final String call_number = chatRoomActivity.getGet_phone_number();
+        Log.d("call_number", String.valueOf(call_number));
+        Intent bottomCallIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0" + call_number));
+        try {
+            startActivity(bottomCallIntent);
+            Log.d("call intent 가 작동 되나요", "");
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+
 
     }
 
     // camera method
-    private void camera() {
+    private void camera_permission() {
+        // 1. if camera permission request
+        activityChatroomUploadBottomDialogBinding.chatroomActivityGridCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final int status = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA);
+
+                // if permission is granted
+                // move to "Camera2Activity.class"
+                if (status == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("성공적으로 퍼미션 획득 완료", "");
+                    Intent cameraIntent = new Intent(getContext(), Camera2Activity.class);
+                    try {
+                        startActivity(cameraIntent);
+                    } catch (Exception e) {
+                        e.fillInStackTrace();
+                    }
+                } else if (status == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(getContext(), "Permission DENIEd", Toast.LENGTH_LONG).show();
+                    ActivityCompat.requestPermissions((Activity) requireContext(), new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+
+                    // when permission denied result
+                    ActivityResultLauncher<String> resultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+                        // 결과 값이 true 이면 권한 획득
+                        // 결과 값이 false 이면 권한 미 획득
+                        if(result) {
+                            Intent cameraIntent = new Intent(getContext(), Camera2Activity.class);
+                            try {
+                                startActivity(cameraIntent);
+                            } catch (Exception e) {
+                                e.fillInStackTrace();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
+
+
+
+
 }
