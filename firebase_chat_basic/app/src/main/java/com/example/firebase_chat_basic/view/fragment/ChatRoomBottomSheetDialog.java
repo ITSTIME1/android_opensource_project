@@ -1,8 +1,6 @@
 package com.example.firebase_chat_basic.view.fragment;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,12 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +24,6 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
 import com.example.firebase_chat_basic.view.activity.Camera2Activity;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
-import com.example.firebase_chat_basic.view.activity.MainActivity;
 import com.example.firebase_chat_basic.view.activity.PictureActivity;
 import com.example.firebase_chat_basic.view.activity.VideoActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -52,9 +47,9 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
 
 // @TODO imagePicker 완성 시키기
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment implements BaseInterface {
-    private ActivityResultLauncher activityResultLauncher;
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1001;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
 
     @Nullable
@@ -62,9 +57,10 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activityChatroomUploadBottomDialogBinding = DataBindingUtil.inflate(inflater, R.layout.activity_chatroom_upload_bottom_dialog, container, false);
 
+
         default_init();
         glide();
-        camera_permission();
+        camera();
         return activityChatroomUploadBottomDialogBinding.getRoot();
     }
 
@@ -209,52 +205,19 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
         } catch (Exception e) {
             e.fillInStackTrace();
         }
-
-
     }
 
     // camera method
-    private void camera_permission() {
-        // 1. if camera permission request
+    private void camera(){
         activityChatroomUploadBottomDialogBinding.chatroomActivityGridCamera.setOnClickListener(new View.OnClickListener() {
+            // onClick
             @Override
             public void onClick(View view) {
-                final int status = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA);
-
-                // if permission is granted
-                // move to "Camera2Activity.class"
-                if (status == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("성공적으로 퍼미션 획득 완료", "");
-                    Intent cameraIntent = new Intent(getContext(), Camera2Activity.class);
-                    try {
-                        startActivity(cameraIntent);
-                    } catch (Exception e) {
-                        e.fillInStackTrace();
-                    }
-                } else if (status == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(getContext(), "Permission DENIEd", Toast.LENGTH_LONG).show();
-                    ActivityCompat.requestPermissions((Activity) requireContext(), new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-
-                    // when permission denied result
-                    ActivityResultLauncher<String> resultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
-                        // 결과 값이 true 이면 권한 획득
-                        // 결과 값이 false 이면 권한 미 획득
-                        if(result) {
-                            Intent cameraIntent = new Intent(getContext(), Camera2Activity.class);
-                            try {
-                                startActivity(cameraIntent);
-                            } catch (Exception e) {
-                                e.fillInStackTrace();
-                            }
-                        }
-                    });
-
-                }
+                Intent cameraIntent = new Intent(getActivity(), Camera2Activity.class);
+                startActivity(cameraIntent);
             }
         });
+
     }
-
-
-
 
 }
