@@ -22,4 +22,7 @@
     <string name="bottom_dialog_call_string_string">전화 하기</string>
     <string name="bottom_dialog_reservation_message_string">예약 문자</string>
     <string name="bottom_dialog_camera_string">카메라</string>
+    <string name="setting_string_accept">수락</string>
+    <string name="setting_string_deny">거부</string>
+    <string name="setting_camera_string">카메라 권한을 허용해야 합니다.</string>
 </resources>
