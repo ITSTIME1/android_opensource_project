@@ -40,6 +40,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     private final String chat_date = new_date_format.format(now_date);
 
 
+    // getCurrentMyUid activity 에서 받아오지 말자 이거 수정해야 됨.
     public ChatViewModel(String get_current_my_uid, Application application) {
         super(application);
         default_init();
@@ -162,6 +163,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                     get_content = messageSnapShot.child("msg").getValue(String.class);
 
                                 }
+                                // list create
                                 if (!listSet) {
                                     listSet = true;
                                     chat_array_list.add(new ChatListModel(

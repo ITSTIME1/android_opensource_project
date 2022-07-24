@@ -1,5 +1,10 @@
 package com.example.firebase_chat_basic.model;
 
+/**
+ * [ChatRoomModel]
+ *
+ * This object is "chatroom view model"
+ */
 public class ChatRoomModel {
     private String setKey;
     private String chat_message;

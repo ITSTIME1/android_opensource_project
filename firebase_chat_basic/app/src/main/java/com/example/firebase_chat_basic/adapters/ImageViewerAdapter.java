@@ -11,6 +11,14 @@ import com.example.firebase_chat_basic.model.ImageViewerModel;
 import java.util.ArrayList;
 
 
+/**
+ * [ImageViewer Adapter]
+ *
+ * <Topic>
+ *     This adapter is that it only used to imageView.
+ *     if user brings images if then we can show "image list"
+ * </Topic>
+ */
 
 public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.ImageViewHolder> {
     private final ArrayList<ImageViewerModel> imageViewerModelList;

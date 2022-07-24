@@ -60,13 +60,10 @@ import java.util.Date;
 
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener, View.OnClickListener {
     private ActivityChatroomBinding activityChatroomBinding;
-
     private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
     private ArrayList<ChatRoomModel> chat_room_list;
-
     private DatabaseReference databaseReference;
     private SharedPreferences.Editor editor;
-
     private String get_other_name,
             get_chat_key,
             get_current_my_uid,
@@ -207,11 +204,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
             get_other_uid = getIntent.getStringExtra("getOtherUID");
             get_phone_number = getIntent.getStringExtra("getPhoneNumber");
-            Log.d("getOtherName", get_other_name);
-            Log.d("getChatKey", get_chat_key);
-            Log.d("getCurrentMyUID", get_current_my_uid);
-            Log.d("getOtherUID", get_other_uid);
-            Log.d("getPhoneNumber", get_phone_number);
+//            Log.d("getOtherName", get_other_name);
+//            Log.d("getChatKey", get_chat_key);
+//            Log.d("getCurrentMyUID", get_current_my_uid);
+//            Log.d("getOtherUID", get_other_uid);
+//            Log.d("getPhoneNumber", get_phone_number);
         }
     }
 

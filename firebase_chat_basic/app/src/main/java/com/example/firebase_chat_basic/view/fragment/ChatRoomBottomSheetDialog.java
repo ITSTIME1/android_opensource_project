@@ -48,19 +48,14 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
 // @TODO imagePicker 완성 시키기
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment implements BaseInterface {
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1001;
-    private ActivityResultLauncher<String> requestPermissionLauncher;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activityChatroomUploadBottomDialogBinding = DataBindingUtil.inflate(inflater, R.layout.activity_chatroom_upload_bottom_dialog, container, false);
-
-
         default_init();
         glide();
-        camera();
         return activityChatroomUploadBottomDialogBinding.getRoot();
     }
 
@@ -208,16 +203,9 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     }
 
     // camera method
-    private void camera(){
-        activityChatroomUploadBottomDialogBinding.chatroomActivityGridCamera.setOnClickListener(new View.OnClickListener() {
-            // onClick
-            @Override
-            public void onClick(View view) {
-                Intent cameraIntent = new Intent(getActivity(), Camera2Activity.class);
-                startActivity(cameraIntent);
-            }
-        });
-
+    public void camera(){
+        Intent cameraIntent = new Intent(getActivity(), Camera2Activity.class);
+        startActivity(cameraIntent);
     }
 
 }

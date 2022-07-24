@@ -16,7 +16,6 @@ import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 
 /**
  * [ChatRecyclerAdapter]
- * <p>
  * This adapter is that for "ChatFragment"
  * All data binding is consist of "ChatViewModel".
  */

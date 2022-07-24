@@ -11,7 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * [LinearLayout CustomClass]
+ *
+ * <Topic>
+ *     This class is "linear custom"
+ *     for example, i want to move down last list
+ *     we made function that if i touch "EditText" or "ChatRecyclerAdapter ImageViewHolder"
+ *     if excute the functions scroll action occur
+ *     before scroll action occur, we add animation or manage scroll speed.
+ * </Topic>
  */
+
+
 public class LinearLayoutCustomClass extends LinearLayoutManager {
 
     private static final float MILLISECONDS_PER_INCH = 45f; //default is 25f (bigger = slower)

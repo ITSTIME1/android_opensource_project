@@ -2,7 +2,10 @@ package com.example.firebase_chat_basic.model;
 
 /**
  * [ContactModel]
+ *
+ * This object is "contact page user list model"
  */
+
 public class ContactModel {
     private String contact_profile_image;
     private String contact_name;

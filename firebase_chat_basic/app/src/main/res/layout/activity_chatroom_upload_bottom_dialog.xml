@@ -86,6 +86,7 @@
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_camera"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.camera()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"

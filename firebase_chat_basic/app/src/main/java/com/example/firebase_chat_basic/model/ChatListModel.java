@@ -3,9 +3,10 @@ package com.example.firebase_chat_basic.model;
 /**
  * [ChatListModel]
  *
- * chatName, chatDate, chatContent, chatCount
- * @TODO create ChatProfile
+ * This object is "chatting list model"
  */
+
+
 public class ChatListModel {
     private String chatName;
     private String chatDate;
@@ -15,6 +16,8 @@ public class ChatListModel {
     private String chatMyUID;
     private String chatOtherUID;
     private String chatPhoneNumber;
+
+
     public ChatListModel(String chatName, String chatDate, String chatContent, String chatCount, String chatKey, String chatMyUID, String chatOtherUID, String chatPhoneNumber) {
         this.chatName = chatName;
         this.chatDate = chatDate;

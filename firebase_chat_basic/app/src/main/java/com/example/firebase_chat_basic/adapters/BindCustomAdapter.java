@@ -11,12 +11,22 @@ import com.example.firebase_chat_basic.custom.LinearLayoutCustomClass;
 /**
  * [BindCustomAdapter]
  *
- * This is very usefully because that using with databinding automatically setAdapter.
- * and then using "ViewModel" more usefully because that in xml can setAdapter.
+ * <Topic>
+ *     This activity is "custom adapter space".
+ *     that's mean that we need a "custom linearlayout or custom recyclerview".
+ *     I think that it's very important because we used to data-binding but if i write code one by one it's very glue code.
+ * </Topic>
  */
 
 
 public class BindCustomAdapter {
+
+
+    /**
+     * @param "recyclerView" is binded recyclerview.
+     * @param "adapter" is binded adapter.
+     */
+
 
     @BindingAdapter("ChatAdapter")
     public static void chatAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {

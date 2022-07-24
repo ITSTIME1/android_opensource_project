@@ -1,8 +1,10 @@
 package com.example.firebase_chat_basic.Interface;
 
-import com.example.firebase_chat_basic.model.ChatListModel;
-
-import java.util.ArrayList;
+/**
+ * [Firebase Interface]
+ *
+ * This interface is consist of associate with firebase.
+ */
 
 public interface FirebaseInterface {
     // database method

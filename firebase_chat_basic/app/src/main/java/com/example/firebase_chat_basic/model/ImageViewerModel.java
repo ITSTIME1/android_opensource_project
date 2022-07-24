@@ -1,5 +1,11 @@
 package com.example.firebase_chat_basic.model;
 
+
+/**
+ * [ImageViewerModel]
+ *
+ * This object is "imageViewer model" only show image
+ */
 public class ImageViewerModel {
     private String image_viewer;
 

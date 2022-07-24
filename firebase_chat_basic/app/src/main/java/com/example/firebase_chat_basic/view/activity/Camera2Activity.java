@@ -1,19 +1,28 @@
 package com.example.firebase_chat_basic.view.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.firebase_chat_basic.BuildConfig;
@@ -24,7 +33,15 @@ import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
  * [Camera2Activity]
  *
  * if user granted success camera activity open
+ * I used to basic camera (no cameraX, camera2)
  */
+
+
+// @TODO 사진을 찍은 다음 그 사진을 확인을 눌렀을 때 전송이 되는 로직
+// @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
+// @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
+
+
 public class Camera2Activity extends AppCompatActivity {
     private ActivityCameraBinding activityCameraBinding;
 
@@ -36,6 +53,10 @@ public class Camera2Activity extends AppCompatActivity {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // 카메라 실행
             Toast.makeText(this, "카메라가 실행 되었습니다.", Toast.LENGTH_SHORT).show();
+            cameraLaunch();
+            // 카메라를 호출 한뒤 activity 는 종료시킴 사실상 activity 용도는 onRequest 받을 용도기 때문에
+            // 활용도가 크게 없음 만약 있다면 다시 살리는 작업을 함.
+            finish();
         } else {
             // 권한 요청
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
@@ -49,6 +70,7 @@ public class Camera2Activity extends AppCompatActivity {
 
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // 다시 권한을 물어 봤을 때 허용을 눌렀다면 카메라를 실행.
+            cameraLaunch();
             Toast.makeText(this, "펄미션이 허용되었습니다.", Toast.LENGTH_SHORT).show();
         } else {
             // 만약 deny(거부)를 눌렀을 때 == true를 리턴
@@ -62,6 +84,7 @@ public class Camera2Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // 허용하면 카메라를 열어준다.
+                        cameraLaunch();
                         Toast.makeText(Camera2Activity.this, "허용 했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }). setNegativeButton(R.string.setting_string_deny, new DialogInterface.OnClickListener() {
@@ -86,10 +109,44 @@ public class Camera2Activity extends AppCompatActivity {
     }
 
 
-    // setting 메뉴로 이동
+    // move to setting of application
     private void goToSetting(){
         startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
         Toast.makeText(this, "설정 메뉴로 이동하겠습니다.", Toast.LENGTH_SHORT).show();
+    }
+
+    // cameraLaunch
+    private void cameraLaunch(){
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if(cameraIntent.resolveActivity(getPackageManager()) != null) {
+            intentActivityResultLauncher.launch(cameraIntent);
+        }
+        startActivity(cameraIntent);
+    }
+
+    // get image from when user click "check" in camera
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+
+            /**
+             * @param "RESULT_OK" has mean that when user click "camera" in camera
+             */
+            if(result.getResultCode() == RESULT_OK) {
+                // @TODO 이미지 보내는 기능 사용.
+            } else {
+                // @TODO 만약 확인을 누르지 않았다면 종료
+            }
+
+        }
+    });
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
