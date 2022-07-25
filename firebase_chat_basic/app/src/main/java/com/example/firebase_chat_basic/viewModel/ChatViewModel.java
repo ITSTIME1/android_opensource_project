@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
@@ -25,6 +27,7 @@ import java.util.Objects;
 
 public class ChatViewModel extends AndroidViewModel implements FirebaseInterface, BaseInterface {
     public ArrayList<ChatListModel> chat_array_list;
+    public MutableLiveData<ArrayList<ChatListModel>> arrayListMutableLiveData;
     private ChatRecyclerAdapter chat_recycler_adapter;
 
     private DatabaseReference databaseReference;
@@ -47,9 +50,10 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         if (get_current_my_uid != null) {
             firebase_my_uid = get_current_my_uid;
         }
-        if (chat_array_list == null && chat_recycler_adapter == null) {
+        if (chat_array_list == null && chat_recycler_adapter == null && arrayListMutableLiveData == null) {
             chat_array_list = new ArrayList<>();
             chat_recycler_adapter = new ChatRecyclerAdapter(this);
+            arrayListMutableLiveData = new MutableLiveData<>();
         }
         // 유저 정보 생성.
         get_user_database();
@@ -175,6 +179,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                             firebase_my_uid,
                                             get_other_key,
                                             get_phone_number));
+                                    arrayListMutableLiveData.setValue(chat_array_list);
                                     chat_recycler_adapter.notifyDataSetChanged();
                                     Log.d("ChatViewModel", "======== 채팅방 값을 넘겨준 채로 리스트 생성 완료 ========");
                                 }

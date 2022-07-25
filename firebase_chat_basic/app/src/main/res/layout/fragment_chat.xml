@@ -54,14 +54,50 @@
 
         <!-- ChatItem RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
-
             android:id="@+id/chat_room_rec"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             bind:ChatAdapter="@{chatViewModel.chat_recycler_adapter}"
+            tools:listitem="@layout/item_fragment_chat"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         </androidx.recyclerview.widget.RecyclerView>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/chat_shimmer_layout"
+            android:layout_marginTop="57dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+                <include layout="@layout/item_fragment_chat_shimmer" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,8 @@
 package com.example.firebase_chat_basic.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
 import com.example.firebase_chat_basic.model.ChatListModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerDrawable;
 
 /**
  * [ChatRecyclerAdapter]
@@ -66,10 +71,23 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         }
 
         public void bind(ChatViewModel chatViewModel, int pos) {
+
+            // get_chat_list 가 비어져 있다면
+//            if(chatViewModel.get_chat_list().isEmpty()) {
+//                Shimmer shimmer = new Shimmer.ColorHighlightBuilder().
+//                        setBaseColor(Color.parseColor(String.valueOf(R.color.chatAppShimmerColor))).
+//                        setBaseAlpha(1).
+//                        setHighlightColor(Color.parseColor("#E7E7E7")).
+//                        setHighlightAlpha(1).
+//                        setDropoff(50).
+//                        build();
+//                ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
+//                shimmerDrawable.setShimmer(shimmer);
+//            }
+
             itemFragmentChatBinding.setChatViewModel(chatViewModel);
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
-
 
             // get_chat_list 의 position 값의 chatcount 값을 가져와서 그 chatcount 없다면 보이지 않게 한다.
             // get_chat_list 의 position 값의 chatcount 값을 가져와서 만약 그 chatcount 값이 0 이상이라면 채팅이 있기 때문에 카운트를 표시해준다.

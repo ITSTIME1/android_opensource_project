@@ -30,12 +30,13 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_picture.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_register.xml" value="0.22" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_splash.xml" value="0.18" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_video.xml" value="0.28559213339033773" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_chat.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_chat.xml" value="0.33" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_contact.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_setting.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_chat.xml" value="0.33" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_chat_shimmer.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_contact.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_image_viewer.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_message.xml" value="0.33" />

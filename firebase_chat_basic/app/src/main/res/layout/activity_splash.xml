@@ -23,6 +23,17 @@
             tools:ignore="ContentDescription,MissingConstraints" />
 
         <TextView
+            android:textSize="11sp"
+            android:id="@+id/splash_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,MissingConstraints" />
+        <TextView
             android:text="Copyright (c) 2022 ITSTIME"
             android:textSize="11dp"
             android:layout_width="wrap_content"

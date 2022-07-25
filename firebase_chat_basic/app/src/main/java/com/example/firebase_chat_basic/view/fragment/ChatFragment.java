@@ -1,6 +1,7 @@
 package com.example.firebase_chat_basic.view.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.view.activity.SplashActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerDrawable;
 
 import java.util.ArrayList;
 
@@ -23,8 +26,8 @@ import java.util.ArrayList;
 public class ChatFragment extends Fragment implements BaseInterface {
     private FragmentChatBinding fragmentChatBinding;
     private ChatRecyclerAdapter chat_recycler_adapter;
+    private ChatViewModel chatViewModel;
     public String get_current_my_uid;
-
     @SuppressLint("NotifyDataSetChanged")
     @Nullable
     @Override
@@ -32,6 +35,7 @@ public class ChatFragment extends Fragment implements BaseInterface {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         get_intent_data();
         default_init();
+        observer_intent();
         ononon();
         return fragmentChatBinding.getRoot();
     }
@@ -52,7 +56,7 @@ public class ChatFragment extends Fragment implements BaseInterface {
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
-        ChatViewModel chatViewModel = new ChatViewModel(get_current_my_uid, requireActivity().getApplication());
+        chatViewModel = new ChatViewModel(get_current_my_uid, requireActivity().getApplication());
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
         if(chat_recycler_adapter == null) {
@@ -90,7 +94,21 @@ public class ChatFragment extends Fragment implements BaseInterface {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentChatBinding = null;
     }
 
+    // liveData 를 관찰하고 있다가 만약 데이터가 다 삽입 되었으면
+    // shimmerLayout 을 멈추고
+    // 보여주지 않는다.
+    @Override
+    public void observer_intent() {
+        BaseInterface.super.observer_intent();
+        chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), liveData -> {
+            if(!liveData.isEmpty()) {
+
+                fragmentChatBinding.chatShimmerLayout.stopShimmer();
+                fragmentChatBinding.chatShimmerLayout.setVisibility(View.GONE);
+
+            }
+        });
+    }
 }

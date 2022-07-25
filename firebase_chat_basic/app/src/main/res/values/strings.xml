@@ -25,4 +25,12 @@
     <string name="setting_string_accept">수락</string>
     <string name="setting_string_deny">거부</string>
     <string name="setting_camera_string">카메라 권한을 허용해야 합니다.</string>
+
+
+    <string-array name="splash_random_text">
+        <item>사용자의 정보를 확인 중입니다..</item>
+        <item>서버와의 통신을 확인 중입니다..</item>
+        <item>데이터를 불러오는 중입니다..</item>
+        <item>기다려주셔서 감사합니다.</item>
+    </string-array>
 </resources>
