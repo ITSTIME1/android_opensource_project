@@ -53,7 +53,6 @@ public class LinearLayoutCustomClass extends LinearLayoutManager {
                 return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
             }
         };
-
         linearSmoothScroller.setTargetPosition(position);
         startSmoothScroll(linearSmoothScroller);
     }

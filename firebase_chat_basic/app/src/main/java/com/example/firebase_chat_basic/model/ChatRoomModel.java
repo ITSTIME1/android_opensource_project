@@ -9,11 +9,22 @@ public class ChatRoomModel {
     private String setKey;
     private String chat_message;
     private String chat_date;
+    private String current_date;
 
-    public ChatRoomModel(String setKey, String chat_message, String chat_date) {
+    public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date) {
         this.setKey = setKey;
         this.chat_message = chat_message;
         this.chat_date = chat_date;
+        this.current_date = current_date;
+    }
+
+
+    public String getCurrent_date() {
+        return current_date;
+    }
+
+    public void setCurrent_date(String current_date) {
+        this.current_date = current_date;
     }
 
     public String getSetKey() {

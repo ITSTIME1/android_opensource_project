@@ -40,11 +40,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/splash_activity"
-                        android:text="splash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -62,11 +57,30 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </androidx.recyclerview.widget.RecyclerView>
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/chat_shimmer_layout"
+        <FrameLayout
+            android:visibility="visible"
+            android:id="@+id/chat_noting_frame_layout"
             android:layout_marginTop="57dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:ignore="UselessLeaf">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/activity_chat_room_noting_message"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </FrameLayout>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/chat_shimmer_layout"
+            android:visibility="visible"
+            android:layout_marginTop="57dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

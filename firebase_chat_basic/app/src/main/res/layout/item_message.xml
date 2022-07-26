@@ -7,6 +7,7 @@
 
     </data>
 
+
     <RelativeLayout
         android:layout_margin="20dp"
         android:layout_width="match_parent"
@@ -14,10 +15,27 @@
         tools:ignore="UselessLeaf">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/my_message_top_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2022-07-26"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/my_message_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
             <TextView
@@ -44,6 +62,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="25dp"
             android:id="@+id/other_message_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

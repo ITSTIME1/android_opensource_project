@@ -3,6 +3,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,21 +37,8 @@ public class ChatFragment extends Fragment implements BaseInterface {
         get_intent_data();
         default_init();
         observer_intent();
-        ononon();
         return fragmentChatBinding.getRoot();
     }
-
-    // test spalshScreen
-    public void ononon(){
-        fragmentChatBinding.splashActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), SplashActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
 
     // initialize
     @Override
@@ -103,11 +91,12 @@ public class ChatFragment extends Fragment implements BaseInterface {
     public void observer_intent() {
         BaseInterface.super.observer_intent();
         chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), liveData -> {
+            // 데이터가 비어있지 않다면 즉 값이 있다면 shimmer 뷰를 그만 보여준다.
             if(!liveData.isEmpty()) {
-
+                fragmentChatBinding.chatNotingFrameLayout.setVisibility(View.GONE);
                 fragmentChatBinding.chatShimmerLayout.stopShimmer();
                 fragmentChatBinding.chatShimmerLayout.setVisibility(View.GONE);
-
+                Log.d("shimmer effect stop ", "stop shimmer");
             }
         });
     }
