@@ -245,7 +245,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // create bottomSheetDialog
         if (view.getId() == activityChatroomBinding.chatRoomUploadImage.getId()) {
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
-            chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivity_Bottom_Sheet_Dialog);
+            chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
             Log.d("chatRoomBottomSheetDialog", "");
         }

@@ -14,10 +14,12 @@
         android:layout_height="match_parent">
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <RelativeLayout
             android:id="@+id/bottom_sheet_dialog_layout"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:layout_margin="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,28 +32,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="120dp"
                 android:columnCount="3"
                 android:orientation="horizontal"
                 android:rowCount="3"
-                tools:ignore="MissingConstraints,UselessLeaf">
+                tools:ignore="MissingConstraints,UselessLeaf,UselessParent">
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_my_picture"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.picture_access()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.picture_access()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_my_video"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.video_access()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.video_access()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
@@ -76,25 +77,25 @@
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_call"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.call()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.call()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_camera"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.camera()}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.camera()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
             </GridLayout>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

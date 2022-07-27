@@ -48,7 +48,6 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
         // 3. 처음 보낸 메세지가 아니라면 전 채팅의 데이트 값이랑 비교해서 다르다면 보여준다.
         // 4. 만약 이전 데이트 값이 null 이라면 값이 없다면 첫 데이터라는 거니까 보여준다.
 
-
         // date show function complete.
         if(chatRoomModelArrayList.get(position) == chatRoomModelArrayList.get(0)) {
             holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);

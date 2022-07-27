@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:statusBarColor" >@color/white</item>
         <!-- Customize your theme here. -->
 
         <item name="android:windowLightStatusBar">true</item>
@@ -19,17 +19,12 @@
 
     </style>
 
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
 
-    <!-- ThemeOverlay, Theme 차이가 있음 -->
-    <!-- Theme이 지속적으로 유지해줌 round를 -->
-    <style name="ChatRoomActivity_Bottom_Sheet_Dialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <!-- bottom sheet behind color -->
-        <item name="android:background">@android:color/transparent</item>
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">16dp</item>
-        <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_dialog_round</item>
     </style>
 
 </resources>
