@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/function_header"/>
+        <include layout="@layout/function_header"
+            android:id="@+id/function_header_id"/>
 
         <ImageView
             android:id="@+id/camera_image_preview"
@@ -24,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription,MissingConstraints" />
+            tools:ignore="ContentDescription,MissingConstraints,UnknownIdInLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

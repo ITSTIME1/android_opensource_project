@@ -18,7 +18,7 @@
             android:id="@+id/bottom_sheet_dialog_layout"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             android:layout_margin="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"

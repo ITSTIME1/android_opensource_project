@@ -1,15 +1,22 @@
 package com.example.firebase_chat_basic.view.activity;
 
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -21,11 +28,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.firebase_chat_basic.BuildConfig;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * [Camera2Activity]
@@ -42,6 +56,10 @@ import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
 
 public class Camera2Activity extends AppCompatActivity {
     private ActivityCameraBinding activityCameraBinding;
+    private final int REQUEST_WIDTH = 512;
+    private final int REQUEST_HEIGHT = 512;
+    private String photoPath;
+    private Uri photoURI;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +77,7 @@ public class Camera2Activity extends AppCompatActivity {
             // 권한 요청
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
         }
+        imageSend();
     }
 
     // fragment 에서는 onRequestPermissionResult 가 deprecated 되어있음
@@ -115,24 +134,108 @@ public class Camera2Activity extends AppCompatActivity {
 
     // cameraLaunch
     private void cameraLaunch() {
+        Log.d("카메라 런처 시작", "");
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intentActivityResultLauncher.launch(cameraIntent);
-        Log.d("start camera", "");
+        if(cameraIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            // scope variable
+            Log.d("photoFile", String.valueOf(photoFile));
+            try {
+                // 빈 파일 생성.
+                Log.d("try-catch 시작", "");
+                File tempDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File tempImage = File.createTempFile(
+                        "JPEG_" + timeStamp + "_",  /* 파일이름 */
+                        ".jpg",         /* 파일형식 */
+                        tempDir      /* 경로 */
+                );
+                photoFile = tempImage;
+                // 여기까지 빈파일 잘 가지고 있고.
+                Log.d("빈파일 생성 확인", String.valueOf(photoFile));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // 생성된 File로부터 uri 생성.
+            //URI 형식 EX) content://com.example.firebase_chat_basic.fileprovider/cameraImg/Pictures/JPEG_20211124_202832_6573897384086993610.jpg
+            if(photoFile != null) {
+                photoURI = FileProvider.getUriForFile(Camera2Activity.this, BuildConfig.APPLICATION_ID + ".fileprovider", photoFile);
+                Log.d("photoURI ", String.valueOf(photoURI));
+                // 인텐트에 photoURI를 같이 넘겨준다.
+            }
+        }
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+        cameraActivityLauncher.launch(cameraIntent);
     }
-
     // camera get data from camera
-    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    ActivityResultLauncher<Intent> cameraActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() == RESULT_OK && result.getData() != null) {
-                Bundle imageDataIntent = result.getData().getExtras();
-                Bitmap bitmap = (Bitmap) imageDataIntent.get("data");
-                activityCameraBinding.cameraImagePreview.setImageBitmap(bitmap);
+                // 여기서 이제 photoURI를 받아오면 되는데
+                // File photouri
+                String photoURI = result.getData().getStringExtra(MediaStore.EXTRA_OUTPUT);
+
+                File file = new File(String.valueOf(photoURI));
+                Log.d("result file 확인 ", String.valueOf(file));
+                try {
+                    // 가져온 photoFile uri 주소를 bit map에 넣어주고
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                    if (bitmap != null) {
+                        // 이미지 정보 추출 클래스 객체 생성.
+                        ExifInterface ei = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                            ei = new ExifInterface(file);
+                        }
+                        int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                ExifInterface.ORIENTATION_UNDEFINED);
+
+
+                        Bitmap rotatedBitmap = null;
+                        switch (orientation) {
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                rotatedBitmap = rotateImage(bitmap, 90);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                rotatedBitmap = rotateImage(bitmap, 180);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                rotatedBitmap = rotateImage(bitmap, 270);
+                                break;
+
+                            case ExifInterface.ORIENTATION_NORMAL:
+                            default:
+                                rotatedBitmap = bitmap;
+                        }
+                        // imageView에 저장.
+                        activityCameraBinding.cameraImagePreview.setImageBitmap(rotatedBitmap);
+                        Log.d("cameraImagePreview 적용 ", "");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Log.d("성공","");
             } else {
+                // 실패가 나온다는건데
                 Log.d("실패", "");
             }
         }});
+
+    // send image
+    // @TODO 사진을 고화질로 가지고오자.
+    public void imageSend(){
+        final View applyBtn = activityCameraBinding.functionHeaderId.findViewById(R.id.apply_picture);
+        applyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("적용 버튼", "");
+            }
+        });
+    }
+
+
     // get image from when user click "check" in camera
     @Override
     public void onBackPressed() {
