@@ -134,6 +134,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
+                                    Log.d("chat_room_list 처음 값 ", String.valueOf(chat_room_list.get(0).getChat_message()));
                                     if(!chat_room_list.isEmpty()) {
                                         activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                                     }

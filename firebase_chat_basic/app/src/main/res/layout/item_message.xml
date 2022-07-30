@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-
-    <RelativeLayout
-        android:layout_margin="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="UselessLeaf">
+        android:layout_height="wrap_content">
 
+        <!-- "CurrentDate" -->
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/message_top_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:visibility="gone"
+                android:textColor="@color/white"
+                android:padding="10dp"
                 android:id="@+id/my_message_top_date"
+                android:background="@drawable/chat_top_date_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2022-07-26"
@@ -30,13 +33,19 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
+        <!-- "I" message -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/my_message_layout"
+            android:layout_marginEnd="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="25dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_top_date_layout"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/my_message_text"
@@ -48,7 +57,7 @@
                 android:text="Text"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
-                tools:ignore="HardcodedText,RtlCompat" />
+                tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
 
             <TextView
                 android:id="@+id/my_message_date"
@@ -57,16 +66,22 @@
                 android:layout_gravity="right"
                 android:gravity="right"
                 android:text="202222"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
+        <!-- "other" message -->
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginTop="25dp"
             android:id="@+id/other_message_layout"
+            android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_top_date_layout"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/other_message_text"
@@ -89,5 +104,6 @@
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

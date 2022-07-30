@@ -137,6 +137,7 @@ public class Camera2Activity extends AppCompatActivity {
         Log.d("카메라 런처 시작", "");
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(cameraIntent.resolveActivity(getPackageManager()) != null) {
+            // photoFile의 주소를 담을 변수.
             File photoFile = null;
             // scope variable
             Log.d("photoFile", String.valueOf(photoFile));
@@ -151,6 +152,7 @@ public class Camera2Activity extends AppCompatActivity {
                         tempDir      /* 경로 */
                 );
                 photoFile = tempImage;
+                photoPath = tempImage.getAbsolutePath();
                 // 여기까지 빈파일 잘 가지고 있고.
                 Log.d("빈파일 생성 확인", String.valueOf(photoFile));
             } catch (Exception e) {
@@ -163,9 +165,10 @@ public class Camera2Activity extends AppCompatActivity {
                 Log.d("photoURI ", String.valueOf(photoURI));
                 // 인텐트에 photoURI를 같이 넘겨준다.
             }
+            cameraActivityLauncher.launch(cameraIntent);
+
         }
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-        cameraActivityLauncher.launch(cameraIntent);
+
     }
     // camera get data from camera
     ActivityResultLauncher<Intent> cameraActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -174,13 +177,18 @@ public class Camera2Activity extends AppCompatActivity {
             if(result.getResultCode() == RESULT_OK && result.getData() != null) {
                 // 여기서 이제 photoURI를 받아오면 되는데
                 // File photouri
-                String photoURI = result.getData().getStringExtra(MediaStore.EXTRA_OUTPUT);
-
-                File file = new File(String.valueOf(photoURI));
-                Log.d("result file 확인 ", String.valueOf(file));
+                Log.d("result ok", "");
+                File file = new File(photoPath);
+                Log.d("file path", String.valueOf(file));
+                Bitmap rotatedBitmap = null;
                 try {
                     // 가져온 photoFile uri 주소를 bit map에 넣어주고
+                    // 비트맵을 잘 못 가지고 오는것 같다.
+                    // @TODO 여기를 고쳐야 될 것 같다.
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+
+                    // 여기서 null 값이 들어온다.
+                    Log.d("bitmap ", String.valueOf(bitmap));
                     if (bitmap != null) {
                         // 이미지 정보 추출 클래스 객체 생성.
                         ExifInterface ei = null;
@@ -190,8 +198,7 @@ public class Camera2Activity extends AppCompatActivity {
                         int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION,
                                 ExifInterface.ORIENTATION_UNDEFINED);
 
-
-                        Bitmap rotatedBitmap = null;
+                        rotatedBitmap = null;
                         switch (orientation) {
                             case ExifInterface.ORIENTATION_ROTATE_90:
                                 rotatedBitmap = rotateImage(bitmap, 90);
@@ -210,15 +217,16 @@ public class Camera2Activity extends AppCompatActivity {
                                 rotatedBitmap = bitmap;
                         }
                         // imageView에 저장.
-                        activityCameraBinding.cameraImagePreview.setImageBitmap(rotatedBitmap);
-                        Log.d("cameraImagePreview 적용 ", "");
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("성공","");
+                if(rotatedBitmap != null) {
+                    activityCameraBinding.cameraImagePreview.setImageBitmap(rotatedBitmap);
+                }
+                Log.d("성공", "");
             } else {
-                // 실패가 나온다는건데
                 Log.d("실패", "");
             }
         }});
