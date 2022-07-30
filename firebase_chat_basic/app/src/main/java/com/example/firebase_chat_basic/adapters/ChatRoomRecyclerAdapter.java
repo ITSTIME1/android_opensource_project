@@ -69,33 +69,23 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
                 holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
                 holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
             } else {
-                if(todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) > 0) {
+                if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) > 0) {
                     holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
                     holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
                     // 오늘날짜랑 같다면 보여주지 않는다.
                     // 그치만 여기서 채팅을 한번더 했을 때 데이트가 같기 때문에 이 조건문을 타고 처음에 표시한 날짜까지 다 지워버린다.
-                } else if(todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) == 0){
-                    // 처음에 표시한 값은 제외한다.
-                    // 만약 날짜가 같아서 이 루프문을 탔다면
-                    // 처음에 표시했던 값은 제외해야 되기 때문에
-                    // 리스트에 있는 인덱스 값들을 전부 가지고 오면서 처음 인덱스랑 같은 값을 찾고
-                    // 만약 같은 위치라면 ViewVisible 그렇지 않다면 gone
-                    // 초기에 표시했던 값을 제외하고 나머지 날짜가 같은 값들에 대해서는뷰를 보여주지 않는다.
-                    if(holder.getAdapterPosition() == 0) {
-                        holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-                    }
+                } else if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) == 0) {
                     holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
-                    Log.d("holder 개수", String.valueOf(holder.getAdapterPosition()));
                 }
-                // 채팅의 개수가 2개 이상이라면
-                // 최근 보낸 채팅의 currentDate 값과 이전 인덱스의 currentDate 값을 비교해서
-                // 만약 현재 데이트가 더 앞선다면 즉 더 날짜가 오래 되었다면 top을 표시해준다.
-                // 만약 현재 데이트가 같다면 표시하지 않는다.
-
-                // 오늘이 2022-07-30 이고 chatRoomModelArrayList.get(position).getCurrent_date() 값으로 가지고 온 날짜들이랑 비교를 해서
-                // 오늘 날짜보다 날짜가 더 빠르다면 데이트를 표시하지 않고
-                // 만약 오늘날짜보다 날짜가더 큰 currentDate 가 있다면 오늘 날짜를 표시한다.
-
+            }
+            // 처음에 표시한 값은 제외한다.
+            // 만약 날짜가 같아서 이 루프문을 탔다면
+            // 처음에 표시했던 값은 제외해야 되기 때문에
+            // 리스트에 있는 인덱스 값들을 전부 가지고 오면서 처음 인덱스랑 같은 값을 찾고
+            // 만약 같은 위치라면 ViewVisible 그렇지 않다면 gone
+            // 초기에 표시했던 값을 제외하고 나머지 날짜가 같은 값들에 대해서는뷰를 보여주지 않는다.
+            if(holder.getAdapterPosition() == 0) {
+                holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
             }
         } else {
             Log.d("리스트가 비어있습니다.", "");
