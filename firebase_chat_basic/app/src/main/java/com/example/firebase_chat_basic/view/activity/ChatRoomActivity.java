@@ -5,19 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.GridLayout;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,18 +23,13 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
-import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +59,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
     private ArrayList<ChatRoomModel> chat_room_list;
     private DatabaseReference databaseReference;
-    private SharedPreferences.Editor editor;
     private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
     public String get_phone_number;
 
@@ -246,15 +234,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
         }
         SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
-        editor = preferences.edit();
-
-
-
     }
 
     // get data from (chat recycler adapter, profile activity)
     public void get_from_chat_recycler_adapter() {
-
         Intent getIntent = getIntent();
         if (getIntent != null) {
             get_other_name = getIntent.getStringExtra("getOtherName");
@@ -331,13 +314,15 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyyMMddss");
 
             // 날짜 포멧 지정 (저장용)
+            // 로컬 시계로 주고있네 에뮬레이터 상 시간이라서 깜짝놀랬네
+            // 정상적으로 작동하는거 맞음.
             String set_date = simpleDateFormat.format(now_date);
+            Log.d("set_date 확인", set_date);
             String current_date = currentDateFormat.format(now_date);
             int date_time = Integer.parseInt(todayDateFormat.format(now_date));
             // 채팅을 보낼때 그 채팅방의 날짜가 이전 날짜보다 작다면 이전 날짜의 1을 더해서 출력한다.
             // ex)오늘 데이터 값이 생성되고 데이터를 넣을려고 하는데 2022073110 있는데 이전의 생성된 값의 가장 큰 값이 2022073112
             // 왜 어쩔떄는 maxmessageKEy 값이 같아서 넣어지지
-
             // 딜레이를 주자
             new Handler().postDelayed(new Runnable()
             {
