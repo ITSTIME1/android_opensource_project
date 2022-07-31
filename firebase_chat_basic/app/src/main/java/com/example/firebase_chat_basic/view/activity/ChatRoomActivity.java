@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -103,7 +105,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // 만약 채팅 루트가 존재 한다면
 
         default_init();
+        get_from_chat_recycler_adapter();
+        get_message_list();
+        on_focus_text_field();
+        click_listener();
+    }
 
+    public void check_message_key() {
+        Log.d("체킹시작", "");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -140,10 +149,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
             }
         });
-        get_from_chat_recycler_adapter();
-        get_message_list();
-        on_focus_text_field();
-        click_listener();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -315,6 +320,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
         // 텍스트가 비어있지 않다면 database 쓰기 로직 실행.
         if (!chat_text.isEmpty()) {
+            check_message_key();
             Log.d("비어있는지 확인", "");
             // 만약에 채팅을 처음 보낸다면
             // 채팅을 처음 보내는게 아닌 만약 채팅을 보낸적이 있다면
@@ -330,21 +336,27 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             int date_time = Integer.parseInt(todayDateFormat.format(now_date));
             // 채팅을 보낼때 그 채팅방의 날짜가 이전 날짜보다 작다면 이전 날짜의 1을 더해서 출력한다.
             // ex)오늘 데이터 값이 생성되고 데이터를 넣을려고 하는데 2022073110 있는데 이전의 생성된 값의 가장 큰 값이 2022073112
-            if(date_time < maxMessageKey) {
-                Log.d("이 루트를 타고 있나", "");
-                maxMessageKey+=1;
-            }
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("msg").setValue(chat_text);
-            // msg 에 키 값 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("mineKey").setValue(get_current_my_uid);
-            // msg 에 시간 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("save_chat_date").setValue(set_date);
-            // msg 에 날짜 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("currentDate").setValue(current_date);
-            // 보낸 사람 저장
-            databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-            // 받은 사람 저장
-            databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+            // 왜 어쩔떄는 maxmessageKEy 값이 같아서 넣어지지
+
+            // 딜레이를 주자
+            new Handler().postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("msg").setValue(chat_text);
+                    // msg 에 키 값 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
+                    // msg 에 시간 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("save_chat_date").setValue(set_date);
+                    // msg 에 날짜 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("currentDate").setValue(current_date);
+                    // 보낸 사람 저장
+                    databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+                    // 받은 사람 저장
+                    databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+                }
+            }, 300);// 0.6초 정도 딜레이를 준 후 시작
 
             activityChatroomBinding.chatRoomTextField.setText("");
         }
