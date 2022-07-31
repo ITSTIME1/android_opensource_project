@@ -55,6 +55,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
             Date todayDateObject = new Date();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             final String todayDate = todayDateFormat.format(todayDateObject);
+            Log.d("todayDate ", todayDate);
             // 1. 채팅이 없어도 비어있는 상태로 오지를 않는다. 즉 채팅을 contact에서 처음 입장해서 sendbutton을 눌렀을 때 list에 추가 되게 됨. 첫 메세지가
             // 즉 처음 들어오는 메세지기 때문에 현재 날짜를 적용해줌.
             // 채팅이 비어있지 않다면
@@ -65,28 +66,32 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
 
             // 1. 이게 처음 가지고온 값
             // 1. 채팅의 개수가 2 미만 이라는건 채팅의 개수가 한개 밖에 없을때 == 채팅을 처음 시작했을 때 라는 뜻.
-            if(chatRoomModelArrayList.size() < 2) {
-                holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-                holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
-            } else {
-                if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) > 0) {
-                    holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-                    holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
-                    // 오늘날짜랑 같다면 보여주지 않는다.
-                    // 그치만 여기서 채팅을 한번더 했을 때 데이트가 같기 때문에 이 조건문을 타고 처음에 표시한 날짜까지 다 지워버린다.
-                } else if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) == 0) {
-                    holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
-                }
-            }
-            // 처음에 표시한 값은 제외한다.
-            // 만약 날짜가 같아서 이 루프문을 탔다면
-            // 처음에 표시했던 값은 제외해야 되기 때문에
-            // 리스트에 있는 인덱스 값들을 전부 가지고 오면서 처음 인덱스랑 같은 값을 찾고
-            // 만약 같은 위치라면 ViewVisible 그렇지 않다면 gone
-            // 초기에 표시했던 값을 제외하고 나머지 날짜가 같은 값들에 대해서는뷰를 보여주지 않는다.
-            if(holder.getAdapterPosition() == 0) {
-                holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-            }
+//            if(chatRoomModelArrayList.size() < 2) {
+//                holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
+//                holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
+//            } else {
+//                // @TODO 왜 상대방과 채팅하게 되면 첫값이 달라지지
+//                if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) > 0) {
+//                    holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
+//                    holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
+//                    // 오늘날짜랑 같다면 보여주지 않는다.
+//                    // 그치만 여기서 채팅을 한번더 했을 때 데이트가 같기 때문에 이 조건문을 타고 처음에 표시한 날짜까지 다 지워버린다.
+//                } else if (todayDate.compareTo(chatRoomModelArrayList.get(position).getCurrent_date()) == 0) {
+//                    holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
+//                }
+//            }
+//            // @TODO 다음날 표시되는거 확인해야됨.
+//            // @TODO 이게 메세지키가 보낼때 더 작을 수도 있음 그래서 메세지를 보낼때 최신 메세지보다 작은 경우가 생김.
+//            // 처음에 표시한 값은 제외한다.
+//            // 만약 날짜가 같아서 이 루프문을 탔다면
+//            // 처음에 표시했던 값은 제외해야 되기 때문에
+//            // 리스트에 있는 인덱스 값들을 전부 가지고 오면서 처음 인덱스랑 같은 값을 찾고
+//            // 만약 같은 위치라면 ViewVisible 그렇지 않다면 gone
+//            // 초기에 표시했던 값을 제외하고 나머지 날짜가 같은 값들에 대해서는뷰를 보여주지 않는다.
+//            if(holder.getAdapterPosition() == 0) {
+//                holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
+//                holder.itemMessageBinding.myMessageTopDate.setText(todayDate);
+//            }
         } else {
             Log.d("리스트가 비어있습니다.", "");
 ;       }

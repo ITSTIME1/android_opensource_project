@@ -31,14 +31,19 @@ import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomD
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 
 /**
@@ -48,11 +53,11 @@ import java.util.Date;
  * "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
  * you can to send "message", "image", "voice", "reservation message"
  * there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
- *
- *  Let me introduce "ChatRoomActivity Methods"
- *  1. image method
- *  2. video select method
- *  3. voice select method
+ * <p>
+ * Let me introduce "ChatRoomActivity Methods"
+ * 1. image method
+ * 2. video select method
+ * 3. voice select method
  *
  * </Topic>
  */
@@ -64,20 +69,13 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private ArrayList<ChatRoomModel> chat_room_list;
     private DatabaseReference databaseReference;
     private SharedPreferences.Editor editor;
-    private String get_other_name,
-            get_chat_key,
-            get_current_my_uid,
-            get_other_uid;
-
+    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
     public String get_phone_number;
-
-
-
-    private Long date_time;
-
 
     private boolean dataSet = false;
     private InputMethodManager inputMethodManager;
+
+    private int maxMessageKey;
 
 
     public String getOtherName() {
@@ -94,13 +92,58 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
+
+        // 먼저 chat 루트에 있는 key 값들을 나의 방에 맞는 데이터를 가지고 온다음에
+        // 그 데이터 중에서 가장 최신값을 따른 변수에 담고
+        // 그 변수를 전역변수로 설정한 다음
+        // 전역변수를 send_button을 눌렀을 때 조건을 걸어 확인을 한 뒤
+        // 조건에 맞게 데이터 입력.
+
+        // 만약 채팅 루트가 존재 하지 않는다면
+        // 만약 채팅 루트가 존재 한다면
+
         default_init();
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // chat 이라는 루트를 가지고 있다면
+                // 1. chat 루트의 키 값을 검사하고
+                // 만약 키 값이 동일하다면
+                // 그 키 값의 메세지 키 값들을 가지고 온다.
+                // 그 키 값들 중 가장 큰 키 값을 전역변수로 반환한다.
+                if(snapshot.hasChild("chat")) {
+                    for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
+
+                        String key_check = dataSnapshot.getKey();
+                        Log.d("dataSnapshot", String.valueOf(key_check));
+                        // get_chat_key 값이랑 동일하다면
+                        if(key_check.equals(get_chat_key)) {
+                            ArrayList<Integer> messageKeyMaxList = new ArrayList<>();
+                            for(DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
+                                messageKeyMaxList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
+                                // messageKeyValue 확인.
+                                Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
+                            }
+                            // for문이 다 끝나고 리스트에 다 추가 되었으면 maxMessageKey 값의 최대값을 전역변수에 넘겨준다.
+                            maxMessageKey = Collections.max(messageKeyMaxList);
+                            Log.d("maxMessageKey", String.valueOf(maxMessageKey));
+                        }
+                    }
+                } else {
+                    Log.d("아직 chat이 없어요", "");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         get_from_chat_recycler_adapter();
         get_message_list();
         on_focus_text_field();
         click_listener();
-
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -135,7 +178,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
                                     Log.d("chat_room_list 처음 값 ", String.valueOf(chat_room_list.get(0).getChat_message()));
-                                    if(!chat_room_list.isEmpty()) {
+                                    if (!chat_room_list.isEmpty()) {
                                         activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                                     }
                                 }
@@ -175,7 +218,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                     activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(!chat_room_list.isEmpty()) {
+                            if (!chat_room_list.isEmpty()) {
                                 activityChatroomBinding.chatRoomListRec.smoothScrollToPosition(chat_room_list.size() - 1);
                             }
                         }
@@ -199,6 +242,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         }
         SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         editor = preferences.edit();
+
+
+
     }
 
     // get data from (chat recycler adapter, profile activity)
@@ -259,43 +305,46 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     }
 
     // data binding -> back_pressed
-    public void back_pressed(){
+    public void back_pressed() {
         finish();
     }
 
 
     // data binding -> send_button
-    public void send_button(){
+    public void send_button() {
         final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
         // 텍스트가 비어있지 않다면 database 쓰기 로직 실행.
         if (!chat_text.isEmpty()) {
+            Log.d("비어있는지 확인", "");
+            // 만약에 채팅을 처음 보낸다면
+            // 채팅을 처음 보내는게 아닌 만약 채팅을 보낸적이 있다면
+
             Date now_date = new Date();
-            date_time = System.currentTimeMillis();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyyMMddss");
+
             // 날짜 포멧 지정 (저장용)
             String set_date = simpleDateFormat.format(now_date);
             String current_date = currentDateFormat.format(now_date);
-            // 채팅 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("msg").setValue(chat_text);
+            int date_time = Integer.parseInt(todayDateFormat.format(now_date));
+            // 채팅을 보낼때 그 채팅방의 날짜가 이전 날짜보다 작다면 이전 날짜의 1을 더해서 출력한다.
+            // ex)오늘 데이터 값이 생성되고 데이터를 넣을려고 하는데 2022073110 있는데 이전의 생성된 값의 가장 큰 값이 2022073112
+            if(date_time < maxMessageKey) {
+                Log.d("이 루트를 타고 있나", "");
+                maxMessageKey+=1;
+            }
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("msg").setValue(chat_text);
             // msg 에 키 값 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("mineKey").setValue(get_current_my_uid);
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("mineKey").setValue(get_current_my_uid);
             // msg 에 시간 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("save_chat_date").setValue(set_date);
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("save_chat_date").setValue(set_date);
             // msg 에 날짜 저장
-            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(date_time)).child("currentDate").setValue(current_date);
+            databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey)).child("currentDate").setValue(current_date);
             // 보낸 사람 저장
             databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
             // 받은 사람 저장
             databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-
-
-            // @TODO 메세지를 보낼때
-            // @TODO 메세지를 생성할때 날짜를 입력해주고
-            // @TODO 새로운 메세지를 보낼때 datetTime 이 24시간이 지나지 않았다면
-
-            editor.putLong("chatDateTime", date_time);
-            editor.commit();
 
             activityChatroomBinding.chatRoomTextField.setText("");
         }
