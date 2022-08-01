@@ -20,7 +20,7 @@
             tools:ignore="MissingConstraints">
 
             <TextView
-                android:visibility="visible"
+                android:visibility="gone"
                 android:elevation="5dp"
                 android:padding="10dp"
                 android:id="@+id/my_message_top_date"
