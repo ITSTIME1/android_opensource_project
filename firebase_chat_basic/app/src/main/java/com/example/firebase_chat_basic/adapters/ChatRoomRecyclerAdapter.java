@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
@@ -54,6 +55,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
         // 3. 오늘 날짜랑 같다면 표시하지 않고
         // 4. 오늘날짜보다 이후의 값이라면 표시
 
+        // [ chat date show logic ]
         if(chatRoomModelArrayList.get(position).equals(chatRoomModelArrayList.get(0))) {
             holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(0).getCurrent_date());
@@ -69,15 +71,33 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
         }
 
 
+
+        // [ chat show logic ]
         if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+            // @TODO 마지막 채팅이 아니라면 layout을 다른걸로 보여준다.
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
             holder.itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
-            holder.itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
+            // 마지막 값이라면 시간을 보여주고
+            // 마지막 값이 아니라면 보여주지 않는다.
+            if(!(chatRoomModelArrayList.get(position) ==  Iterables.getLast(chatRoomModelArrayList))) {
+                holder.itemMessageBinding.myMessageDate.setVisibility(View.GONE);
+            } else {
+                holder.itemMessageBinding.myMessageDate.setVisibility(View.VISIBLE);
+                holder.itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
+            }
+
         } else {
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.GONE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.otherMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
+            if(!chatRoomModelArrayList.get(position).equals(chatRoomModelArrayList.size()-1)) {
+                holder.itemMessageBinding.myMessageDate.setVisibility(View.GONE);
+            } else {
+                // 마지막 값이라면
+                holder.itemMessageBinding.myMessageDate.setVisibility(View.VISIBLE);
+                holder.itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
+            }
             holder.itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
         }
     }

@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid android:color="@color/chatMainBackgroundColor"/>
-    <corners android:topRightRadius="100dp"
-        android:topLeftRadius="100dp"
-        android:bottomLeftRadius="100dp"/>
+    <corners android:topRightRadius="120dp"
+        android:topLeftRadius="120dp"
+        android:bottomLeftRadius="120dp"/>
 </shape>

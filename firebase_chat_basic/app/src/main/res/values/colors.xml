@@ -16,6 +16,7 @@
     <color name="chatRoomActivityBottomSheetDialogBackgroundTransparent">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacity">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacityGray">#99000000</color>
+    <color name="chatRoomActivityTextFieldColor">#f7f7f7</color>
 
 
     <!-- App Shimmer Color -->

@@ -72,6 +72,8 @@
             android:layout_marginTop="15dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
+            android:scrollbarSize="3dp"
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_message"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +96,8 @@
             tools:ignore="MissingConstraints">
             <ImageView
                 android:id="@+id/chat_room_upload_image"
+                android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_chat_image_file_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -103,6 +105,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:orientation="horizontal"
+                android:padding="5dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
@@ -112,6 +115,7 @@
                     android:id="@+id/chat_room_text_field"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/chat_room_text_field_bg"
+                    android:elevation="10in"
                     android:hint="@string/chat_room_text_field_text"
                     android:padding="5dp"
                     android:layout_width="320dp"
@@ -122,14 +126,15 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:ignore="RtlHardcoded">
                     <ImageView
                         android:id="@+id/chat_room_send_button"
                         android:onClick="@{() -> chatRoomActivity.send_button()}"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_chat_send_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         tools:ignore="ContentDescription" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

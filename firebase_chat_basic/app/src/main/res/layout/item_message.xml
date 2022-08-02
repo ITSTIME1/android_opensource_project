@@ -12,26 +12,21 @@
         android:layout_height="wrap_content">
 
         <!-- "CurrentDate" -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/message_top_date_layout"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:gravity="center"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:visibility="gone"
-                android:elevation="5dp"
-                android:padding="10dp"
-                android:id="@+id/my_message_top_date"
-                android:background="@drawable/chat_top_date_bg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2022-07-26"
-                android:textSize="13sp"
-                tools:ignore="HardcodedText" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <TextView
+            android:visibility="visible"
+            android:textAlignment="center"
+            android:elevation="1dp"
+            android:padding="5dp"
+            android:id="@+id/my_message_top_date"
+            android:background="@drawable/chat_top_date_bg"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="2022-07-26"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText,MissingConstraints" />
 
 
         <!-- "I" message -->
@@ -45,7 +40,7 @@
             android:layout_marginTop="5dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/message_top_date_layout"
+            app:layout_constraintTop_toBottomOf="@+id/my_message_top_date"
             tools:ignore="MissingConstraints">
 
             <TextView
@@ -54,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@drawable/chat_room_message_bg"
-                android:padding="15dp"
+                android:padding="12dp"
                 android:text="Text"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
@@ -81,8 +76,8 @@
             android:layout_marginTop="5dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/message_top_date_layout"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@+id/my_message_top_date"
+            tools:ignore="MissingConstraints,UnknownId">
 
             <TextView
                 android:id="@+id/other_message_text"
@@ -90,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:background="@drawable/chat_room_meesage_other"
-                android:padding="15dp"
+                android:padding="12dp"
                 android:text="text"
                 android:textAlignment="textStart"
                 tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />

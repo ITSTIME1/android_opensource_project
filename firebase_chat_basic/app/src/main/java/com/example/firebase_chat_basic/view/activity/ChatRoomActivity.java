@@ -59,23 +59,23 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
     private ArrayList<ChatRoomModel> chat_room_list;
     private DatabaseReference databaseReference;
+    private InputMethodManager inputMethodManager;
+
     private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
     public String get_phone_number;
 
     private boolean dataSet = false;
-    private InputMethodManager inputMethodManager;
-
     private int maxMessageKey;
 
+    private final Handler mHandler = new Handler();
 
-    public String getOtherName() {
-        return get_other_name;
-    }
+    // date
+    private final Date now_date = new Date();
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
+    private final String set_date = simpleDateFormat.format(now_date);
+    private final String current_date = currentDateFormat.format(now_date);
 
-
-    public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
-        return chat_room_recycler_adapter;
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -110,23 +110,25 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 // 그 키 값의 메세지 키 값들을 가지고 온다.
                 // 그 키 값들 중 가장 큰 키 값을 전역변수로 반환한다.
                 if(snapshot.hasChild("chat")) {
+                    ArrayList<Integer> messageKeyMaxList = new ArrayList<>();
                     for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
-
                         String key_check = dataSnapshot.getKey();
                         Log.d("dataSnapshot", String.valueOf(key_check));
                         // get_chat_key 값이랑 동일하다면
-                        if(key_check.equals(get_chat_key)) {
-                            ArrayList<Integer> messageKeyMaxList = new ArrayList<>();
-                            for(DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
-                                messageKeyMaxList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
+                        if (key_check != null && key_check.equals(get_chat_key)) {
+                            for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
+                                if(messageKeyMaxList != null) {
+                                    messageKeyMaxList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
+                                }
                                 // messageKeyValue 확인.
                                 Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
                             }
-                            // for문이 다 끝나고 리스트에 다 추가 되었으면 maxMessageKey 값의 최대값을 전역변수에 넘겨준다.
-                            maxMessageKey = Collections.max(messageKeyMaxList);
-                            Log.d("maxMessageKey", String.valueOf(maxMessageKey));
                         }
+
                     }
+                    // 최신값을 전역변수에 담는다.
+                    maxMessageKey = Collections.max(messageKeyMaxList);
+                    Log.d("maxMessageKey", String.valueOf(maxMessageKey));
                 } else {
                     Log.d("아직 chat이 없어요", "");
                 }
@@ -139,6 +141,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         });
     }
 
+    // click listener
     @SuppressLint("ClickableViewAccessibility")
     public void click_listener() {
         activityChatroomBinding.chatRoomUploadImage.setOnClickListener(this);
@@ -303,32 +306,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         final String chat_text = activityChatroomBinding.chatRoomTextField.getText().toString();
         // 텍스트가 비어있지 않다면 database 쓰기 로직 실행.
         if (!chat_text.isEmpty()) {
+            // 비동기라 위에있는게 늦어지기 때문에 maxMessageKey 값이 처음엔 0값으로 되어있다가 그 메세지 키값을 받으면 messageKey 값으로 변하고 또 뒤늦게오고
             check_message_key();
             Log.d("비어있는지 확인", "");
+            // 이게 굉장히 늦게오네
+            Log.d("maxMessaheKey", String.valueOf(maxMessageKey));
             // 만약에 채팅을 처음 보낸다면
             // 채팅을 처음 보내는게 아닌 만약 채팅을 보낸적이 있다면
 
-            Date now_date = new Date();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyyMMddss");
-
-            // 날짜 포멧 지정 (저장용)
-            // 로컬 시계로 주고있네 에뮬레이터 상 시간이라서 깜짝놀랬네
-            // 정상적으로 작동하는거 맞음.
-            String set_date = simpleDateFormat.format(now_date);
-            Log.d("set_date 확인", set_date);
-            String current_date = currentDateFormat.format(now_date);
-            int date_time = Integer.parseInt(todayDateFormat.format(now_date));
             // 채팅을 보낼때 그 채팅방의 날짜가 이전 날짜보다 작다면 이전 날짜의 1을 더해서 출력한다.
             // ex)오늘 데이터 값이 생성되고 데이터를 넣을려고 하는데 2022073110 있는데 이전의 생성된 값의 가장 큰 값이 2022073112
             // 왜 어쩔떄는 maxmessageKEy 값이 같아서 넣어지지
             // 딜레이를 주자
-            new Handler().postDelayed(new Runnable()
-            {
-                @Override
-                public void run()
-                {
+            mHandler.postDelayed(new Runnable()  {
+                public void run() {
                     databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("msg").setValue(chat_text);
                     // msg 에 키 값 저장
                     databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
@@ -341,14 +332,26 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                     // 받은 사람 저장
                     databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
                 }
-            }, 300);// 0.6초 정도 딜레이를 준 후 시작
+            }, 100); // 0.5초후
 
             activityChatroomBinding.chatRoomTextField.setText("");
+            // 채팅을 보낸다음에 maxMessaeKey 값을 초기화 해준다.
         }
     }
 
+
+    // get phone number
     public String getGet_phone_number() {
         return get_phone_number;
     }
 
+    // get other user name
+    public String getOtherName() {
+        return get_other_name;
+    }
+
+    // get recycler adapter
+    public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
+        return chat_room_recycler_adapter;
+    }
 }
