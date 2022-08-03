@@ -53,6 +53,7 @@ import java.util.Objects;
  * </Topic>
  */
 
+// @TODO 입장할때 한번 꺼지는데 왜그러ㅏ지
 
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener, View.OnClickListener {
     private ActivityChatroomBinding activityChatroomBinding;
@@ -72,7 +73,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     // date
     private final Date now_date = new Date();
     @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("오후" + "HH:mm");
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
     private final String set_date = simpleDateFormat.format(now_date);
     private final String current_date = currentDateFormat.format(now_date);
 
@@ -173,7 +174,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
-                                    Log.d("chat_room_list 처음 값 ", String.valueOf(chat_room_list.get(0).getChat_message()));
                                     if (!chat_room_list.isEmpty()) {
                                         activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                                     }

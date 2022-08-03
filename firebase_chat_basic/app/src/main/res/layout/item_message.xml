@@ -13,7 +13,7 @@
 
         <!-- "CurrentDate" -->
         <TextView
-            android:visibility="visible"
+            android:visibility="gone"
             android:textAlignment="center"
             android:elevation="1dp"
             android:padding="5dp"
@@ -21,7 +21,6 @@
             android:background="@drawable/chat_top_date_bg"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="2022-07-26"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
