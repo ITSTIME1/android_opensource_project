@@ -111,16 +111,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 // 그 키 값의 메세지 키 값들을 가지고 온다.
                 // 그 키 값들 중 가장 큰 키 값을 전역변수로 반환한다.
                 if(snapshot.hasChild("chat")) {
-                    ArrayList<Integer> messageKeyMaxList = new ArrayList<>();
+                    ArrayList<Integer> messageKeyList = new ArrayList<>();
                     for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
                         String key_check = dataSnapshot.getKey();
                         Log.d("dataSnapshot", String.valueOf(key_check));
                         // get_chat_key 값이랑 동일하다면
                         if (key_check != null && key_check.equals(get_chat_key)) {
                             for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
-                                if(messageKeyMaxList != null) {
-                                    messageKeyMaxList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
-                                }
+                                messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
                                 // messageKeyValue 확인.
                                 Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
                             }
@@ -128,7 +126,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
                     }
                     // 최신값을 전역변수에 담는다.
-                    maxMessageKey = Collections.max(messageKeyMaxList);
+                    maxMessageKey = Collections.max(messageKeyList);
                     Log.d("maxMessageKey", String.valueOf(maxMessageKey));
                 } else {
                     Log.d("아직 chat이 없어요", "");

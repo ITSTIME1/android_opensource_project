@@ -21,17 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecyclerAdapter.CustomViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
-    private final Context context;
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
-        this.context = context;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
     }
 
@@ -45,10 +44,9 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
     @Override
     public void onBindViewHolder(@NonNull ChatRoomRecyclerAdapter.CustomViewHolder holder, int position) {
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
-        Date todayDateObject = new Date();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        final String todayDate = todayDateFormat.format(todayDateObject);
-
+        // chatroom 입장하자마자 가장 최신의 값을 불러서 가져오고
+        int maxMessage = chatRoomModelArrayList.size() - 1;
+        Log.d("maxMEssage", String.valueOf(maxMessage));
         int holderPosition = holder.getAdapterPosition();
         // 첫 값은 무조건 탑 데이트를 표시해주고
         if(holderPosition < 1) {
@@ -57,18 +55,12 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
             holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(holderPosition).getCurrent_date());
         } else {
-            // 첫값이 아니라면 표시하지 않는다
-            // 만약 댓글 중 이전 채팅의 날짜와 다르다면 표시해준다.
-            // 리스트의 포지션 값의 currentDate 값이 그 전의 메세지 값의 currentDate 값을 비교 했을때 날짜가 다르다면 표시해준다.
-            holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
-            if(!chatRoomModelArrayList.get(position).getCurrent_date().equals(chatRoomModelArrayList.get(position-1).getCurrent_date())) {
-                final int lastIndex = chatRoomModelArrayList.size()-1;
-                Log.d("lastIndex", String.valueOf(lastIndex));
+            // @TODO 날짜는 잘 나오는데 문제는 첫번째 holder의 topDate 를 제외하고 나머지가 전부 같은 날짜로 바뀌는 문제가 있음
+            // 따라서 추가 예외 사항을 만들어줘어야함.
+            if(!chatRoomModelArrayList.get(holderPosition).getCurrent_date().equals(chatRoomModelArrayList.get(holderPosition-1).getCurrent_date())) {
                 holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-                holder.itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(lastIndex).getCurrent_date());
+                holder.itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(maxMessage).getCurrent_date());
             } else {
-                Log.d("show?", "");
-                // 만약 이전 날짜와 비교 했을 때 같다면 표시 하지 않는다.
                 holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
             }
         }
@@ -76,9 +68,10 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
 
 
 
-        // [ chat show logic ]
+        // [ p - p chat show logic ]
+        // @TODO 이전 날짜랑 비교 했을 때 이전 날짜가 더 작고 마지막 값이라면 그때의 마지막 날짜를 표시해준다.
+        // @TODO 마지막 채팅이 아니라면 layout을 다른걸로 보여준다.
         if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-            // @TODO 마지막 채팅이 아니라면 layout을 다른걸로 보여준다.
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
             holder.itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
