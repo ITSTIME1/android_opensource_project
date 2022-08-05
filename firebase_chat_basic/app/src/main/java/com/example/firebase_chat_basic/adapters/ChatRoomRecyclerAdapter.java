@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
@@ -43,6 +46,11 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomRecyclerAdapter.CustomViewHolder holder, int position) {
+        Animation myChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_my_anim);
+        Animation otherChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_other_anim);
+
+
+
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
         // chatroom 입장하자마자 가장 최신의 값을 불러서 가져오고
         int maxMessage = chatRoomModelArrayList.size() - 1;
@@ -80,6 +88,8 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
             if(!(chatRoomModelArrayList.get(position) ==  Iterables.getLast(chatRoomModelArrayList))) {
                 holder.itemMessageBinding.myMessageDate.setVisibility(View.GONE);
             } else {
+                // animation 적용
+                holder.itemMessageBinding.myMessageLayout.setAnimation(myChatAnimation);
                 holder.itemMessageBinding.myMessageDate.setVisibility(View.VISIBLE);
                 holder.itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
             }
@@ -90,6 +100,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
             if(!(chatRoomModelArrayList.get(position) ==  Iterables.getLast(chatRoomModelArrayList))) {
                 holder.itemMessageBinding.otherMessageDate.setVisibility(View.GONE);
             } else {
+                holder.itemMessageBinding.myMessageLayout.setAnimation(otherChatAnimation);
                 holder.itemMessageBinding.otherMessageDate.setVisibility(View.VISIBLE);
                 holder.itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
             }

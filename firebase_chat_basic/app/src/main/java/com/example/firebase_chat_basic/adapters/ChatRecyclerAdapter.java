@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,20 +73,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         }
 
         public void bind(ChatViewModel chatViewModel, int pos) {
+            Animation chatListAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.chat_recycler_anim);
+            // animation click
 
-            // get_chat_list 가 비어져 있다면
-//            if(chatViewModel.get_chat_list().isEmpty()) {
-//                Shimmer shimmer = new Shimmer.ColorHighlightBuilder().
-//                        setBaseColor(Color.parseColor(String.valueOf(R.color.chatAppShimmerColor))).
-//                        setBaseAlpha(1).
-//                        setHighlightColor(Color.parseColor("#E7E7E7")).
-//                        setHighlightAlpha(1).
-//                        setDropoff(50).
-//                        build();
-//                ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
-//                shimmerDrawable.setShimmer(shimmer);
-//            }
-
+            itemFragmentChatBinding.chatItemLayout.setAnimation(chatListAnimation);
             itemFragmentChatBinding.setChatViewModel(chatViewModel);
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
