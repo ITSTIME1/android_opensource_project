@@ -208,4 +208,9 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
         startActivity(cameraIntent);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activityChatroomUploadBottomDialogBinding = null;
+    }
 }

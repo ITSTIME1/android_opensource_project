@@ -81,4 +81,9 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         return imageViewerAdapter;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityPictureBinding = null;
+    }
 }

@@ -31,9 +31,9 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     private ChatRecyclerAdapter chat_recycler_adapter;
 
     private DatabaseReference databaseReference;
-    private SharedPreferences preferences;
+    private SharedPreferences preferences, authPreference;
 
-    private String firebase_my_uid;
+    private final String firebase_my_uid;
     private boolean listSet = false;
 
 
@@ -44,12 +44,10 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
 
 
     // getCurrentMyUid activity 에서 받아오지 말자 이거 수정해야 됨.
-    public ChatViewModel(String get_current_my_uid, Application application) {
+    public ChatViewModel(Application application) {
         super(application);
         default_init();
-        if (get_current_my_uid != null) {
-            firebase_my_uid = get_current_my_uid;
-        }
+        firebase_my_uid = authPreference.getString("authentication_uid", "");
         if (chat_array_list == null && chat_recycler_adapter == null && arrayListMutableLiveData == null) {
             chat_array_list = new ArrayList<>();
             chat_recycler_adapter = new ChatRecyclerAdapter(this);
@@ -63,6 +61,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     public void default_init() {
         BaseInterface.super.default_init();
         Application context = getApplication();
+        authPreference = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
         preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
     }

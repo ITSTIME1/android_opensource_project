@@ -2,10 +2,14 @@ package com.example.firebase_chat_basic.viewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.firebase_chat_basic.constants.Constants;
+import com.example.firebase_chat_basic.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,8 +37,7 @@ import java.util.ArrayList;
 public class RegisterViewModel extends AndroidViewModel {
 
     // firebase "realTimeDataBase" url
-    private static final String realTimeDataBaseUserUrl = "https://fir-chat-basic-dfd08-default-rtdb.firebaseio.com/";
-
+    private static final String realTimeDataBaseUserUrl = Constants.real_time_database_root_url;
 
     // firebaseDatabase instance
     private final DatabaseReference databaseReference;
@@ -43,8 +46,8 @@ public class RegisterViewModel extends AndroidViewModel {
 
 
     // two-way dataBinding
-    private final ArrayList<String> stringArrayList;
-    public MutableLiveData<ArrayList<String>> getDataList = new MutableLiveData<>();
+    private final ArrayList<UserModel> stringArrayList;
+    public MutableLiveData<ArrayList<UserModel>> getDataList = new MutableLiveData<>();
     public MutableLiveData<String> getRegister_first_name;
     public MutableLiveData<String> getRegister_second_name;
     public MutableLiveData<String> getRegister_email;
@@ -63,7 +66,7 @@ public class RegisterViewModel extends AndroidViewModel {
     private String check_profile_background_image;
     private String check_sum_name;
     private String check_phone_number;
-    private String check_state_message;
+    private final String check_state_message = "Default";
     private boolean onlineState = true;
 
 
@@ -94,7 +97,6 @@ public class RegisterViewModel extends AndroidViewModel {
         String check_second_name = getRegister_second_name.getValue();
         String check_email = getRegister_email.getValue();
         String check_password = getRegister_password.getValue();
-        String check_state_message = "Default";
 
         check_phone_number = getRegister_phone_number.getValue();
         check_sum_name = check_first_name + check_second_name;
@@ -138,17 +140,16 @@ public class RegisterViewModel extends AndroidViewModel {
                     databaseReference.child("users").child(currentUserUID).child("backgroundImage").setValue(check_profile_background_image);
                     databaseReference.child("users").child(currentUserUID).child("stateMessage").setValue(check_state_message);
 
-
-                    // mutable livedata add
-                    // 모델로 바꿀 수 있을 것 같다.
-                    stringArrayList.add(currentUserUID);
-                    stringArrayList.add(check_sum_name);
-                    stringArrayList.add(check_email);
-                    stringArrayList.add(check_profile_image);
-                    stringArrayList.add(check_phone_number);
-                    stringArrayList.add(String.valueOf(onlineState));
-                    stringArrayList.add(check_profile_background_image);
-                    stringArrayList.add(check_state_message);
+                    // user model
+                    stringArrayList.add(new UserModel(
+                            currentUserUID,
+                            check_sum_name,
+                            check_email,
+                            check_phone_number,
+                            check_profile_image,
+                            check_profile_background_image,
+                            String.valueOf(onlineState),
+                            check_state_message));
 
                     getDataList.setValue(stringArrayList);
 
@@ -163,7 +164,6 @@ public class RegisterViewModel extends AndroidViewModel {
                     editor.commit();
 
                     Log.d("authenticationUID", preferences.getString("authenticationUID", ""));
-
 
                 } else {
                     System.out.println("값이 성공적으로 저장이 되지 않았어요");

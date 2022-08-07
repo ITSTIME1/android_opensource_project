@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
@@ -16,8 +17,6 @@ import com.example.firebase_chat_basic.viewModel.ContactViewModel;
 
 public class ContactFragment extends Fragment implements BaseInterface {
     private FragmentContactBinding fragmentContactBinding;
-    private String get_current_my_uid;
-    private String client_profile_background_image;
 
     @Nullable
     @Override
@@ -28,16 +27,11 @@ public class ContactFragment extends Fragment implements BaseInterface {
         return fragmentContactBinding.getRoot();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        fragmentContactBinding = null;
-    }
 
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
-        ContactViewModel contactViewModel = new ContactViewModel(requireActivity().getApplication(), get_current_my_uid, client_profile_background_image);
+        ContactViewModel contactViewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
         fragmentContactBinding.setContactViewModel(contactViewModel);
         fragmentContactBinding.setLifecycleOwner(this);
 
@@ -52,10 +46,10 @@ public class ContactFragment extends Fragment implements BaseInterface {
             String clientName = bundle.getString("fragment_client_name");
             String clientEmail = bundle.getString("fragment_client_email");
             String clientProfileImage = bundle.getString("fragment_client_profile_image");
-            get_current_my_uid = bundle.getString("fragment_client_uid");
+            String get_current_my_uid = bundle.getString("fragment_client_uid");
             String client_phone_number = bundle.getString("fragment_client_phone_number");
             String client_online_state = bundle.getString("fragment_client_online_state");
-            client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
+            String client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
 
             System.out.println("=============================");
             System.out.println("ContactFragment - succeeded");
@@ -68,5 +62,11 @@ public class ContactFragment extends Fragment implements BaseInterface {
             System.out.println(client_profile_background_image);
             System.out.println("=============================");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragmentContactBinding = null;
     }
 }

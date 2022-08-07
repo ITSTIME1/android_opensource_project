@@ -33,4 +33,10 @@ public class SettingFragment extends Fragment {
          */
         return fragmentSettingBinding.getRoot();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragmentSettingBinding = null;
+    }
 }

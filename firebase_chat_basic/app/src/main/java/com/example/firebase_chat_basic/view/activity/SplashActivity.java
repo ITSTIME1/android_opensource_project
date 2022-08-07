@@ -95,7 +95,12 @@ public class SplashActivity extends AppCompatActivity {
         Random random = new Random();
         int loadingTextIndex = random.nextInt(loadingText.length-1);
         activitySplashBinding.splashLoadingText.setText(loadingText[loadingTextIndex]);
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activitySplashBinding = null;
     }
 }
+

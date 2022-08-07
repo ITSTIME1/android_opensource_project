@@ -165,4 +165,10 @@ public class Camera2Activity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityCameraBinding = null;
+    }
 }

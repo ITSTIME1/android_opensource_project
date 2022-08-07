@@ -163,4 +163,10 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
         chatFragment.setArguments(bundle);
         contactFragment.setArguments(bundle);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityMainBinding = null;
+    }
 }

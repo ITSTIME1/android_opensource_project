@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
 
             Log.d("User Checking", String.valueOf(firebaseUser.getUid().equals(preferences.getString("authentication_uid", ""))));
             registerIntent = new Intent(this, MainActivity.class);
-
             // preference 에서 값을 가지고 온 뒤
             final String authentication_uid = preferences.getString("authentication_uid", "");
             final String authentication_name = preferences.getString("authentication_name", "");
@@ -98,15 +97,15 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         BaseInterface.super.observer_intent();
         registerViewModel.getDataList.observe(this, registerData -> {
             registerIntent = new Intent(this, MainActivity.class);
-            if(registerData.get(0) != null && registerData.get(1) != null && registerData.get(2) != null && registerData.get(4) != null) {
-                registerIntent.putExtra("client_uid", registerData.get(0));
-                registerIntent.putExtra("client_name", registerData.get(1));
-                registerIntent.putExtra("client_email", registerData.get(2));
-                registerIntent.putExtra("client_profile_image", registerData.get(3));
-                registerIntent.putExtra("client_phone_number", registerData.get(4));
-                registerIntent.putExtra("client_online_state", registerData.get(5));
-                registerIntent.putExtra("client_profile_background_image", registerData.get(6));
-                registerIntent.putExtra("client_state_message", registerData.get(7));
+            if(registerData != null) {
+                registerIntent.putExtra("client_uid", registerData.get(0).getUser_uid());
+                registerIntent.putExtra("client_name", registerData.get(0).getUser_name());
+                registerIntent.putExtra("client_email", registerData.get(0).getUser_email());
+                registerIntent.putExtra("client_profile_image", registerData.get(0).getUser_profile_image());
+                registerIntent.putExtra("client_phone_number", registerData.get(0).getUser_phone_number());
+                registerIntent.putExtra("client_online_state", registerData.get(0).getUser_online_state());
+                registerIntent.putExtra("client_profile_background_image", registerData.get(0).getUser_background_image());
+                registerIntent.putExtra("client_state_message", registerData.get(0).getUser_state_message());
                 Log.d("registerIntent", "success");
             } else {
                 Log.d("registerData", "register Data null");
@@ -114,5 +113,11 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
             startActivity(registerIntent);
             finish();
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityRegisterBinding = null;
     }
 }

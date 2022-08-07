@@ -127,4 +127,10 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityProfileBinding = null;
+    }
 }

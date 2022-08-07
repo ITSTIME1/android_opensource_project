@@ -12,12 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.view.activity.SplashActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
+import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerDrawable;
 
@@ -26,9 +29,9 @@ import java.util.ArrayList;
 
 public class ChatFragment extends Fragment implements BaseInterface {
     private FragmentChatBinding fragmentChatBinding;
-    private ChatRecyclerAdapter chat_recycler_adapter;
     private ChatViewModel chatViewModel;
-    public String get_current_my_uid;
+
+
     @SuppressLint("NotifyDataSetChanged")
     @Nullable
     @Override
@@ -44,12 +47,9 @@ public class ChatFragment extends Fragment implements BaseInterface {
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
-        chatViewModel = new ChatViewModel(get_current_my_uid, requireActivity().getApplication());
+        chatViewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
-        if(chat_recycler_adapter == null) {
-            chat_recycler_adapter = new ChatRecyclerAdapter(chatViewModel);
-        }
     }
 
 
@@ -60,7 +60,7 @@ public class ChatFragment extends Fragment implements BaseInterface {
             String clientName = bundle.getString("fragment_client_name");
             String clientEmail = bundle.getString("fragment_client_email");
             String clientProfileImage = bundle.getString("fragment_client_profile_image");
-            get_current_my_uid = bundle.getString("fragment_client_uid");
+            String get_current_my_uid = bundle.getString("fragment_client_uid");
             String client_phone_number = bundle.getString("fragment_client_phone_number");
             String client_profile_background_image = bundle.getString("fragment_client_profile_background_image");
             String client_state_message = bundle.getString("fragment_client_state_message");
@@ -78,12 +78,6 @@ public class ChatFragment extends Fragment implements BaseInterface {
         }
     }
 
-    // destroy fragment chat binding view lifecycle
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
     // liveData 를 관찰하고 있다가 만약 데이터가 다 삽입 되었으면
     // shimmerLayout 을 멈추고
     // 보여주지 않는다.
@@ -93,11 +87,18 @@ public class ChatFragment extends Fragment implements BaseInterface {
         chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), liveData -> {
             // 데이터가 비어있지 않다면 즉 값이 있다면 shimmer 뷰를 그만 보여준다.
             if(!liveData.isEmpty()) {
-                fragmentChatBinding.chatNotingFrameLayout.setVisibility(View.GONE);
                 fragmentChatBinding.chatShimmerLayout.stopShimmer();
                 fragmentChatBinding.chatShimmerLayout.setVisibility(View.GONE);
                 Log.d("shimmer effect stop ", "stop shimmer");
             }
         });
+    }
+    // destroy fragment chat binding view lifecycle
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragmentChatBinding = null;
     }
 }

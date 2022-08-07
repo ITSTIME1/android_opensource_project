@@ -352,4 +352,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
         return chat_room_recycler_adapter;
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityChatroomBinding = null;
+    }
 }

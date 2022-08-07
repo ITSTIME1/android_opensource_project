@@ -16,4 +16,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityLoginBinding = null;
+    }
 }

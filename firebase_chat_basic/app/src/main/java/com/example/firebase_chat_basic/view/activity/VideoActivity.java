@@ -62,14 +62,6 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
             activityVideoBinding.videoView.pause();
         }
     }
-    // when activity is deleted from memory
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        activityVideoBinding.videoView.stopPlayback();
-    }
-
-
 
     @Override
     public void default_init() {
@@ -79,5 +71,13 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
 
     public void onBackKey(){
         finish();
+    }
+
+
+    // when activity is deleted from memory
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityVideoBinding.videoView.stopPlayback();
     }
 }
