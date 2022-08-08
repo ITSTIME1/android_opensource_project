@@ -118,24 +118,26 @@
                     android:elevation="10in"
                     android:hint="@string/chat_room_text_field_text"
                     android:padding="5dp"
-                    android:layout_width="320dp"
+                    android:layout_width="300dp"
                     android:layout_height="40dp"
                     android:inputType="text"
-                    android:importantForAutofill="no"/>
+                    android:importantForAutofill="no"
+                    tools:ignore="InOrMmUsage" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:ignore="RtlHardcoded">
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/chat_room_send_button"
+                        android:textColor="@color/chatMainBackgroundColor"
+                        android:text="Send"
                         android:onClick="@{() -> chatRoomActivity.send_button()}"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_chat_send_icon"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        tools:ignore="ContentDescription" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription,HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

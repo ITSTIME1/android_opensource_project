@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 // @TODO Contact 정보 눌렀을 때 정보 XML 짜기
 public class ContactViewModel extends AndroidViewModel implements FirebaseInterface {
@@ -70,12 +71,15 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
 
                 assert getUserKey != null;
                 if (!getUserKey.equals(firebase_my_key)) {
-
+                    // 지금 계정이 생성이 안됨.
+                    Log.d("왜 안불러와요", "");
                     contact_profile_image = snapshot.child("profileImage").getValue(String.class);
                     contact_name = snapshot.child("name").getValue(String.class);
                     contact_phone_number = snapshot.child("phoneNumber").getValue(String.class);
                     contact_profile_background_image = snapshot.child("backgroundImage").getValue(String.class);
-                    contact_online_state = snapshot.child("online").getValue(String.class);
+                    // boolean value 를 String class 로 불러오면 문제가 생겨서
+                    // toString 으로 변형해서 가지고 왔다.
+                    contact_online_state = Objects.requireNonNull(snapshot.child("online").getValue()).toString();
                     contact_state_message = snapshot.child("stateMessage").getValue(String.class);
                     contact_my_uid = firebase_my_key;
                     contact_other_uid = snapshot.child("uid").getValue(String.class);
