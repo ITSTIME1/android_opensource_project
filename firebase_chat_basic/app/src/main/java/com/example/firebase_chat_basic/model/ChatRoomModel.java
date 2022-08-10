@@ -18,7 +18,6 @@ public class ChatRoomModel {
         this.current_date = current_date;
     }
 
-
     public String getCurrent_date() {
         return current_date;
     }

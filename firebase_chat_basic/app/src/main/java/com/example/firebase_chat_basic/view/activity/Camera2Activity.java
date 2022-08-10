@@ -17,6 +17,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.Size;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,14 +30,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.BuildConfig;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,10 +71,18 @@ import java.util.Objects;
 
 public class Camera2Activity extends AppCompatActivity {
     private ActivityCameraBinding activityCameraBinding;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCameraBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera);
+        cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
+        cameraPermissionCheck();
+    }
+
+    // camera permissiond
+    public void cameraPermissionCheck(){
         // 권한 요청
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // 카메라 실행
@@ -73,7 +93,6 @@ public class Camera2Activity extends AppCompatActivity {
             // 권한 요청
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
         }
-        imageSend();
     }
 
     // fragment 에서는 onRequestPermissionResult 가 deprecated 되어있음
@@ -128,36 +147,42 @@ public class Camera2Activity extends AppCompatActivity {
         Toast.makeText(this, "설정 메뉴로 이동하겠습니다.", Toast.LENGTH_SHORT).show();
     }
 
-    // cameraLaunch
+    // when permission graduated excute this method
     private void cameraLaunch() {
-        Log.d("카메라 런처 시작", "");
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraActivityLauncher.launch(cameraIntent);
-        }
-
-    // camera get data from camera
-    ActivityResultLauncher<Intent> cameraActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == RESULT_OK && result.getData() != null) {
-                Bundle extras = result.getData().getExtras();
-                Log.d("성공", String.valueOf(extras));
-            } else {
-                Log.d("실패", "");
-            }
-        }});
-    // send image
-    // @TODO 사진을 고화질로 가지고오자.
-    public void imageSend(){
-        final View applyBtn = activityCameraBinding.functionHeaderId.findViewById(R.id.apply_picture);
-        applyBtn.setOnClickListener(new View.OnClickListener() {
+        cameraProviderListenableFuture.addListener(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Log.d("적용 버튼", "");
+            public void run() {
+                try {
+                    ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
+                    bindImageAnalysis(cameraProvider);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }, ContextCompat.getMainExecutor(this));
+        // ContextCompat = sdk 버전을 신경 쓰지 않아도 ContextCompat 에서 분기처리를 해준다.
     }
 
+    private void bindImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
+        Preview preview = new Preview.Builder().build();
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+        preview.setSurfaceProvider(activityCameraBinding.cameraPreview.getSurfaceProvider());
+        ImageCapture imageCapture = new ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+    }
+
+//    // camera get data from camera
+//    ActivityResultLauncher<Intent> cameraActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//        @Override
+//        public void onActivityResult(ActivityResult result) {
+//            if(result.getResultCode() == RESULT_OK && result.getData() != null) {
+//                Bundle extras = result.getData().getExtras();
+//                Log.d("성공", String.valueOf(extras));
+//            } else {
+//                Log.d("실패", "");
+//            }
+//        }});
 
     // get image from when user click "check" in camera
     @Override

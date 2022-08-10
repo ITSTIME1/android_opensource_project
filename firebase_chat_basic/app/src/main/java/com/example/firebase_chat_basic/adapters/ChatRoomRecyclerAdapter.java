@@ -1,36 +1,29 @@
 package com.example.firebase_chat_basic.adapters;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
-import com.example.firebase_chat_basic.viewModel.ChatViewModel;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Objects;
 
-public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecyclerAdapter.CustomViewHolder> {
+
+
+
+// @TODO 날짜 표시해주는 로직 다시 생각해보자.
+public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecyclerAdapter.ChatCustomViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
+
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
@@ -39,28 +32,36 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
 
     @NonNull
     @Override
-    public ChatRoomRecyclerAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatRoomRecyclerAdapter.ChatCustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMessageBinding itemMessageBinding = ItemMessageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new CustomViewHolder(itemMessageBinding);
+        return new ChatCustomViewHolder(itemMessageBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatRoomRecyclerAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatRoomRecyclerAdapter.ChatCustomViewHolder holder, int position) {
+        Log.d("chatArrayList 개수 좀보자 ", String.valueOf(chatRoomModelArrayList.get(position)));
+        int holderPosition = holder.getAdapterPosition();
+        int maxMessage = chatRoomModelArrayList.size() - 1;
+        Log.d("maxMessage 확인좀 해보자", String.valueOf(maxMessage));
+        if(holderPosition == 0) {
+            holder.itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
+            holder.itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(holderPosition).getCurrent_date());
+        } else {
+            holder.itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
+        }
+
+
         Animation myChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_my_anim);
         Animation otherChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_other_anim);
 
-
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
-        // [ p - p chat show logic ]
-        // @TODO 이전 날짜랑 비교 했을 때 이전 날짜가 더 작고 마지막 값이라면 그때의 마지막 날짜를 표시해준다.
-        // @TODO 마지막 채팅이 아니라면 layout을 다른걸로 보여준다.
         if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
             holder.itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
             holder.itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
             holder.itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
             // 마지막 값이라면 시간을 보여주고
             // 마지막 값이 아니라면 보여주지 않는다.
-            if(!(chatRoomModelArrayList.get(position) ==  Iterables.getLast(chatRoomModelArrayList))) {
+            if(!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {
                 holder.itemMessageBinding.myMessageDate.setVisibility(View.GONE);
             } else {
                 // animation 적용
@@ -91,12 +92,15 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<ChatRoomRecycl
 
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+
+    public class ChatCustomViewHolder extends RecyclerView.ViewHolder {
         ItemMessageBinding itemMessageBinding;
 
-        public CustomViewHolder(@NonNull ItemMessageBinding itemMessageBinding) {
+        public ChatCustomViewHolder(@NonNull ItemMessageBinding itemMessageBinding) {
             super(itemMessageBinding.getRoot());
             this.itemMessageBinding = itemMessageBinding;
         }
     }
+
+
 }

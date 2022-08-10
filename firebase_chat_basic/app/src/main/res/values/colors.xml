@@ -16,6 +16,8 @@
     <color name="chatRoomActivityBottomSheetDialogBackgroundTransparent">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacity">#99000000</color>
     <color name="chatRoomActivityBottomSheetDialogBackgroundOpacityGray">#99000000</color>
+    <color name="chatRoomActivityCameraActivityLayoutColor">#80373737</color>
+    <color name="chatRoomActivityCameraActivityButtonColor">#A6C2C2C2</color>
     <color name="chatRoomActivityTextFieldColor">#f7f7f7</color>
 
 

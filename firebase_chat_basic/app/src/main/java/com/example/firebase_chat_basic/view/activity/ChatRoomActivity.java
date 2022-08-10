@@ -167,7 +167,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
                                 final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
                                 final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
-
                                 if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date));
