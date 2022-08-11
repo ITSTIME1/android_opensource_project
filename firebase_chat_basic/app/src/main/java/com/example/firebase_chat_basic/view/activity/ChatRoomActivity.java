@@ -233,7 +233,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             chat_room_list = new ArrayList<>();
             chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
         }
-        SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
+//        SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
     }
 
     // get data from (chat recycler adapter, profile activity)

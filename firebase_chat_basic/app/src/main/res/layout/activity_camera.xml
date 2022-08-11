@@ -45,25 +45,28 @@
                 tools:ignore="UselessParent">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginStart="40dp"
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="60dp"
+                    android:layout_marginStart="40dp"
                     android:gravity="center">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/camera_change_view"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_camera_change_icon" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:text="카메라 전환"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:gravity="center"
-                    android:background="@drawable/camera_button_circle"
-                    android:layout_centerInParent="true"
+                    android:id="@+id/camera_take_layout_view"
                     android:layout_width="60dp"
-                    android:layout_height="60dp">
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/camera_button_circle"
+                    android:gravity="center">
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/camera_picture_view"
                         android:layout_width="40dp"

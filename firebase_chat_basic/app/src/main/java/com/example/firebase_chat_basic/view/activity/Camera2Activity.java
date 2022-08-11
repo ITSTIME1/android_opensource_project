@@ -4,6 +4,7 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.util.Size;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -33,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
@@ -71,6 +74,8 @@ import java.util.Objects;
 
 public class Camera2Activity extends AppCompatActivity {
     private ActivityCameraBinding activityCameraBinding;
+    private ImageCapture imageCapture;
+    private ContentValues contentValues;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
 
     @Override
@@ -79,6 +84,7 @@ public class Camera2Activity extends AppCompatActivity {
         activityCameraBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera);
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraPermissionCheck();
+        takePicture();
     }
 
     // camera permissiond
@@ -154,7 +160,7 @@ public class Camera2Activity extends AppCompatActivity {
             public void run() {
                 try {
                     ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
-                    bindImageAnalysis(cameraProvider);
+                    previewCamera(cameraProvider);
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -163,13 +169,50 @@ public class Camera2Activity extends AppCompatActivity {
         // ContextCompat = sdk 버전을 신경 쓰지 않아도 ContextCompat 에서 분기처리를 해준다.
     }
 
-    private void bindImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
+    private void previewCamera(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
         preview.setSurfaceProvider(activityCameraBinding.cameraPreview.getSurfaceProvider());
-        ImageCapture imageCapture = new ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
+
+        // 이미지 캡쳐 기능
+        imageCapture = new ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+    }
+
+
+    // imageFilePath create
+    private void imagePathCreate(){
+        long timeStamp = System.currentTimeMillis();
+        contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, timeStamp);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+    }
+
+    // take picture method
+    private void takePicture(){
+        activityCameraBinding.cameraTakeLayoutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.camera_take_picture_button_anim));
+                imagePathCreate();
+                ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues).build();
+                imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(getBaseContext()), new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        // 이미지 저장
+                        Log.d("outputFileResult", String.valueOf(outputFileResults.getSavedUri()));
+                        Toast.makeText(Camera2Activity.this, "image 저장 완료" + outputFileResults.getSavedUri(), Toast.LENGTH_LONG).show();
+                        // @TODO ImageURI 를 잘 가져오니 CameraPreviewActivity로 데이터를 보내서 조절.
+                    }
+
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        Log.d("take picture exception", String.valueOf(exception));
+                    }
+                });
+            }
+        });
     }
 
 //    // camera get data from camera
