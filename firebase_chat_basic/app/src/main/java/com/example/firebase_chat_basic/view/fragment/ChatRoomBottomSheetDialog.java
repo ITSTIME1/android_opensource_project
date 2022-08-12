@@ -2,7 +2,6 @@ package com.example.firebase_chat_basic.view.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,18 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomUploadBottomDialogBinding;
-import com.example.firebase_chat_basic.view.activity.Camera2Activity;
+import com.example.firebase_chat_basic.view.activity.CameraXActivity;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.view.activity.PictureActivity;
 import com.example.firebase_chat_basic.view.activity.VideoActivity;
@@ -31,9 +27,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import gun0912.tedimagepicker.builder.TedImagePicker;
 import gun0912.tedimagepicker.builder.listener.OnMultiSelectedListener;
@@ -204,7 +198,7 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
 
     // camera method
     public void camera(){
-        Intent cameraIntent = new Intent(getActivity(), Camera2Activity.class);
+        Intent cameraIntent = new Intent(getActivity(), CameraXActivity.class);
         startActivity(cameraIntent);
     }
 

@@ -14,13 +14,15 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
@@ -29,10 +31,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.BuildConfig;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.Objects;
 
 /**
  * [Camera2Activity]
@@ -48,7 +53,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
 
 
-public class Camera2Activity extends AppCompatActivity {
+public class CameraXActivity extends AppCompatActivity {
     private ActivityCameraBinding activityCameraBinding;
     private ImageCapture imageCapture;
     private ContentValues contentValues;
@@ -59,14 +64,14 @@ public class Camera2Activity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCameraBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera);
-        activityCameraBinding.setCamera2activity(this);
+        activityCameraBinding.setCameraXActivity(this);
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraPermissionCheck();
         takePicture();
         changeLensPosition();
     }
 
-    // camera permissiond
+    // camera permission
     public void cameraPermissionCheck(){
         // 권한 요청
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -102,13 +107,13 @@ public class Camera2Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // 허용하면 카메라를 열어준다.
                         cameraLaunch();
-                        Toast.makeText(Camera2Activity.this, "허용 했습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraXActivity.this, "허용 했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton(R.string.setting_string_deny, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // 거부한다면 다시 한번 물어본다.
-                        ActivityCompat.requestPermissions(Camera2Activity.this, new String[]{Manifest.permission.CAMERA}, 100);
+                        ActivityCompat.requestPermissions(CameraXActivity.this, new String[]{Manifest.permission.CAMERA}, 100);
                     }
                 });
                 AlertDialog alertDialog = builder.create();
@@ -182,10 +187,9 @@ public class Camera2Activity extends AppCompatActivity {
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         // 이미지 저장
                         Log.d("outputFileResult", String.valueOf(outputFileResults.getSavedUri()));
-                        Toast.makeText(Camera2Activity.this, "image 저장 완료" + outputFileResults.getSavedUri(), Toast.LENGTH_LONG).show();
-                        // @TODO ImageURI 를 잘 가져오니 CameraPreviewActivity 로 데이터를 보내서 조절.
+                        // 사진찍은 뒤 imageStoreView에 사진 저장.
+                        Glide.with(getBaseContext()).load(outputFileResults.getSavedUri()).into(activityCameraBinding.cameraImageStoreView);
                     }
-
                     @Override
                     public void onError(@NonNull ImageCaptureException exception) {
                         Log.d("take picture exception", String.valueOf(exception));
@@ -207,17 +211,29 @@ public class Camera2Activity extends AppCompatActivity {
         cameraLaunch();
     }
 
-//    // camera get data from camera
-//    ActivityResultLauncher<Intent> cameraActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-//        @Override
-//        public void onActivityResult(ActivityResult result) {
-//            if(result.getResultCode() == RESULT_OK && result.getData() != null) {
-//                Bundle extras = result.getData().getExtras();
-//                Log.d("성공", String.valueOf(extras));
-//            } else {
-//                Log.d("실패", "");
-//            }
-//        }});
+    public void galleryView(){
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        // galleryIntent start
+        cameraResultActivityResult.launch(galleryIntent);
+    }
+
+    ActivityResultLauncher<Intent> cameraResultActivityResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK) {
+                Intent gallerySendIntent = new Intent(CameraXActivity.this, CameraPreviewActivity.class);
+                if (result.getData() != null) {
+                    Uri resultURI = result.getData().getData();
+                    gallerySendIntent.putExtra("getImageUri", resultURI.toString());
+                    startActivity(gallerySendIntent);
+                    Log.d("resultURI", String.valueOf(result.getData()));
+                }
+            } else {
+                Log.d("result 가져오기 결과 실패", "");
+            }
+        }
+    });
 
     // get image from when user click "check" in camera
     @Override

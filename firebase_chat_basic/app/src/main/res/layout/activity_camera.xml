@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="camera2activity"
-            type="com.example.firebase_chat_basic.view.activity.Camera2Activity" />
+            name="cameraX_activity"
+            type="com.example.firebase_chat_basic.view.activity.CameraXActivity" />
 
     </data>
 
@@ -46,7 +46,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/camera_change_lens"
-                    android:onClick="@{ () -> camera2activity.changeLensPosition()}"
+                    android:onClick="@{ () -> cameraX_activity.changeLensPosition() }"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:layout_marginStart="40dp"
@@ -80,16 +80,18 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/camera_image_store_view"
-                    android:layout_marginEnd="40dp"
+                    android:id="@+id/camera_image_store_layout"
+                    android:onClick="@{ () -> cameraX_activity.galleryView() }"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="40dp"
                     android:gravity="center">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/camera_image_store_view"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:src="@drawable/chat_profile_camera_bg" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
