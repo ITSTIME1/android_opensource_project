@@ -1,62 +1,38 @@
 package com.example.firebase_chat_basic.view.activity;
 
-import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Camera;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
-import android.util.Size;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LifecycleOwner;
 
-import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.BuildConfig;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
 
 /**
  * [Camera2Activity]
@@ -77,14 +53,17 @@ public class Camera2Activity extends AppCompatActivity {
     private ImageCapture imageCapture;
     private ContentValues contentValues;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCameraBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera);
+        activityCameraBinding.setCamera2activity(this);
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraPermissionCheck();
         takePicture();
+        changeLensPosition();
     }
 
     // camera permissiond
@@ -170,9 +149,10 @@ public class Camera2Activity extends AppCompatActivity {
     }
 
     private void previewCamera(@NonNull ProcessCameraProvider cameraProvider) {
+        cameraProvider.unbindAll();
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+                .requireLensFacing(lensFacing).build();
         preview.setSurfaceProvider(activityCameraBinding.cameraPreview.getSurfaceProvider());
 
         // 이미지 캡쳐 기능
@@ -203,7 +183,7 @@ public class Camera2Activity extends AppCompatActivity {
                         // 이미지 저장
                         Log.d("outputFileResult", String.valueOf(outputFileResults.getSavedUri()));
                         Toast.makeText(Camera2Activity.this, "image 저장 완료" + outputFileResults.getSavedUri(), Toast.LENGTH_LONG).show();
-                        // @TODO ImageURI 를 잘 가져오니 CameraPreviewActivity로 데이터를 보내서 조절.
+                        // @TODO ImageURI 를 잘 가져오니 CameraPreviewActivity 로 데이터를 보내서 조절.
                     }
 
                     @Override
@@ -213,6 +193,18 @@ public class Camera2Activity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    // change lens position
+    public void changeLensPosition(){
+        if(lensFacing == CameraSelector.LENS_FACING_FRONT) {
+            lensFacing = CameraSelector.LENS_FACING_BACK;
+            Log.d("current lensFacing", String.valueOf(lensFacing));
+        } else {
+            lensFacing = CameraSelector.LENS_FACING_FRONT;
+            Log.d("current lensFacing", String.valueOf(lensFacing));
+        }
+        cameraLaunch();
     }
 
 //    // camera get data from camera

@@ -45,16 +45,18 @@
                 tools:ignore="UselessParent">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/camera_change_lens"
+                    android:onClick="@{ () -> camera2activity.changeLensPosition()}"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:layout_marginStart="40dp"
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:text="카메라 전환"
-                        android:textColor="@android:color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="카메라 전환"
+                        android:textColor="@android:color/white"
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
