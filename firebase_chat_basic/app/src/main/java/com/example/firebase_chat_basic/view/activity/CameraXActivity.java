@@ -218,6 +218,7 @@ public class CameraXActivity extends AppCompatActivity {
         cameraResultActivityResult.launch(galleryIntent);
     }
 
+    // cameraResultActivity result send data to "CameraPreviewActivity"
     ActivityResultLauncher<Intent> cameraResultActivityResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -234,7 +235,6 @@ public class CameraXActivity extends AppCompatActivity {
             }
         }
     });
-
     // get image from when user click "check" in camera
     @Override
     public void onBackPressed() {
