@@ -163,9 +163,11 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
                                 final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
                                 final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
+                                final int viewType = messageSnapShot.child("viewType").getValue(Integer.class);
+                                Log.d("viewType", String.valueOf(viewType));
                                 if (!dataSet) {
                                     dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date));
+                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, viewType));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
                                     if (!chat_room_list.isEmpty()) {
                                         activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);

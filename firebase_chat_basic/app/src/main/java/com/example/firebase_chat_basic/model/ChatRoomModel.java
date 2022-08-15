@@ -10,12 +10,22 @@ public class ChatRoomModel {
     private String chat_message;
     private String chat_date;
     private String current_date;
+    private int viewType;
 
-    public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date) {
+    public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date, int viewType) {
         this.setKey = setKey;
         this.chat_message = chat_message;
         this.chat_date = chat_date;
         this.current_date = current_date;
+        this.viewType = viewType;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
     }
 
     public String getCurrent_date() {
