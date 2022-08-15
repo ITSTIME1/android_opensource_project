@@ -196,9 +196,23 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
         }
     }
 
-    // camera method
+    // callback camera method
     public void camera(){
+        Bundle getBundleChatKey = getArguments();
         Intent cameraIntent = new Intent(getActivity(), CameraXActivity.class);
+        String get_chat_key = null;
+        String get_other_uid = null;
+        String get_current_my_uid = null;
+
+        if (getBundleChatKey != null) {
+            get_chat_key = getBundleChatKey.getString("get_chat_key");
+            get_other_uid = getBundleChatKey.getString("get_other_uid");
+            get_current_my_uid = getBundleChatKey.getString("get_current_my_uid");
+        }
+        Log.d("get_chat_key chatbottom", get_chat_key);
+        cameraIntent.putExtra("get_chat_key", get_chat_key);
+        cameraIntent.putExtra("get_other_uid", get_other_uid);
+        cameraIntent.putExtra("get_current_my_uid", get_current_my_uid);
         startActivity(cameraIntent);
     }
 

@@ -26,16 +26,8 @@ public class LinearLayoutCustomClass extends LinearLayoutManager {
 
     private static final float MILLISECONDS_PER_INCH = 45f; //default is 25f (bigger = slower)
 
-    public LinearLayoutCustomClass(Context context) {
-        super(context);
-    }
-
     public LinearLayoutCustomClass(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
-    }
-
-    public LinearLayoutCustomClass(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

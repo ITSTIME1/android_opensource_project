@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,6 +13,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +29,7 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
+import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
@@ -78,21 +85,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private final String current_date = currentDateFormat.format(now_date);
 
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
-
-        // 먼저 chat 루트에 있는 key 값들을 나의 방에 맞는 데이터를 가지고 온다음에
-        // 그 데이터 중에서 가장 최신값을 따른 변수에 담고
-        // 그 변수를 전역변수로 설정한 다음
-        // 전역변수를 send_button을 눌렀을 때 조건을 걸어 확인을 한 뒤
-        // 조건에 맞게 데이터 입력.
-
-        // 만약 채팅 루트가 존재 하지 않는다면
-        // 만약 채팅 루트가 존재 한다면
-
         default_init();
         get_from_chat_recycler_adapter();
         get_message_list();
@@ -279,9 +275,17 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // touch upload image
         // create bottomSheetDialog
         if (view.getId() == activityChatroomBinding.chatRoomUploadImage.getId()) {
+            // bundle 을 통해서 get_chat_key 값 전달.
+            // 잘 들어오고
+            Bundle bottomFragmentBundle = new Bundle();
+            bottomFragmentBundle.putString("get_chat_key", get_chat_key);
+            bottomFragmentBundle.putString("get_other_uid", get_other_uid);
+            bottomFragmentBundle.putString("get_current_my_uid", get_current_my_uid);
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
             chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
+            chatRoomBottomSheetDialog.setArguments(bottomFragmentBundle);
+            Log.d("bottomFragment", String.valueOf(bottomFragmentBundle));
             Log.d("chatRoomBottomSheetDialog", "");
         }
         // 1. 이미지 접근
@@ -313,11 +317,13 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
             // 채팅을 보낼때 그 채팅방의 날짜가 이전 날짜보다 작다면 이전 날짜의 1을 더해서 출력한다.
             // ex)오늘 데이터 값이 생성되고 데이터를 넣을려고 하는데 2022073110 있는데 이전의 생성된 값의 가장 큰 값이 2022073112
-            // 왜 어쩔떄는 maxmessageKEy 값이 같아서 넣어지지
+            // 왜 어쩔떄는 maxMessageKey 값이 같아서 넣어지지
             // 딜레이를 주자
             mHandler.postDelayed(new Runnable()  {
                 public void run() {
                     databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("msg").setValue(chat_text);
+                    // getChatRoomViewType
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("viewType").setValue(Constants.chatMessageViewType);
                     // msg 에 키 값 저장
                     databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
                     // msg 에 시간 저장
@@ -335,6 +341,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             // 채팅을 보낸다음에 maxMessaeKey 값을 초기화 해준다.
         }
     }
+
 
 
     // get phone number
@@ -358,4 +365,5 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         super.onDestroy();
         activityChatroomBinding = null;
     }
+
 }

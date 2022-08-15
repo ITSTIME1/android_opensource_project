@@ -33,6 +33,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.BuildConfig;
+import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -53,12 +54,15 @@ import java.util.Objects;
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
 
 
-public class CameraXActivity extends AppCompatActivity {
+public class CameraXActivity extends AppCompatActivity implements BaseInterface {
     private ActivityCameraBinding activityCameraBinding;
     private ImageCapture imageCapture;
     private ContentValues contentValues;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
+    private String get_chat_key;
+    private String get_other_uid;
+    private String get_current_my_uid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +73,19 @@ public class CameraXActivity extends AppCompatActivity {
         cameraPermissionCheck();
         takePicture();
         changeLensPosition();
+        get_data_intent();
+    }
+
+    @Override
+    public void get_data_intent() {
+        BaseInterface.super.get_data_intent();
+        Intent getChatKey = getIntent();
+        get_chat_key = getChatKey.getStringExtra("get_chat_key");
+        get_other_uid = getChatKey.getStringExtra("get_other_uid");
+        get_current_my_uid = getChatKey.getStringExtra("get_current_my_uid");
+        // @TODO chatKey 값은 잘 들어왔음.
+        // @TODO 데이터 베이스에서 채팅 마지막 값을 가지고 온다음 메세지 전송 버튼을 클릭했을 때
+        // @TODO 사진을 보내는 로직을 짜야됨.
     }
 
     // camera permission
@@ -227,6 +244,9 @@ public class CameraXActivity extends AppCompatActivity {
                 if (result.getData() != null) {
                     Uri resultURI = result.getData().getData();
                     gallerySendIntent.putExtra("getImageUri", resultURI.toString());
+                    gallerySendIntent.putExtra("get_chat_key", get_chat_key);
+                    gallerySendIntent.putExtra("get_other_uid", get_other_uid);
+                    gallerySendIntent.putExtra("get_current_my_uid", get_current_my_uid);
                     startActivity(gallerySendIntent);
                     Log.d("resultURI", String.valueOf(result.getData()));
                 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- "I" message -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/my_message_image_layout"
+            android:elevation="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/my_message_image_view"
+                android:layout_width="225dp"
+                android:layout_height="300dp"
+                android:layout_gravity="right"
+                android:background="@drawable/chat_room_image_message_bg"
+                android:padding="12dp"
+                android:text="Text"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/my_message_image_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:text="2022"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <!-- "other" message -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/other_message_image_layout"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints,UnknownId,UnknownIdInLayout">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/other_message_image_view"
+                android:layout_width="225dp"
+                android:layout_height="300dp"
+                android:layout_gravity="start"
+                android:background="@drawable/chat_room_image_message_other_bg"
+                android:padding="12dp"
+                android:text="text"
+                android:textAlignment="textStart"
+                tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/other_message_image_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="2022"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
