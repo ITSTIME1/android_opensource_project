@@ -11,13 +11,30 @@ public class ChatRoomModel {
     private String chat_date;
     private String current_date;
     private int viewType;
+    private String imageURL;
 
+    public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, String imageURL) {
+        this.setKey = setKey;
+        this.chat_date = chat_date;
+        this.current_date = current_date;
+        this.viewType = viewType;
+        this.imageURL = imageURL;
+    }
+
+    // overloading constructor
     public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date, int viewType) {
         this.setKey = setKey;
         this.chat_message = chat_message;
         this.chat_date = chat_date;
         this.current_date = current_date;
         this.viewType = viewType;
+    }
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public int getViewType() {

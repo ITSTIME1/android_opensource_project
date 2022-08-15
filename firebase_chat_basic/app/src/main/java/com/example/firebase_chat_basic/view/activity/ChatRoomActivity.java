@@ -69,7 +69,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private DatabaseReference databaseReference;
     private InputMethodManager inputMethodManager;
 
-    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid;
+    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid, imageURI;
+    private int messageViewType;
     public String get_phone_number;
 
     private boolean dataSet = false;
@@ -155,19 +156,36 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                         chat_room_list.clear();
                         // message 를 가지고 온다.
                         for (DataSnapshot messageSnapShot : chatSnapShot.child("message").getChildren()) {
+                            // 메세지 가지고 올때 기본적인 값들은 전부 가지고옴
+                            final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
+                            final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
+                            final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
+                            if(messageSnapShot.child("viewType").getValue(Integer.class) == null) {
+                                continue;
+                            } else {
+                                messageViewType = messageSnapShot.child("viewType").getValue(Integer.class);
+                            }
+
                             // 메세지를 가지고 와서 그 메세지 값들이 메세지와 나의 키 값이 있다면
                             // 메시지, 보낸 사람의 키 값, dateTime
                             dataSet = false;
                             if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey")) {
                                 final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
-                                final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
-                                final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
-                                final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
-                                final int viewType = messageSnapShot.child("viewType").getValue(Integer.class);
-                                Log.d("viewType", String.valueOf(viewType));
+                                Log.d("viewType", String.valueOf(messageViewType));
                                 if (!dataSet) {
                                     dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, viewType));
+                                    // 이미지가 없으면 채팅만
+                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
+                                    chat_room_recycler_adapter.notifyDataSetChanged();
+                                    if (!chat_room_list.isEmpty()) {
+                                        activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+                                    }
+                                }
+                            } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey")) {
+                                final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
+                                if (!dataSet) {
+                                    dataSet = true;
+                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
                                     chat_room_recycler_adapter.notifyDataSetChanged();
                                     if (!chat_room_list.isEmpty()) {
                                         activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);

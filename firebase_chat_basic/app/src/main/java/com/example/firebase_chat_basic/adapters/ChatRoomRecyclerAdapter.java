@@ -10,10 +10,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ItemImageViewerBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
+import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
+import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
@@ -32,22 +36,23 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
     }
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMessageBinding itemMessageBinding = ItemMessageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        ItemImageViewerBinding itemImageViewerBinding = ItemImageViewerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemMessageImageBinding itemMessageImageBinding = ItemMessageImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
         if(viewType == Constants.chatMessageViewType) {
             return new ChatMessageViewHolder(itemMessageBinding);
         } else {
-            return new ChatImageViewHolder(itemImageViewerBinding);
+            return new ChatImageViewHolder(itemMessageImageBinding);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        final String get_key = chatRoomModelArrayList.get(position).getSetKey();
         // chat message data binding
         // 채팅 메세지를 보여주는것
         if(holder instanceof ChatMessageViewHolder) {
@@ -65,7 +70,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             Animation myChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_my_anim);
             Animation otherChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_other_anim);
 
-            final String get_key = chatRoomModelArrayList.get(position).getSetKey();
+
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
                 ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
@@ -94,6 +99,35 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         } else if (holder instanceof ChatImageViewHolder) {
             // @TODO Write imageViewHolder code.
+            // 키가 나의 키 값이랑 같다면
+            // 사진 보여주고
+            // 상대방 레이아웃 감쳐주고
+            // 날짜는 보여주고
+            if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+                Glide.with(holder.itemView.getContext())
+                        .load(chatRoomModelArrayList
+                                .get(position).getImageURL())
+                        .into(((ChatImageViewHolder) holder)
+                                .itemImageViewerBinding.myMessageImageView);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageView.setVisibility(View.VISIBLE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.VISIBLE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.GONE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
+
+            } else {
+                Glide.with(holder.itemView.getContext())
+                        .load(chatRoomModelArrayList
+                                .get(position).getImageURL())
+                        .into(((ChatImageViewHolder) holder)
+                                .itemImageViewerBinding.otherMessageImageView);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageLayout.setVisibility(View.VISIBLE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.GONE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
+                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
+            }
+
         }
     }
     @Override
@@ -122,8 +156,8 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     // image view holder
     public class ChatImageViewHolder extends RecyclerView.ViewHolder {
-        ItemImageViewerBinding itemImageViewerBinding;
-        public ChatImageViewHolder(@NonNull ItemImageViewerBinding itemImageViewerBinding) {
+        ItemMessageImageBinding itemImageViewerBinding;
+        public ChatImageViewHolder(@NonNull ItemMessageImageBinding itemImageViewerBinding) {
             super(itemImageViewerBinding.getRoot());
             this.itemImageViewerBinding = itemImageViewerBinding;
         }
