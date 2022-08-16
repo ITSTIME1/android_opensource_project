@@ -249,6 +249,7 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
                     gallerySendIntent.putExtra("get_current_my_uid", get_current_my_uid);
                     startActivity(gallerySendIntent);
                     Log.d("resultURI", String.valueOf(result.getData()));
+                    finish();
                 }
             } else {
                 Log.d("result 가져오기 결과 실패", "");

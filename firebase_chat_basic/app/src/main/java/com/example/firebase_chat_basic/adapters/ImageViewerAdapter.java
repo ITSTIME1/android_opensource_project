@@ -15,8 +15,8 @@ import java.util.ArrayList;
  * [ImageViewer Adapter]
  *
  * <Topic>
- *     This adapter is that it only used to imageView.
- *     if user brings images if then we can show "image list"
+ *     This adapter displays that you selected image.
+ *     displays according to the number of images.
  * </Topic>
  */
 

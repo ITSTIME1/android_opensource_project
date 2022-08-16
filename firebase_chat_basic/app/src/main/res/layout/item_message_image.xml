@@ -24,18 +24,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/my_message_image_view"
-                android:layout_width="225dp"
-                android:layout_height="300dp"
-                android:layout_gravity="right"
-                android:background="@drawable/chat_room_image_message_bg"
-                android:padding="12dp"
-                android:text="Text"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white"
-                tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/my_message_image_view"
+                    android:layout_width="225dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="right"
+                    android:text="Text"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    tools:ignore="HardcodedText,RtlCompat,RtlHardcoded" />
+            </androidx.cardview.widget.CardView>
             <TextView
                 android:id="@+id/my_message_image_date"
                 android:layout_width="wrap_content"
@@ -59,7 +62,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints,UnknownId,UnknownIdInLayout">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/other_message_image_view"
                 android:layout_width="225dp"
                 android:layout_height="300dp"

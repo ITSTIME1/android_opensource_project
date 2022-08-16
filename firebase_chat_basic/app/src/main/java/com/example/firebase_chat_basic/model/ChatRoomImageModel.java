@@ -1,5 +1,12 @@
 package com.example.firebase_chat_basic.model;
 
+/**
+ * [ChatRoomImageModel]
+ *
+ * <Topic>
+ *     This model is for "displays image to chatroom"
+ * </Topic>
+ */
 
 public class ChatRoomImageModel {
     private String imageUrl;

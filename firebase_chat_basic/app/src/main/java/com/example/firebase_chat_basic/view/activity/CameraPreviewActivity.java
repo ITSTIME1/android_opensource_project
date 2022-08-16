@@ -33,8 +33,11 @@ import java.util.Objects;
 /**
  * [CameraPreviewActivity]
  *
- * This activity shows previewImage
- * previewImage get imageUri from "Camera2Activity"
+ * <Topic>
+ *     This activity shows previewImage
+ *     previewImage get imageUri from "Camera2Activity"
+ * </Topic>
+ *
  */
 
 // @TODO 카메라 프리뷰 시간 된다면 preview 화면 제작
@@ -47,8 +50,7 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
 
     private final Handler mHandler = new Handler();
     private final Date now_date = new Date();
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
     private final String set_date = simpleDateFormat.format(now_date);
     private final String current_date = currentDateFormat.format(now_date);
@@ -155,6 +157,7 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
                 Log.d("잘 넣어줌", "");
             }
         }, 100); // 0.5초후
+        finish();
     }
 
 

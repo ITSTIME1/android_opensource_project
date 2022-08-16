@@ -3,7 +3,9 @@ package com.example.firebase_chat_basic.model;
 /**
  * [ContactModel]
  *
- * This object is "contact page user list model"
+ * <Topic>
+ *     This object is "contact page user list model"
+ * </Topic>
  */
 
 public class ContactModel {

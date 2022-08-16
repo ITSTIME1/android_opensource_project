@@ -5,12 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.firebase_chat_basic.databinding.ItemFragmentContactBinding;
 import com.example.firebase_chat_basic.view.activity.ProfileActivity;
 import com.example.firebase_chat_basic.viewModel.ContactViewModel;
 
 
+/**
+ * [ContactRecyclerAdapter]
+ *
+ * <Topic>
+ *     This adapter displays new friends account.
+ * </Topic>
+ */
 
 
 public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.CustomContactViewHolder> {

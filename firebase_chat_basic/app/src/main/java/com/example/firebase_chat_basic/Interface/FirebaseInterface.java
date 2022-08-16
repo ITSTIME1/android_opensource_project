@@ -3,7 +3,9 @@ package com.example.firebase_chat_basic.Interface;
 /**
  * [Firebase Interface]
  *
- * This interface is consist of associate with firebase.
+ * <Topic>
+ *     This interface is consist of associate with firebase.
+ * </Topic>
  */
 
 public interface FirebaseInterface {
@@ -11,7 +13,7 @@ public interface FirebaseInterface {
     public default void get_user_database(){};
     public default void get_chat_database(String getOtherName, String getOtherKey, String getPhoneNumber){};
 
-    // get method chat
+    // for "chat method"
     public default String get_user_name(int pos){
         return null;
     };
@@ -30,7 +32,7 @@ public interface FirebaseInterface {
     public default String get_other_uid(int pos) {return null;};
 
 
-    // get method cotact
+    // for "contact fragment"
     public default String get_profile_image(int pos){
         return null;
     };

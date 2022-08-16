@@ -170,16 +170,19 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
                 videoIntent.putExtra("videoIntent", uri);
                 Log.d("uri 체크좀 해볼게요 video_access ", String.valueOf(uri));
                 startActivity(videoIntent);
+                dismiss();
             }
         });
     }
 
     // reservation message method
     private void reservation_message() {
+        dismiss();
     }
 
     // voice record method
     private void voice_record() {
+        dismiss();
     }
 
     // call method
@@ -190,6 +193,7 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
         Intent bottomCallIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0" + call_number));
         try {
             startActivity(bottomCallIntent);
+            dismiss();
             Log.d("call intent 가 작동 되나요", "");
         } catch (Exception e) {
             e.fillInStackTrace();
@@ -209,11 +213,11 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
             get_other_uid = getBundleChatKey.getString("get_other_uid");
             get_current_my_uid = getBundleChatKey.getString("get_current_my_uid");
         }
-        Log.d("get_chat_key chatbottom", get_chat_key);
         cameraIntent.putExtra("get_chat_key", get_chat_key);
         cameraIntent.putExtra("get_other_uid", get_other_uid);
         cameraIntent.putExtra("get_current_my_uid", get_current_my_uid);
         startActivity(cameraIntent);
+        dismiss();
     }
 
     @Override

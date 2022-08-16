@@ -9,7 +9,12 @@ import java.util.ArrayList;
 /**
  * [ViewPagerAdapter]
  *
- * Returns this "FragmentList" into MainActivity.
+ * <Topic>
+ *     This adapter displays "Fragments"
+ *     "chatFragment"
+ *     "contactFragment"
+ *     "settingFragment"
+ * </Topic>
  */
 public class ViewPagerAdapter extends FragmentStateAdapter {
 

@@ -14,19 +14,12 @@ import com.example.firebase_chat_basic.custom.LinearLayoutCustomClass;
  * <Topic>
  *     This activity is "custom adapter space".
  *     that's mean that we need a "custom linearlayout or custom recyclerview".
- *     I think that it's very important because we used to data-binding but if i write code one by one it's very glue code.
+ *     I think that it's very important because I used to data-binding but if i write a lot of glue code, it will perform poorly.
  * </Topic>
  */
 
 
 public class BindCustomAdapter {
-
-
-    /**
-     * @param "recyclerView" is binded recyclerview.
-     * @param "adapter" is binded adapter.
-     */
-
 
     @BindingAdapter("ChatAdapter")
     public static void chatAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {

@@ -10,21 +10,31 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
-import com.example.firebase_chat_basic.databinding.ItemImageViewerBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
-import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
 
-
-
+/**
+ * [ChatRoomRecyclerAdapter]
+ *
+ * <Topic>
+ *     This adapter is for "chatRoomMessage"
+ *     you have to know that this adapter has two viewType and two viewHolder class.
+ *
+ *     First. "ChatMessageViewHolder"
+ *     Second. "ChatImageViewHolder"
+ *
+ *     if you get data from "ChatViewModel", this adapter will separate the data.
+ *     if data is "msg", set into "ChatMessageViewHolder"
+ *     if data is "imageURI", set into "ChatImageViewHolder"
+ * </Topic>
+ */
 // @TODO 날짜 표시해주는 로직 다시 생각해보자.
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
@@ -53,8 +63,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
-        // chat message data binding
-        // 채팅 메세지를 보여주는것
+        // chat message viewHolder
         if(holder instanceof ChatMessageViewHolder) {
             Log.d("chatArrayList 개수 좀보자 ", String.valueOf(chatRoomModelArrayList.get(position)));
             int holderPosition = holder.getAdapterPosition();
@@ -97,12 +106,8 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
                 }
             }
+            // image viewHolder
         } else if (holder instanceof ChatImageViewHolder) {
-            // @TODO Write imageViewHolder code.
-            // 키가 나의 키 값이랑 같다면
-            // 사진 보여주고
-            // 상대방 레이아웃 감쳐주고
-            // 날짜는 보여주고
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
                 Glide.with(holder.itemView.getContext())
                         .load(chatRoomModelArrayList
@@ -116,6 +121,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
 
             } else {
+                //
                 Glide.with(holder.itemView.getContext())
                         .load(chatRoomModelArrayList
                                 .get(position).getImageURL())
@@ -162,5 +168,4 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             this.itemImageViewerBinding = itemImageViewerBinding;
         }
     }
-
 }

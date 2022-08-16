@@ -1,5 +1,11 @@
 package com.example.firebase_chat_basic.model;
 
+
+/**
+ * [UserModel]
+ *
+ * This is for "camera activity"
+ */
 public class UserModel {
     private String user_uid;
     private String user_name;

@@ -176,22 +176,18 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     dataSet = true;
                                     // 이미지가 없으면 채팅만
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
-                                    chat_room_recycler_adapter.notifyDataSetChanged();
-                                    if (!chat_room_list.isEmpty()) {
-                                        activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-                                    }
                                 }
                             } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey")) {
                                 final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
                                 if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
-                                    chat_room_recycler_adapter.notifyDataSetChanged();
-                                    if (!chat_room_list.isEmpty()) {
-                                        activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-                                    }
                                 }
                             }
+                            if (!chat_room_list.isEmpty()) {
+                                activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+                            }
+                            chat_room_recycler_adapter.notifyDataSetChanged();
                         }
                     }
                 }
