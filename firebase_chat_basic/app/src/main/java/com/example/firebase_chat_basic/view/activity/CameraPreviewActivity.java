@@ -66,43 +66,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
         getMessageKey();
     }
 
-
-    // getMessageKey
-    public void getMessageKey(){
-        // getchatkey 가져와야 되는데
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild("chat")) {
-                    ArrayList<Integer> messageKeyList = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
-                        String key_check = dataSnapshot.getKey();
-                        Log.d("dataSnapshot", String.valueOf(key_check));
-                        // get_chat_key 값이랑 동일하다면
-                        if (key_check != null && key_check.equals(get_chat_key)) {
-                            for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
-                                messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
-                                // messageKeyValue 확인.
-                                Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
-                            }
-                        }
-
-                    }
-                    // 최신값을 전역변수에 담는다.
-                    maxMessageKey = Collections.max(messageKeyList);
-                    Log.d("maxMessageKey camerapreview activity", String.valueOf(maxMessageKey));
-                } else {
-                    Log.d("아직 chat이 없어요", "");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     @Override
     public void default_init() {
         BaseInterface.super.default_init();
@@ -121,6 +84,38 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
         Glide.with(getBaseContext()).load(getImageURI).into(activityCameraPreviewBinding.galleryImageView);
     }
 
+    // get maxMessageKey from "message list"
+    public void getMessageKey(){
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("chat")) {
+                    ArrayList<Integer> messageKeyList = new ArrayList<>();
+                    for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
+                        String key_check = dataSnapshot.getKey();
+                        Log.d("dataSnapshot", String.valueOf(key_check));
+                        // get_chat_key 값이랑 동일하다면
+                        if (key_check != null && key_check.equals(get_chat_key)) {
+                            for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
+                                messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
+                                Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
+                            }
+                        }
+                    }
+                    maxMessageKey = Collections.max(messageKeyList);
+                } else {
+                    Log.d("don't have chat", "");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+
 
     // 이미지를 넣을때 우선 chatroom activity 에 보여주어야 하니까
     // chatroom activity 의 viewtype 을 두개로 나누어서 이미지를 보낼때, 메세지를 보낼때로 나누어서
@@ -134,7 +129,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     public void send_image_btn(){
         mHandler.postDelayed(new Runnable()  {
             public void run() {
-
                 // chatRoomImageModel object
                 // chatImageViewType = 1
                 // getImageURI

@@ -1,7 +1,11 @@
 package com.example.firebase_chat_basic.adapters;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Camera;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +13,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
+import com.example.firebase_chat_basic.databinding.ActivityChatRoomImageBottomDialogBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.example.firebase_chat_basic.view.activity.CameraPreviewActivity;
+import com.example.firebase_chat_basic.view.fragment.ChatRoomImageBottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
@@ -39,11 +49,12 @@ import java.util.ArrayList;
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
-
+    ChatRoomImageBottomSheetDialog chatRoomImageBottomSheetDialog;
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+        chatRoomImageBottomSheetDialog = new ChatRoomImageBottomSheetDialog();
     }
 
 
@@ -61,7 +72,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
         // chat message viewHolder
         if(holder instanceof ChatMessageViewHolder) {
@@ -133,7 +144,6 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
             }
-
         }
     }
     @Override
@@ -166,6 +176,19 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ChatImageViewHolder(@NonNull ItemMessageImageBinding itemImageViewerBinding) {
             super(itemImageViewerBinding.getRoot());
             this.itemImageViewerBinding = itemImageViewerBinding;
+
+            itemImageViewerBinding.myMessageImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    Log.d("pos", String.valueOf(pos));
+                    FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+                    Bundle chatRoomImageBundle = new Bundle();
+                    chatRoomImageBundle.putString("chatRoomImageURL", chatRoomModelArrayList.get(pos).getImageURL());
+                    chatRoomImageBottomSheetDialog.show(manager, "chatRoomImageFragment");
+                    chatRoomImageBottomSheetDialog.setArguments(chatRoomImageBundle);
+                }
+            });
         }
     }
 }

@@ -358,8 +358,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         }
     }
 
-
-
     // get phone number
     public String getGet_phone_number() {
         return get_phone_number;
