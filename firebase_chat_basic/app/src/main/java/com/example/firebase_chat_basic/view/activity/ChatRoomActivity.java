@@ -298,7 +298,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             bottomFragmentBundle.putString("get_other_uid", get_other_uid);
             bottomFragmentBundle.putString("get_current_my_uid", get_current_my_uid);
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
-            chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
+            chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivityBottomSheetDialog);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
             chatRoomBottomSheetDialog.setArguments(bottomFragmentBundle);
             Log.d("bottomFragment", String.valueOf(bottomFragmentBundle));

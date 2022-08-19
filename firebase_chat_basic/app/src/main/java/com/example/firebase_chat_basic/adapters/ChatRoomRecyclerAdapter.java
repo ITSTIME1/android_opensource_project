@@ -1,31 +1,28 @@
 package com.example.firebase_chat_basic.adapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Camera;
-import android.os.Bundle;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
-import com.example.firebase_chat_basic.databinding.ActivityChatRoomImageBottomDialogBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
-import com.example.firebase_chat_basic.view.activity.CameraPreviewActivity;
-import com.example.firebase_chat_basic.view.fragment.ChatRoomImageBottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
@@ -49,12 +46,10 @@ import java.util.ArrayList;
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
-    ChatRoomImageBottomSheetDialog chatRoomImageBottomSheetDialog;
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
-        chatRoomImageBottomSheetDialog = new ChatRoomImageBottomSheetDialog();
     }
 
 
@@ -161,7 +156,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     // chat view holder
-    public class ChatMessageViewHolder extends RecyclerView.ViewHolder {
+    public static class ChatMessageViewHolder extends RecyclerView.ViewHolder {
         ItemMessageBinding itemMessageBinding;
 
         public ChatMessageViewHolder(@NonNull ItemMessageBinding itemMessageBinding) {
@@ -182,11 +177,19 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     Log.d("pos", String.valueOf(pos));
-                    FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
-                    Bundle chatRoomImageBundle = new Bundle();
-                    chatRoomImageBundle.putString("chatRoomImageURL", chatRoomModelArrayList.get(pos).getImageURL());
-                    chatRoomImageBottomSheetDialog.show(manager, "chatRoomImageFragment");
-                    chatRoomImageBottomSheetDialog.setArguments(chatRoomImageBundle);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    LayoutInflater factory = LayoutInflater.from(view.getContext());
+
+                    @SuppressLint("InflateParams")
+                    final View alertDialogView = factory.inflate(R.layout.activity_chat_room_image_alert_dialog_view, null);
+                    String alertDialogImageURL = chatRoomModelArrayList.get(pos).getImageURL();
+                    ImageView alertDialogImageViewId = alertDialogView.findViewById(R.id.chat_room_image_alert_dialog_view);
+                    Glide.with(view.getContext()).load(alertDialogImageURL).into(alertDialogImageViewId);
+                    alertDialog.setView(alertDialogView);
+                    alertDialog.show();
                 }
             });
         }
