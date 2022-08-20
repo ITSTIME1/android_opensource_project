@@ -16,8 +16,20 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivitySplashBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Random;
+
+/**
+ * [SplashActivity]
+ *
+ * <Topic>
+ *
+ *     This is first screen when user first connect end point
+ *     this activity must check if uid is true
+ *     if user id is ture that move on "MainActivity"
+ *     but not true is "RegisterActivity"
+ *
+ * </Topic>
+ */
 
 
 @SuppressLint("CustomSplashScreen")
@@ -32,9 +44,6 @@ public class SplashActivity extends AppCompatActivity {
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         preferences = getSharedPreferences("authentication", Activity.MODE_PRIVATE);
-
-        // 현재 로그인한 사용자 정보가 없다면 RegisterActivity로 이동 혹은 LoginActivity로 이동
-        // 만약 현재 로그인한 사용자가 있다면
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

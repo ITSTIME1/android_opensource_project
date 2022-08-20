@@ -22,23 +22,24 @@ import java.util.ArrayList;
 /**
  * [RegisterViewModel]
  *
- * 1.
- * The class is "ViewModel Class" for RegisterActivity.
- * This includes "RealTimeDatabase", "MutableLiveData", "MutableLivedata<List<String>>".
+ * <Topic>
  *
- * 2.
- * If client is push "Register Button" and then get data from editText.getText() in "activity_register.xml".
- * and then data is insert to "RealTimeDatabase" after going thorough a lot of conditions.
+ *     1.
+ *     The class is "ViewModel Class" for RegisterActivity.
+ *     This includes "RealTimeDatabase", "MutableLiveData", "MutableLivedata<List<String>>".
  *
- * 3.
- * If the process all succeeded, In the RegisterActivity, through observer can data observe so then insert the data in the "registerIntent".
+ *     2.
+ *     If client is push "Register Button" and then get data from editText.getText() in "activity_register.xml".
+ *     and then data is insert to "RealTimeDatabase" after going thorough a lot of conditions.
+ *
+ *     3.
+ *     If the process all succeeded, In the RegisterActivity, through observer can data observe so then insert the data in the "registerIntent".
+ *
+ * </Topic>
+ *
  * */
 
 public class RegisterViewModel extends AndroidViewModel {
-
-    // firebase "realTimeDataBase" url
-    private static final String realTimeDataBaseUserUrl = Constants.real_time_database_root_url;
-
     // firebaseDatabase instance
     private final DatabaseReference databaseReference;
     private final FirebaseAuth firebaseAuth;
@@ -48,11 +49,11 @@ public class RegisterViewModel extends AndroidViewModel {
     // two-way dataBinding
     private final ArrayList<UserModel> stringArrayList;
     public MutableLiveData<ArrayList<UserModel>> getDataList = new MutableLiveData<>();
-    public MutableLiveData<String> getRegister_first_name;
-    public MutableLiveData<String> getRegister_second_name;
-    public MutableLiveData<String> getRegister_email;
-    public MutableLiveData<String> getRegister_password;
-    public MutableLiveData<String> getRegister_phone_number;
+    public MutableLiveData<String> getRegister_first_name,
+            getRegister_second_name,
+            getRegister_email,
+            getRegister_password,
+            getRegister_phone_number;
 
 
     // shared preference
@@ -61,11 +62,12 @@ public class RegisterViewModel extends AndroidViewModel {
 
 
     // data into firebase authentication
-    private String currentUserUID;
-    private String check_profile_image;
-    private String check_profile_background_image;
-    private String check_sum_name;
-    private String check_phone_number;
+    private String currentUserUID,
+            check_profile_image,
+            check_profile_background_image,
+            check_sum_name,
+            check_phone_number;
+
     private final String check_state_message = "Default";
     private boolean onlineState = true;
 
@@ -77,7 +79,7 @@ public class RegisterViewModel extends AndroidViewModel {
         Application context = getApplication();
         preferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
         editor = preferences.edit();
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
         firebaseAuth = FirebaseAuth.getInstance();
 
         // data init

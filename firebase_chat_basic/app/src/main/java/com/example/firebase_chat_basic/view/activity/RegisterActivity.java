@@ -20,13 +20,16 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * [RegisterActivity]
  *
- * 1.
- * The class used to "DataBinding" and "MVVM"
- * If client want to "register" then move here.
+ * <Topic>
+ *     1.
+ *     The class used to "DataBinding" and "MVVM"
+ *     If client want to "register" then move here.
  *
- * 2.
- * and then receives data written by the client and get data from "RegisterViewModel"
- * Finally, it is handled here.
+ *     2.
+ *     and then receives data written by the client and get data from "RegisterViewModel"
+ *     Finally, it is handled here.
+ * </Topic>
+ *
  */
 public class RegisterActivity extends AppCompatActivity implements BaseInterface {
     private ActivityRegisterBinding activityRegisterBinding;

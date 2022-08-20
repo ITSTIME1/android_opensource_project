@@ -71,10 +71,8 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
         // chat message viewHolder
         if(holder instanceof ChatMessageViewHolder) {
-            Log.d("chatArrayList 개수 좀보자 ", String.valueOf(chatRoomModelArrayList.get(position)));
             int holderPosition = holder.getAdapterPosition();
-            int maxMessage = chatRoomModelArrayList.size() - 1;
-            Log.d("maxMessage 확인좀 해보자", String.valueOf(maxMessage));
+
             if(holderPosition == 0) {
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(holderPosition).getCurrent_date());
@@ -182,7 +180,6 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                     alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     alertDialog.setCanceledOnTouchOutside(true);
                     LayoutInflater factory = LayoutInflater.from(view.getContext());
-
                     @SuppressLint("InflateParams")
                     final View alertDialogView = factory.inflate(R.layout.activity_chat_room_image_alert_dialog_view, null);
                     String alertDialogImageURL = chatRoomModelArrayList.get(pos).getImageURL();

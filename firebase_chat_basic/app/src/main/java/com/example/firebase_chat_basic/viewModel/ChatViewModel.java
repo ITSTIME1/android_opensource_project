@@ -24,6 +24,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * [ChatViewModel]
+ *
+ * <Topic>
+ *
+ *     This is "ChatViewModel"
+ *     it's going to check user information from realtime database and it check if it has chatKey.
+ *     if chatRoom is nothing
+ *     it don't display user information list
+ *
+ *     I am helped realtime database chat logic by "Learnoset - Learn Coding Online"
+ *     Thank you share useful video :)
+ *
+ * </Topic>
+ */
 
 public class ChatViewModel extends AndroidViewModel implements FirebaseInterface, BaseInterface {
     public ArrayList<ChatListModel> chat_array_list;
@@ -43,7 +58,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     private final String chat_date = new_date_format.format(now_date);
 
 
-    // getCurrentMyUid activity 에서 받아오지 말자 이거 수정해야 됨.
+
     public ChatViewModel(Application application) {
         super(application);
         default_init();
@@ -53,7 +68,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
             chat_recycler_adapter = new ChatRecyclerAdapter(this);
             arrayListMutableLiveData = new MutableLiveData<>();
         }
-        // 유저 정보 생성.
+        // when chat viewModel create constructor, execute the method.
         get_user_database();
     }
 
@@ -72,11 +87,6 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // 1. 나와 다른 사용자 & 채팅검사 후 나의 키 값과 상대방의 키 값을 포함하는 chat내용을 가지고 와서 getContent
-                // 2. 초반에 chatKey 값을 생성해주고
-                // 3. 만약 채팅을 검사하다가 본인의 채팅키 값을 발견했다면 그 chatKey를 새로 부여해준다.
-
-                // 최초에 앱을 실행했을때 채팅의 내역 그리고 나와 키 값이 다른 사람의 값을 가지고 온다.
                 Log.d("ChatViewModel", "======== onDataChange ========");
                 for (DataSnapshot userSnapshot : snapshot.child("users").getChildren()) {
                     listSet = false;
@@ -88,13 +98,11 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                         String chatKey = firebase_my_uid + userSnapshot.child("uid").getValue(String.class);
                         Log.d("chatKey ", chatKey);
                         Log.d("ChatViewModel", "======== 채팅방이 없을시 가져가는 [ChatKey] 생성 ========");
-                        // 상대방의 키 값을 저장.
+
                         final String getOtherKey = userSnapshot.child("uid").getValue(String.class);
                         final String getOtherName = userSnapshot.child("name").getValue(String.class);
                         Log.d("getOtherName ", String.valueOf(getOtherName));
-                        // 채팅 검사
-                        // 채팅방이 없다는건 채팅을 하지 않았다는것
-                        // 채팅이 있는 건 채팅을 생성하고 또 이쪽으로 와서 생성하니까 문제가 있다.
+
                         chat_array_list.clear();
 
                         // chat logic

@@ -49,7 +49,6 @@ import java.util.Objects;
  **/
 
 
-// @TODO 사진을 찍은 다음 그 사진을 확인을 눌렀을 때 전송이 되는 로직
 // @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
 
@@ -83,9 +82,6 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
         get_chat_key = getChatKey.getStringExtra("get_chat_key");
         get_other_uid = getChatKey.getStringExtra("get_other_uid");
         get_current_my_uid = getChatKey.getStringExtra("get_current_my_uid");
-        // @TODO chatKey 값은 잘 들어왔음.
-        // @TODO 데이터 베이스에서 채팅 마지막 값을 가지고 온다음 메세지 전송 버튼을 클릭했을 때
-        // @TODO 사진을 보내는 로직을 짜야됨.
     }
 
     // camera permission
@@ -154,7 +150,7 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
         Toast.makeText(this, "설정 메뉴로 이동하겠습니다.", Toast.LENGTH_SHORT).show();
     }
 
-    // when permission graduated excute this method
+    // when permission graduated execute this method
     private void cameraLaunch() {
         cameraProviderListenableFuture.addListener(new Runnable() {
             @Override

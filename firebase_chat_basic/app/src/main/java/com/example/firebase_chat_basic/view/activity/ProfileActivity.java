@@ -17,17 +17,20 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityProfileBinding;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-// @TODO 첨부파일 구현 grid layout 구현.
-
 /**
+ * [ProfileActivity]
+ *
  * <Topic>
- * 이거다.
+ *     This is for "user profile activity".
+ *     when create new user and save realtime database
+ *     display on "contact activity"
+ *     and when you touch the "profile bottom sheet dialog" that it comes up.
  * </Topic>
  */
 public class ProfileActivity extends AppCompatActivity implements BaseInterface {
     private ActivityProfileBinding activityProfileBinding;
-    private String client_profile_image;
-    private String client_background_image;
+//    private String client_profile_image;
+//    private String client_background_image;
     private String client_state_message;
     private String client_name;
     private String chatKey;
@@ -59,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         Intent intent = getIntent();
         // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 상대방 uid, 나의 uid
         client_name = intent.getStringExtra("client_name");
-        client_profile_image = intent.getStringExtra("client_profile_image");
-        client_background_image = intent.getStringExtra("client_background_image");
+//        client_profile_image = intent.getStringExtra("client_profile_image");
+//        client_background_image = intent.getStringExtra("client_background_image");
         client_state_message = intent.getStringExtra("client_state_message");
         client_phone_number = intent.getStringExtra("client_phone_number");
         chatKey = intent.getStringExtra("chatKey");

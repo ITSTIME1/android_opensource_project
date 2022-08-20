@@ -115,17 +115,7 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     }
 
 
-
-
-    // 이미지를 넣을때 우선 chatroom activity 에 보여주어야 하니까
-    // chatroom activity 의 viewtype 을 두개로 나누어서 이미지를 보낼때, 메세지를 보낼때로 나누어서
-    // 각각 다른 UI를 보여준다.
-
-    // message 보낼때는 viewtype = 0
-    // image 보낼때는 viewtype = 1
-    // 여기서 이미지를 보내는 거니까 model 로 만들어서 image
-
-    // send image
+    // send image method
     public void send_image_btn(){
         mHandler.postDelayed(new Runnable()  {
             public void run() {

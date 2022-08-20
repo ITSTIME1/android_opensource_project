@@ -17,9 +17,13 @@ import com.example.firebase_chat_basic.databinding.ActivityVideoBinding;
 /**
  * [VideoActivity]
  *
- * VideoActivity gets URI data from "ChatRoomBottomSheetDialog"
- * then VideoActivity use "setMediaController" because There is a possibility that it will be stopped
- * and if videoActivity is deleted from memory then it is stopped.
+ * <Topic>
+ *
+ *     VideoActivity gets URI data from "ChatRoomBottomSheetDialog"
+ *     then VideoActivity use "setMediaController" because There is a possibility that it will be stopped
+ *     and if videoActivity is deleted from memory then it is stopped.
+ *
+ * </Topic>
  *
  */
 public class VideoActivity extends AppCompatActivity implements BaseInterface {
