@@ -15,8 +15,10 @@ import java.util.ArrayList;
  * [ImageViewer Adapter]
  *
  * <Topic>
+ *
  *     This adapter displays that you selected image.
  *     displays according to the number of images.
+ *
  * </Topic>
  */
 

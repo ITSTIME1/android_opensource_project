@@ -31,6 +31,7 @@ import java.util.ArrayList;
  * [ChatRoomRecyclerAdapter]
  *
  * <Topic>
+ *
  *     This adapter is for "chatRoomMessage"
  *     you have to know that this adapter has two viewType and two viewHolder class.
  *
@@ -40,6 +41,7 @@ import java.util.ArrayList;
  *     if you get data from "ChatViewModel", this adapter will separate the data.
  *     if data is "msg", set into "ChatMessageViewHolder"
  *     if data is "imageURI", set into "ChatImageViewHolder"
+ *     
  * </Topic>
  */
 // @TODO 날짜 표시해주는 로직 다시 생각해보자.

@@ -4,7 +4,9 @@ package com.example.firebase_chat_basic.model;
  * [ChatRoomModel]
  *
  * <Topic>
+ *
  *     This model is for "chat room every message"
+ *
  * </Topic>
  *
  */

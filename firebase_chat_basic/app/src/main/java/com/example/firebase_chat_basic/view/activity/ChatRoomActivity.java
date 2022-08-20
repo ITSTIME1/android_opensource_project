@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,10 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +23,6 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ChatRoomRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
-import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
@@ -48,14 +41,15 @@ import java.util.Objects;
  * [ChatRoomActivity Introduce]
  *
  * <Topic>
- * "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
- * you can to send "message", "image", "voice", "reservation message"
- * there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code.
- * <p>
- * Let me introduce "ChatRoomActivity Methods"
- * 1. image method
- * 2. video select method
- * 3. voice select method
+ *
+ *     "ChatRoomActivity" has 6 methods in class the class used only "chatting" so if you want to chat someone or your friend and anyone
+ *      you can to send "message", "image", "voice", "reservation message"
+ *      there weren't the "ViewModel" because i thought that we don't need a "Dependency injection" in class so that if it used has many boiler code
+ *
+ *      Let me introduce "ChatRoomActivity Methods"
+ *      1. image method
+ *      2. video select method
+ *      3. voice select method
  *
  * </Topic>
  */
@@ -86,10 +80,16 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private final String current_date = currentDateFormat.format(now_date);
 
 
+    private int firstPositionX = 0;
+
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
+
+
         default_init();
         get_from_chat_recycler_adapter();
         get_message_list();
@@ -142,6 +142,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public void click_listener() {
         activityChatroomBinding.chatRoomUploadImage.setOnClickListener(this);
         activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
+        activityChatroomBinding.constraintViewId.setOnTouchListener(this);
     }
 
     // get from realtime_database
@@ -264,11 +265,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 //            Log.d("getPhoneNumber", get_phone_number);
         }
     }
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            firstPositionX = (int) motionEvent.getX();
+
             final int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
             final int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
             final int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
@@ -280,6 +282,22 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 activityChatroomBinding.chatRoomTextField.clearFocus();
+            }
+            Log.d("움직임 감지 down", "");
+        }
+
+        if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+            Log.d("firstPosition", String.valueOf(firstPositionX));
+            int positionX = (int) motionEvent.getX();
+            int positionY = (int) motionEvent.getY();
+            Log.d("curX", String.valueOf(positionX));
+            Log.d("curX", String.valueOf(positionY));
+
+            // 처음 눌렀을때 값이 154 인데
+            // 그 이후로 움직인 값이 curx 가 firstPosition < x 작다면 많이 움직였기 때문에 actiivty 종료
+            if(firstPositionX + 100 < positionX) {
+                Log.d("200 이 넘어감 ", "");
+                finish();
             }
         }
         return false;
@@ -357,6 +375,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             // 채팅을 보낸다음에 maxMessaeKey 값을 초기화 해준다.
         }
     }
+
+
 
     // get phone number
     public String getGet_phone_number() {

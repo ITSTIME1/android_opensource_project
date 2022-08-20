@@ -10,10 +10,12 @@ import java.util.ArrayList;
  * [ViewPagerAdapter]
  *
  * <Topic>
+ *
  *     This adapter displays "Fragments"
  *     "chatFragment"
  *     "contactFragment"
  *     "settingFragment"
+ *
  * </Topic>
  */
 public class ViewPagerAdapter extends FragmentStateAdapter {

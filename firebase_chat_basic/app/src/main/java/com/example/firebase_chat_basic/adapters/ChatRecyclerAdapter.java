@@ -25,8 +25,10 @@ import com.facebook.shimmer.ShimmerDrawable;
  * [ChatRecyclerAdapter]
  *
  * <Topic>
+ *
  *     This adapter is for "ChatFragment"
  *     All data binding is consist of "ChatViewModel".
+ *
  * </Topic>
  */
 

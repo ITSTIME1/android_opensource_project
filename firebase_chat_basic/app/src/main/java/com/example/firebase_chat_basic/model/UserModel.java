@@ -4,7 +4,12 @@ package com.example.firebase_chat_basic.model;
 /**
  * [UserModel]
  *
- * This is for "camera activity"
+ * <Topic>
+ *
+ *     This is for "camera activity"
+ *
+ * </Topic>
+ *
  */
 public class UserModel {
     private String user_uid;

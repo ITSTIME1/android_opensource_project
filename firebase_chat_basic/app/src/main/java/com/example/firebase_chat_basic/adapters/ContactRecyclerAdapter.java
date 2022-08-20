@@ -14,7 +14,9 @@ import com.example.firebase_chat_basic.viewModel.ContactViewModel;
  * [ContactRecyclerAdapter]
  *
  * <Topic>
+ *
  *     This adapter displays new friends account.
+ *
  * </Topic>
  */
 

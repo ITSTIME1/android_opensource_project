@@ -34,8 +34,10 @@ import java.util.Objects;
  * [CameraPreviewActivity]
  *
  * <Topic>
+ *
  *     This activity shows previewImage
  *     previewImage get imageUri from "Camera2Activity"
+ *
  * </Topic>
  *
  */

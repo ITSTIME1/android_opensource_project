@@ -5,9 +5,11 @@ package com.example.firebase_chat_basic.constants;
  * [Constants]
  *
  * <Topic>
+ *
  *     This class takes care of constants.
  *     because we want to make less glueCode.
  *     so I wrote that real time database url, chatMessageViewType, chatImageViewType.
+ *
  * </Topic>
  */
 public class Constants {

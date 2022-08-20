@@ -5,7 +5,9 @@ package com.example.firebase_chat_basic.Interface;
  * [BaseInterface]
  *
  * <Topic>
+ *
  *     This interface is for "base method"
+ *
  * </Topic>
  */
 

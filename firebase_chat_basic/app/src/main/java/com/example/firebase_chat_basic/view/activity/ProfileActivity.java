@@ -27,6 +27,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
  *     and when you touch the "profile bottom sheet dialog" that it comes up.
  * </Topic>
  */
+
 public class ProfileActivity extends AppCompatActivity implements BaseInterface {
     private ActivityProfileBinding activityProfileBinding;
 //    private String client_profile_image;

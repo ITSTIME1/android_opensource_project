@@ -5,7 +5,9 @@ package com.example.firebase_chat_basic.model;
  * [ImageViewerModel]
  *
  * <Topic>
+ *
  *     This model is for "imageViewer model" only show image
+ *
  * </Topic>
  *
  */

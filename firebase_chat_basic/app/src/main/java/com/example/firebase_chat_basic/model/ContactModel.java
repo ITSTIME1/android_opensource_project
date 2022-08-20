@@ -4,7 +4,9 @@ package com.example.firebase_chat_basic.model;
  * [ContactModel]
  *
  * <Topic>
+ *
  *     This object is "contact page user list model"
+ *
  * </Topic>
  */
 

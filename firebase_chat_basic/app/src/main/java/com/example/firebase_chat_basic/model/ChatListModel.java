@@ -4,7 +4,9 @@ package com.example.firebase_chat_basic.model;
  * [ChatListModel]
  *
  * <Topic>
+ *
  *     This is for "chat fragment"
+ *
  * </Topic>
  */
 
