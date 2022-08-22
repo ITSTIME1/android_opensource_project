@@ -2,8 +2,10 @@
 # Introducation
 This is chat project that i used java language and firebase realtime database because I want to make "real chat" application.<br>
 and most people of using chat want to use very fast chatting function. so I decided to make this application for who want to learn the chat application.<br>
-If you think this project is useful, please leave a comment and contribute thank you.
-<br>
+If you think this project is useful, please leave a comment and contribute thank you.<br>
+
+- You want to see my develop blog click below badge.
+- <a href="https://velog.io/@itstime">![Blogger](https://img.shields.io/badge/Blogger-FF5722?style=for-the-badge&logo=blogger&logoColor=white)
 # Skils
 - Java
 - RecyclerView
@@ -23,11 +25,22 @@ If you think this project is useful, please leave a comment and contribute thank
 - firebase authentication
 - firebase realtime database
 - Animation
-<br>
+
 # Snapshot<br>
-![20220823_014843](https://user-images.githubusercontent.com/88642524/185975653-67335065-2469-4ae4-b3c3-cda2da9ff8d4.gif)
+<p align="left">
+<img src="https://user-images.githubusercontent.com/88642524/185976246-6266fce3-bb05-4861-8392-c024a0b5d2cb.jpg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/88642524/185977757-7b8b2d66-c352-4f18-8727-6d9b885127bf.jpg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/88642524/185977895-58e401dd-d2a9-4c0d-9eac-3aa29d93a9b8.jpg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/88642524/185977958-502f4def-1e04-4647-8f21-d6852defcfd9.jpg" width="200" height="400"/>
+</p>
 
-
+# Tools
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
+![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?style=for-the-badge&logo=stack-overflow&logoColor=white)
+![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)
 # License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ```
