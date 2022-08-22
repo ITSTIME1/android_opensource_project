@@ -2,7 +2,7 @@
 # Introducation
 This is chat project that i used java language and firebase realtime database because I want to make "real chat" application.<br>
 and most people of using chat want to use very fast chatting function. so I decided to make this application for who want to learn the chat application.<br>
-If you think this project is useful, please leave a comment thank you :)
+If you think this project is useful, please leave a comment and contribute thank you.
 <br>
 # Skils
 - Java
@@ -22,3 +22,7 @@ If you think this project is useful, please leave a comment thank you :)
 - DataBinding
 - firebase authentication
 - firebase realtime database
+- Animation
+
+# License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
