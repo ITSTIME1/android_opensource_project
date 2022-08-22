@@ -1,14 +1,10 @@
-# Android Opensource Project
+![android opensource banner](https://user-images.githubusercontent.com/88642524/185981821-a0cfb312-f4ec-45c0-b7a8-6694a7b22580.png)
+# Introducation
 Hi guys, Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
 so you can see only written java code projects.
-
-# Sanpshot
-
-
-
  
-# What skills do you have?
+# Skils
 These repository is "basic level" so basically I used it in combination.
 Each other has flow annotation so if you want to know these flow.
 I recommed you to read all.
