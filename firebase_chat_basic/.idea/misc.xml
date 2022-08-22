@@ -31,6 +31,7 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/chat_room_text_field_bg.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/chat_room_text_field_send_button.xml" value="0.3475" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/chat_top_date_bg.xml" value="0.3495" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/profile_text_button_bg.xml" value="0.3485" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/register_button_bg.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/register_field_bg.xml" value="0.282" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/drawable/register_textfield_bg.xml" value="0.282" />
@@ -44,7 +45,7 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_login.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_picture.xml" value="0.33" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_profile.xml" value="0.1" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_profile.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_video.xml" value="0.28559213339033773" />

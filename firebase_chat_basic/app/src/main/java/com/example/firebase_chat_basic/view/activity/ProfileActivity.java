@@ -17,6 +17,8 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityProfileBinding;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.Objects;
+
 /**
  * [ProfileActivity]
  *
@@ -32,12 +34,12 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     private ActivityProfileBinding activityProfileBinding;
 //    private String client_profile_image;
 //    private String client_background_image;
-    private String client_state_message;
-    private String client_name;
-    private String chatKey;
-    private String client_my_uid;
-    private String client_other_uid;
-    private String client_phone_number;
+    private String client_state_message,
+        client_name,
+        chatKey,
+        client_my_uid,
+        client_other_uid,
+        client_phone_number;
 
 
     @Override
@@ -46,9 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         activityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         get_intent_data();
         default_init();
-        glide();
         go_to_chat_room();
-        swipe_scroll();
         call_method();
     }
 
@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     }
 
     public void go_to_chat_room() {
-        activityProfileBinding.chatImageGifLayout.setOnClickListener(view -> {
+        activityProfileBinding.profileChatTextButton.setOnClickListener(view -> {
             Log.d("chat gif 클릭 잘 됨 ", "");
             Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
             goToChatRoom.putExtra("getChatKey", chatKey);
@@ -89,36 +89,9 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
         });
     }
 
-    // glide profile_image, background_image
-    public void glide() {
-        Glide.with(this).load(R.raw.iconmessage).into(activityProfileBinding.chatImageGif);
-        Glide.with(this).load(R.raw.iconcontact).into(activityProfileBinding.contactImageGif);
-        Glide.with(this).load(R.raw.iconsave).into(activityProfileBinding.saveImageGif);
-    }
-
-    // swipe_scroll
-    public void swipe_scroll() {
-        activityProfileBinding.slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-            }
-
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    activityProfileBinding.scrollableTouchText.setText("위로 올려 보세요");
-                    activityProfileBinding.scrollableTouchIcon.setImageResource(R.drawable.ic_chat_profile_up_panel_icon);
-                } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    activityProfileBinding.scrollableTouchText.setText("한번 터치해 보세요");
-                    activityProfileBinding.scrollableTouchIcon.setImageResource(R.drawable.ic_chat_profile_down_panel_icon);
-                }
-            }
-        });
-    }
-
     // call_method
     public void call_method() {
-        activityProfileBinding.callIdLayout.setOnClickListener(new View.OnClickListener() {
+        activityProfileBinding.profileChatContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+client_phone_number));
@@ -130,6 +103,14 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
                 }
             }
         });
+    }
+
+
+    // editText change
+    // 글자 다 입력 되었으면 데이터베이스에 수정.
+    public void state_message() {
+        activityProfileBinding.profileStateMessage.setSelection(
+                Objects.requireNonNull(activityProfileBinding.profileStateMessage.getText()).length());
     }
 
     @Override
