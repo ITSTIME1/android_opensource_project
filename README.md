@@ -2,7 +2,8 @@
 # Introducation
 Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
-so you can see only written java code projects.
+so you can see only written java code projects.<br>
+If you want to contact me for contribute, you can remain comment 			thank you
  
 # Skils
 These repository is "basic level" so basically I used it in combination.
