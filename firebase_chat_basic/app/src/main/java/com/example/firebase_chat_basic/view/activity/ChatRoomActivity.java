@@ -181,13 +181,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
                                 }
                             }
-                            if(activityChatroomBinding.chatRoomListRec != null) {
-                                activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-                            }
                             chat_room_recycler_adapter.notifyDataSetChanged();
                         }
                     }
                 }
+                if(!chat_room_list.isEmpty()) {
+                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+                }
+
             }
 
             @Override
@@ -291,7 +292,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
             // 처음 눌렀을때 값이 154 인데
             // 그 이후로 움직인 값이 curX 가 firstPosition < x 작다면 많이 움직였기 때문에 activity 종료
-            if(firstPositionX + 100 < positionX) {
+            if(firstPositionX + 200 < positionX) {
                 Log.d("200 이 넘어감 ", "");
                 finish();
             }

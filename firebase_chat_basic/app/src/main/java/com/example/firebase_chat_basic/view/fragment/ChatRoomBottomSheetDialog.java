@@ -116,6 +116,7 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
                 multiImageIntent.putExtra("get_current_my_uid", finalGet_current_my_uid);
                 Log.d("selectedImage", String.valueOf(list));
                 startActivity(multiImageIntent);
+                dismiss();
 //                        Log.d("성Ima공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));
             }
         });
