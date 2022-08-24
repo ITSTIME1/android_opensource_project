@@ -14,9 +14,7 @@ If you think this project is useful, please leave a comment and contribute thank
 - Activity
 - Fragment
 - Clean Architecture (MVVM) not repository
-- ChatViewModel
-- ContactViewModel
-- RegisterViewModel
+- ViewModel, ApplicationViewModel
 - CameraX
 - TedPermission, TedImagePicker ( thank you giving useful open source library )
 - BottomSheetDialog
@@ -25,6 +23,7 @@ If you think this project is useful, please leave a comment and contribute thank
 - firebase authentication
 - firebase realtime database
 - Animation
+- Glide
 
 # Snapshot<br>
 <p align="left">
