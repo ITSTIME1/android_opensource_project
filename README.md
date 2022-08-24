@@ -1,6 +1,6 @@
 ![android opensource banner](https://user-images.githubusercontent.com/88642524/185981821-a0cfb312-f4ec-45c0-b7a8-6694a7b22580.png)
 # Introducation
-Hi guys, Welcome to my "android_basic_opensoruce" repository.
+Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
 so you can see only written java code projects.
  
@@ -64,20 +64,13 @@ I recommed you to read all.
 	- etc..
 	
 - **BackEnd Server**
-	- NodeJS
-	- Django
-	- AWS
+	- firebase
 	- etc..
 - **Design**
 	- Figma
-- **OpenSourceLibrary**
-	- Glide
-	- Gson
-	- CircleIndicator
-	- etc..
 
 # How to use it ?
-If you want to using your project or practice basic branch or can local repository download.
+If you want to using on your project, you can download .zip or set up on your branch or repository.
 
 # License
 ```
