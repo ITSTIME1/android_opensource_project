@@ -1,14 +1,11 @@
-# Android Opensource Project
-Hi guys, Welcome to my "android_basic_opensoruce" repository.
+![android opensource banner](https://user-images.githubusercontent.com/88642524/185981821-a0cfb312-f4ec-45c0-b7a8-6694a7b22580.png)
+# Introducation
+Welcome to my "android_basic_opensoruce" repository.
 There's some android applications for java that's mean I only used java language.
-so you can see only written java code projects.
-
-# Sanpshot
-
-
-
+so you can see only written java code projects.<br>
+If you want to contact me for contribute, you can remain comment 			thank you
  
-# What skills do you have?
+# Skils
 These repository is "basic level" so basically I used it in combination.
 Each other has flow annotation so if you want to know these flow.
 I recommed you to read all.
@@ -68,17 +65,35 @@ I recommed you to read all.
 	- etc..
 	
 - **BackEnd Server**
-	- NodeJS
-	- Django
-	- AWS
+	- firebase
 	- etc..
 - **Design**
 	- Figma
-- **OpenSourceLibrary**
-	- Glide
-	- Gson
-	- CircleIndicator
-	- etc..
 
 # How to use it ?
-If you want to using your project or practice basic branch or can local repository download.
+If you want to using on your project, you can download .zip or set up on your branch or repository.
+
+# License
+```
+MIT License
+
+Copyright (c) 2022 ITSTIME
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
