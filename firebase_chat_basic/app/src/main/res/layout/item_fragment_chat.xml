@@ -74,6 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/chat_item_content"
                             android:layout_gravity="center"
                             android:text="@{chatViewModel.get_content(pos)}"
                             android:textSize="11sp"

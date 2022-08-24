@@ -108,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
 
     // editText change
     // 글자 다 입력 되었으면 데이터베이스에 수정.
+    // @TODO 상태메세지 기능구현.
     public void state_message() {
         activityProfileBinding.profileStateMessage.setSelection(
                 Objects.requireNonNull(activityProfileBinding.profileStateMessage.getText()).length());

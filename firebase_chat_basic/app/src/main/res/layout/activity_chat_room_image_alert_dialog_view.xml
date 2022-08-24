@@ -6,11 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
         <androidx.appcompat.widget.AppCompatImageView
+            android:layout_margin="40dp"
+            android:layout_gravity="center"
             android:id="@+id/chat_room_image_alert_dialog_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

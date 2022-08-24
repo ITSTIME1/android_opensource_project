@@ -20,14 +20,6 @@ public class SettingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentSettingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false);
-
-        fragmentSettingBinding.logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                Log.d("정상적으로 로그아웃 되었습니다.", "");
-            }
-        });
         /*
          * Do this
          */

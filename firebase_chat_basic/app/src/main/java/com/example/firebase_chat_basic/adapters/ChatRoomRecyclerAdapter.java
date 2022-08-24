@@ -73,6 +73,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
         // chat message viewHolder
         if(holder instanceof ChatMessageViewHolder) {
+            // first message
             int holderPosition = holder.getAdapterPosition();
 
             if(holderPosition == 0) {
@@ -89,7 +90,10 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
                 ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
+                // image, message
+                // setText 다르게
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
+
                 // 마지막 값이라면 시간을 보여주고
                 // 마지막 값이 아니라면 보여주지 않는다.
                 if(!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {

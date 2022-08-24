@@ -161,17 +161,22 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                                 // 새로 들어온 값은 false 이기 때문에 그 false 의 조건을 가지고 있는 메세지 값만 다시 count 해서 for문 로직을 짠다.
                                 for (DataSnapshot messageSnapShot : chatDataSnapShot.child("message").getChildren()) {
 
-                                    long before_message_key = 0;
-                                    final long recent_message_key = preferences.getLong("chatDateTime", 0);
-                                    long child_message_key = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
+                                    if(messageSnapShot.hasChild("msg")) {
+                                        long before_message_key = 0;
+                                        final long recent_message_key = preferences.getLong("chatDateTime", 0);
+                                        long child_message_key = Long.parseLong(Objects.requireNonNull(messageSnapShot.getKey()));
 
-                                    if (recent_message_key > child_message_key) {
-                                        before_message_key = Long.parseLong(messageSnapShot.getKey());
+                                        if (recent_message_key > child_message_key) {
+                                            before_message_key = Long.parseLong(messageSnapShot.getKey());
+                                        }
+                                        if (recent_message_key > before_message_key) {
+                                            get_message_count++;
+                                        }
+
+                                        get_content = messageSnapShot.child("msg").getValue(String.class);
+                                    } else {
+                                        get_content = "사진을 보냈습니다";
                                     }
-                                    if (recent_message_key > before_message_key) {
-                                        get_message_count++;
-                                    }
-                                    get_content = messageSnapShot.child("msg").getValue(String.class);
 
                                 }
                                 // list create

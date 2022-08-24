@@ -50,6 +50,7 @@
 
             <TextView
                 android:id="@+id/apply_picture"
+                android:onClick="@{ () -> pictureActivity.async_send_image() }"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -65,6 +66,7 @@
             android:id="@+id/image_viewer_rec"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            tools:listitem="@layout/item_image_viewer"
             bind:ImageViewer="@{pictureActivity.imageViewerAdapter}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

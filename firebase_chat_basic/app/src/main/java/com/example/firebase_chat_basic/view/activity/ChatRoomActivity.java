@@ -64,21 +64,19 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private InputMethodManager inputMethodManager;
 
     private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid, imageURI;
-    private int messageViewType;
     public String get_phone_number;
-
-    private boolean dataSet = false;
+    private int messageViewType;
     private int maxMessageKey;
 
-    private final Handler mHandler = new Handler();
+    private boolean dataSet = false;
 
     // date
     private final Date now_date = new Date();
+    private final Handler mHandler = new Handler();
     @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
     private final String set_date = simpleDateFormat.format(now_date);
     private final String current_date = currentDateFormat.format(now_date);
-
 
     private int firstPositionX = 0;
 
@@ -88,8 +86,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
-
-
         default_init();
         get_from_chat_recycler_adapter();
         get_message_list();
@@ -185,7 +181,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
                                 }
                             }
-                            if (!chat_room_list.isEmpty()) {
+                            if(activityChatroomBinding.chatRoomListRec != null) {
                                 activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
                             }
                             chat_room_recycler_adapter.notifyDataSetChanged();
@@ -294,7 +290,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             Log.d("curX", String.valueOf(positionY));
 
             // 처음 눌렀을때 값이 154 인데
-            // 그 이후로 움직인 값이 curx 가 firstPosition < x 작다면 많이 움직였기 때문에 actiivty 종료
+            // 그 이후로 움직인 값이 curX 가 firstPosition < x 작다면 많이 움직였기 때문에 activity 종료
             if(firstPositionX + 100 < positionX) {
                 Log.d("200 이 넘어감 ", "");
                 finish();

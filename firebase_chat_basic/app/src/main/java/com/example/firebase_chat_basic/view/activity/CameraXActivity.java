@@ -47,12 +47,6 @@ import java.util.Objects;
  * I used to basic cameraX
  *
  **/
-
-
-// @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
-// @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
-
-
 public class CameraXActivity extends AppCompatActivity implements BaseInterface {
     private ActivityCameraBinding activityCameraBinding;
     private ImageCapture imageCapture;

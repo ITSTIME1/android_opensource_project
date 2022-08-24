@@ -90,18 +90,30 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     // picture access method (Databinding)
     public void picture_access() {
         permission_image();
-//                Intent bottomSheetIntent = new Intent(Intent.ACTION_PICK);
-//                bottomSheetIntent.setType("image/*");
-//                activityResultLauncher.launch(bottomSheetIntent);
+        Bundle getArgument = getArguments();
+        String get_chat_key = null;
+        String get_other_uid = null;
+        String get_current_my_uid = null;
 
+        if (getArgument != null) {
+            get_chat_key = getArgument.getString("get_chat_key");
+            get_other_uid = getArgument.getString("get_other_uid");
+            get_current_my_uid = getArgument.getString("get_current_my_uid");
+        }
 
         // TedImagePicker - image selected
+        String finalGet_chat_key = get_chat_key;
+        String finalGet_other_uid = get_other_uid;
+        String finalGet_current_my_uid = get_current_my_uid;
         TedImagePicker.with(requireContext()).startMultiImage(new OnMultiSelectedListener() {
 
             @Override
             public void onSelected(@NonNull List<? extends Uri> list) {
                 Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);
                 multiImageIntent.putExtra("selectedImage", (Serializable) list);
+                multiImageIntent.putExtra("get_chat_key", finalGet_chat_key);
+                multiImageIntent.putExtra("get_other_uid", finalGet_other_uid);
+                multiImageIntent.putExtra("get_current_my_uid", finalGet_current_my_uid);
                 Log.d("selectedImage", String.valueOf(list));
                 startActivity(multiImageIntent);
 //                        Log.d("성Ima공적으로 intent list 전달 성공 ", String.valueOf(multiImageIntent));

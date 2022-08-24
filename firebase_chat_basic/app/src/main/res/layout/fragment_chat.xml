@@ -19,6 +19,7 @@
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             tools:ignore="HardcodedText">
 
 
@@ -31,7 +32,6 @@
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:menu="@menu/toolbar_menu"
                     app:layout_collapseMode="pin">
                     <TextView
                         android:textSize="20sp"
@@ -52,6 +52,7 @@
             android:id="@+id/chat_room_rec"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="0dp"
             bind:ChatAdapter="@{chatViewModel.chat_recycler_adapter}"
             tools:listitem="@layout/item_fragment_chat"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
