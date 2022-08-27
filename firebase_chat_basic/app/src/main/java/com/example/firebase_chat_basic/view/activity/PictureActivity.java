@@ -1,21 +1,27 @@
 package com.example.firebase_chat_basic.view.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.ImageDecoder;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.loader.content.AsyncTaskLoader;
+
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.adapters.ImageViewerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityPictureBinding;
+import com.example.firebase_chat_basic.model.AsyncImageModel;
 import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.example.firebase_chat_basic.model.ImageViewerModel;
 import com.google.firebase.database.DataSnapshot;
@@ -44,14 +50,16 @@ import java.util.Objects;
 // @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
 public class PictureActivity extends AppCompatActivity implements BaseInterface {
+    private static final int MSG_IMAGE_LIST = 0;
     private ImageViewerAdapter imageViewerAdapter;
     private ActivityPictureBinding activityPictureBinding;
     private DatabaseReference databaseReference;
     private String get_chat_key, get_other_uid, get_current_my_uid;
     private int maxMessageKey;
+    // image list 로 받아짐
     private List<Object> getSelectedList;
-    private Handler mHandler = new Handler();
     private final Date now_date = new Date();
+    private Handler mainHandler;
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
@@ -67,7 +75,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         default_init();
         get_data_intent();
         getMessageKey();
-
+        async_check_image();
     }
 
     @Override
@@ -88,9 +96,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         get_other_uid = getIntent.getStringExtra("get_other_uid");
         get_current_my_uid = getIntent.getStringExtra("get_current_my_uid");
 
-        Log.d("picturekey", get_chat_key);
-        Log.d("get_other_uid", get_other_uid);
-        Log.d("get_current_my_uid", get_current_my_uid);
+
         ArrayList<ImageViewerModel> imageViewerModelArrayList = new ArrayList<>();
         getSelectedList = (List<Object>) getIntent.getSerializableExtra("selectedImage");
 
@@ -104,6 +110,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
                 Log.d("imageViewerList value", imageViewerModelArrayList.get(i).getImage_viewer());
             }
         }
+
 
     }
 
@@ -138,33 +145,70 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
     }
 
     // async image send
+    // 이미지 적용 버튼을 눌를때 별도 이미지 쓰레드가 실행되게 함으로써
+    // 1초를 기다리는 ImageThreadRunnable 코드를 실행
     public void async_send_image() {
-        Log.d("getSelectedListPictureActivity", String.valueOf(getSelectedList));
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < getSelectedList.size(); i++) {
-                    ChatRoomImageModel chatRoomImageModel = new ChatRoomImageModel(getSelectedList.get(i).toString(), Constants.chatImageViewType);
-                    // imageURI 에 URI 를 저장.
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("imageURI").setValue(chatRoomImageModel.getImageUrl());
-                    // getChatRoomViewType
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("viewType").setValue(chatRoomImageModel.getChatRoomViewType());
-                    // msg 에 키 값 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
-                    // msg 에 시간 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("save_chat_date").setValue(set_date);
-                    // msg 에 날짜 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("currentDate").setValue(current_date);
-                    // 보낸 사람 저장
-                    databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-                    // 받은 사람 저장
-                    databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-                    Log.d("chatviewmodelimage", chatRoomImageModel.getImageUrl());
-                }
-            }
-        },1000);
-        finish();
+        ImageThread imageThread = new ImageThread();
+        imageThread.start();
+        Log.d("이미지 비동기 시작!", "");
+//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(getSelectedList.get(i).toString());
+//        // getChatRoomViewType
+//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
+//        // msg 에 키 값 저장
+//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
+//        // msg 에 시간 저장
+//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
+//        // msg 에 날짜 저장
+//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
+//        // 보낸 사람 저장
+//        databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+//        // 받은 사람 저장
+//        databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+////        Log.d("getSize", String.valueOf(getSelectedList.size()));
+//        finish();
     }
+
+    // image 비동기 만듬.
+    public class ImageThread extends Thread {
+        Handler imageThread = mainHandler;
+        // constructor
+        public ImageThread() {}
+
+        @Override
+        public void run() {
+            try{
+                for (int i = 0; i < getSelectedList.size(); i++) {
+                    Message message = imageThread.obtainMessage();
+                    message.what = MSG_IMAGE_LIST;
+                    message.obj = new AsyncImageModel((Uri) getSelectedList.get(i));
+                    Log.d("message.obj", String.valueOf(message.obj));
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    imageThread.sendMessage(message);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    // asynchronous image checking
+    public void async_check_image() {
+        mainHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message message) {
+                if(message.what == MSG_IMAGE_LIST) {
+                    Log.d("whatMessage 들어옵니다잉.", String.valueOf(message.obj));
+                }
+                return false;
+            }
+        });
+    }
+
+
 
     // backPressed method
     public void onBackPressed(){

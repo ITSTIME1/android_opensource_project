@@ -230,6 +230,7 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() == RESULT_OK) {
+                // 찍고 난다음에 넘겨주는게 CameraPreviewActivity.
                 Intent gallerySendIntent = new Intent(CameraXActivity.this, CameraPreviewActivity.class);
                 if (result.getData() != null) {
                     Uri resultURI = result.getData().getData();

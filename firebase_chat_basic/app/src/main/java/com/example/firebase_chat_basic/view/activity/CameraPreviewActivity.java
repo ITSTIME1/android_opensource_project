@@ -117,36 +117,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     }
 
 
-    // send image method
-    public void send_image_btn(){
-        mHandler.postDelayed(new Runnable()  {
-            public void run() {
-                // chatRoomImageModel object
-                // chatImageViewType = 1
-                // getImageURI
-                // current_date
-                ChatRoomImageModel chatRoomImageModel = new ChatRoomImageModel(getImageURI.toString(), Constants.chatImageViewType);
-                // imageURI 에 URI 를 저장.
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("imageURI").setValue(chatRoomImageModel.getImageUrl());
-                // getChatRoomViewType
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("viewType").setValue(chatRoomImageModel.getChatRoomViewType());
-                // msg 에 키 값 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
-                // msg 에 시간 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("save_chat_date").setValue(set_date);
-                // msg 에 날짜 저장
-                databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("currentDate").setValue(current_date);
-                // 보낸 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-                // 받은 사람 저장
-                databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-                Log.d("잘 넣어줌", "");
-            }
-        }, 100); // 0.5초후
-        finish();
-    }
-
-
     public void previewCancel() {
         finish();
     }

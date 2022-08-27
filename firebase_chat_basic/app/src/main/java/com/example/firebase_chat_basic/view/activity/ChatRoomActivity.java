@@ -185,9 +185,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                         }
                     }
                 }
-                if(!chat_room_list.isEmpty()) {
-                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-                }
+//                if(!chat_room_list.isEmpty()) {
+//                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+//                }
 
             }
 
@@ -295,6 +295,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             if(firstPositionX + 200 < positionX) {
                 Log.d("200 이 넘어감 ", "");
                 finish();
+                firstPositionX = 0;
             }
         }
         return false;
