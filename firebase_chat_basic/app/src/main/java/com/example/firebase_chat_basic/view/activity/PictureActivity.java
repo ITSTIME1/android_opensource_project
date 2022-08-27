@@ -119,7 +119,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
 
     }
 
-
+    // get lastMessageKey from realtime database
     public void getMessageKey() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -149,8 +149,9 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         });
     }
 
-    // image 비동기 만듬.
+    // image asynchronous thread
     public class ImageThread extends Thread {
+        AsyncImageModel asyncImageModel;
         Handler imageThread = mainHandler;
         // constructor
         public ImageThread() {}
@@ -161,10 +162,13 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
                 for (int i = 0; i < getSelectedList.size(); i++) {
                     // message 객체를 새로 생성을 계속 해줌.
                     // 메세지 객체를 새로 생성하지 않고 재사용할 경우 This already is in use 오류 발생.
+                    Bundle imageData = new Bundle();
                     Message message = imageThread.obtainMessage();
                     message.what = MSG_IMAGE_LIST;
-                    message.obj = new AsyncImageModel((Uri) getSelectedList.get(i));
-                    Log.d("message.obj", String.valueOf(message.obj));
+                    asyncImageModel = new AsyncImageModel((Uri) getSelectedList.get(i));
+                    imageData.putString("asyncImage", asyncImageModel.getAsync_image_url().toString());
+                    Log.d("imageData", String.valueOf(imageData));
+                    message.setData(imageData);
                     try {
                         // 5초를 주기로 비동기 실행.
                         Thread.sleep(5000);
@@ -186,7 +190,8 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
             @Override
             public boolean handleMessage(@NonNull Message message) {
                 if(message.what == MSG_IMAGE_LIST) {
-                    Log.d("whatMessage 들어옵니다잉.", String.valueOf(message.obj));
+                    Log.d("messagegetdata", String.valueOf(message.getData()));
+
                 }
                 return false;
             }
