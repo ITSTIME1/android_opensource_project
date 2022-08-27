@@ -49,6 +49,11 @@ import java.util.Objects;
 // simple crop adapt
 // @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
+
+
+
+
+
 public class PictureActivity extends AppCompatActivity implements BaseInterface {
     private static final int MSG_IMAGE_LIST = 0;
     private ImageViewerAdapter imageViewerAdapter;
@@ -75,7 +80,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         default_init();
         get_data_intent();
         getMessageKey();
-        async_check_image();
+        receive_async_image();
     }
 
     @Override
@@ -144,10 +149,55 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         });
     }
 
+    // image 비동기 만듬.
+    public class ImageThread extends Thread {
+        Handler imageThread = mainHandler;
+        // constructor
+        public ImageThread() {}
+
+        @Override
+        public void run() {
+            try{
+                for (int i = 0; i < getSelectedList.size(); i++) {
+                    // message 객체를 새로 생성을 계속 해줌.
+                    // 메세지 객체를 새로 생성하지 않고 재사용할 경우 This already is in use 오류 발생.
+                    Message message = imageThread.obtainMessage();
+                    message.what = MSG_IMAGE_LIST;
+                    message.obj = new AsyncImageModel((Uri) getSelectedList.get(i));
+                    Log.d("message.obj", String.valueOf(message.obj));
+                    try {
+                        // 5초를 주기로 비동기 실행.
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    imageThread.sendMessage(message);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    // asynchronous image checking
+    public void receive_async_image() {
+        mainHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message message) {
+                if(message.what == MSG_IMAGE_LIST) {
+                    Log.d("whatMessage 들어옵니다잉.", String.valueOf(message.obj));
+                }
+                return false;
+            }
+        });
+    }
+
+
     // async image send
     // 이미지 적용 버튼을 눌를때 별도 이미지 쓰레드가 실행되게 함으로써
     // 1초를 기다리는 ImageThreadRunnable 코드를 실행
-    public void async_send_image() {
+    public void send_async_image() {
         ImageThread imageThread = new ImageThread();
         imageThread.start();
         Log.d("이미지 비동기 시작!", "");
@@ -167,48 +217,6 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
 ////        Log.d("getSize", String.valueOf(getSelectedList.size()));
 //        finish();
     }
-
-    // image 비동기 만듬.
-    public class ImageThread extends Thread {
-        Handler imageThread = mainHandler;
-        // constructor
-        public ImageThread() {}
-
-        @Override
-        public void run() {
-            try{
-                for (int i = 0; i < getSelectedList.size(); i++) {
-                    Message message = imageThread.obtainMessage();
-                    message.what = MSG_IMAGE_LIST;
-                    message.obj = new AsyncImageModel((Uri) getSelectedList.get(i));
-                    Log.d("message.obj", String.valueOf(message.obj));
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    imageThread.sendMessage(message);
-                }
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-    // asynchronous image checking
-    public void async_check_image() {
-        mainHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(@NonNull Message message) {
-                if(message.what == MSG_IMAGE_LIST) {
-                    Log.d("whatMessage 들어옵니다잉.", String.valueOf(message.obj));
-                }
-                return false;
-            }
-        });
-    }
-
-
 
     // backPressed method
     public void onBackPressed(){

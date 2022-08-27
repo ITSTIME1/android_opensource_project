@@ -55,7 +55,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:onClick="@{ () -> pictureActivity.async_send_image() }"
+                android:onClick="@{ () -> pictureActivity.send_async_image() }"
                 android:text="적용"
                 android:textColor="@color/chatMainBackgroundColor"
                 android:textSize="15sp"
@@ -64,6 +64,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/image_viewer_rec"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:listitem="@layout/item_image_viewer"
