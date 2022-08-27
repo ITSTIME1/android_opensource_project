@@ -55,7 +55,6 @@ import java.util.Objects;
 
 
 public class PictureActivity extends AppCompatActivity implements BaseInterface {
-    private static final int MSG_IMAGE_LIST = 0;
     private ImageViewerAdapter imageViewerAdapter;
     private ActivityPictureBinding activityPictureBinding;
     private DatabaseReference databaseReference;
@@ -164,7 +163,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
                     // 메세지 객체를 새로 생성하지 않고 재사용할 경우 This already is in use 오류 발생.
                     Bundle imageData = new Bundle();
                     Message message = imageThread.obtainMessage();
-                    message.what = MSG_IMAGE_LIST;
+                    message.what = Constants.MSG_IMAGE_LIST;
                     asyncImageModel = new AsyncImageModel((Uri) getSelectedList.get(i));
                     imageData.putString("asyncImage", asyncImageModel.getAsync_image_url().toString());
                     Log.d("imageData", String.valueOf(imageData));
@@ -180,7 +179,6 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
             }catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -189,9 +187,25 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         mainHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message message) {
-                if(message.what == MSG_IMAGE_LIST) {
-                    Log.d("messagegetdata", String.valueOf(message.getData()));
-
+                if(message.what == Constants.MSG_IMAGE_LIST) {
+                    Log.d("messageData", message.getData().getString("asyncImage"));
+                    String asyncImage = message.getData().getString("asyncImage");
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(asyncImage);
+                    // getChatRoomViewType
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
+                    // msg 에 키 값 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
+                    // msg 에 시간 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
+                    // msg 에 날짜 저장
+                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
+                    // 보낸 사람 저장
+                    databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+                    // 받은 사람 저장
+                    databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+                    
+                    // 비동기 처리로 인한 같은 maxMessageKey 값에 적용되는 문제를 없애기 위해 하나더 올려준다.
+                    maxMessageKey++;
                 }
                 return false;
             }
@@ -206,21 +220,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
         ImageThread imageThread = new ImageThread();
         imageThread.start();
         Log.d("이미지 비동기 시작!", "");
-//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(getSelectedList.get(i).toString());
-//        // getChatRoomViewType
-//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
-//        // msg 에 키 값 저장
-//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
-//        // msg 에 시간 저장
-//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
-//        // msg 에 날짜 저장
-//        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
-//        // 보낸 사람 저장
-//        databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
-//        // 받은 사람 저장
-//        databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-////        Log.d("getSize", String.valueOf(getSelectedList.size()));
-//        finish();
+        finish();
     }
 
     // backPressed method
