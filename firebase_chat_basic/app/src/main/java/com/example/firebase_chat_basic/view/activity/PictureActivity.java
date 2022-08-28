@@ -45,9 +45,7 @@ import java.util.Objects;
  * MultiSelectImageViewer Create
  */
 
-
 // simple crop adapt
-// @TODO 사진 선택후 채팅으로 보낼 수 있는 로직 추가
 // @TODO 동영상 선택후 채팅으로 보낼 수 있는 로직 추가
 
 
@@ -203,7 +201,7 @@ public class PictureActivity extends AppCompatActivity implements BaseInterface 
                     databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
                     // 받은 사람 저장
                     databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
-                    
+
                     // 비동기 처리로 인한 같은 maxMessageKey 값에 적용되는 문제를 없애기 위해 하나더 올려준다.
                     maxMessageKey++;
                 }

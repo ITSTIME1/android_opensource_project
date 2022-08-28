@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     }
 
     public void go_to_chat_room() {
-        activityProfileBinding.profileChatTextButton.setOnClickListener(view -> {
+        activityProfileBinding.profileChatLayout.setOnClickListener(view -> {
             Log.d("chat gif 클릭 잘 됨 ", "");
             Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
             goToChatRoom.putExtra("getChatKey", chatKey);
@@ -91,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
 
     // call_method
     public void call_method() {
-        activityProfileBinding.profileChatContactButton.setOnClickListener(new View.OnClickListener() {
+        activityProfileBinding.profileContactLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+client_phone_number));
@@ -106,13 +106,14 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     }
 
 
-    // editText change
-    // 글자 다 입력 되었으면 데이터베이스에 수정.
     // @TODO 상태메세지 기능구현.
-    public void state_message() {
-        activityProfileBinding.profileStateMessage.setSelection(
-                Objects.requireNonNull(activityProfileBinding.profileStateMessage.getText()).length());
-    }
+    // @TODO 예약메세지 기능구현.
+    // @TODO 프로필 수정 메세지 기능구현.
+    // @TODO 배경 사진 수정 기능 구현.
+    public void reservation_message(){}
+    public void state_message() {}
+    public void profile_image_change(){}
+    public void background_image_change(){}
 
     @Override
     protected void onDestroy() {

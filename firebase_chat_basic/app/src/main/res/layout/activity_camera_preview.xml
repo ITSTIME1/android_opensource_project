@@ -35,6 +35,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/camera_preview_send_image"
+                android:onClick="@{ () -> cameraPreviewActivity.send_image() }"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

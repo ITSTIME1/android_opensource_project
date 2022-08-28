@@ -49,8 +49,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     private Uri getImageURI;
     private String get_chat_key, get_other_uid, get_current_my_uid;
     private int maxMessageKey;
-
-    private final Handler mHandler = new Handler();
     private final Date now_date = new Date();
     @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
@@ -111,9 +109,26 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+    }
+    // @TODO 메세지 선택 후 저장.
+
+    public void send_image() {
+        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(getImageURI.toString());
+        // getChatRoomViewType
+        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
+        // msg 에 키 값 저장
+        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
+        // msg 에 시간 저장
+        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
+        // msg 에 날짜 저장
+        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
+        // 보낸 사람 저장
+        databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+        // 받은 사람 저장
+        databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+        finish();
     }
 
 
