@@ -96,7 +96,7 @@
             app:layout_constraintVertical_bias="1"
             tools:ignore="MissingConstraints">
             <ImageView
-                android:id="@+id/chat_room_upload_image"
+                android:id="@+id/chat_room_functions_sheet"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/ic_chat_image_file_icon"

@@ -22,10 +22,10 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
+import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
-
 
 /**
  * [ChatRoomRecyclerAdapter]
@@ -179,7 +179,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemImageViewerBinding.myMessageImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = getAdapterPosition();
+                    int pos = getAbsoluteAdapterPosition();
                     Log.d("pos", String.valueOf(pos));
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
                     AlertDialog alertDialog = alertDialogBuilder.create();
@@ -195,6 +195,15 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                     alertDialog.show();
                 }
             });
+        }
+    }
+
+    // video viewholder
+    public class VideoViewHolder extends RecyclerView.ViewHolder {
+        ItemVideoBinding itemVideoBinding;
+        public VideoViewHolder(@NonNull View itemView, ItemVideoBinding itemVideoBinding) {
+            super(itemView);
+            this.itemVideoBinding = itemVideoBinding;
         }
     }
 }

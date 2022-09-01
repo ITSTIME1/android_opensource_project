@@ -136,7 +136,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     // click listener
     @SuppressLint("ClickableViewAccessibility")
     public void click_listener() {
-        activityChatroomBinding.chatRoomUploadImage.setOnClickListener(this);
+        activityChatroomBinding.chatRoomFunctionsSheet.setOnClickListener(this);
         activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
         activityChatroomBinding.constraintViewId.setOnTouchListener(this);
     }
@@ -310,7 +310,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public void onClick(View view) {
         // touch upload image
         // create bottomSheetDialog
-        if (view.getId() == activityChatroomBinding.chatRoomUploadImage.getId()) {
+        if (view.getId() == activityChatroomBinding.chatRoomFunctionsSheet.getId()) {
             // bundle 을 통해서 get_chat_key 값 전달.
             // 잘 들어오고
             Bundle bottomFragmentBundle = new Bundle();
