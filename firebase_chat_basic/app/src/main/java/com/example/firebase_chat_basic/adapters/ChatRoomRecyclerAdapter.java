@@ -24,6 +24,8 @@ import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
@@ -55,16 +57,25 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
+    /**
+     *
+     * @param parent
+     * @param viewType is exist total 3 message, image, video
+     * @return
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMessageBinding itemMessageBinding = ItemMessageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         ItemMessageImageBinding itemMessageImageBinding = ItemMessageImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemVideoBinding itemVideoBinding = ItemVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
         if(viewType == Constants.chatMessageViewType) {
             return new ChatMessageViewHolder(itemMessageBinding);
-        } else {
+        } else if (viewType == Constants.chatImageViewType) {
             return new ChatImageViewHolder(itemMessageImageBinding);
+        } else {
+            return new VideoViewHolder(itemVideoBinding);
         }
     }
 
@@ -74,7 +85,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         // chat message viewHolder
         if(holder instanceof ChatMessageViewHolder) {
             // first message
-            int holderPosition = holder.getAdapterPosition();
+            int holderPosition = holder.getAbsoluteAdapterPosition();
 
             if(holderPosition == 0) {
                 ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
@@ -143,6 +154,21 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
             }
+        } else if (holder instanceof VideoViewHolder) {
+            if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+                // 1. 비디오를 보내면
+                // 2. 데이터베이스에 uir 주소가 저장이 되고
+                // 3. 리스트값의 viewtype 에 따라 video activity 로 판단되고
+                ExoPlayer player = new ExoPlayer.Builder(holder.itemView.getContext()).build();
+                ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(player);
+                MediaItem mediaItem = MediaItem.fromUri(chatRoomModelArrayList.get(position).getVideoURL());
+                Log.d("mediaItem", String.valueOf(mediaItem));
+                player.setMediaItem(mediaItem);
+                player.prepare();
+                player.play();
+            } else {
+                Log.d("wait", "");
+            }
         }
     }
     @Override
@@ -201,9 +227,9 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     // video viewholder
     public class VideoViewHolder extends RecyclerView.ViewHolder {
         ItemVideoBinding itemVideoBinding;
-        public VideoViewHolder(@NonNull View itemView, ItemVideoBinding itemVideoBinding) {
-            super(itemView);
-            this.itemVideoBinding = itemVideoBinding;
+
+        public VideoViewHolder(ItemVideoBinding itemVideoBinding) {
+            super(itemVideoBinding.getRoot());
         }
     }
 }

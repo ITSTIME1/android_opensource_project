@@ -54,13 +54,4 @@ public class BindCustomAdapter {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
-
-    @BindingAdapter("VideoViewer")
-    public static void videoViewerAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-    }
-
 }

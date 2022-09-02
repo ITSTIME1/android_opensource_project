@@ -17,7 +17,9 @@ public class ChatRoomModel {
     private String current_date;
     private int viewType;
     private String imageURL;
+    private String videoURL;
 
+    // overloading image constructor
     public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, String imageURL) {
         this.setKey = setKey;
         this.chat_date = chat_date;
@@ -26,7 +28,7 @@ public class ChatRoomModel {
         this.imageURL = imageURL;
     }
 
-    // overloading constructor
+    // overloading message constructor
     public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date, int viewType) {
         this.setKey = setKey;
         this.chat_message = chat_message;
@@ -34,6 +36,26 @@ public class ChatRoomModel {
         this.current_date = current_date;
         this.viewType = viewType;
     }
+
+    // overloading video constructor
+    public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date, int viewType, String videoURL) {
+        this.setKey = setKey;
+        this.chat_message = chat_message;
+        this.chat_date = chat_date;
+        this.current_date = current_date;
+        this.viewType = viewType;
+        this.videoURL = videoURL;
+    }
+
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
+
     public String getImageURL() {
         return imageURL;
     }

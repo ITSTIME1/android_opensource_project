@@ -163,10 +163,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 messageViewType = messageSnapShot.child("viewType").getValue(Integer.class);
                             }
 
-                            // 메세지를 가지고 와서 그 메세지 값들이 메세지와 나의 키 값이 있다면
-                            // 메시지, 보낸 사람의 키 값, dateTime
+                            // image, video, message
                             dataSet = false;
-                            if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey")) {
+                            if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatMessageViewType) {
                                 final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
                                 Log.d("viewType", String.valueOf(messageViewType));
                                 if (!dataSet) {
@@ -174,11 +173,17 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     // 이미지가 없으면 채팅만
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
                                 }
-                            } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey")) {
+                            } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatImageViewType) {
                                 final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
                                 if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
+                                }
+                            } else if(messageSnapShot.hasChild("videoURL") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatVideoViewType) {
+                                final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
+                                if (!dataSet) {
+                                    dataSet = true;
+                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
                                 }
                             }
                             chat_room_recycler_adapter.notifyDataSetChanged();
