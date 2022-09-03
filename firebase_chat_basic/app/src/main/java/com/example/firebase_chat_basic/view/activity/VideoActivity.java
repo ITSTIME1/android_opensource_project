@@ -116,12 +116,8 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
             }
         });
     }
-    // @TODO exoplayer 사용
-    // @TODO DASH 스트리밍 방식 사용
-    // exoplayer 를 사용해서 viewtype 을 다르게 지정해
-    // recyclerview 로 보내줄 때 미리 정의한 레이아웃에 맞게 보여준다.
-    public void send_video() {
 
+    public void send_video() {
         databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("videoURL").setValue(videoURI.toString());
         // getChatRoomViewType
         databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatVideoViewType);

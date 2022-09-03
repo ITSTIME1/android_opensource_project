@@ -2,11 +2,11 @@ package com.example.firebase_chat_basic.adapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -26,16 +25,11 @@ import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
-import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
@@ -60,10 +54,18 @@ import java.util.ArrayList;
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
+    private ExoPlayer exoPlayer;
+
+
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+    }
+    public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context, ExoPlayer exoPlayer) {
+        this.chatRoomModelArrayList = chatRoomModelArrayList;
+        sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+        this.exoPlayer = exoPlayer;
     }
 
 
@@ -167,7 +169,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                ((VideoViewHolder) holder).init(chatRoomModelArrayList.get(position).getVideoURL());
+                ((VideoViewHolder) holder).init();
             }
         }
     }
@@ -227,24 +229,12 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     // video viewholder
     public class VideoViewHolder extends RecyclerView.ViewHolder {
         ItemVideoBinding itemVideoBinding;
-        ExoPlayer player;
         public VideoViewHolder(ItemVideoBinding itemVideoBinding) {
             super(itemVideoBinding.getRoot());
             this.itemVideoBinding = itemVideoBinding;
-            player = new ExoPlayer.Builder(itemVideoBinding.getRoot().getContext()).build();
         }
-
-        public void init(String url){
-            try{
-                DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
-                MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(MediaItem.fromUri(url));
-                itemVideoBinding.styledPlayerView.setPlayer(player);
-                player.setMediaSource(mediaSource);
-                player.prepare();
-            }catch (Exception e) {
-                Log.d("video exception", String.valueOf(e));
-            }
+        public void init(){
+            itemVideoBinding.styledPlayerView.setPlayer(exoPlayer);
         }
     }
 }

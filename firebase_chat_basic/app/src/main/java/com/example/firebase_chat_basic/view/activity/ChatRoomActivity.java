@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,6 +26,13 @@ import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,6 +88,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     private int firstPositionX = 0;
 
+    private ExoPlayer exoPlayer;
+    private DataSource.Factory factory;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -103,23 +114,23 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                 // 만약 키 값이 동일하다면
                 // 그 키 값의 메세지 키 값들을 가지고 온다.
                 // 그 키 값들 중 가장 큰 키 값을 전역변수로 반환한다.
-                if(snapshot.hasChild("chat")) {
-                    ArrayList<Integer> messageKeyList = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
-                        String key_check = dataSnapshot.getKey();
-                        Log.d("dataSnapshot", String.valueOf(key_check));
-                        // get_chat_key 값이랑 동일하다면
-                        if (key_check != null && key_check.equals(get_chat_key)) {
-                            for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
-                                messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
-                                // messageKeyValue 확인.
-                                Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
+                    if(snapshot.hasChild("chat")) {
+                        ArrayList<Integer> messageKeyList = new ArrayList<>();
+                        for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
+                            String key_check = dataSnapshot.getKey();
+                            Log.d("dataSnapshot", String.valueOf(key_check));
+                            // get_chat_key 값이랑 동일하다면
+                            if (key_check != null && key_check.equals(get_chat_key)) {
+                                for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
+                                    messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
+                                    // messageKeyValue 확인.
+                                    Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
+                                }
                             }
-                        }
 
-                    }
-                    // 최신값을 전역변수에 담는다.
-                    maxMessageKey = Collections.max(messageKeyList);
+                        }
+                        // 최신값을 전역변수에 담는다.
+                        maxMessageKey = Collections.max(messageKeyList);
                     Log.d("maxMessageKey", String.valueOf(maxMessageKey));
                 } else {
                     Log.d("아직 chat이 없어요", "");
@@ -184,9 +195,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
+                                    ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(factory).createMediaSource(MediaItem.fromUri(videoURL));
+                                    exoPlayer.setMediaSource(mediaSource);
                                 }
                             }
                             chat_room_recycler_adapter.notifyDataSetChanged();
+                            exoPlayer.prepare();
                         }
                     }
                 }
@@ -244,11 +258,13 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.setLifecycleOwner(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        // video instance
+        exoPlayer = new ExoPlayer.Builder(getBaseContext()).build();
+        factory = new DefaultDataSource.Factory(getBaseContext());
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
-            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
+            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext(), exoPlayer);
         }
-//        SharedPreferences preferences = getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
     }
 
     // get data from (chat recycler adapter, profile activity)
@@ -260,11 +276,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
             get_other_uid = getIntent.getStringExtra("getOtherUID");
             get_phone_number = getIntent.getStringExtra("getPhoneNumber");
-//            Log.d("getOtherName", get_other_name);
-//            Log.d("getChatKey", get_chat_key);
-//            Log.d("getCurrentMyUID", get_current_my_uid);
-//            Log.d("getOtherUID", get_other_uid);
-//            Log.d("getPhoneNumber", get_phone_number);
         }
     }
     @SuppressLint("ClickableViewAccessibility")
