@@ -26,6 +26,16 @@ import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 import java.util.ArrayList;
 
@@ -127,7 +137,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
                 }
             }
-            // image viewHolder
+            // gif, image viewHolder
         } else if (holder instanceof ChatImageViewHolder) {
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
                 Glide.with(holder.itemView.getContext())
@@ -154,20 +164,10 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
             }
+            // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if(get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                // 1. 비디오를 보내면
-                // 2. 데이터베이스에 uir 주소가 저장이 되고
-                // 3. 리스트값의 viewtype 에 따라 video activity 로 판단되고
-                ExoPlayer player = new ExoPlayer.Builder(holder.itemView.getContext()).build();
-                ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(player);
-                MediaItem mediaItem = MediaItem.fromUri(chatRoomModelArrayList.get(position).getVideoURL());
-                Log.d("mediaItem", String.valueOf(mediaItem));
-                player.setMediaItem(mediaItem);
-                player.prepare();
-                player.play();
-            } else {
-                Log.d("wait", "");
+                ((VideoViewHolder) holder).init(chatRoomModelArrayList.get(position).getVideoURL());
             }
         }
     }
@@ -227,9 +227,24 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     // video viewholder
     public class VideoViewHolder extends RecyclerView.ViewHolder {
         ItemVideoBinding itemVideoBinding;
-
+        ExoPlayer player;
         public VideoViewHolder(ItemVideoBinding itemVideoBinding) {
             super(itemVideoBinding.getRoot());
+            this.itemVideoBinding = itemVideoBinding;
+            player = new ExoPlayer.Builder(itemVideoBinding.getRoot().getContext()).build();
+        }
+
+        public void init(String url){
+            try{
+                DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
+                MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(MediaItem.fromUri(url));
+                itemVideoBinding.styledPlayerView.setPlayer(player);
+                player.setMediaSource(mediaSource);
+                player.prepare();
+            }catch (Exception e) {
+                Log.d("video exception", String.valueOf(e));
+            }
         }
     }
 }
