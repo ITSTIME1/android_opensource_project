@@ -24,6 +24,8 @@ If you think this project is useful, please leave a comment and contribute thank
 - firebase realtime database
 - Animation
 - Glide
+- SwipeLayout
+- ExoPlayer
 
 # Snapshot<br>
 <p align="left">
