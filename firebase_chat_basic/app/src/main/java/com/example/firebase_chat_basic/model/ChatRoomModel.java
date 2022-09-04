@@ -1,5 +1,9 @@
 package com.example.firebase_chat_basic.model;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+
 /**
  * [ChatRoomModel]
  *
@@ -16,16 +20,18 @@ public class ChatRoomModel {
     private String chat_date;
     private String current_date;
     private int viewType;
-    private String imageURL;
-    private String videoURL;
+    private String url;
+    private ExoPlayer exoPlayer;
+
+
 
     // overloading image constructor
-    public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, String imageURL) {
+    public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, String url) {
         this.setKey = setKey;
         this.chat_date = chat_date;
         this.current_date = current_date;
         this.viewType = viewType;
-        this.imageURL = imageURL;
+        this.url = url;
     }
 
     // overloading message constructor
@@ -38,30 +44,29 @@ public class ChatRoomModel {
     }
 
     // overloading video constructor
-    public ChatRoomModel(String setKey, String chat_message, String chat_date, String current_date, int viewType, String videoURL) {
+    public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, ExoPlayer exoPlayer) {
         this.setKey = setKey;
-        this.chat_message = chat_message;
         this.chat_date = chat_date;
         this.current_date = current_date;
         this.viewType = viewType;
-        this.videoURL = videoURL;
+        this.exoPlayer = exoPlayer;
+    }
+
+    public ExoPlayer getExoPlayer() {
+        return exoPlayer;
+    }
+
+    public void setExoPlayer(ExoPlayer exoPlayer) {
+        this.exoPlayer = exoPlayer;
     }
 
 
-    public String getVideoURL() {
-        return videoURL;
+    public String getUrl() {
+        return url;
     }
 
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getViewType() {

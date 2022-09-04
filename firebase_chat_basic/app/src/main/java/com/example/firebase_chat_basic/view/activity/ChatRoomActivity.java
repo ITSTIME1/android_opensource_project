@@ -18,6 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
@@ -30,6 +33,8 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
@@ -85,12 +90,10 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
     private final String set_date = simpleDateFormat.format(now_date);
     private final String current_date = currentDateFormat.format(now_date);
-
-    private int firstPositionX = 0;
+    private int firstPositionX;
 
     private ExoPlayer exoPlayer;
     private DataSource.Factory factory;
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -102,6 +105,19 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         get_message_list();
         on_focus_text_field();
         click_listener();
+        refresh_layout();
+    }
+
+    public void refresh_layout(){
+        activityChatroomBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // @TODO 리프레쉬 할거 있으면 추가하자
+                Log.d("refresh 1", "");
+                activityChatroomBinding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
 
     public void check_message_key() {
@@ -185,23 +201,29 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
                                 }
                             } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatImageViewType) {
+
+                                // image url
                                 final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
                                 if (!dataSet) {
                                     dataSet = true;
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
                                 }
                             } else if(messageSnapShot.hasChild("videoURL") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatVideoViewType) {
-                                final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
+
+                                // video url
+                                ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(factory)
+                                        .createMediaSource(MediaItem.fromUri(messageSnapShot.child("videoURL").getValue(String.class)));
+                                exoPlayer.setMediaSource(mediaSource);
+                                Log.d("mediaSource 확인해보자", String.valueOf(mediaSource));
                                 if (!dataSet) {
                                     dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
-                                    ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(factory).createMediaSource(MediaItem.fromUri(videoURL));
-                                    exoPlayer.setMediaSource(mediaSource);
+                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, exoPlayer));
+                                    Log.d("리스트 하나 추가", "");
                                 }
                             }
-                            chat_room_recycler_adapter.notifyDataSetChanged();
-                            exoPlayer.prepare();
                         }
+                        chat_room_recycler_adapter.notifyDataSetChanged();
+                        exoPlayer.setPlayWhenReady(true);
                     }
                 }
 //                if(!chat_room_list.isEmpty()) {
@@ -216,6 +238,9 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             }
         });
     }
+
+
+
 
     // if you touch "enter key" hide keyboard
     @Override
@@ -258,13 +283,16 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.setLifecycleOwner(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        // video instance
+
+        // exoplayer instance
         exoPlayer = new ExoPlayer.Builder(getBaseContext()).build();
         factory = new DefaultDataSource.Factory(getBaseContext());
+        // video instance
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
-            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext(), exoPlayer);
+            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
         }
+
     }
 
     // get data from (chat recycler adapter, profile activity)
@@ -283,7 +311,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             firstPositionX = (int) motionEvent.getX();
-
             final int constraint_view_h = activityChatroomBinding.constraintViewId.getMeasuredHeight();
             final int header_view_h = activityChatroomBinding.chatRoomHeaderId.getMeasuredHeight();
             final int edittext_view_h = activityChatroomBinding.chatRoomTextField.getMeasuredHeight();
@@ -299,24 +326,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             Log.d("움직임 감지 down", "");
         }
 
-        if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-            Log.d("firstPosition", String.valueOf(firstPositionX));
-            int positionX = (int) motionEvent.getX();
-            int positionY = (int) motionEvent.getY();
-            Log.d("curX", String.valueOf(positionX));
-            Log.d("curX", String.valueOf(positionY));
-
-            // 처음 눌렀을때 값이 154 인데
-            // 그 이후로 움직인 값이 curX 가 firstPosition < x 작다면 많이 움직였기 때문에 activity 종료
-            if(firstPositionX + 300 < positionX) {
-                Log.d("200 이 넘어감 ", "");
+        // 움직일 때
+        int secondPosition;
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            secondPosition = (int) motionEvent.getX();
+            if ( secondPosition - firstPositionX > 600) {
                 finish();
-                firstPositionX = 0;
+                secondPosition = 0;
             }
+
         }
 
         if(motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
             firstPositionX = 0;
+            secondPosition = 0;
         }
         return false;
     }
