@@ -93,7 +93,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private int firstPositionX;
 
     private ExoPlayer exoPlayer;
-    private DataSource.Factory factory;
+    public DataSource.Factory factory;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -209,21 +209,15 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                     chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
                                 }
                             } else if(messageSnapShot.hasChild("videoURL") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatVideoViewType) {
-
-                                // video url
-                                ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(factory)
-                                        .createMediaSource(MediaItem.fromUri(messageSnapShot.child("videoURL").getValue(String.class)));
-                                exoPlayer.setMediaSource(mediaSource);
-                                Log.d("mediaSource 확인해보자", String.valueOf(mediaSource));
+                                final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
                                 if (!dataSet) {
                                     dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, exoPlayer));
+                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, exoPlayer, videoURL, factory));
                                     Log.d("리스트 하나 추가", "");
                                 }
                             }
                         }
                         chat_room_recycler_adapter.notifyDataSetChanged();
-                        exoPlayer.setPlayWhenReady(true);
                     }
                 }
 //                if(!chat_room_list.isEmpty()) {

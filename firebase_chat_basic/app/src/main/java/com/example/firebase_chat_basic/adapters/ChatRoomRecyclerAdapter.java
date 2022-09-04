@@ -23,6 +23,7 @@ import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -156,16 +157,26 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(chatRoomModelArrayList.get(position).getExoPlayer());
+                Log.d("videoURL확인", chatRoomModelArrayList.get(position).getUrl());
+                if(chatRoomModelArrayList.get(position).getExoPlayer() != null) {
+                    ProgressiveMediaSource mediaSource = new ProgressiveMediaSource
+                            .Factory(chatRoomModelArrayList.get(position).getFactory())
+                            .createMediaSource(MediaItem.fromUri(chatRoomModelArrayList.get(position).getUrl()));
+                    chatRoomModelArrayList.get(position).getExoPlayer().setMediaSource(mediaSource);
+                    ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(chatRoomModelArrayList.get(position).getExoPlayer());
+                    chatRoomModelArrayList.get(position).getExoPlayer().prepare();
+                }
+
             }
         }
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        if(holder instanceof VideoViewHolder) {
-
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        int position = holder.getAbsoluteAdapterPosition();
+        if (chatRoomModelArrayList.get(position) == null) {
+            chatRoomModelArrayList.get(position).getExoPlayer().release();
         }
     }
 
