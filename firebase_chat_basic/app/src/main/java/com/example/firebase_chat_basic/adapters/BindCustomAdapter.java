@@ -2,11 +2,15 @@ package com.example.firebase_chat_basic.adapters;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase_chat_basic.custom.LinearLayoutCustomClass;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
 
 /**
  * [BindCustomAdapter]
@@ -22,6 +26,7 @@ import com.example.firebase_chat_basic.custom.LinearLayoutCustomClass;
 
 
 public class BindCustomAdapter {
+
 
     @BindingAdapter("ChatAdapter")
     public static void chatAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
@@ -39,7 +44,7 @@ public class BindCustomAdapter {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter("RoomAdapter")
+        @BindingAdapter("RoomAdapter")
     public static void chatRoomAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);

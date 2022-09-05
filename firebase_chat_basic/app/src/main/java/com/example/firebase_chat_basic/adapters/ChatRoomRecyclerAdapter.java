@@ -1,16 +1,20 @@
 package com.example.firebase_chat_basic.adapters;
+import static com.google.android.exoplayer2.Player.STATE_IDLE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -23,16 +27,21 @@ import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
-import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * [ChatRoomRecyclerAdapter]
@@ -55,10 +64,12 @@ import java.util.ArrayList;
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
+    private Context context;
 
     public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
+        this.context = context;
     }
 
 
@@ -77,7 +88,6 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             return new VideoViewHolder(itemVideoBinding);
         }
     }
-
 
 
     @Override
@@ -157,6 +167,8 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+                // state 상태를 보자
+
                 Log.d("videoURL확인", chatRoomModelArrayList.get(position).getUrl());
                 if(chatRoomModelArrayList.get(position).getExoPlayer() != null) {
                     ProgressiveMediaSource mediaSource = new ProgressiveMediaSource

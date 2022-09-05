@@ -31,10 +31,13 @@ import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
@@ -93,6 +96,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private int firstPositionX;
 
     private ExoPlayer exoPlayer;
+    private TrackSelector trackSelector;
     public DataSource.Factory factory;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -279,14 +283,69 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         // exoplayer instance
-        exoPlayer = new ExoPlayer.Builder(getBaseContext()).build();
+        trackSelector = new DefaultTrackSelector(getBaseContext());
         factory = new DefaultDataSource.Factory(getBaseContext());
+        exoPlayer = new ExoPlayer.Builder(getBaseContext()).setTrackSelector(trackSelector).build();
+
         // video instance
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
-            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getBaseContext());
+            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getApplicationContext());
         }
+        videoInit();
+    }
 
+    public void videoInit() {
+        activityChatroomBinding.chatRoomListRec.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                // recycler view is not scroll
+                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    Log.d(Constants.videoTAG, "Scroll is not moving");
+                }
+                // recycler view vertical scroll is last
+                if(!recyclerView.canScrollVertically(1)) {
+//                    playerVideo(true);
+                    Log.d(Constants.videoTAG, "Scroll is last");
+                } else {
+                    Log.d(Constants.videoTAG, "Scroll is not last");
+//                    playerVideo(false);
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
+        activityChatroomBinding.chatRoomListRec.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(@NonNull View view) {
+
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(@NonNull View view) {
+//                resetVideo();
+            }
+        });
+
+        exoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                Player.Listener.super.onPlaybackStateChanged(playbackState);
+                // when buffering
+                if(playbackState == Player.STATE_BUFFERING) {
+                    Log.d(Constants.videoTAG, "videoBuffering State");
+                } else if(playbackState == Player.STATE_ENDED) {
+                    Log.d(Constants.videoTAG, "videoEnded State");
+                } else if (playbackState == Player.STATE_READY) {
+                    Log.d(Constants.videoTAG, "videoReady State");
+                }
+            }
+        });
     }
 
     // get data from (chat recycler adapter, profile activity)

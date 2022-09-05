@@ -22,7 +22,7 @@
                 android:id="@+id/styled_player_view"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingClass,MissingConstraints" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
