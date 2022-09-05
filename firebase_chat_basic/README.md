@@ -24,13 +24,16 @@ If you think this project is useful, please leave a comment and contribute thank
 - firebase realtime database
 - Animation
 - Glide
+- SwipeLayout
+- ExoPlayer
 
 # Snapshot<br>
 <p align="left">
-<img src="https://user-images.githubusercontent.com/88642524/185976246-6266fce3-bb05-4861-8392-c024a0b5d2cb.jpg" width="200" height="400"/>
-<img src="https://user-images.githubusercontent.com/88642524/185977757-7b8b2d66-c352-4f18-8727-6d9b885127bf.jpg" width="200" height="400"/>
-<img src="https://user-images.githubusercontent.com/88642524/185977895-58e401dd-d2a9-4c0d-9eac-3aa29d93a9b8.jpg" width="200" height="400"/>
-<img src="https://user-images.githubusercontent.com/88642524/185977958-502f4def-1e04-4647-8f21-d6852defcfd9.jpg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/88642524/185976246-6266fce3-bb05-4861-8392-c024a0b5d2cb.jpg" width="180" height="380"/>
+<img src="https://user-images.githubusercontent.com/88642524/188318045-1b068fc5-b268-46d5-9b98-5ac8cf6efd3b.jpg" width="180" height="380"/>
+<img src="https://user-images.githubusercontent.com/88642524/188318069-b5c0d049-ee1a-4477-9bf5-46f1e73ca821.jpg" width="180" height="380"/>
+<img src="https://user-images.githubusercontent.com/88642524/188318087-31e125ba-7fa5-4a42-aaac-2e0274cb668a.jpg" width="180" height="380"/>
+<img src="https://user-images.githubusercontent.com/88642524/188318108-22285fef-ac0f-4ea1-85f1-47d622c0061e.jpg" width="180" height="380"/>
 </p>
 
 # Tools
