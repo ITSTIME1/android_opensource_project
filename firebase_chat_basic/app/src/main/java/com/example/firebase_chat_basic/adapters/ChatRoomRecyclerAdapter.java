@@ -177,18 +177,10 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                     chatRoomModelArrayList.get(position).getExoPlayer().setMediaSource(mediaSource);
                     ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(chatRoomModelArrayList.get(position).getExoPlayer());
                     chatRoomModelArrayList.get(position).getExoPlayer().prepare();
+                    chatRoomModelArrayList.get(position).getExoPlayer().setPlayWhenReady(true);
                 }
 
             }
-        }
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        super.onViewRecycled(holder);
-        int position = holder.getAbsoluteAdapterPosition();
-        if (chatRoomModelArrayList.get(position) == null) {
-            chatRoomModelArrayList.get(position).getExoPlayer().release();
         }
     }
 
