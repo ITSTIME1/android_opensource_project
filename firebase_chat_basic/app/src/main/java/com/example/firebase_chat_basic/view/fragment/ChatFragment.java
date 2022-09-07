@@ -78,23 +78,18 @@ public class ChatFragment extends Fragment implements BaseInterface {
         }
     }
 
-    // liveData 를 관찰하고 있다가 만약 데이터가 다 삽입 되었으면
-    // shimmerLayout 을 멈추고
-    // 보여주지 않는다.
     @Override
     public void observer_intent() {
         BaseInterface.super.observer_intent();
-        chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), liveData -> {
-            // 데이터가 비어있지 않다면 즉 값이 있다면 shimmer 뷰를 그만 보여준다.
-            if(!liveData.isEmpty()) {
-                fragmentChatBinding.chatShimmerLayout.stopShimmer();
-                fragmentChatBinding.chatShimmerLayout.setVisibility(View.GONE);
-                Log.d("shimmer effect stop ", "stop shimmer");
+        chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), observer -> {
+            // 리스트가 비어있지 않다면
+            if(!observer.isEmpty()) {
+                fragmentChatBinding.chatListFrameLayout.setVisibility(View.GONE);
+            } else {
+                fragmentChatBinding.chatListFrameLayout.setVisibility(View.VISIBLE);
             }
         });
     }
-    // destroy fragment chat binding view lifecycle
-
 
     @Override
     public void onDestroy() {

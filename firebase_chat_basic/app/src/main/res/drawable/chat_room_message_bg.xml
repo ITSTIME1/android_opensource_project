@@ -4,5 +4,6 @@
     <solid android:color="@color/chatMainBackgroundColor"/>
     <corners android:topRightRadius="120dp"
         android:topLeftRadius="120dp"
-        android:bottomLeftRadius="120dp"/>
+        android:bottomLeftRadius="120dp"
+        android:bottomRightRadius="120dp"/>
 </shape>

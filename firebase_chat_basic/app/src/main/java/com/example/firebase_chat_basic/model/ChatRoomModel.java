@@ -21,12 +21,9 @@ public class ChatRoomModel {
     private String current_date;
     private int viewType;
     private String url;
-    private ExoPlayer exoPlayer;
-    private DataSource.Factory factory;
 
 
-
-    // overloading image constructor
+    // overloading image and video constructor
     public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, String url) {
         this.setKey = setKey;
         this.chat_date = chat_date;
@@ -45,31 +42,6 @@ public class ChatRoomModel {
     }
 
     // overloading video constructor
-    public ChatRoomModel(String setKey, String chat_date, String current_date, int viewType, ExoPlayer exoPlayer, String url, DataSource.Factory factory) {
-        this.setKey = setKey;
-        this.chat_date = chat_date;
-        this.current_date = current_date;
-        this.viewType = viewType;
-        this.exoPlayer = exoPlayer;
-        this.url = url;
-        this.factory = factory;
-    }
-
-    public DataSource.Factory getFactory() {
-        return factory;
-    }
-
-    public void setFactory(DataSource.Factory factory) {
-        this.factory = factory;
-    }
-
-    public ExoPlayer getExoPlayer() {
-        return exoPlayer;
-    }
-
-    public void setExoPlayer(ExoPlayer exoPlayer) {
-        this.exoPlayer = exoPlayer;
-    }
 
 
     public String getUrl() {

@@ -14,7 +14,7 @@
 
         <!-- "CurrentDate" -->
         <androidx.appcompat.widget.AppCompatTextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:textAlignment="center"
             android:elevation="1dp"
             android:padding="5dp"
@@ -24,8 +24,10 @@
             android:layout_height="wrap_content"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.08"
             tools:ignore="HardcodedText,MissingConstraints" />
         <!-- "I" message -->
         <androidx.appcompat.widget.LinearLayoutCompat

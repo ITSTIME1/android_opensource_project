@@ -1,17 +1,14 @@
 package com.example.firebase_chat_basic.view.activity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
@@ -19,8 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
@@ -30,19 +25,6 @@ import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,17 +79,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private final String current_date = currentDateFormat.format(now_date);
     private int firstPositionX;
 
-    private ExoPlayer exoPlayer;
-    private TrackSelector trackSelector;
-    public DataSource.Factory factory;
-
-    private int videoSurfaceDefaultHeight = 0;
-    private int screenDefaultHeight = 0;
-    private int playPosition = -1;
-    private StyledPlayerView styledPlayerView;
-    private View viewHolderParent;
-    private boolean isVideoViewAdded;
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,6 +91,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         click_listener();
         refresh_layout();
     }
+
 
     public void refresh_layout(){
         activityChatroomBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -183,10 +155,14 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     // get from realtime_database
     public void get_message_list() {
+        if(chat_room_list.size() == 0) {
+            activityChatroomBinding.chatRoomProgressText.setVisibility(View.VISIBLE);
+        }
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 for (DataSnapshot chatSnapShot : snapshot.child("chat").getChildren()) {
                     // 메세지를 가지고 있다면
                     if (chatSnapShot.hasChild("message")) {
@@ -225,18 +201,29 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                                 final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
                                 if (!dataSet) {
                                     dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, exoPlayer, videoURL, factory));
+                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
                                     Log.d("리스트 하나 추가", "");
                                 }
                             }
                         }
-                        chat_room_recycler_adapter.notifyDataSetChanged();
                     }
                 }
-//                if(!chat_room_list.isEmpty()) {
-//                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-//                }
 
+                if(chat_room_list.size() != 0) {
+                    activityChatroomBinding.chatRoomProgressText.setVisibility(View.GONE);
+                }
+
+                // previous chat index compare to last chat index
+                int chat_count = chat_room_list.size();
+                Log.d("previous count", String.valueOf(maxMessageKey));
+                Log.d("chat_count", String.valueOf(chat_count));
+                if(maxMessageKey < chat_count ) {
+                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
+                } else if (maxMessageKey == chat_count) {
+                    return;
+                } else {
+                    return;
+                }
             }
 
             @Override
@@ -290,181 +277,17 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.setLifecycleOwner(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        // exoplayer instance
-        styledPlayerView = new StyledPlayerView(this);
-        trackSelector = new DefaultTrackSelector(getBaseContext());
-        factory = new DefaultDataSource.Factory(getBaseContext());
-        exoPlayer = new ExoPlayer.Builder(getBaseContext()).setTrackSelector(trackSelector).build();
 
         // video instance
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
             chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getApplicationContext());
+            chat_room_recycler_adapter.setHasStableIds(true);
         }
-        videoInit();
     }
 
     // @TODO 다시 한번 로직 따라가면서 짜보자.
-    public void videoInit() {
-        activityChatroomBinding.chatRoomListRec.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                // recycler view is not scroll
-                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    Log.d(Constants.videoTAG, "Scroll is not moving");
-                }
 
-                // recycler view vertical scroll is not last
-                if(!recyclerView.canScrollVertically(1)) {
-                    playVideo(true);
-                    Log.d(Constants.videoTAG, "스크롤 마지막입니다.");
-                } else {
-                    playVideo(false);
-                }
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-
-        activityChatroomBinding.chatRoomListRec.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(@NonNull View view) {
-
-            }
-            @Override
-            public void onChildViewDetachedFromWindow(@NonNull View view) {
-                resetVideoView();
-            }
-        });
-
-        exoPlayer.addListener(new Player.Listener() {
-            @Override
-            public void onPlaybackStateChanged(int playbackState) {
-                Player.Listener.super.onPlaybackStateChanged(playbackState);
-                // when buffering
-                if(playbackState == Player.STATE_BUFFERING) {
-                    Log.d(Constants.videoTAG, "videoBuffering State");
-                } else if(playbackState == Player.STATE_ENDED) {
-                    Log.d(Constants.videoTAG, "videoEnded State");
-                    exoPlayer.seekTo(0);
-                } else if (playbackState == Player.STATE_READY) {
-                    Log.d(Constants.videoTAG, "videoReady State");
-                }
-            }
-        });
-    }
-
-    public void playVideo(boolean isEndOfList) {
-        int targetPosition;
-        // 리스트가 끝이 아니라면
-        // @TODO 오케이 잘 받아왔으
-        if(!isEndOfList) {
-            int startPosition = ((LinearLayoutManager) Objects.requireNonNull(activityChatroomBinding.chatRoomListRec.getLayoutManager()))
-                    .findFirstVisibleItemPosition();
-            int endPosition = ((LinearLayoutManager) Objects.requireNonNull(activityChatroomBinding.chatRoomListRec.getLayoutManager()))
-                    .findLastVisibleItemPosition();
-            Log.d("startPosition", String.valueOf(startPosition));
-            Log.d("endPosition", String.valueOf(endPosition));
-
-            // 2 - 0 = 2 > 1
-            if(endPosition - startPosition > 1) {
-                endPosition = startPosition + 1;
-            }
-            if(startPosition < 0 || endPosition < 0) {
-                Log.d(Constants.videoTAG,"something is wrong");
-            }
-            if(startPosition != endPosition) {
-                int startPositionVideoHeight = getVisibleVideoSurfaceHeight(startPosition);
-                int endPositionVideoHeight = getVisibleVideoSurfaceHeight(endPosition);
-
-                targetPosition = startPositionVideoHeight > endPositionVideoHeight ? startPosition : endPosition;
-            } else {
-                targetPosition = startPosition;
-            }
-
-        } else {
-            // 리스트가 끝이라면
-            targetPosition = chat_room_list.size() - 1;
-        }
-        if (targetPosition == playPosition) {
-            return;
-        }
-        playPosition = targetPosition;
-        if(styledPlayerView == null) {
-            return;
-        }
-
-        styledPlayerView.setVisibility(View.INVISIBLE);
-        removeVideoView(styledPlayerView);
-
-        int currentPosition = targetPosition - ((LinearLayoutManager)
-                Objects.requireNonNull(activityChatroomBinding.chatRoomListRec.getLayoutManager()))
-                .findFirstVisibleItemPosition();
-        View child = activityChatroomBinding.chatRoomListRec
-                .getLayoutManager()
-                .getChildAt(currentPosition);
-
-        if(child == null) {
-            return;
-        }
-
-        ChatRoomRecyclerAdapter.VideoViewHolder videoViewHolder =
-                (ChatRoomRecyclerAdapter.VideoViewHolder) child.getTag();
-        if(videoViewHolder == null) {
-            playPosition = -1;
-        }
-    }
-
-
-    private int getVisibleVideoSurfaceHeight(int playPosition) {
-        int at = playPosition - ((LinearLayoutManager)
-                Objects.requireNonNull(activityChatroomBinding.chatRoomListRec.getLayoutManager()))
-                .findFirstVisibleItemPosition();
-        Log.d(Constants.videoTAG, "getVisibleVideoSurfaceHeight: at: " + at);
-
-        View child = activityChatroomBinding.chatRoomListRec
-                .getLayoutManager()
-                .getChildAt(at);
-        if (child == null) {
-            return 0;
-        }
-
-        int[] location = new int[2];
-        child.getLocationInWindow(location);
-
-        if (location[1] < 0) {
-            return location[1] + videoSurfaceDefaultHeight;
-        } else {
-            return screenDefaultHeight - location[1];
-        }
-    }
-
-    // remove video
-    public void removeVideoView(StyledPlayerView styledPlayerView){
-        ViewGroup parent = (ViewGroup) styledPlayerView.getParent();
-        if (parent == null) {
-            return;
-        }
-        int index = parent.indexOfChild(styledPlayerView);
-        if (index >= 0) {
-            parent.removeViewAt(index);
-            isVideoViewAdded = false;
-            viewHolderParent.setOnClickListener(null);
-        }
-    }
-
-    // reset video
-    private void resetVideoView(){
-        if(isVideoViewAdded){
-            removeVideoView(styledPlayerView);
-            playPosition = -1;
-            styledPlayerView.setVisibility(View.INVISIBLE);
-        }
-    }
 
 
 
@@ -503,7 +326,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         int secondPosition;
         if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
             secondPosition = (int) motionEvent.getX();
-            if ( secondPosition - firstPositionX > 600) {
+            if ( secondPosition - firstPositionX > 600 ) {
                 finish();
                 secondPosition = 0;
             }
@@ -536,12 +359,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             Log.d("bottomFragment", String.valueOf(bottomFragmentBundle));
             Log.d("chatRoomBottomSheetDialog", "");
         }
-        // 1. 이미지 접근
-        // 2. 동영상 접근
         // 3. 예약 메세지
         // 4. 음성인식
-        // 5. 전화하기
-        // 6. 카메라
     }
 
     // data binding -> back_pressed
@@ -612,11 +431,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         super.onDestroy();
         activityChatroomBinding = null;
         // exoplayer release
-        if(exoPlayer != null) {
-            exoPlayer.release();;
-            exoPlayer = null;
-        }
-        viewHolderParent = null;
     }
 
 }

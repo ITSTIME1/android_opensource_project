@@ -13,6 +13,7 @@ import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
+import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.model.ChatListModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -66,6 +67,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
         if (chat_array_list == null && chat_recycler_adapter == null && arrayListMutableLiveData == null) {
             chat_array_list = new ArrayList<>();
             chat_recycler_adapter = new ChatRecyclerAdapter(this);
+            chat_recycler_adapter.setHasStableIds(true);
             arrayListMutableLiveData = new MutableLiveData<>();
         }
         // when chat viewModel create constructor, execute the method.

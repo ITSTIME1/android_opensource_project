@@ -61,6 +61,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return chatViewModel.chat_array_list.hashCode();
+    }
 
     /**
      * [Custom ViewHolder]

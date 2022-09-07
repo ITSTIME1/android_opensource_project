@@ -1,5 +1,4 @@
 package com.example.firebase_chat_basic.adapters;
-import static com.google.android.exoplayer2.Player.STATE_IDLE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,18 +6,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
@@ -27,21 +24,17 @@ import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.Tracks;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * [ChatRoomRecyclerAdapter]
@@ -167,54 +160,35 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                // state 상태를 보자
-
-                Log.d("videoURL확인", chatRoomModelArrayList.get(position).getUrl());
-                if(chatRoomModelArrayList.get(position).getExoPlayer() != null) {
-                    ProgressiveMediaSource mediaSource = new ProgressiveMediaSource
-                            .Factory(chatRoomModelArrayList.get(position).getFactory())
-                            .createMediaSource(MediaItem.fromUri(chatRoomModelArrayList.get(position).getUrl()));
-                    chatRoomModelArrayList.get(position).getExoPlayer().setMediaSource(mediaSource);
-                    ((VideoViewHolder) holder).itemVideoBinding.styledPlayerView.setPlayer(chatRoomModelArrayList.get(position).getExoPlayer());
-                    chatRoomModelArrayList.get(position).getExoPlayer().prepare();
-                    chatRoomModelArrayList.get(position).getExoPlayer().setPlayWhenReady(true);
-                }
-
+               // videoURL 을 가지고 온 다음에
+                // ImageView 에 뿌려주고
+                // 해당 position 을 클릭했을 때 alertyDialog 가 열리면서
+                // alertDialog 의 영상을 삽입한 후 alertDialog 가 종료 되면
+                // 이 전의 영상도 지워버리면 될거 같앋.
             }
         }
     }
-
-    // exoPlayer detach
-//    @Override
-//    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
-//        if (holder instanceof VideoViewHolder) {
-//            int position = holder.getAbsoluteAdapterPosition();
-//            // 널이라면
-//            if (chatRoomModelArrayList.get(position) == null) {
-//                chatRoomModelArrayList.get(position).getExoPlayer().release();
-//            }
-//        }
-//        super.onViewDetachedFromWindow(holder);
-//    }
-
-
-
-
     @Override
-        public int getItemCount () {
-            if (chatRoomModelArrayList.size() == 0) {
-                return 0;
-            } else {
-                return chatRoomModelArrayList.size();
-            }
+    public int getItemCount () {
+        if (chatRoomModelArrayList.size() == 0) {
+            return 0;
+        } else {
+            return chatRoomModelArrayList.size();
         }
+    }
+    @Override
+    public int getItemViewType (int position){
+        return chatRoomModelArrayList.get(position).getViewType();
+    }
+    @Override
+    public long getItemId(int position) {
+        return chatRoomModelArrayList.get(position).hashCode();
+    }
 
-        @Override
-        public int getItemViewType (int position){
-            return chatRoomModelArrayList.get(position).getViewType();
-        }
 
-        // chat view holder
+
+
+    // chat view holder
         public static class ChatMessageViewHolder extends RecyclerView.ViewHolder {
             ItemMessageBinding itemMessageBinding;
 

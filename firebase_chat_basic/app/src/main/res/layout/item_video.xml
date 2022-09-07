@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:cardCornerRadius="20dp"
             tools:ignore="MissingConstraints">
-            <com.google.android.exoplayer2.ui.StyledPlayerView
+            <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/styled_player_view"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
