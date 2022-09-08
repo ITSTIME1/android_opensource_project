@@ -57,13 +57,14 @@ public class CustomVideoDialogFragment extends DialogFragment {
         fragmentCustomVideoBinding.customVideoPlayerView.setPlayer(exoPlayer);
         exoPlayer.prepare();
         builder.setView(fragmentCustomVideoBinding.getRoot());
+
         return builder.create();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        exoPlayer.release();
+        fragmentCustomVideoBinding = null;
     }
 }
 

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -259,11 +262,11 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         int pos = getAbsoluteAdapterPosition();
                         customVideoDialogFragment = new CustomVideoDialogFragment(chatRoomModelArrayList.get(pos).getUrl(), exoPlayer, factory);
                         customVideoDialogFragment.show(fragmentManager, "video");
-                        Log.d("잘 생성됨", "");
                     }
                 });
             }
             // initialize other
             public void otherInit(){}
         }
+
 }

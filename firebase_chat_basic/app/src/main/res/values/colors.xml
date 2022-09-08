@@ -23,4 +23,7 @@
 
     <!-- App Shimmer Color -->
     <color name="chatAppShimmerColor">#C2C2C2</color>
+
+    <!-- App Shimmer Color -->
+    <color name="chatRoomCustomVideoDialogBackground">#80191919</color>
 </resources>

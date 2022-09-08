@@ -11,18 +11,26 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
-            android:elevation="10dp"
+        <FrameLayout
+            android:id="@+id/custom_video_frame_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:foreground="@drawable/custom_video_foreground_bg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="20dp"
             tools:ignore="MissingConstraints">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/custom_video_image_view"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                tools:ignore="MissingClass,MissingConstraints" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:elevation="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                tools:ignore="MissingConstraints">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/custom_video_image_view"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    tools:ignore="MissingClass,MissingConstraints" />
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

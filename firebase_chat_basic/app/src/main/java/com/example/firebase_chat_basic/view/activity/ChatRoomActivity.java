@@ -443,6 +443,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     protected void onDestroy() {
         super.onDestroy();
         activityChatroomBinding = null;
+        exoPlayer.release();
         // exoplayer release
     }
 
