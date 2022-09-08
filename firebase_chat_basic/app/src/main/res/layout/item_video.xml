@@ -18,10 +18,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:cardCornerRadius="20dp"
             tools:ignore="MissingConstraints">
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/styled_player_view"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/custom_video_image_view"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 tools:ignore="MissingClass,MissingConstraints" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

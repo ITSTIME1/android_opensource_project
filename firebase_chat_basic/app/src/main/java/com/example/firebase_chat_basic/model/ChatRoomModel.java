@@ -1,8 +1,6 @@
 package com.example.firebase_chat_basic.model;
 
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.MediaItem;
 
 /**
  * [ChatRoomModel]
@@ -40,9 +38,6 @@ public class ChatRoomModel {
         this.current_date = current_date;
         this.viewType = viewType;
     }
-
-    // overloading video constructor
-
 
     public String getUrl() {
         return url;

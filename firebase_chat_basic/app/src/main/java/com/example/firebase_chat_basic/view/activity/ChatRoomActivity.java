@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
@@ -25,6 +26,9 @@ import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityChatroomBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
 import com.example.firebase_chat_basic.view.fragment.ChatRoomBottomSheetDialog;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,6 +82,12 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     private final String set_date = simpleDateFormat.format(now_date);
     private final String current_date = currentDateFormat.format(now_date);
     private int firstPositionX;
+    public FragmentManager fragmentManager;
+
+    // custom video instance
+    private ExoPlayer exoPlayer;
+    private DataSource.Factory factory;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -90,6 +100,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         on_focus_text_field();
         click_listener();
         refresh_layout();
+
     }
 
 
@@ -277,18 +288,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         activityChatroomBinding.setLifecycleOwner(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        fragmentManager = getSupportFragmentManager();
+
+        exoPlayer = new ExoPlayer.Builder(this).build();
+        factory = new DefaultDataSource.Factory(this);
 
         // video instance
         if (chat_room_list == null && chat_room_recycler_adapter == null) {
             chat_room_list = new ArrayList<>();
-            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getApplicationContext());
+            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getApplicationContext(), fragmentManager, exoPlayer, factory);
             chat_room_recycler_adapter.setHasStableIds(true);
         }
     }
 
     // @TODO 다시 한번 로직 따라가면서 짜보자.
-
-
 
 
     // get data from (chat recycler adapter, profile activity)

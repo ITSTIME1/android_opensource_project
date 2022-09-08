@@ -53,6 +53,7 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/activity_video.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_chat.xml" value="0.22" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_contact.xml" value="0.25" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_custom_video.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/fragment_setting.xml" value="0.18" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/function_header.xml" value="0.284737067122702" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_chat.xml" value="0.33" />
@@ -60,7 +61,7 @@
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_fragment_contact.xml" value="0.25" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_image_viewer.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_message.xml" value="0.5" />
-        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_message_image.xml" value="0.33" />
+        <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_message_image.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_message_test.xml" value="0.28559213339033773" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_top_date.xml" value="0.5" />
         <entry key="..\:/Users/ITSTIME/AndroidStudioProjects/Android_Java_Application/firebase_chat_basic/app/src/main/res/layout/item_top_message.xml" value="0.21396192203082504" />

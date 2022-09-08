@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +15,24 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
+import com.example.firebase_chat_basic.databinding.FragmentCustomVideoBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageBinding;
 import com.example.firebase_chat_basic.databinding.ItemMessageImageBinding;
 import com.example.firebase_chat_basic.databinding.ItemVideoBinding;
 import com.example.firebase_chat_basic.model.ChatRoomModel;
+import com.example.firebase_chat_basic.view.fragment.CustomVideoDialogFragment;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -31,8 +40,11 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Iterables;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -57,12 +69,17 @@ import java.util.Objects;
 public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
-    private Context context;
+    private final FragmentManager fragmentManager;
+    private final ExoPlayer exoPlayer;
+    private final DataSource.Factory factory;
+    private LayoutInflater layoutInflater;
 
-    public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context) {
+    public ChatRoomRecyclerAdapter(ArrayList<ChatRoomModel> chatRoomModelArrayList, Context context, FragmentManager fragmentManager, ExoPlayer exoPlayer, DataSource.Factory factory) {
         this.chatRoomModelArrayList = chatRoomModelArrayList;
         sharedPreferences = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
-        this.context = context;
+        this.fragmentManager = fragmentManager;
+        this.exoPlayer = exoPlayer;
+        this.factory = factory;
     }
 
 
@@ -157,14 +174,11 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
                 ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
             }
-            // @TODO 다시 한번 짜야됨.
         } else if (holder instanceof VideoViewHolder) {
             if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-               // videoURL 을 가지고 온 다음에
-                // ImageView 에 뿌려주고
-                // 해당 position 을 클릭했을 때 alertyDialog 가 열리면서
-                // alertDialog 의 영상을 삽입한 후 alertDialog 가 종료 되면
-                // 이 전의 영상도 지워버리면 될거 같앋.
+                ((VideoViewHolder) holder).myInit(chatRoomModelArrayList, position);
+            } else {
+                ((VideoViewHolder) holder).otherInit();
             }
         }
     }
@@ -190,7 +204,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     // chat view holder
         public static class ChatMessageViewHolder extends RecyclerView.ViewHolder {
-            ItemMessageBinding itemMessageBinding;
+            public ItemMessageBinding itemMessageBinding;
 
             public ChatMessageViewHolder(@NonNull ItemMessageBinding itemMessageBinding) {
                 super(itemMessageBinding.getRoot());
@@ -200,7 +214,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         // image view holder
         public class ChatImageViewHolder extends RecyclerView.ViewHolder {
-            ItemMessageImageBinding itemImageViewerBinding;
+            public ItemMessageImageBinding itemImageViewerBinding;
 
             public ChatImageViewHolder(@NonNull ItemMessageImageBinding itemImageViewerBinding) {
                 super(itemImageViewerBinding.getRoot());
@@ -215,9 +229,9 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         alertDialog.setCanceledOnTouchOutside(true);
-                        LayoutInflater factory = LayoutInflater.from(view.getContext());
-                        @SuppressLint("InflateParams") final View alertDialogView = factory.inflate(R.layout.activity_chat_room_image_alert_dialog_view, null);
-                        String alertDialogImageURL = chatRoomModelArrayList.get(pos).getUrl();
+                        layoutInflater = LayoutInflater.from(view.getContext());
+                        @SuppressLint("InflateParams") final View alertDialogView = layoutInflater.inflate(R.layout.activity_chat_room_image_alert_dialog_view, null);
+                        String alertDialogImageURL = String.valueOf(chatRoomModelArrayList.get(pos).getUrl());
                         ImageView alertDialogImageViewId = alertDialogView.findViewById(R.id.chat_room_image_alert_dialog_view);
                         Glide.with(view.getContext()).load(alertDialogImageURL).into(alertDialogImageViewId);
                         alertDialog.setView(alertDialogView);
@@ -227,13 +241,29 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
 
-        // video viewholder
-        public static class VideoViewHolder extends RecyclerView.ViewHolder {
-            ItemVideoBinding itemVideoBinding;
-
+        // video ViewHolder
+        public class VideoViewHolder extends RecyclerView.ViewHolder {
+            public ItemVideoBinding itemVideoBinding;
+            public CustomVideoDialogFragment customVideoDialogFragment;
             public VideoViewHolder(ItemVideoBinding itemVideoBinding) {
                 super(itemVideoBinding.getRoot());
                 this.itemVideoBinding = itemVideoBinding;
             }
+            // initialize my
+            public void myInit(ArrayList<ChatRoomModel> chatRoomModelArrayList, int position){
+
+                Glide.with(itemVideoBinding.getRoot()).load(chatRoomModelArrayList.get(position).getUrl()).into(itemVideoBinding.customVideoImageView);
+                itemVideoBinding.customVideoImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pos = getAbsoluteAdapterPosition();
+                        customVideoDialogFragment = new CustomVideoDialogFragment(chatRoomModelArrayList.get(pos).getUrl(), exoPlayer, factory);
+                        customVideoDialogFragment.show(fragmentManager, "video");
+                        Log.d("잘 생성됨", "");
+                    }
+                });
+            }
+            // initialize other
+            public void otherInit(){}
         }
 }
