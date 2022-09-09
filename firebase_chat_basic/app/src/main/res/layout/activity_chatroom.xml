@@ -40,7 +40,7 @@
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:onClick="@{() -> chatRoomActivity.back_pressed()}"
+                    android:onClick="@{() -> chatRoomActivity.backPressed()}"
                     android:src="@drawable/ic_chat_room_left_direction"
                     tools:ignore="ContentDescription" />
 

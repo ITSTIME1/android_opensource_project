@@ -55,16 +55,16 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        init_adapter();
-        init_navigation();
-        get_data_intent();
+        initializeAdapter();
+        initializeNavigation();
+        getDataIntent();
     }
 
     // navigation listener init
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void init_navigation() {
-        BaseInterface.super.init_navigation();
+    public void initializeNavigation() {
+        BaseInterface.super.initializeNavigation();
         activityMainBinding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.chat_home:
@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
     }
 
     @Override
-    public void init_adapter() {
-        BaseInterface.super.init_adapter();
+    public void initializeAdapter() {
+        BaseInterface.super.initializeAdapter();
         fragmentArrayList.add(chatFragment);
         fragmentArrayList.add(contactFragment);
         fragmentArrayList.add(settingFragment);
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements BaseInterface {
 
 
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Intent mainActivityIntent = getIntent();
 
 

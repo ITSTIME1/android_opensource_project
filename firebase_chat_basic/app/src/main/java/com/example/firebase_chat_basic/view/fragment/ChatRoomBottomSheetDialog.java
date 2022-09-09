@@ -42,35 +42,35 @@ import gun0912.tedimagepicker.builder.listener.OnSelectedListener;
 // @TODO imagePicker 완성 시키기
 public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment implements BaseInterface {
     private ActivityChatroomUploadBottomDialogBinding activityChatroomUploadBottomDialogBinding;
-    private String get_chat_key;
-    private String get_other_uid;
-    private String get_current_my_uid;
+    private String getChatKey;
+    private String getOtherUID;
+    private String getMyUID;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activityChatroomUploadBottomDialogBinding = DataBindingUtil.inflate(inflater, R.layout.activity_chatroom_upload_bottom_dialog, container, false);
-        default_init();
-        get_data_intent();
+        initialize();
+        getDataIntent();
         glide();
         return activityChatroomUploadBottomDialogBinding.getRoot();
     }
 
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         // get data from chatRoom Activity
         Bundle getArgument = getArguments();
         if(getArgument != null) {
-            get_chat_key = getArgument.getString("get_chat_key");
-            get_other_uid = getArgument.getString("get_other_uid");
-            get_current_my_uid = getArgument.getString("get_current_my_uid");
+            getChatKey = getArgument.getString("getChatPrivateKey");
+            getOtherUID = getArgument.getString("getOtherUID");
+            getMyUID = getArgument.getString("getMyUID");
         }
     }
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         activityChatroomUploadBottomDialogBinding.setChatRoomBottomSheetDialog(this);
     }
 
@@ -103,8 +103,8 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
 
 
     // picture access method (Databinding)
-    public void picture_access() {
-        permission_image();
+    public void pictureAccess() {
+        permissionCheckForImage();
         // TedImagePicker - image selected
         TedImagePicker.with(requireContext()).startMultiImage(new OnMultiSelectedListener() {
 
@@ -112,9 +112,9 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
             public void onSelected(@NonNull List<? extends Uri> list) {
                 Intent multiImageIntent = new Intent(getContext(), PictureActivity.class);
                 multiImageIntent.putExtra("selectedImage", (Serializable) list);
-                multiImageIntent.putExtra("get_chat_key", get_chat_key);
-                multiImageIntent.putExtra("get_other_uid", get_other_uid);
-                multiImageIntent.putExtra("get_current_my_uid", get_current_my_uid);
+                multiImageIntent.putExtra("getChatPrivateKey", getChatKey);
+                multiImageIntent.putExtra("getOtherUID", getOtherUID);
+                multiImageIntent.putExtra("getMyUID", getMyUID);
                 Log.d("selectedImage", String.valueOf(list));
                 startActivity(multiImageIntent);
                 dismiss();
@@ -124,7 +124,7 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     }
 
     // ted permission check
-    public void permission_image() {
+    public void permissionCheckForImage() {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -173,16 +173,16 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
 //                });
 //    }
 
-    public void video_access() {
+    public void videoAccess() {
         TedImagePicker.with(requireContext()).video().start(new OnSelectedListener() {
             @Override
             public void onSelected(@NonNull Uri uri) {
                 Intent videoIntent = new Intent(getContext(), VideoActivity.class);
                 videoIntent.putExtra("videoIntent", uri);
-                videoIntent.putExtra("get_chat_key", get_chat_key);
-                videoIntent.putExtra("get_other_uid", get_other_uid);
-                videoIntent.putExtra("get_current_my_uid", get_current_my_uid);
-                Log.d("uri 체크좀 해볼게요 video_access ", String.valueOf(uri));
+                videoIntent.putExtra("getChatPrivateKey", getChatKey);
+                videoIntent.putExtra("getOtherUID", getOtherUID);
+                videoIntent.putExtra("getMyUID", getMyUID);
+                Log.d("uri 체크좀 해볼게요 videoAccess ", String.valueOf(uri));
                 startActivity(videoIntent);
                 dismiss();
             }
@@ -199,16 +199,16 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
         dismiss();
     }
 
-    // call method
-    public void call() {
+    // callToUser method
+    public void callToUser() {
         ChatRoomActivity chatRoomActivity = new ChatRoomActivity();
-        final String call_number = chatRoomActivity.getGet_phone_number();
+        final String call_number = chatRoomActivity.getGetPhoneNumber();
         Log.d("call_number", String.valueOf(call_number));
         Intent bottomCallIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0" + call_number));
         try {
             startActivity(bottomCallIntent);
             dismiss();
-            Log.d("call intent 가 작동 되나요", "");
+            Log.d("callToUser intent 가 작동 되나요", "");
         } catch (Exception e) {
             e.fillInStackTrace();
         }
@@ -217,9 +217,9 @@ public class ChatRoomBottomSheetDialog extends BottomSheetDialogFragment impleme
     // callback camera method
     public void camera(){
         Intent cameraIntent = new Intent(getActivity(), CameraXActivity.class);
-        cameraIntent.putExtra("get_chat_key", get_chat_key);
-        cameraIntent.putExtra("get_other_uid", get_other_uid);
-        cameraIntent.putExtra("get_current_my_uid", get_current_my_uid);
+        cameraIntent.putExtra("getChatPrivateKey", getChatKey);
+        cameraIntent.putExtra("getOtherUID", getOtherUID);
+        cameraIntent.putExtra("getMyUID", getMyUID);
         startActivity(cameraIntent);
         dismiss();
     }

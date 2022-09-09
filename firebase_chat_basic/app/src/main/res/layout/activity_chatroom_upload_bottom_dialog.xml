@@ -42,7 +42,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.picture_access()}"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.pictureAccess()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
@@ -52,7 +52,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.video_access()}"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.videoAccess()}"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     tools:ignore="ContentDescription" />
@@ -77,7 +77,7 @@
 
                 <ImageView
                     android:id="@+id/chatroom_activity_grid_call"
-                    android:onClick="@{ () -> chatRoomBottomSheetDialog.call() }"
+                    android:onClick="@{ () -> chatRoomBottomSheetDialog.callToUser() }"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"

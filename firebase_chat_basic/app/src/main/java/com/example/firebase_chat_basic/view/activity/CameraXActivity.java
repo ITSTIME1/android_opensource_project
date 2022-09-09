@@ -38,8 +38,6 @@ import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityCameraBinding;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.Objects;
-
 /**
  * [Camera2Activity]
  *
@@ -53,9 +51,9 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
     private ContentValues contentValues;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private String get_chat_key;
-    private String get_other_uid;
-    private String get_current_my_uid;
+    private String getChatKey;
+    private String getOtherUID;
+    private String getMyUID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,16 +64,16 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
         cameraPermissionCheck();
         takePicture();
         changeLensPosition();
-        get_data_intent();
+        getDataIntent();
     }
 
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Intent getChatKey = getIntent();
-        get_chat_key = getChatKey.getStringExtra("get_chat_key");
-        get_other_uid = getChatKey.getStringExtra("get_other_uid");
-        get_current_my_uid = getChatKey.getStringExtra("get_current_my_uid");
+        this.getChatKey = getChatKey.getStringExtra("getChatPrivateKey");
+        getOtherUID = getChatKey.getStringExtra("getOtherUID");
+        getMyUID = getChatKey.getStringExtra("getMyUID");
     }
 
     // camera permission
@@ -235,9 +233,9 @@ public class CameraXActivity extends AppCompatActivity implements BaseInterface 
                 if (result.getData() != null) {
                     Uri resultURI = result.getData().getData();
                     gallerySendIntent.putExtra("getImageUri", resultURI.toString());
-                    gallerySendIntent.putExtra("get_chat_key", get_chat_key);
-                    gallerySendIntent.putExtra("get_other_uid", get_other_uid);
-                    gallerySendIntent.putExtra("get_current_my_uid", get_current_my_uid);
+                    gallerySendIntent.putExtra("getChatPrivateKey", getChatKey);
+                    gallerySendIntent.putExtra("getOtherUID", getOtherUID);
+                    gallerySendIntent.putExtra("getMyUID", getMyUID);
                     startActivity(gallerySendIntent);
                     Log.d("resultURI", String.valueOf(result.getData()));
                     finish();

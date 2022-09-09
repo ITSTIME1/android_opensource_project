@@ -55,7 +55,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:onClick="@{ () -> pictureActivity.send_async_image() }"
+                android:onClick="@{ () -> pictureActivity.sendAsyncImage() }"
                 android:text="적용"
                 android:textColor="@color/chatMainBackgroundColor"
                 android:textSize="15sp"

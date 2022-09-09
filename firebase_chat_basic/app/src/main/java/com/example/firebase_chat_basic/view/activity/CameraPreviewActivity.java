@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.constants.Constants;
 import com.example.firebase_chat_basic.databinding.ActivityCameraPreviewBinding;
-import com.example.firebase_chat_basic.model.ChatRoomImageModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,40 +45,38 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     private ActivityCameraPreviewBinding activityCameraPreviewBinding;
     private DatabaseReference databaseReference;
     private Uri getImageURI;
-    private String get_chat_key, get_other_uid, get_current_my_uid;
+    private String getChatKey, getOtherUID, getMyUID;
     private int maxMessageKey;
-    private final Date now_date = new Date();
+    private final Date nowDate = new Date();
     @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
-    private final String set_date = simpleDateFormat.format(now_date);
-    private final String current_date = currentDateFormat.format(now_date);
+    private final String setDate = simpleDateFormat.format(nowDate);
+    private final String currentDate = currentDateFormat.format(nowDate);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCameraPreviewBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera_preview);
         activityCameraPreviewBinding.setCameraPreviewActivity(this);
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
-        default_init();
-        get_data_intent();
+        initialize();
+        getDataIntent();
         getMessageKey();
     }
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
     }
 
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Intent getCameraXIntent = getIntent();
-        get_chat_key = getCameraXIntent.getStringExtra("get_chat_key");
+        getChatKey = getCameraXIntent.getStringExtra("getChatPrivateKey");
         getImageURI = Uri.parse(getCameraXIntent.getStringExtra("getImageUri"));
-        get_other_uid = getCameraXIntent.getStringExtra("get_other_uid");
-        get_current_my_uid = getCameraXIntent.getStringExtra("get_current_my_uid");
-
+        getOtherUID = getCameraXIntent.getStringExtra("getOtherUID");
+        getMyUID = getCameraXIntent.getStringExtra("getMyUID");
         Glide.with(getBaseContext()).load(getImageURI).into(activityCameraPreviewBinding.galleryImageView);
     }
 
@@ -94,8 +90,8 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
                     for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
                         String key_check = dataSnapshot.getKey();
                         Log.d("dataSnapshot", String.valueOf(key_check));
-                        // get_chat_key 값이랑 동일하다면
-                        if (key_check != null && key_check.equals(get_chat_key)) {
+                        // getChatPrivateKey 값이랑 동일하다면
+                        if (key_check != null && key_check.equals(getChatKey)) {
                             for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
                                 messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
                                 Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
@@ -115,19 +111,19 @@ public class CameraPreviewActivity extends AppCompatActivity implements BaseInte
     // @TODO 메세지 선택 후 저장.
 
     public void send_image() {
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(getImageURI.toString());
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("imageURI").setValue(getImageURI.toString());
         // getChatRoomViewType
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatImageViewType);
         // msg 에 키 값 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(getMyUID);
         // msg 에 시간 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(setDate);
         // msg 에 날짜 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(currentDate);
         // 보낸 사람 저장
-        databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+        databaseReference.child("chat").child(getChatKey).child("보낸사람").setValue(getMyUID);
         // 받은 사람 저장
-        databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+        databaseReference.child("chat").child(getChatKey).child("받은사람").setValue(getOtherUID);
         finish();
     }
 

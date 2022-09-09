@@ -12,10 +12,10 @@ package com.example.firebase_chat_basic.Interface;
  */
 
 public interface BaseInterface {
-    public default void default_init(){};
-    public default void init_adapter(){};
-    public default void observer_intent(){};
-    public default void init_navigation(){};
-    public default void get_data_intent(){};
+    public default void initialize(){};
+    public default void initializeAdapter(){};
+    public default void intentObserver(){};
+    public default void initializeNavigation(){};
+    public default void getDataIntent(){};
     public default void onBackPressed(){};
 }

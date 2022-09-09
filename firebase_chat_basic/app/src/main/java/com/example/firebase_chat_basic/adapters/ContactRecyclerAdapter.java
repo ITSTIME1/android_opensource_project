@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.firebase_chat_basic.databinding.ItemFragmentContactBinding;
 import com.example.firebase_chat_basic.view.activity.ProfileActivity;
 import com.example.firebase_chat_basic.viewModel.ContactViewModel;
@@ -69,14 +70,14 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
                     Intent contactIntent = new Intent(view.getContext(), ProfileActivity.class);
 
                     // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 전화번호
-                    contactIntent.putExtra("client_phone_number", contactViewModel.get_phone_number(position));
-                    contactIntent.putExtra("client_name", contactViewModel.get_user_name(position));
-                    contactIntent.putExtra("client_profile_image", contactViewModel.get_profile_image(position));
+                    contactIntent.putExtra("client_phone_number", contactViewModel.getPhoneNumber(position));
+                    contactIntent.putExtra("client_name", contactViewModel.getUserName(position));
+                    contactIntent.putExtra("client_profile_image", contactViewModel.getProfileImage(position));
                     contactIntent.putExtra("client_background_image", contactViewModel.get_background_profile_image(position));
-                    contactIntent.putExtra("client_state_message", contactViewModel.get_state_message(position));
-                    contactIntent.putExtra("chatKey", contactViewModel.get_chat_key(position));
-                    contactIntent.putExtra("client_my_uid", contactViewModel.get_my_uid(position));
-                    contactIntent.putExtra("client_other_uid", contactViewModel.get_other_uid(position));
+                    contactIntent.putExtra("client_state_message", contactViewModel.getStateMessage(position));
+                    contactIntent.putExtra("chatKey", contactViewModel.getChatPrivateKey(position));
+                    contactIntent.putExtra("client_my_uid", contactViewModel.getMyUID(position));
+                    contactIntent.putExtra("client_other_uid", contactViewModel.getOtherUID(position));
 
 
                     view.getContext().startActivity(contactIntent);

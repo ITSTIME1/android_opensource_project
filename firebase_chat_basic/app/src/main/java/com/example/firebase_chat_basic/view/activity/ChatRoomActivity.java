@@ -62,31 +62,30 @@ import java.util.Objects;
 
 public class ChatRoomActivity extends AppCompatActivity implements BaseInterface, View.OnKeyListener, View.OnTouchListener, View.OnClickListener {
     private ActivityChatroomBinding activityChatroomBinding;
-    private ChatRoomRecyclerAdapter chat_room_recycler_adapter;
-    private ArrayList<ChatRoomModel> chat_room_list;
+    private ChatRoomRecyclerAdapter chatRoomRecyclerAdapter;
+    private ArrayList<ChatRoomModel> chatRoomModelArrayList;
     private DatabaseReference databaseReference;
     private InputMethodManager inputMethodManager;
 
-    private String get_other_name, get_chat_key, get_current_my_uid, get_other_uid, imageURI;
-    public String get_phone_number;
+    private String getOtherName, getChatKey, getMyUID, getOtherUID, imageURI;
+    public String getPhoneNumber;
     private int messageViewType;
     private int maxMessageKey;
 
     private boolean dataSet = false;
 
     // date
-    private final Date now_date = new Date();
+    private final Date nowDate = new Date();
     private final Handler mHandler = new Handler();
     @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
-    private final String set_date = simpleDateFormat.format(now_date);
-    private final String current_date = currentDateFormat.format(now_date);
+    private final String setDate = simpleDateFormat.format(nowDate);
+    private final String currentDate = currentDateFormat.format(nowDate);
     private int firstPositionX;
     public FragmentManager fragmentManager;
 
     // custom video instance
     private ExoPlayer exoPlayer;
-    private DataSource.Factory factory;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -94,16 +93,158 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityChatroomBinding = DataBindingUtil.setContentView(this, R.layout.activity_chatroom);
-        default_init();
-        get_from_chat_recycler_adapter();
-        get_message_list();
-        on_focus_text_field();
-        click_listener();
+        initialize();
+        getDataIntent();
+        getMessageList();
+        onFocusEditText();
+        clickListener();
         refresh_layout();
 
     }
 
+    // initialize
+    @Override
+    public void initialize() {
+        BaseInterface.super.initialize();
+        activityChatroomBinding.setChatRoomActivity(this);
+        activityChatroomBinding.setLifecycleOwner(this);
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        fragmentManager = getSupportFragmentManager();
 
+        exoPlayer = new ExoPlayer.Builder(this).build();
+        DataSource.Factory factory = new DefaultDataSource.Factory(this);
+
+        // video instance
+        if (chatRoomModelArrayList == null && chatRoomRecyclerAdapter == null) {
+            chatRoomModelArrayList = new ArrayList<>();
+            chatRoomRecyclerAdapter = new ChatRoomRecyclerAdapter(chatRoomModelArrayList, getApplicationContext(), fragmentManager, exoPlayer, factory);
+            chatRoomRecyclerAdapter.setHasStableIds(true);
+        }
+    }
+
+    // get intent data
+    @Override
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
+        Intent getIntent = getIntent();
+        if (getIntent != null) {
+            getOtherName = getIntent.getStringExtra("getOtherName");
+            getChatKey = getIntent.getStringExtra("getChatKey");
+            getMyUID = getIntent.getStringExtra("getCurrentMyUID");
+            getOtherUID = getIntent.getStringExtra("getOtherUID");
+            getPhoneNumber = getIntent.getStringExtra("getPhoneNumber");
+        }
+    }
+
+    // get messageList from realtime_database
+    public void getMessageList() {
+        if(chatRoomModelArrayList.size() == 0) {
+            activityChatroomBinding.chatRoomProgressText.setVisibility(View.VISIBLE);
+        }
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot chatSnapShot : snapshot.child("chat").getChildren()) {
+                    // 메세지를 가지고 있다면
+                    if (chatSnapShot.hasChild("message")) {
+                        chatRoomModelArrayList.clear();
+                        // message 를 가지고 온다.
+                        for (DataSnapshot messageSnapShot : chatSnapShot.child("message").getChildren()) {
+                            // 메세지 가지고 올때 기본적인 값들은 전부 가지고옴
+                            final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
+                            final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
+                            final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
+                            if(messageSnapShot.child("viewType").getValue(Integer.class) == null) {
+                                continue;
+                            } else {
+                                messageViewType = messageSnapShot.child("viewType").getValue(Integer.class);
+                            }
+
+                            // image, video, message
+                            dataSet = false;
+                            if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatMessageViewType) {
+                                final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
+                                Log.d("viewType", String.valueOf(messageViewType));
+                                if (!dataSet) {
+                                    dataSet = true;
+                                    // 이미지가 없으면 채팅만
+                                    chatRoomModelArrayList.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
+                                }
+                            } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatImageViewType) {
+
+                                // image url
+                                final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
+                                if (!dataSet) {
+                                    dataSet = true;
+                                    chatRoomModelArrayList.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
+                                }
+                            } else if(messageSnapShot.hasChild("videoURL") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatVideoViewType) {
+                                final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
+                                if (!dataSet) {
+                                    dataSet = true;
+                                    chatRoomModelArrayList.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
+                                    Log.d("리스트 하나 추가", "");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(chatRoomModelArrayList.size() != 0) {
+                    activityChatroomBinding.chatRoomProgressText.setVisibility(View.GONE);
+                }
+
+                // previous chat index compare to last chat index
+                int chat_count = chatRoomModelArrayList.size();
+                Log.d("previous count", String.valueOf(maxMessageKey));
+                Log.d("chat_count", String.valueOf(chat_count));
+                if(maxMessageKey < chat_count ) {
+                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chatRoomModelArrayList.size() - 1);
+                } else if (maxMessageKey == chat_count) {
+                    return;
+                } else {
+                    return;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("get_message_list (Error) ", String.valueOf(error));
+            }
+        });
+    }
+
+    // focus text field
+    public void onFocusEditText() {
+        activityChatroomBinding.chatRoomTextField.setOnFocusChangeListener((View view, boolean b) -> {
+            // 포커스가 활성화 되었을 때
+            if (b) {
+                if (view != null) {
+                    activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!chatRoomModelArrayList.isEmpty()) {
+                                activityChatroomBinding.chatRoomListRec.smoothScrollToPosition(chatRoomModelArrayList.size() - 1);
+                            }
+                        }
+                    }, 500);
+                }
+            }
+        });
+    }
+
+    // click listener
+    @SuppressLint("ClickableViewAccessibility")
+    public void clickListener() {
+        activityChatroomBinding.chatRoomFunctionsSheet.setOnClickListener(this);
+        activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
+        activityChatroomBinding.constraintViewId.setOnTouchListener(this);
+    }
+
+    // refresh layout
     public void refresh_layout(){
         activityChatroomBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -116,7 +257,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     }
 
-    public void check_message_key() {
+    // check max messageKey
+    public void checkMessageKey() {
         Log.d("체킹시작", "");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -131,8 +273,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
                         for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
                             String key_check = dataSnapshot.getKey();
                             Log.d("dataSnapshot", String.valueOf(key_check));
-                            // get_chat_key 값이랑 동일하다면
-                            if (key_check != null && key_check.equals(get_chat_key)) {
+                            // getChatPrivateKey 값이랑 동일하다면
+                            if (key_check != null && key_check.equals(getChatKey)) {
                                 for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
                                     messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
                                     // messageKeyValue 확인.
@@ -156,97 +298,6 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         });
     }
 
-    // click listener
-    @SuppressLint("ClickableViewAccessibility")
-    public void click_listener() {
-        activityChatroomBinding.chatRoomFunctionsSheet.setOnClickListener(this);
-        activityChatroomBinding.chatRoomListRec.setOnTouchListener(this);
-        activityChatroomBinding.constraintViewId.setOnTouchListener(this);
-    }
-
-    // get from realtime_database
-    public void get_message_list() {
-        if(chat_room_list.size() == 0) {
-            activityChatroomBinding.chatRoomProgressText.setVisibility(View.VISIBLE);
-        }
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot chatSnapShot : snapshot.child("chat").getChildren()) {
-                    // 메세지를 가지고 있다면
-                    if (chatSnapShot.hasChild("message")) {
-                        chat_room_list.clear();
-                        // message 를 가지고 온다.
-                        for (DataSnapshot messageSnapShot : chatSnapShot.child("message").getChildren()) {
-                            // 메세지 가지고 올때 기본적인 값들은 전부 가지고옴
-                            final String setKey = messageSnapShot.child("mineKey").getValue(String.class);
-                            final String setDate = messageSnapShot.child("save_chat_date").getValue(String.class);
-                            final String current_Date = messageSnapShot.child("currentDate").getValue(String.class);
-                            if(messageSnapShot.child("viewType").getValue(Integer.class) == null) {
-                                continue;
-                            } else {
-                                messageViewType = messageSnapShot.child("viewType").getValue(Integer.class);
-                            }
-
-                            // image, video, message
-                            dataSet = false;
-                            if (messageSnapShot.hasChild("msg") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatMessageViewType) {
-                                final String setListMessage = messageSnapShot.child("msg").getValue(String.class);
-                                Log.d("viewType", String.valueOf(messageViewType));
-                                if (!dataSet) {
-                                    dataSet = true;
-                                    // 이미지가 없으면 채팅만
-                                    chat_room_list.add(new ChatRoomModel(setKey, setListMessage, setDate, current_Date, messageViewType));
-                                }
-                            } else if(messageSnapShot.hasChild("imageURI") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatImageViewType) {
-
-                                // image url
-                                final String imageURI = messageSnapShot.child("imageURI").getValue(String.class);
-                                if (!dataSet) {
-                                    dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, imageURI));
-                                }
-                            } else if(messageSnapShot.hasChild("videoURL") && messageSnapShot.hasChild("mineKey") && messageViewType == Constants.chatVideoViewType) {
-                                final String videoURL = messageSnapShot.child("videoURL").getValue(String.class);
-                                if (!dataSet) {
-                                    dataSet = true;
-                                    chat_room_list.add(new ChatRoomModel(setKey, setDate, current_Date, messageViewType, videoURL));
-                                    Log.d("리스트 하나 추가", "");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if(chat_room_list.size() != 0) {
-                    activityChatroomBinding.chatRoomProgressText.setVisibility(View.GONE);
-                }
-
-                // previous chat index compare to last chat index
-                int chat_count = chat_room_list.size();
-                Log.d("previous count", String.valueOf(maxMessageKey));
-                Log.d("chat_count", String.valueOf(chat_count));
-                if(maxMessageKey < chat_count ) {
-                    activityChatroomBinding.chatRoomListRec.scrollToPosition(chat_room_list.size() - 1);
-                } else if (maxMessageKey == chat_count) {
-                    return;
-                } else {
-                    return;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("get_message_list (Error) ", String.valueOf(error));
-            }
-        });
-    }
-
-
-
-
     // if you touch "enter key" hide keyboard
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -260,61 +311,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
 
     }
 
-
-    // focus text field
-    public void on_focus_text_field() {
-        activityChatroomBinding.chatRoomTextField.setOnFocusChangeListener((View view, boolean b) -> {
-            // 포커스가 활성화 되었을 때
-            if (b) {
-                if (view != null) {
-                    activityChatroomBinding.chatRoomListRec.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!chat_room_list.isEmpty()) {
-                                activityChatroomBinding.chatRoomListRec.smoothScrollToPosition(chat_room_list.size() - 1);
-                            }
-                        }
-                    }, 500);
-                }
-            }
-        });
-    }
-
-    // initialize
-    @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
-        activityChatroomBinding.setChatRoomActivity(this);
-        activityChatroomBinding.setLifecycleOwner(this);
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
-        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        fragmentManager = getSupportFragmentManager();
-
-        exoPlayer = new ExoPlayer.Builder(this).build();
-        factory = new DefaultDataSource.Factory(this);
-
-        // video instance
-        if (chat_room_list == null && chat_room_recycler_adapter == null) {
-            chat_room_list = new ArrayList<>();
-            chat_room_recycler_adapter = new ChatRoomRecyclerAdapter(chat_room_list, getApplicationContext(), fragmentManager, exoPlayer, factory);
-            chat_room_recycler_adapter.setHasStableIds(true);
-        }
-    }
-
-    // @TODO 다시 한번 로직 따라가면서 짜보자.
-
-
-    // get data from (chat recycler adapter, profile activity)
-    public void get_from_chat_recycler_adapter() {
-        Intent getIntent = getIntent();
-        if (getIntent != null) {
-            get_other_name = getIntent.getStringExtra("getOtherName");
-            get_chat_key = getIntent.getStringExtra("getChatKey");
-            get_current_my_uid = getIntent.getStringExtra("getCurrentMyUID");
-            get_other_uid = getIntent.getStringExtra("getOtherUID");
-            get_phone_number = getIntent.getStringExtra("getPhoneNumber");
-        }
-    }
+    // onTouch layout
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -353,18 +350,18 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         return false;
     }
 
-
+    // click setting
     @Override
     public void onClick(View view) {
         // touch upload image
         // create bottomSheetDialog
         if (view.getId() == activityChatroomBinding.chatRoomFunctionsSheet.getId()) {
-            // bundle 을 통해서 get_chat_key 값 전달.
+            // bundle 을 통해서 getChatPrivateKey 값 전달.
             // 잘 들어오고
             Bundle bottomFragmentBundle = new Bundle();
-            bottomFragmentBundle.putString("get_chat_key", get_chat_key);
-            bottomFragmentBundle.putString("get_other_uid", get_other_uid);
-            bottomFragmentBundle.putString("get_current_my_uid", get_current_my_uid);
+            bottomFragmentBundle.putString("getChatPrivateKey", getChatKey);
+            bottomFragmentBundle.putString("getOtherUID", getOtherUID);
+            bottomFragmentBundle.putString("getMyUID", getMyUID);
             ChatRoomBottomSheetDialog chatRoomBottomSheetDialog = new ChatRoomBottomSheetDialog();
             chatRoomBottomSheetDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.ChatRoomActivityBottomSheetDialog);
             chatRoomBottomSheetDialog.show(getSupportFragmentManager(), "ChatRoomBottomSheetDialog");
@@ -376,8 +373,8 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // 4. 음성인식
     }
 
-    // data binding -> back_pressed
-    public void back_pressed() {
+    // data binding -> backPressed
+    public void backPressed() {
         finish();
     }
 
@@ -388,7 +385,7 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         // 텍스트가 비어있지 않다면 database 쓰기 로직 실행.
         if (!chat_text.isEmpty()) {
             // 비동기라 위에있는게 늦어지기 때문에 maxMessageKey 값이 처음엔 0값으로 되어있다가 그 메세지 키값을 받으면 messageKey 값으로 변하고 또 뒤늦게오고
-            check_message_key();
+            checkMessageKey();
             Log.d("비어있는지 확인", "");
             // 이게 굉장히 늦게오네
             Log.d("maxMessaheKey", String.valueOf(maxMessageKey));
@@ -401,19 +398,19 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
             // 딜레이를 주자
             mHandler.postDelayed(new Runnable()  {
                 public void run() {
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("msg").setValue(chat_text);
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey+1)).child("msg").setValue(chat_text);
                     // getChatRoomViewType
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("viewType").setValue(Constants.chatMessageViewType);
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey+1)).child("viewType").setValue(Constants.chatMessageViewType);
                     // msg 에 키 값 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(get_current_my_uid);
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey+1)).child("mineKey").setValue(getMyUID);
                     // msg 에 시간 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("save_chat_date").setValue(set_date);
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey+1)).child("save_chat_date").setValue(setDate);
                     // msg 에 날짜 저장
-                    databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey+1)).child("currentDate").setValue(current_date);
+                    databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey+1)).child("currentDate").setValue(currentDate);
                     // 보낸 사람 저장
-                    databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+                    databaseReference.child("chat").child(getChatKey).child("보낸사람").setValue(getMyUID);
                     // 받은 사람 저장
-                    databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+                    databaseReference.child("chat").child(getChatKey).child("받은사람").setValue(getOtherUID);
                 }
             }, 100); // 0.5초후
 
@@ -422,22 +419,20 @@ public class ChatRoomActivity extends AppCompatActivity implements BaseInterface
         }
     }
 
-
     // get phone number
-    public String getGet_phone_number() {
-        return get_phone_number;
+    public String getGetPhoneNumber() {
+        return getPhoneNumber;
     }
 
     // get other user name
     public String getOtherName() {
-        return get_other_name;
+        return getOtherName;
     }
 
     // get recycler adapter
     public ChatRoomRecyclerAdapter getChatRoomRecyclerAdapter() {
-        return chat_room_recycler_adapter;
+        return chatRoomRecyclerAdapter;
     }
-
 
     @Override
     protected void onDestroy() {

@@ -1,8 +1,6 @@
 package com.example.firebase_chat_basic.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ItemFragmentChatBinding;
-import com.example.firebase_chat_basic.model.ChatListModel;
 import com.example.firebase_chat_basic.view.activity.ChatRoomActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
-import com.facebook.shimmer.Shimmer;
-import com.facebook.shimmer.ShimmerDrawable;
 
 /**
  * [ChatRecyclerAdapter]
@@ -113,11 +108,11 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             // This method sends five variable (name, chatKey, currentKey, otherKey, phoneNumber)
             itemFragmentChatBinding.chatItemLayout.setOnClickListener(view -> {
                 Intent intoChatRoomActivity = new Intent(view.getContext(), ChatRoomActivity.class);
-                intoChatRoomActivity.putExtra("getOtherName", chatViewModel.get_user_name(pos));
-                intoChatRoomActivity.putExtra("getChatKey", chatViewModel.get_chat_key(pos));
-                intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.get_my_uid(pos));
-                intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.get_other_uid(pos));
-                intoChatRoomActivity.putExtra("getPhoneNumber", chatViewModel.get_phone_number(pos));
+                intoChatRoomActivity.putExtra("getOtherName", chatViewModel.getUserName(pos));
+                intoChatRoomActivity.putExtra("getChatKey", chatViewModel.getChatPrivateKey(pos));
+                intoChatRoomActivity.putExtra("getCurrentMyUID", chatViewModel.getMyUID(pos));
+                intoChatRoomActivity.putExtra("getOtherUID", chatViewModel.getOtherUID(pos));
+                intoChatRoomActivity.putExtra("getPhoneNumber", chatViewModel.getPhoneNumber(pos));
                 view.getContext().startActivity(intoChatRoomActivity);
 
 

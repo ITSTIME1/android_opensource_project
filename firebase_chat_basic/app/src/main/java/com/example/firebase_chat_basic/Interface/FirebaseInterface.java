@@ -12,35 +12,35 @@ package com.example.firebase_chat_basic.Interface;
 
 public interface FirebaseInterface {
     // database method
-    public default void get_user_database(){};
-    public default void get_chat_database(String getOtherName, String getOtherKey, String getPhoneNumber){};
+    public default void getUserFromDataBase(){};
+    public default void getChatDataFromDataBase(String getOtherName, String getOtherKey, String getPhoneNumber){};
 
     // for "chat method"
-    public default String get_user_name(int pos){
+    public default String getUserName(int pos){
         return null;
     };
-    public default String get_content(int pos) {return null;};
-    public default String get_email(int pos){
+    public default String getContent(int pos) {return null;};
+    public default String getEmail(int pos){
         return null;
     };
-    public default String get_count(int pos) {
+    public default String getCount(int pos) {
         return null;
     };
-    public default String get_date(int pos){
+    public default String getDate(int pos){
         return null;
     };
-    public default String get_chat_key(int pos) {return null;};
-    public default String get_my_uid(int pos){return null;};
-    public default String get_other_uid(int pos) {return null;};
+    public default String getChatPrivateKey(int pos) {return null;};
+    public default String getMyUID(int pos){return null;};
+    public default String getOtherUID(int pos) {return null;};
 
 
     // for "contact fragment"
-    public default String get_profile_image(int pos){
+    public default String getProfileImage(int pos){
         return null;
     };
-    public default String get_background_image(int pos) {return null;};
-    public default String get_state_message(int pos) {return null;};
-    public default String get_phone_number(int pos){
+    public default String getBackgroundImage(int pos) {return null;};
+    public default String getStateMessage(int pos) {return null;};
+    public default String getPhoneNumber(int pos){
         return null;
     };
 }

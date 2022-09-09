@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -53,13 +52,13 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
         contact_list = new ArrayList<>();
         contactRecyclerAdapter = new ContactRecyclerAdapter(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(realTimeDataBaseUserUrl);
-        get_user_database();
+        getUserFromDataBase();
     }
 
 
     @Override
-    public void get_user_database() {
-        FirebaseInterface.super.get_user_database();
+    public void getUserFromDataBase() {
+        FirebaseInterface.super.getUserFromDataBase();
         databaseReference.child("users").addChildEventListener(new ChildEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -130,17 +129,17 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
 
 
     @Override
-    public String get_user_name(int pos) {
+    public String getUserName(int pos) {
         return contact_list.get(pos).getContact_name();
     }
 
     @Override
-    public String get_phone_number(int pos) {
+    public String getPhoneNumber(int pos) {
         return contact_list.get(pos).getContact_phone_number();
     }
 
     @Override
-    public String get_profile_image(int pos) {
+    public String getProfileImage(int pos) {
         return contact_list.get(pos).getContact_profile_image();
     }
 
@@ -148,19 +147,19 @@ public class ContactViewModel extends AndroidViewModel implements FirebaseInterf
         return contact_list.get(pos).getContact_profile_background_image();
     }
 
-    public String get_state_message(int pos) {
+    public String getStateMessage(int pos) {
         return contact_list.get(pos).getContact_state_message();
     }
 
-    public String get_chat_key(int pos) {
+    public String getChatPrivateKey(int pos) {
         return contact_list.get(pos).getChatKey();
     }
 
-    public String get_my_uid(int pos) {
+    public String getMyUID(int pos) {
         return contact_list.get(pos).getContact_my_uid();
     }
 
-    public String get_other_uid(int pos) {
+    public String getOtherUID(int pos) {
         return contact_list.get(pos).getContact_other_uid();
     }
 

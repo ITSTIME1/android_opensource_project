@@ -13,7 +13,6 @@ import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.constants.Constants;
-import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
 import com.example.firebase_chat_basic.model.ChatListModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,7 +61,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
 
     public ChatViewModel(Application application) {
         super(application);
-        default_init();
+        initialize();
         firebase_my_uid = authPreference.getString("authentication_uid", "");
         if (chat_array_list == null && chat_recycler_adapter == null && arrayListMutableLiveData == null) {
             chat_array_list = new ArrayList<>();
@@ -71,12 +70,12 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
             arrayListMutableLiveData = new MutableLiveData<>();
         }
         // when chat viewModel create constructor, execute the method.
-        get_user_database();
+        getUserFromDataBase();
     }
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         Application context = getApplication();
         authPreference = context.getSharedPreferences("authentication", Activity.MODE_PRIVATE);
         preferences = context.getSharedPreferences("chatPref", Activity.MODE_PRIVATE);
@@ -84,8 +83,8 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     }
 
     @Override
-    public void get_user_database() {
-        FirebaseInterface.super.get_user_database();
+    public void getUserFromDataBase() {
+        FirebaseInterface.super.getUserFromDataBase();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,7 +107,7 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
                         chat_array_list.clear();
 
                         // chat logic
-                        get_chat_database(getOtherName, getOtherKey, getPhoneNumber);
+                        getChatDataFromDataBase(getOtherName, getOtherKey, getPhoneNumber);
                     }
                 }
             }
@@ -122,8 +121,8 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     }
 
     @Override
-    public void get_chat_database(String get_other_name, String get_other_key, String get_phone_number) {
-        FirebaseInterface.super.get_chat_database(get_other_name, get_other_key, get_phone_number);
+    public void getChatDataFromDataBase(String get_other_name, String get_other_key, String get_phone_number) {
+        FirebaseInterface.super.getChatDataFromDataBase(get_other_name, get_other_key, get_phone_number);
         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -212,46 +211,46 @@ public class ChatViewModel extends AndroidViewModel implements FirebaseInterface
     }
 
     @Override
-    public String get_user_name(int pos) {
+    public String getUserName(int pos) {
         return chat_array_list.get(pos).getChatName();
     }
 
     @Override
-    public String get_my_uid(int pos) {
+    public String getMyUID(int pos) {
         return chat_array_list.get(pos).getChatMyUID();
     }
 
     @Override
-    public String get_profile_image(int pos) {
-        return FirebaseInterface.super.get_profile_image(pos);
+    public String getProfileImage(int pos) {
+        return FirebaseInterface.super.getProfileImage(pos);
     }
 
     @Override
-    public String get_content(int pos) {
+    public String getContent(int pos) {
         return chat_array_list.get(pos).getChatContent();
     }
 
     @Override
-    public String get_count(int pos) {
+    public String getCount(int pos) {
         return chat_array_list.get(pos).getChatCount();
     }
 
     @Override
-    public String get_date(int pos) {
+    public String getDate(int pos) {
         return chat_array_list.get(pos).getChatDate();
     }
 
     @Override
-    public String get_chat_key(int pos) {
+    public String getChatPrivateKey(int pos) {
         return chat_array_list.get(pos).getChatKey();
     }
 
     @Override
-    public String get_other_uid(int pos) {
+    public String getOtherUID(int pos) {
         return chat_array_list.get(pos).getChatOtherUID();
     }
 
-    public String get_phone_number(int pos) {
+    public String getPhoneNumber(int pos) {
         return chat_array_list.get(pos).getChatPhoneNumber();
     }
 

@@ -22,15 +22,15 @@ public class ContactFragment extends Fragment implements BaseInterface {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentContactBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
-        get_data_intent();
-        default_init();
+        getDataIntent();
+        initialize();
         return fragmentContactBinding.getRoot();
     }
 
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         ContactViewModel contactViewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
         fragmentContactBinding.setContactViewModel(contactViewModel);
         fragmentContactBinding.setLifecycleOwner(this);
@@ -38,8 +38,8 @@ public class ContactFragment extends Fragment implements BaseInterface {
     }
 
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Bundle bundle = getArguments();
         if (bundle != null) {
 

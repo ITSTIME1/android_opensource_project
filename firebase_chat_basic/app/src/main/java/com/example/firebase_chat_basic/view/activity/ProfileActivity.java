@@ -1,7 +1,6 @@
 package com.example.firebase_chat_basic.view.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,13 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.bumptech.glide.Glide;
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityProfileBinding;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.Objects;
 
 /**
  * [ProfileActivity]
@@ -34,67 +29,69 @@ public class ProfileActivity extends AppCompatActivity implements BaseInterface 
     private ActivityProfileBinding activityProfileBinding;
 //    private String client_profile_image;
 //    private String client_background_image;
-    private String client_state_message,
-        client_name,
+    private String clientStateMessage,
+        clientName,
         chatKey,
-        client_my_uid,
-        client_other_uid,
-        client_phone_number;
+        clientMyUID,
+        clientOtherUID,
+        clientPhoneNumber;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
-        get_intent_data();
-        default_init();
-        go_to_chat_room();
-        call_method();
+        getDataIntent();
+        initialize();
+        goToChatRoom();
+        callToUser();
     }
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
-        activityProfileBinding.profileName.setText(client_name);
-        activityProfileBinding.profileStateMessage.setText(client_state_message);
+    public void initialize() {
+        BaseInterface.super.initialize();
+        activityProfileBinding.profileName.setText(clientName);
+        activityProfileBinding.profileStateMessage.setText(clientStateMessage);
     }
 
-    public void get_intent_data() {
+    @Override
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Intent intent = getIntent();
         // 이름, 프로필 이미지, 배경 이미지, 상태 메세지, 상대방 uid, 나의 uid
-        client_name = intent.getStringExtra("client_name");
+        clientName = intent.getStringExtra("clientName");
 //        client_profile_image = intent.getStringExtra("client_profile_image");
 //        client_background_image = intent.getStringExtra("client_background_image");
-        client_state_message = intent.getStringExtra("client_state_message");
-        client_phone_number = intent.getStringExtra("client_phone_number");
+        clientStateMessage = intent.getStringExtra("clientStateMessage");
+        clientPhoneNumber = intent.getStringExtra("clientPhoneNumber");
         chatKey = intent.getStringExtra("chatKey");
-        client_my_uid = intent.getStringExtra("client_my_uid");
-        client_other_uid = intent.getStringExtra("client_other_uid");
+        clientMyUID = intent.getStringExtra("clientMyUID");
+        clientOtherUID = intent.getStringExtra("clientOtherUID");
 
-        if (client_state_message == null) {
-            client_state_message = "Default Message";
+        if (clientStateMessage == null) {
+            clientStateMessage = "Default Message";
         }
     }
 
-    public void go_to_chat_room() {
+    public void goToChatRoom() {
         activityProfileBinding.profileChatLayout.setOnClickListener(view -> {
             Log.d("chat gif 클릭 잘 됨 ", "");
             Intent goToChatRoom = new Intent(view.getContext(), ChatRoomActivity.class);
             goToChatRoom.putExtra("getChatKey", chatKey);
-            goToChatRoom.putExtra("getOtherName", client_name);
-            goToChatRoom.putExtra("getOtherUID", client_other_uid);
-            goToChatRoom.putExtra("getCurrentMyUID", client_my_uid);
+            goToChatRoom.putExtra("getOtherName", clientName);
+            goToChatRoom.putExtra("getOtherUID", clientOtherUID);
+            goToChatRoom.putExtra("getCurrentMyUID", clientMyUID);
             startActivity(goToChatRoom);
             finish();
         });
     }
 
-    // call_method
-    public void call_method() {
+    // callToUser
+    public void callToUser() {
         activityProfileBinding.profileContactLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+client_phone_number));
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0"+ clientPhoneNumber));
                 try{
                     startActivity(callIntent);
                 }catch (Exception e) {

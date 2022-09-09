@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
+import com.example.firebase_chat_basic.Interface.FirebaseInterface;
 import com.example.firebase_chat_basic.R;
 import com.example.firebase_chat_basic.databinding.ActivityRegisterBinding;
 import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
@@ -31,7 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
  * </Topic>
  *
  */
-public class RegisterActivity extends AppCompatActivity implements BaseInterface {
+public class RegisterActivity extends AppCompatActivity implements BaseInterface, FirebaseInterface {
     private ActivityRegisterBinding activityRegisterBinding;
     private RegisterViewModel registerViewModel;
     Intent registerIntent;
@@ -41,13 +42,14 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         // 실행 중에 파이어베이스 유저 정보가 없다면
-        check_firebase_user();
-        default_init();
-        observer_intent();
+        getUserFromDataBase();
+        initialize();
+        intentObserver();
     }
 
-    // check current user
-    public void check_firebase_user(){
+    @Override
+    public void getUserFromDataBase() {
+        FirebaseInterface.super.getUserFromDataBase();
         SharedPreferences preferences = getSharedPreferences("authentication", Activity.MODE_PRIVATE);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -86,18 +88,19 @@ public class RegisterActivity extends AppCompatActivity implements BaseInterface
         }
     }
 
+
     // default init
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         activityRegisterBinding.setRegisterViewModel(registerViewModel);
     }
 
     // observer method
     @Override
-    public void observer_intent() {
-        BaseInterface.super.observer_intent();
+    public void intentObserver() {
+        BaseInterface.super.intentObserver();
         registerViewModel.getDataList.observe(this, registerData -> {
             registerIntent = new Intent(this, MainActivity.class);
             if(registerData != null) {

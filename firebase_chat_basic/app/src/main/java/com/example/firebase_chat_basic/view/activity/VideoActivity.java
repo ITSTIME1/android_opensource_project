@@ -43,17 +43,17 @@ import java.util.Objects;
 public class VideoActivity extends AppCompatActivity implements BaseInterface {
     private ActivityVideoBinding activityVideoBinding;
     private DatabaseReference databaseReference;
-    private String get_chat_key;
-    private String get_other_uid;
-    private String get_current_my_uid;
+    private String getChatKey;
+    private String getOtherUID;
+    private String getMyUID;
     private int maxMessageKey;
     private Uri videoURI;
-    private final Date now_date = new Date();
+    private final Date nowDate = new Date();
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
-    private final String set_date = simpleDateFormat.format(now_date);
-    private final String current_date = currentDateFormat.format(now_date);
+    private final String set_date = simpleDateFormat.format(nowDate);
+    private final String current_date = currentDateFormat.format(nowDate);
 
 
 
@@ -61,20 +61,20 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityVideoBinding = DataBindingUtil.setContentView(this, R.layout.activity_video);
-        default_init();
-        get_data_intent();
+        initialize();
+        getDataIntent();
         getMessageKey();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void get_data_intent() {
-        BaseInterface.super.get_data_intent();
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Intent getVideoIntent = getIntent();
         videoURI = getVideoIntent.getParcelableExtra("videoIntent");
-        get_chat_key = getVideoIntent.getStringExtra("get_chat_key");
-        get_other_uid = getVideoIntent.getStringExtra("get_other_uid");
-        get_current_my_uid = getVideoIntent.getStringExtra("get_current_my_uid");
+        getChatKey = getVideoIntent.getStringExtra("getChatPrivateKey");
+        getOtherUID = getVideoIntent.getStringExtra("getOtherUID");
+        getMyUID = getVideoIntent.getStringExtra("getMyUID");
 
         activityVideoBinding.videoView.setMediaController(new MediaController(this));
         activityVideoBinding.videoView.setVideoURI(videoURI);
@@ -98,8 +98,8 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
                     for(DataSnapshot dataSnapshot : snapshot.child("chat").getChildren()) {
                         String key_check = dataSnapshot.getKey();
                         Log.d("dataSnapshot", String.valueOf(key_check));
-                        // get_chat_key 값이랑 동일하다면
-                        if (key_check != null && key_check.equals(get_chat_key)) {
+                        // getChatPrivateKey 값이랑 동일하다면
+                        if (key_check != null && key_check.equals(getChatKey)) {
                             for (DataSnapshot messageKeySnapShot : dataSnapshot.child("message").getChildren()) {
                                 messageKeyList.add(Integer.valueOf(Objects.requireNonNull(messageKeySnapShot.getKey())));
                                 Log.d("messageKeySnapshot", String.valueOf(messageKeySnapShot.getKey()));
@@ -118,19 +118,19 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
     }
 
     public void send_video() {
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("videoURL").setValue(videoURI.toString());
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("videoURL").setValue(videoURI.toString());
         // getChatRoomViewType
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatVideoViewType);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("viewType").setValue(Constants.chatVideoViewType);
         // msg 에 키 값 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(get_current_my_uid);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("mineKey").setValue(getMyUID);
         // msg 에 시간 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("save_chat_date").setValue(set_date);
         // msg 에 날짜 저장
-        databaseReference.child("chat").child(get_chat_key).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
+        databaseReference.child("chat").child(getChatKey).child("message").child(String.valueOf(maxMessageKey + 1)).child("currentDate").setValue(current_date);
         // 보낸 사람 저장
-        databaseReference.child("chat").child(get_chat_key).child("보낸사람").setValue(get_current_my_uid);
+        databaseReference.child("chat").child(getChatKey).child("보낸사람").setValue(getMyUID);
         // 받은 사람 저장
-        databaseReference.child("chat").child(get_chat_key).child("받은사람").setValue(get_other_uid);
+        databaseReference.child("chat").child(getChatKey).child("받은사람").setValue(getOtherUID);
         finish();
     }
 
@@ -147,8 +147,8 @@ public class VideoActivity extends AppCompatActivity implements BaseInterface {
     }
 
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         activityVideoBinding.setVideoActivity(this);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.real_time_database_root_url);
     }

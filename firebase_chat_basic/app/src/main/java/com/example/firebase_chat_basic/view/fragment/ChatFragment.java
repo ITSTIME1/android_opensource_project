@@ -1,10 +1,6 @@
 package com.example.firebase_chat_basic.view.fragment;
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase_chat_basic.Interface.BaseInterface;
 import com.example.firebase_chat_basic.R;
-import com.example.firebase_chat_basic.adapters.ChatRecyclerAdapter;
 import com.example.firebase_chat_basic.databinding.FragmentChatBinding;
-import com.example.firebase_chat_basic.view.activity.SplashActivity;
 import com.example.firebase_chat_basic.viewModel.ChatViewModel;
-import com.example.firebase_chat_basic.viewModel.RegisterViewModel;
-import com.facebook.shimmer.Shimmer;
-import com.facebook.shimmer.ShimmerDrawable;
-
-import java.util.ArrayList;
 
 
 public class ChatFragment extends Fragment implements BaseInterface {
@@ -37,24 +26,24 @@ public class ChatFragment extends Fragment implements BaseInterface {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentChatBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        get_intent_data();
-        default_init();
-        observer_intent();
+        getDataIntent();
+        initialize();
+        intentObserver();
         return fragmentChatBinding.getRoot();
     }
 
     // initialize
     @Override
-    public void default_init() {
-        BaseInterface.super.default_init();
+    public void initialize() {
+        BaseInterface.super.initialize();
         chatViewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
         fragmentChatBinding.setChatViewModel(chatViewModel);
         fragmentChatBinding.setLifecycleOwner(this);
     }
 
-
-    // get intent data
-    public void get_intent_data(){
+    @Override
+    public void getDataIntent() {
+        BaseInterface.super.getDataIntent();
         Bundle bundle = getArguments();
         if(bundle != null) {
             String clientName = bundle.getString("fragment_client_name");
@@ -78,9 +67,10 @@ public class ChatFragment extends Fragment implements BaseInterface {
         }
     }
 
+
     @Override
-    public void observer_intent() {
-        BaseInterface.super.observer_intent();
+    public void intentObserver() {
+        BaseInterface.super.intentObserver();
         chatViewModel.arrayListMutableLiveData.observe(getViewLifecycleOwner(), observer -> {
             // 리스트가 비어있지 않다면
             if(!observer.isEmpty()) {
