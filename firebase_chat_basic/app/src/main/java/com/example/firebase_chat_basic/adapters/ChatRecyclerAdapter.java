@@ -49,7 +49,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ChatRecyclerAdapter.CustomChatViewHolder holder, int position) {
-        holder.bind(chatViewModel, position);
+        holder.init(chatViewModel, position);
     }
 
     @Override
@@ -85,30 +85,30 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
 
     public class CustomChatViewHolder extends RecyclerView.ViewHolder {
-        ItemFragmentChatBinding itemFragmentChatBinding;
+        public ItemFragmentChatBinding itemFragmentChatBinding;
 
         public CustomChatViewHolder(@NonNull ItemFragmentChatBinding itemFragmentChatBinding) {
             super(itemFragmentChatBinding.getRoot());
             this.itemFragmentChatBinding = itemFragmentChatBinding;
-
         }
 
-        public void bind(ChatViewModel chatViewModel, int pos) {
-
+        public void init(ChatViewModel chatViewModel, int pos) {
             // chat show animation
             Animation chatListAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.chat_recycler_anim);
-
             itemFragmentChatBinding.chatItemLayout.setAnimation(chatListAnimation);
             itemFragmentChatBinding.setChatViewModel(chatViewModel);
             itemFragmentChatBinding.setPos(pos);
             itemFragmentChatBinding.executePendingBindings();
 
-            chat_count_setting(pos);
-            chat_layout_click(chatViewModel, pos);
+            // check chatMessageCount
+            isChatCount(pos);
+
+            // when click chat list
+            chatListClick(chatViewModel, pos);
         }
 
 
-        public void chat_layout_click(ChatViewModel chatViewModel, int pos){
+        public void chatListClick(ChatViewModel chatViewModel, int pos){
 
             // This method sends five variable (name, chatKey, currentKey, otherKey, phoneNumber)
             itemFragmentChatBinding.chatItemLayout.setOnClickListener(view -> {
@@ -130,7 +130,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             });
         }
 
-        public void chat_count_setting(int pos){
+        public void isChatCount(int pos){
             if(chatViewModel.get_chat_list().get(pos).getChatCount().isEmpty()) {
                 itemFragmentChatBinding.chatCountLayout.setVisibility(View.GONE);
             } else {

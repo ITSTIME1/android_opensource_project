@@ -37,7 +37,7 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ContactRecyclerAdapter.CustomContactViewHolder holder, int position) {
-        holder.bind(contactViewModel, position);
+        holder.init(contactViewModel, position);
 
     }
 
@@ -50,20 +50,20 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
         }
     }
 
-    public class CustomContactViewHolder extends RecyclerView.ViewHolder {
-        ItemFragmentContactBinding itemFragmentContactBinding;
+    public static class CustomContactViewHolder extends RecyclerView.ViewHolder {
+        public ItemFragmentContactBinding itemFragmentContactBinding;
         public CustomContactViewHolder(@NonNull ItemFragmentContactBinding itemFragmentContactBinding) {
             super(itemFragmentContactBinding.getRoot());
             this.itemFragmentContactBinding = itemFragmentContactBinding;
         }
 
-        public void bind(ContactViewModel contactViewModel, int position){
+        public void init(ContactViewModel contactViewModel, int position){
             itemFragmentContactBinding.setContactViewModel(contactViewModel);
             itemFragmentContactBinding.setPos(position);
 
 
             // contact item click
-            itemFragmentContactBinding.contactItemLayout.setOnClickListener(new View.OnClickListener() {
+            itemFragmentContactBinding.contactUserListLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent contactIntent = new Intent(view.getContext(), ProfileActivity.class);

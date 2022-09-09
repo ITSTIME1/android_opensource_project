@@ -40,7 +40,7 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewerAdapter.ImageViewHolder holder, int position) {
-        holder.binding(imageViewerModelList, position);
+        holder.init(imageViewerModelList, position);
     }
 
     @Override
@@ -49,14 +49,14 @@ public class ImageViewerAdapter extends RecyclerView.Adapter<ImageViewerAdapter.
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        ItemImageViewerBinding itemImageViewerBinding;
+        public ItemImageViewerBinding itemImageViewerBinding;
 
         public ImageViewHolder(@NonNull ItemImageViewerBinding itemImageViewerBinding) {
             super(itemImageViewerBinding.getRoot());
             this.itemImageViewerBinding = itemImageViewerBinding;
         }
 
-        public void binding(ArrayList<ImageViewerModel> imageViewerModelList, int pos){
+        public void init(ArrayList<ImageViewerModel> imageViewerModelList, int pos){
             Glide.with(context).load(imageViewerModelList.get(pos).getImage_viewer()).into(itemImageViewerBinding.pictureImage);
             itemImageViewerBinding.executePendingBindings();
         }

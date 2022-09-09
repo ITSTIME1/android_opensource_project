@@ -69,7 +69,7 @@ import java.util.Objects;
  * </Topic>
  */
 // @TODO 날짜 표시해주는 로직 다시 생각해보자.
-public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final SharedPreferences sharedPreferences;
     private final ArrayList<ChatRoomModel> chatRoomModelArrayList;
     private final FragmentManager fragmentManager;
@@ -98,7 +98,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (viewType == Constants.chatImageViewType) {
             return new ChatImageViewHolder(itemMessageImageBinding);
         } else {
-            return new VideoViewHolder(itemVideoBinding);
+            return new ChatVideoViewHolder(itemVideoBinding);
         }
     }
 
@@ -106,85 +106,110 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final String get_key = chatRoomModelArrayList.get(position).getSetKey();
-        // chat message viewHolder
         if (holder instanceof ChatMessageViewHolder) {
-            // first message
-            int holderPosition = holder.getAbsoluteAdapterPosition();
+            // chat message bind
+            chatMessageBind((ChatMessageViewHolder) holder, get_key, position);
 
-            if (holderPosition == 0) {
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(holderPosition).getCurrent_date());
-            } else {
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
-            }
-
-            Animation myChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_my_anim);
-            Animation otherChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_other_anim);
-
-
-            if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
-                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
-                // image, message
-                // setText 다르게
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
-
-                // 마지막 값이라면 시간을 보여주고
-                // 마지막 값이 아니라면 보여주지 않는다.
-                if (!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setVisibility(View.GONE);
-                } else {
-                    // animation 적용
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setAnimation(myChatAnimation);
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setVisibility(View.VISIBLE);
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
-                }
-            } else {
-                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.GONE);
-                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.VISIBLE);
-                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
-                if (!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setVisibility(View.GONE);
-                } else {
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setAnimation(otherChatAnimation);
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setVisibility(View.VISIBLE);
-                    ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
-                }
-            }
-            // gif, image viewHolder
         } else if (holder instanceof ChatImageViewHolder) {
-            if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                Glide.with(holder.itemView.getContext())
-                        .load(chatRoomModelArrayList
-                                .get(position).getUrl())
-                        .into(((ChatImageViewHolder) holder)
-                                .itemImageViewerBinding.myMessageImageView);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageView.setVisibility(View.VISIBLE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.VISIBLE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.GONE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
 
+            // chat image bind
+            chatImageBind((ChatImageViewHolder) holder, get_key, position);
+
+        } else if (holder instanceof ChatVideoViewHolder) {
+
+            // chat video bind
+            chatVideoBind((ChatVideoViewHolder) holder, get_key, position);
+        }
+    }
+
+
+
+    // chatMessageViewHolder bind data
+    public void chatMessageBind(ChatMessageViewHolder holder, String get_key, int position){
+        // first message
+        int holderPosition = holder.getAbsoluteAdapterPosition();
+
+        if (holderPosition == 0) {
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.VISIBLE);
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setText(chatRoomModelArrayList.get(holderPosition).getCurrent_date());
+        } else {
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageTopDate.setVisibility(View.GONE);
+        }
+
+        Animation myChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_my_anim);
+        Animation otherChatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.chat_room_message_other_anim);
+
+
+        if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.VISIBLE);
+            ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.GONE);
+            // image, message
+            // setText 다르게
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
+
+            // 마지막 값이라면 시간을 보여주고
+            // 마지막 값이 아니라면 보여주지 않는다.
+            if (!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {
+                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setVisibility(View.GONE);
             } else {
-                Glide.with(holder.itemView.getContext())
-                        .load(chatRoomModelArrayList
-                                .get(position).getUrl())
-                        .into(((ChatImageViewHolder) holder)
-                                .itemImageViewerBinding.otherMessageImageView);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageLayout.setVisibility(View.VISIBLE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.GONE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
-                ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
+                // animation 적용
+                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setAnimation(myChatAnimation);
+                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setVisibility(View.VISIBLE);
+                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
             }
-        } else if (holder instanceof VideoViewHolder) {
-            if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
-                ((VideoViewHolder) holder).myInit(chatRoomModelArrayList, position);
+        } else {
+            ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setVisibility(View.GONE);
+            ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageLayout.setVisibility(View.VISIBLE);
+            ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageText.setText(chatRoomModelArrayList.get(position).getChat_message());
+            if (!(chatRoomModelArrayList.get(position) == Iterables.getLast(chatRoomModelArrayList))) {
+                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setVisibility(View.GONE);
             } else {
-                ((VideoViewHolder) holder).otherInit();
+                ((ChatMessageViewHolder) holder).itemMessageBinding.myMessageLayout.setAnimation(otherChatAnimation);
+                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setVisibility(View.VISIBLE);
+                ((ChatMessageViewHolder) holder).itemMessageBinding.otherMessageDate.setText(chatRoomModelArrayList.get(position).getChat_date());
             }
         }
     }
+
+    // chatImageViewHolder bind data
+    public void chatImageBind(ChatImageViewHolder holder, String get_key, int position){
+        if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+            Glide.with(holder.itemView.getContext())
+                    .load(chatRoomModelArrayList
+                            .get(position).getUrl())
+                    .into(((ChatImageViewHolder) holder)
+                            .itemImageViewerBinding.myMessageImageView);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageView.setVisibility(View.VISIBLE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.VISIBLE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.GONE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
+
+        } else {
+            Glide.with(holder.itemView.getContext())
+                    .load(chatRoomModelArrayList
+                            .get(position).getUrl())
+                    .into(((ChatImageViewHolder) holder)
+                            .itemImageViewerBinding.otherMessageImageView);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageView.setVisibility(View.GONE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageLayout.setVisibility(View.VISIBLE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setVisibility(View.GONE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.otherMessageImageDate.setVisibility(View.VISIBLE);
+            ((ChatImageViewHolder) holder).itemImageViewerBinding.myMessageImageDate.setText(chatRoomModelArrayList.get(position).getCurrent_date());
+        }
+    }
+
+    // chatVideoViewHolder bind data
+    public void chatVideoBind(ChatVideoViewHolder holder, String get_key, int position){
+        if (get_key.equals(sharedPreferences.getString("authentication_uid", ""))) {
+            ((ChatVideoViewHolder) holder).myInit(chatRoomModelArrayList, position);
+        } else {
+            ((ChatVideoViewHolder) holder).otherInit();
+        }
+    }
+
+
+
     @Override
     public int getItemCount () {
         if (chatRoomModelArrayList.size() == 0) {
@@ -201,7 +226,6 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public long getItemId(int position) {
         return chatRoomModelArrayList.get(position).hashCode();
     }
-
 
 
 
@@ -245,17 +269,20 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         // video ViewHolder
-        public class VideoViewHolder extends RecyclerView.ViewHolder {
+        public class ChatVideoViewHolder extends RecyclerView.ViewHolder {
             public ItemVideoBinding itemVideoBinding;
             public CustomVideoDialogFragment customVideoDialogFragment;
-            public VideoViewHolder(ItemVideoBinding itemVideoBinding) {
+            public ChatVideoViewHolder(ItemVideoBinding itemVideoBinding) {
                 super(itemVideoBinding.getRoot());
                 this.itemVideoBinding = itemVideoBinding;
             }
             // initialize my
             public void myInit(ArrayList<ChatRoomModel> chatRoomModelArrayList, int position){
 
-                Glide.with(itemVideoBinding.getRoot()).load(chatRoomModelArrayList.get(position).getUrl()).into(itemVideoBinding.customVideoImageView);
+                Glide.with(itemVideoBinding.getRoot())
+                        .load(chatRoomModelArrayList.get(position).getUrl())
+                        .into(itemVideoBinding.customVideoImageView);
+
                 itemVideoBinding.customVideoImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -266,6 +293,7 @@ public class ChatRoomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 });
             }
             // initialize other
+            // @TODO 작업해야됨.
             public void otherInit(){}
         }
 

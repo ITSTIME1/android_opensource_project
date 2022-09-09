@@ -29,7 +29,7 @@ public class BindCustomAdapter {
 
 
     @BindingAdapter("ChatAdapter")
-    public static void chatAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+    public static void chatUserListAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -37,15 +37,15 @@ public class BindCustomAdapter {
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
     @BindingAdapter("ContactAdapter")
-    public static void contactAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+    public static void contactUserListAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-        @BindingAdapter("RoomAdapter")
-    public static void chatRoomAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+    @BindingAdapter("RoomAdapter")
+    public static void chatRoomMessageAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutCustomClass(recyclerView.getContext(), LinearLayoutCustomClass.VERTICAL, false));
