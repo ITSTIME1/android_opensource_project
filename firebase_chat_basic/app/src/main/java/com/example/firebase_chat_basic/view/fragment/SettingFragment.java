@@ -14,8 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingFragment extends Fragment {
     private FragmentSettingBinding fragmentSettingBinding;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

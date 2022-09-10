@@ -31,6 +31,16 @@ import java.util.Objects;
 
 /**
  * [CustomVideoDialogFragment]
+ *
+ * This Fragment is for "ExoPlayer"
+ * because I had wanted to use exoPlayer in "chatMessageRecyclerView" but before when I was realized by myself, it can't
+ * I faced two problem, first exoPlayer LifeCycle controller can't handle because I didn't seperate recyclerview
+ * if i had recyclerview for video so then I can handle it in chatMessageRecyclerView
+ *
+ * so i decided to solve what i faced problem
+ * so this is the result of thinking. when user click video itemMessage can show own videoURL
+ * this solve is very useful for me because lifeCycle was not care anything
+ * only exoPlayer lifecycle is managed by "onDestroy" so that i don't care it
  */
 public class CustomVideoDialogFragment extends DialogFragment {
     public FragmentCustomVideoBinding fragmentCustomVideoBinding;
@@ -38,6 +48,7 @@ public class CustomVideoDialogFragment extends DialogFragment {
     public ExoPlayer exoPlayer;
     public DataSource.Factory factory;
 
+    // url, exoPlayer, factory receive
     public CustomVideoDialogFragment(String url, ExoPlayer exoPlayer, DataSource.Factory factory) {
         this.videoURL = url;
         this.exoPlayer = exoPlayer;
